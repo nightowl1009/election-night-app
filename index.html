@@ -590,7 +590,12 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-usmap .co { fill: var(--en-mapoff); stroke: var(--color-panel); } .en-usmap .co.on { cursor:pointer; }
 .en-usmap .cl { font-size: 12px; font-weight: 700; fill: var(--color-fg-muted); }
 .en-usmap .dot { stroke: var(--color-panel); stroke-width: 1.2; pointer-events:none; }
-.en-usmap .dot.t { fill: var(--en-gold); } .en-usmap .dot.ld { fill:#60a5fa; } .en-usmap .dot.lr { fill:#f87171; } .en-usmap .dot.wd { fill:#1d4ed8; } .en-usmap .dot.wr { fill:#b91c1c; }
+.en-usmap .dot.t { fill: var(--en-gold); } .en-usmap .dot.ld { fill:#60a5fa; } .en-usmap .dot.lr { fill:#f87171; } .en-usmap .dot.wd { fill:#1d4ed8; } .en-usmap .dot.wr { fill:#b91c1c; } .en-usmap .dot.kd { fill:#2563eb; } .en-usmap .dot.kr { fill:#dc2626; } .en-usmap .dot.kn { fill: var(--color-fg-muted); }
+.en-mapmode { display:inline-flex; gap:2px; padding:2px; border-radius:999px; background: rgba(127,127,127,.14); }
+.en-mapmode button { appearance:none; border:0; background:transparent; color: var(--color-fg-muted); font: inherit; font-size:.72rem; font-weight:600; padding:.25rem .6rem; border-radius:999px; cursor:pointer; }
+.en-mapmode button[aria-pressed="true"] { background: var(--color-panel); color: var(--color-fg); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+.en-kline { font-size: var(--cds-font-size-caption); font-weight:600; }
+.en-kline .d { color:#2563eb; } .en-kline .r { color:#dc2626; } .en-kline .i { color:#9333ea; } .en-kline small { font-weight:500; color: var(--color-fg-muted); }
 .en-maptip { position:absolute; z-index:5; pointer-events:none; max-width: 16rem; white-space: normal; }
 @media (max-width: 40rem) { .en-usmap .sb, .en-usmap .nb { display:none; } .en-usmap .ab { font-size: 24px; } .en-usmap .cl { font-size: 15px; } }
 </style>
@@ -1012,6 +1017,16 @@ dash.calc('senate_base', {
     vs.append(dw, el('small', '', 'vs'), mk('span', 'rr', 'house', 'cand_r', 'id', r.id, r.cand_r)); a.append(vs);
     if (openCards.has(key)) a.classList.add('open');
     const lr = el('div', 'en-lead-row'); const ll = el('div', 'en-meta');
+    if (r.kalshi_d != null) {
+      const kd = Number(r.kalshi_d), fav = kd >= 50, side = fav ? (r.party_d === 'I' ? 'i' : 'd') : 'r';
+      const k = el('span', 'en-kline'); k.append(document.createTextNode('Kalshi: '));
+      const nm = el('span', side); nm.append(document.createTextNode(String(fav ? r.cand_d : r.cand_r).replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/, '').split(' ').slice(-1)[0] + ' '), fav ? mk('span', '', 'house', 'kalshi_d', 'id', r.id, fmt(kd)) : el('span', '', fmt(100 - kd)), document.createTextNode('%'));
+      k.append(nm);
+      const gap = Math.abs(kd - 50);
+      const vsRating = /toss/i.test(r.rating) && gap >= 25 ? ' · market leans harder than the rating' : (r.rating === 'Lean D' && kd < 50) || (r.rating === 'Lean R' && kd > 50) ? ' · market disagrees with the rating' : '';
+      if (r.kalshi_src || vsRating) k.append(el('small', '', (r.kalshi_src ? ' · ' + r.kalshi_src : '') + vsRating));
+      ll.append(k);
+    }
     if (r.odds_note) ll.append(mk('span', 'en-odds', 'house', 'odds_note', 'id', r.id, r.odds_note));
     lr.append(ll, moreBtn(key)); a.append(lr);
     const more = el('div', 'en-more'); a.append(more);
@@ -1161,13 +1176,17 @@ dash.calc('senate_base', {
   }
 
 
-  let houseState = '';
+  let houseState = '', houseMapMode = 'kalshi';
   function renderHouseMap() {
     const box = $('#hou-map'), rows = okRows('house');
     if (!box) return; if (!rows) return fail(box, dash.data('house').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     const hd = el('div', 'en-map-h'); hd.append(el('h3', '', 'House battleground map'), el('p', '', 'One dot per competitive seat · tap a state to see its races'));
+    const mm = el('div', 'en-mapmode'); mm.setAttribute('role', 'group'); mm.setAttribute('aria-label', 'Color dots by');
+    [['kalshi', 'Kalshi odds'], ['cook', 'Cook rating']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(houseMapMode === k)); b.addEventListener('click', () => { houseMapMode = k; renderHouseMap(); }); mm.append(b); });
+    hd.append(mm);
     box.append(hd);
+    const kCls = (r) => { if (r.kalshi_d == null) return 'kn'; const k = Number(r.kalshi_d); return k >= 65 ? 'kd' : k > 50 ? 'ld' : k === 50 ? 't' : k > 35 ? 'lr' : 'kr'; };
     const byState = new Map();
     rows.forEach(r => { const st = r.id.split('-')[0]; if (!byState.has(st)) byState.set(st, []); byState.get(st).push(r); });
     drawUSMap(box, (st) => {
@@ -1175,16 +1194,21 @@ dash.calc('senate_base', {
       let td = 0, tr = 0;
       const dots = seats.map(r => { const x = ctx.res.get('HOU-' + r.id);
         if (x && x.winner_party) { if (x.winner_party === 'R') { tr++; return 'wr'; } td++; return 'wd'; }
+        if (houseMapMode === 'kalshi') return kCls(r);
         return /toss/i.test(r.rating) ? 't' : r.rating === 'Lean D' ? 'ld' : 'lr'; });
       const tally = (k) => seats.filter(r => r.rating === k).length;
       const sel = houseState === st;
       return { fill: sel ? 'var(--en-gold)' : 'var(--en-mapon)', ink: sel ? '#3a2a00' : 'var(--color-fg)', dots,
-        tip: [st + ' · ' + seats.length + ' competitive seat' + (seats.length > 1 ? 's' : ''), [['Toss-up', tally('Toss-up')], ['Lean D', tally('Lean D')], ['Lean R', tally('Lean R')]].filter(x => x[1]).map(x => x[1] + ' ' + x[0]).join(', ') + ((td + tr) ? ' · called ' + td + ' D, ' + tr + ' R' : '')],
+        tip: [st + ' · ' + seats.length + ' competitive seat' + (seats.length > 1 ? 's' : ''), houseMapMode === 'kalshi'
+          ? seats.map(r => r.id + ' ' + (r.kalshi_d == null ? 'no odds' : Number(r.kalshi_d) >= 50 ? (r.party_d || 'D') + ' ' + r.kalshi_d + '%' : 'R ' + (100 - Number(r.kalshi_d)) + '%')).join(' · ')
+          : [['Toss-up', tally('Toss-up')], ['Lean D', tally('Lean D')], ['Lean R', tally('Lean R')]].filter(x => x[1]).map(x => x[1] + ' ' + x[0]).join(', ') + ((td + tr) ? ' · called ' + td + ' D, ' + tr + ' R' : '')],
         onClick: () => { houseState = houseState === st ? '' : st; renderHouseMap(); renderHouse();
           if (houseState) { const g = $('#house-grid'), wrap = document.querySelector('.en-tabwrap'); window.scrollTo({ top: g.getBoundingClientRect().top + window.scrollY - wrap.offsetHeight - 70, behavior: 'smooth' }); } } };
     }, 'House battleground map');
     const key = el('div', 'en-map-key');
-    [['var(--en-gold)', 'Toss-up'], ['#60a5fa', 'Lean D'], ['#f87171', 'Lean R'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']].forEach(([c, t]) => { const s = el('span'); const i = el('i'); i.style.cssText = 'width:.6rem;height:.6rem;border-radius:50%;display:block;background:' + c; s.append(i, document.createTextNode(t)); key.append(s); });
+    (houseMapMode === 'kalshi'
+      ? [['#2563eb', 'Dem 65%+'], ['#60a5fa', 'Dem 51–64%'], ['#f87171', 'GOP 51–64%'], ['#dc2626', 'GOP 65%+'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]
+      : [['var(--en-gold)', 'Toss-up'], ['#60a5fa', 'Lean D'], ['#f87171', 'Lean R'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]).forEach(([c, t]) => { const s = el('span'); const i = el('i'); i.style.cssText = 'width:.6rem;height:.6rem;border-radius:50%;display:block;background:' + c; s.append(i, document.createTextNode(t)); key.append(s); });
     box.append(key);
   }
   function renderHouse() {
@@ -1376,7 +1400,7 @@ dash.calc('senate_base', {
     const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
     // The toss-ups this page tracks take gold seats (Dem-held left of untracked ones, GOP-held right), with a tooltip each
     const hr = (okRows('house') || []).filter(r => /toss/i.test(r.rating));
-    const hSeat = (r) => ({ cls: 'en-seat toss', tip: [r.id + ' · Toss-up · ' + (/^(Open|Vacant)/.test(r.incumbent) ? r.incumbent : 'held by ' + r.incumbent), r.cand_d + ' (D) vs ' + r.cand_r + ' (R)' + (r.odds_note ? ' · ' + r.odds_note : '')] });
+    const hSeat = (r) => ({ cls: 'en-seat toss', tip: [r.id + ' · Toss-up · ' + (/^(Open|Vacant)/.test(r.incumbent) ? r.incumbent : 'held by ' + r.incumbent), r.cand_d + ' (D) vs ' + r.cand_r + ' (R)' + (r.kalshi_d != null ? ' · Kalshi ' + (Number(r.kalshi_d) >= 50 ? 'D ' + r.kalshi_d : 'R ' + (100 - Number(r.kalshi_d))) + '%' : '')] });
     const hD = hr.filter(r => r.held === 'D').map(hSeat), hR = hr.filter(r => r.held === 'R').map(hSeat);
     const untracked = Math.max(0, tN - hD.length - hR.length);
     const hSeats = [
