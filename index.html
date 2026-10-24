@@ -575,9 +575,10 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-hsel[hidden] { display:none; }
 
 /* Real-shape US map */
-.en { --en-mapoff: #d7dde6; --en-mapon: #fbeec4; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; } }
-:root[data-theme="dark"] .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; }
+.en { --en-mapoff: #d7dde6; --en-mapon: #fbeec4; --en-maptoss: #f5b83d; --en-maptoss-ink: #3a2a00; --en-mapsel: #1f2430; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; } }
+:root[data-theme="dark"] .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; }
+.en-usmap .st.sel, .en-usmap .co.sel { stroke: var(--en-mapsel); stroke-width: 2.6; }
 .en-usmap { position:relative; max-width: 50rem; margin: 0 auto; }
 .en-usmap svg { display:block; overflow:visible; }
 .en-usmap .st { fill: var(--en-mapoff); stroke: var(--color-panel); stroke-width: 1.2; stroke-linejoin: round; }
@@ -1144,7 +1145,7 @@ dash.calc('senate_base', {
     shapes.forEach(sh => {
       const it = info(sh.id);
       const p = mk2('path', { d: sh.d, class: 'st' + (it ? ' on' : '') });
-      if (it) p.style.fill = it.fill;
+      if (it) { p.style.fill = it.fill; if (it.sel) { p.classList.add('sel'); queueMicrotask(() => gS.append(p)); } }
       gS.append(p);
       const bind = (node) => {
         if (!it) return;
@@ -1159,7 +1160,7 @@ dash.calc('senate_base', {
         // small northeastern states: a labelled box off the coast with a leader line
         const bx = 942, by = sh.callout;
         gC.append(mk2('line', { x1: sh.cx, y1: sh.cy, x2: bx - 2, y2: by, class: 'lead' }));
-        const r = mk2('rect', { x: bx, y: by - 9, width: 40, height: 18, rx: 4, class: 'co' + (it ? ' on' : '') }); if (it) r.style.fill = it.fill; gC.append(r); bind(r);
+        const r = mk2('rect', { x: bx, y: by - 9, width: 40, height: 18, rx: 4, class: 'co' + (it ? ' on' : '') }); if (it) { r.style.fill = it.fill; if (it.sel) r.classList.add('sel'); } gC.append(r); bind(r);
         const t = mk2('text', { x: bx + 20, y: by + 4, class: 'cl' + (it ? ' on' : '') }); t.textContent = sh.id; if (it) t.style.fill = it.ink || '#fff'; gC.append(t);
         if (it && it.dots) { /* house dots for small states sit beside the box */ it.dots.forEach((c, k) => gC.append(mk2('circle', { cx: bx - 10 - k * 9, cy: by, r: 3.6, class: 'dot ' + c }))); }
         return;
@@ -1233,8 +1234,8 @@ dash.calc('senate_base', {
         if (houseMapMode === 'kalshi') return kCls(r);
         return /toss/i.test(r.rating) ? 't' : r.rating === 'Lean D' ? 'ld' : 'lr'; });
       const tally = (k) => seats.filter(r => r.rating === k).length;
-      const sel = houseState === st;
-      return { fill: sel ? 'var(--en-gold)' : 'var(--en-mapon)', ink: sel ? '#3a2a00' : 'var(--color-fg)', dots,
+      const sel = houseState === st, hasToss = seats.some(r => /toss/i.test(r.rating));
+      return { fill: hasToss ? 'var(--en-maptoss)' : 'var(--en-mapon)', ink: hasToss ? 'var(--en-maptoss-ink)' : 'var(--color-fg)', sel, dots,
         tip: [st + ' · ' + seats.length + ' competitive seat' + (seats.length > 1 ? 's' : ''), houseMapMode === 'kalshi'
           ? seats.map(r => r.id + ' ' + (r.kalshi_d == null ? 'no odds' : Number(r.kalshi_d) >= 50 ? (r.party_d || 'D') + ' ' + r.kalshi_d + '%' : 'R ' + (100 - Number(r.kalshi_d)) + '%')).join(' · ')
           : [['Toss-up', tally('Toss-up')], ['Lean D', tally('Lean D')], ['Lean R', tally('Lean R')]].filter(x => x[1]).map(x => x[1] + ' ' + x[0]).join(', ') + ((td + tr) ? ' · called ' + td + ' D, ' + tr + ' R' : '')],
@@ -1245,7 +1246,9 @@ dash.calc('senate_base', {
     (houseMapMode === 'kalshi'
       ? [['#2563eb', 'Dem 65%+'], ['#60a5fa', 'Dem 51–64%'], ['#f87171', 'GOP 51–64%'], ['#dc2626', 'GOP 65%+'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]
       : [['var(--en-gold)', 'Toss-up'], ['#60a5fa', 'Lean D'], ['#f87171', 'Lean R'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]).forEach(([c, t]) => { const s = el('span'); const i = el('i'); i.style.cssText = 'width:.6rem;height:.6rem;border-radius:50%;display:block;background:' + c; s.append(i, document.createTextNode(t)); key.append(s); });
-    box.append(key);
+    const key2 = el('div', 'en-map-key');
+    [['var(--en-maptoss)', 'State with a toss-up seat'], ['var(--en-mapon)', 'Lean seats only']].forEach(([c, t]) => { const s2 = el('span'); const i = el('i'); i.style.cssText = 'width:.75rem;height:.6rem;border-radius:3px;display:block;background:' + c; s2.append(i, document.createTextNode(t)); key2.append(s2); });
+    box.append(key, key2);
   }
   function renderHouse() {
     const box = $('#house-grid'), d = dash.data('house');
