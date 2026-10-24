@@ -32,7 +32,7 @@ service cloud.firestore {
         allow read: if signedIn();
         allow create, update, delete: if signedIn() && request.auth.uid == uid;
       }
-      // Group chat: only members can read or post; you can delete only your own messages
+      // Group chat: only members can read or post; delete your own (the admin can remove any)
       match /chat/{msg} {
         function isMember() { return signedIn() && exists(/databases/$(database)/documents/groups/$(code)/members/$(request.auth.uid)); }
         allow read: if isMember();
@@ -42,8 +42,20 @@ service cloud.firestore {
           && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
           && request.resource.data.name is string && request.resource.data.name.size() <= 40
           && request.resource.data.at is int;
-        allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+        allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
       }
+    }
+
+    // Everyone chat: any signed-in player can read and post; delete your own (the admin can remove any)
+    match /lobby/{msg} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'at'])
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40
+        && request.resource.data.at is int;
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
     }
 
     match /admin/results {

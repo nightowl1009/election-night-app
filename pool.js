@@ -13,6 +13,10 @@
   const rows = (id) => { const d = window.dash && window.dash.data(id); return d && d.status === 'ok' ? d.data : []; };
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
 
+  // chat rooms: 'ALL' is the everyone chat (lobby), anything else is a group code
+  const ALL = 'ALL';
+  const chatPath = (code) => code === ALL ? 'lobby' : 'groups/' + code + '/chat';
+
   // ---------- Backend: Firebase (real) or an in-memory stand-in for testing ----------
   function firebaseBackend(cfg) {
     firebase.initializeApp(cfg);
@@ -42,10 +46,10 @@
       listMembers: async (code) => { const q = await fs.collection('groups/' + code + '/members').get(); return q.docs.map(d => Object.assign({ uid: d.id }, d.data())); },
       watchAdminResults: (cb) => fs.doc('admin/results').onSnapshot(s => cb(s.exists ? s.data() : {}), () => cb({})),
       saveAdminResult: (key, val) => fs.doc('admin/results').set({ [key]: (val == null || val === '') ? firebase.firestore.FieldValue.delete() : val }, { merge: true }),
-      watchChat: (code, cb, err) => fs.collection('groups/' + code + '/chat').orderBy('at', 'desc').limit(100)
+      watchChat: (code, cb, err) => fs.collection(chatPath(code)).orderBy('at', 'desc').limit(100)
         .onSnapshot(q => cb(q.docs.map(d => Object.assign({ id: d.id }, d.data())).reverse()), e => { console.error(e); if (err) err(e); }),
-      sendChat: (code, msg) => fs.collection('groups/' + code + '/chat').add(msg),
-      deleteChat: (code, id) => fs.doc('groups/' + code + '/chat/' + id).delete(),
+      sendChat: (code, msg) => fs.collection(chatPath(code)).add(msg),
+      deleteChat: (code, id) => fs.doc(chatPath(code) + '/' + id).delete(),
     };
   }
   function mockBackend() {
@@ -150,7 +154,7 @@
   // ---------- State ----------
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
   let pickFilter = 'Senate';
-  let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '';
+  let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL;
   const myDoc = () => ({ picks: myPicks, seats: mySeats, lock: myLock, side: mySide });
 
   // ---------- UI ----------
@@ -425,7 +429,7 @@
       const li = el('div', 'pl-group');
       const t = el('div'); t.append(el('b', '', g ? g.name : 'Group'), el('small', '', 'Code ' + code));
       const acts = el('div', 'btns');
-      acts.append(btn('en-chip', 'Chat', () => { activeGroup = code; view = 'chat'; render(); }),
+      acts.append(btn('en-chip', 'Chat', () => { activeGroup = code; chatRoom = code; view = 'chat'; render(); }),
         btn('en-chip', 'Leaderboard', () => { activeGroup = code; view = 'board'; render(); }),
         btn('en-chip', 'Share', () => share(code, g)),
         btn('en-chip', 'Leave', async () => { if (window.confirm && !window.confirm('Leave this group?')) return; await be.removeMember(code, me.uid); profile.groups = groups.filter(c => c !== code); await be.saveProfile(me.uid, { groups: profile.groups }); render(); }));
@@ -467,22 +471,27 @@
   function stopChat() { if (typeof chatUnsub === 'function') chatUnsub(); chatUnsub = null; chatCode = ''; chatMsgs = []; chatErr = ''; }
   async function renderChat(box) {
     const groups = (profile && profile.groups) || [];
-    if (!groups.length) { stopChat(); box.append(card('No group yet', 'Start or join a group under Groups, then chat with everyone in it here.')); return; }
+    if (chatRoom !== ALL && !groups.includes(chatRoom)) chatRoom = ALL;
+    const chips = el('div', 'en-chips pl-chips');
+    const chip = (code, label) => { const b = btn('en-chip', label, () => { chatRoom = code; render(); }); b.setAttribute('aria-pressed', String(chatRoom === code)); chips.append(b); };
+    chip(ALL, 'Everyone');
+    for (const code of groups) { const g = await be.getGroup(code).catch(() => null); chip(code, g ? g.name : code); }
+    box.append(chips);
     const c = el('div', 'pl-card pl-chat'); box.append(c);
-    await groupChips(box, c);
-    if (chatCode !== activeGroup) {
-      stopChat(); chatCode = activeGroup;
-      chatUnsub = be.watchChat(activeGroup, (m) => { chatMsgs = m; chatErr = ''; paintChat(); }, (e) => { chatErr = errText(e); paintChat(); });
+    if (chatRoom === ALL) c.append(el('p', 'pl-chat-note', 'Everyone chat · open to every player' + (groups.length ? '' : ' · start or join a group under Groups for a private chat')));
+    if (chatCode !== chatRoom) {
+      stopChat(); chatCode = chatRoom;
+      chatUnsub = be.watchChat(chatRoom, (m) => { chatMsgs = m; chatErr = ''; paintChat(); }, (e) => { chatErr = errText(e); paintChat(); });
     }
     const log = el('div', 'pl-chat-log'); log.setAttribute('role', 'log'); log.setAttribute('aria-live', 'polite');
     const form = el('form', 'pl-chat-form');
-    const inp = el('input'); inp.placeholder = 'Message your group'; inp.maxLength = 500; inp.enterKeyHint = 'send'; inp.autocomplete = 'off';
+    const inp = el('input'); inp.placeholder = chatRoom === ALL ? 'Message everyone' : 'Message your group'; inp.maxLength = 500; inp.enterKeyHint = 'send'; inp.autocomplete = 'off';
     const send = btn('pl-btn primary', 'Send'); send.type = 'submit';
     form.append(inp, send);
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault(); const t = inp.value.trim(); if (!t) return;
       inp.value = ''; inp.focus();
-      try { await be.sendChat(activeGroup, { uid: me.uid, name: (profile && profile.name) || 'Player', text: t.slice(0, 500), at: Date.now() }); }
+      try { await be.sendChat(chatCode, { uid: me.uid, name: (profile && profile.name) || 'Player', text: t.slice(0, 500), at: Date.now() }); }
       catch (e) { inp.value = t; alertish(errText(e)); }
     });
     c.append(log, form);
@@ -502,7 +511,7 @@
       const mine = m.uid === me.uid;
       const b = el('div', 'pl-msgb' + (mine ? ' mine' : ''));
       const h = el('div', 'h'); h.append(el('b', '', mine ? 'You' : (m.name || 'Player')), el('small', '', tf.format(d)));
-      if (mine) { const x = btn('pl-del', '✕', async () => { try { await be.deleteChat(chatCode, m.id); } catch (e) { alertish(errText(e)); } }); x.setAttribute('aria-label', 'Delete message'); h.append(x); }
+      if (mine || be.isAdmin(me)) { const x = btn('pl-del', '✕', async () => { try { await be.deleteChat(chatCode, m.id); } catch (e) { alertish(errText(e)); } }); x.setAttribute('aria-label', 'Delete message'); h.append(x); }
       b.append(h, el('p', '', String(m.text || '')));
       log.append(b);
     });

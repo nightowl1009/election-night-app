@@ -131,3 +131,4 @@
 #pool-root .en-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
 #pool-root .en-seg::-webkit-scrollbar { display: none; }
 #pool-root .en-seg button { white-space: nowrap; flex: none; }
+.pl-chat-note { margin:0 !important; padding:.55rem .8rem; font-size:.75rem !important; border-bottom:1px solid var(--color-border-line); }
