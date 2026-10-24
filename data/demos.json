@@ -1,0 +1,128 @@
+[
+ {
+  "gid": "g01",
+  "category": "Overall",
+  "group": "All registered voters",
+  "d": 44,
+  "r": 36
+ },
+ {
+  "gid": "g02",
+  "category": "Gender",
+  "group": "Men",
+  "d": 42,
+  "r": 42
+ },
+ {
+  "gid": "g03",
+  "category": "Gender",
+  "group": "Women",
+  "d": 45,
+  "r": 31
+ },
+ {
+  "gid": "g04",
+  "category": "Race & ethnicity",
+  "group": "White",
+  "d": 37,
+  "r": 44
+ },
+ {
+  "gid": "g05",
+  "category": "Race & ethnicity",
+  "group": "Black",
+  "d": 70,
+  "r": 7
+ },
+ {
+  "gid": "g06",
+  "category": "Race & ethnicity",
+  "group": "Hispanic",
+  "d": 51,
+  "r": 24
+ },
+ {
+  "gid": "g07",
+  "category": "Race & ethnicity",
+  "group": "Asian*",
+  "d": 56,
+  "r": 16
+ },
+ {
+  "gid": "g08",
+  "category": "Age",
+  "group": "18–29",
+  "d": 51,
+  "r": 23
+ },
+ {
+  "gid": "g09",
+  "category": "Age",
+  "group": "30–49",
+  "d": 43,
+  "r": 31
+ },
+ {
+  "gid": "g10",
+  "category": "Age",
+  "group": "50–64",
+  "d": 39,
+  "r": 45
+ },
+ {
+  "gid": "g11",
+  "category": "Age",
+  "group": "65+",
+  "d": 44,
+  "r": 41
+ },
+ {
+  "gid": "g12",
+  "category": "Education",
+  "group": "Postgraduate degree",
+  "d": 58,
+  "r": 30
+ },
+ {
+  "gid": "g13",
+  "category": "Education",
+  "group": "College graduate",
+  "d": 48,
+  "r": 33
+ },
+ {
+  "gid": "g14",
+  "category": "Education",
+  "group": "Some college",
+  "d": 42,
+  "r": 38
+ },
+ {
+  "gid": "g15",
+  "category": "Education",
+  "group": "High school or less",
+  "d": 35,
+  "r": 39
+ },
+ {
+  "gid": "g16",
+  "category": "Party",
+  "group": "Democrat / lean Dem",
+  "d": 82,
+  "r": 2
+ },
+ {
+  "gid": "g17",
+  "category": "Party",
+  "group": "Independent / other",
+  "d": 40,
+  "r": 24
+ },
+ {
+  "gid": "g18",
+  "category": "Party",
+  "group": "Republican / lean GOP",
+  "d": 6,
+  "r": 73
+ }
+]

@@ -1,0 +1,200 @@
+[
+ {
+  "id": "AZ-01",
+  "held": "R",
+  "incumbent": "Open seat (now Schweikert, R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "AZ-06",
+  "held": "R",
+  "incumbent": "Juan Ciscomani (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "CA-48",
+  "held": "R",
+  "incumbent": "Open seat (now Issa, R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "CO-08",
+  "held": "R",
+  "incumbent": "Gabe Evans (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "FL-25",
+  "held": "D",
+  "incumbent": "Jared Moskowitz (D)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "IA-01",
+  "held": "R",
+  "incumbent": "Mariannette Miller-Meeks (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "IA-03",
+  "held": "R",
+  "incumbent": "Zach Nunn (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "NC-11",
+  "held": "R",
+  "incumbent": "Open seat (now Edwards, R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "NJ-07",
+  "held": "R",
+  "incumbent": "Tom Kean Jr. (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "NM-02",
+  "held": "D",
+  "incumbent": "Gabe Vasquez (D)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "PA-07",
+  "held": "R",
+  "incumbent": "Ryan Mackenzie (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "PA-10",
+  "held": "R",
+  "incumbent": "Scott Perry (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "TX-34",
+  "held": "D",
+  "incumbent": "Vicente Gonzalez (D)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "VA-02",
+  "held": "R",
+  "incumbent": "Jen Kiggans (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "WA-03",
+  "held": "D",
+  "incumbent": "Marie Gluesenkamp Perez (D)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "WI-03",
+  "held": "R",
+  "incumbent": "Derrick Van Orden (R)",
+  "rating": "Lean D"
+ },
+ {
+  "id": "AK-AL",
+  "held": "R",
+  "incumbent": "Nick Begich III (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "AL-02",
+  "held": "D",
+  "incumbent": "Shomari Figures (D)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "AZ-02",
+  "held": "R",
+  "incumbent": "Eli Crane (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "CO-04",
+  "held": "R",
+  "incumbent": "Lauren Boebert (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "CO-05",
+  "held": "R",
+  "incumbent": "Jeff Crank (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "FL-13",
+  "held": "R",
+  "incumbent": "Anna Paulina Luna (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "FL-27",
+  "held": "R",
+  "incumbent": "María Elvira Salazar (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "ME-02",
+  "held": "D",
+  "incumbent": "Open seat (now Golden, D)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "MN-01",
+  "held": "R",
+  "incumbent": "Brad Finstad (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "NV-02",
+  "held": "R",
+  "incumbent": "Open seat (now Amodei, R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "NY-21",
+  "held": "R",
+  "incumbent": "Open seat (now Stefanik, R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "OH-10",
+  "held": "R",
+  "incumbent": "Mike Turner (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "OH-15",
+  "held": "R",
+  "incumbent": "Mike Carey (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "PA-01",
+  "held": "R",
+  "incumbent": "Brian Fitzpatrick (R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "SC-01",
+  "held": "R",
+  "incumbent": "Open seat (now Mace, R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "TX-23",
+  "held": "R",
+  "incumbent": "Vacant seat (last held by R)",
+  "rating": "Lean R"
+ },
+ {
+  "id": "WI-01",
+  "held": "R",
+  "incumbent": "Bryan Steil (R)",
+  "rating": "Lean R"
+ }
+]

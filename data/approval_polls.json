@@ -1,0 +1,58 @@
+[
+ {
+  "pid": "ap1",
+  "pollster": "Rasmussen Reports",
+  "dates": "Oct 18–22",
+  "approve": 42,
+  "disapprove": 57
+ },
+ {
+  "pid": "ap2",
+  "pollster": "Economist/YouGov",
+  "dates": "Oct 19–20",
+  "approve": 41,
+  "disapprove": 59
+ },
+ {
+  "pid": "ap3",
+  "pollster": "Reuters/Ipsos",
+  "dates": "Oct 16–19",
+  "approve": 34,
+  "disapprove": 65
+ },
+ {
+  "pid": "ap4",
+  "pollster": "Morning Consult",
+  "dates": "Oct 16–18",
+  "approve": 42,
+  "disapprove": 56
+ },
+ {
+  "pid": "ap5",
+  "pollster": "Echelon Insights",
+  "dates": "Oct 15–19",
+  "approve": 39,
+  "disapprove": 60
+ },
+ {
+  "pid": "ap6",
+  "pollster": "CNN",
+  "dates": "Oct 15–18",
+  "approve": 34,
+  "disapprove": 66
+ },
+ {
+  "pid": "ap7",
+  "pollster": "CNBC",
+  "dates": "Oct 14–18",
+  "approve": 40,
+  "disapprove": 59
+ },
+ {
+  "pid": "ap8",
+  "pollster": "RMG Research",
+  "dates": "Oct 12–20",
+  "approve": 42,
+  "disapprove": 57
+ }
+]

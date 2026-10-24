@@ -1,0 +1,758 @@
+[
+ {
+  "pid": "SEN-NC-0",
+  "race": "SEN-NC",
+  "pollster": "ECU",
+  "date": "2026-10-08",
+  "d": 50,
+  "r": 43,
+  "margin": 7
+ },
+ {
+  "pid": "SEN-NC-1",
+  "race": "SEN-NC",
+  "pollster": "WRAL/WSOC (SurveyUSA)",
+  "date": "2026-10-11",
+  "d": 54,
+  "r": 40,
+  "margin": 14
+ },
+ {
+  "pid": "SEN-OH-2",
+  "race": "SEN-OH",
+  "pollster": "Fox News",
+  "date": "2026-10-22",
+  "d": 52,
+  "r": 47,
+  "margin": 5
+ },
+ {
+  "pid": "SEN-AK-3",
+  "race": "SEN-AK",
+  "pollster": "Trafalgar",
+  "date": "2026-09-24",
+  "d": 46,
+  "r": 47,
+  "margin": -1
+ },
+ {
+  "pid": "SEN-AK-4",
+  "race": "SEN-AK",
+  "pollster": "NYT/Siena",
+  "date": "2026-10-01",
+  "d": 50,
+  "r": 43,
+  "margin": 7
+ },
+ {
+  "pid": "SEN-AK-5",
+  "race": "SEN-AK",
+  "pollster": "Quantus",
+  "date": "2026-10-02",
+  "d": 46,
+  "r": 46,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-AK-6",
+  "race": "SEN-AK",
+  "pollster": "Alaska Survey Research",
+  "date": "2026-10-03",
+  "d": 47,
+  "r": 45,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-AK-7",
+  "race": "SEN-AK",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-10",
+  "d": 48,
+  "r": 43,
+  "margin": 5
+ },
+ {
+  "pid": "SEN-AK-8",
+  "race": "SEN-AK",
+  "pollster": "Rasmussen",
+  "date": "2026-10-15",
+  "d": 44,
+  "r": 42,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-AK-9",
+  "race": "SEN-AK",
+  "pollster": "PPP",
+  "date": "2026-10-15",
+  "d": 48,
+  "r": 47,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-ME-10",
+  "race": "SEN-ME",
+  "pollster": "Fox News",
+  "date": "2026-08-10",
+  "d": 48,
+  "r": 46,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-ME-11",
+  "race": "SEN-ME",
+  "pollster": "Marist (RV)",
+  "date": "2026-10-04",
+  "d": 51,
+  "r": 47,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-ME-12",
+  "race": "SEN-ME",
+  "pollster": "WaPo/George Mason",
+  "date": "2026-10-05",
+  "d": 50,
+  "r": 46,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-ME-13",
+  "race": "SEN-ME",
+  "pollster": "Suffolk",
+  "date": "2026-10-11",
+  "d": 49,
+  "r": 47,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-ME-14",
+  "race": "SEN-ME",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-14",
+  "d": 49,
+  "r": 47,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-TX-15",
+  "race": "SEN-TX",
+  "pollster": "Fox News",
+  "date": "2026-10-22",
+  "d": 49,
+  "r": 49,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-IA-16",
+  "race": "SEN-IA",
+  "pollster": "Fox News",
+  "date": "2026-10-21",
+  "d": 46,
+  "r": 44,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-KS-17",
+  "race": "SEN-KS",
+  "pollster": "co/efficient",
+  "date": "2026-09-10",
+  "d": 44,
+  "r": 49,
+  "margin": -5
+ },
+ {
+  "pid": "SEN-KS-18",
+  "race": "SEN-KS",
+  "pollster": "Trafalgar",
+  "date": "2026-10-01",
+  "d": 44.4,
+  "r": 43.5,
+  "margin": 0.9
+ },
+ {
+  "pid": "SEN-KS-19",
+  "race": "SEN-KS",
+  "pollster": "Global Strategy Group (D)",
+  "date": "2026-10-02",
+  "d": 47,
+  "r": 43,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-KS-20",
+  "race": "SEN-KS",
+  "pollster": "NYT/Siena",
+  "date": "2026-10-03",
+  "d": 45,
+  "r": 45,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-KS-21",
+  "race": "SEN-KS",
+  "pollster": "YouGov",
+  "date": "2026-10-04",
+  "d": 48,
+  "r": 45,
+  "margin": 3
+ },
+ {
+  "pid": "SEN-KS-22",
+  "race": "SEN-KS",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-10",
+  "d": 48,
+  "r": 47,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-NE-23",
+  "race": "SEN-NE",
+  "pollster": "YouGov",
+  "date": "2026-10-06",
+  "d": 48,
+  "r": 47,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-NE-24",
+  "race": "SEN-NE",
+  "pollster": "NPA Polling (R)",
+  "date": "2026-10-12",
+  "d": 43,
+  "r": 46,
+  "margin": -3
+ },
+ {
+  "pid": "SEN-MI-25",
+  "race": "SEN-MI",
+  "pollster": "Mitchell/CBS Detroit",
+  "date": "2026-10-05",
+  "d": 46,
+  "r": 41,
+  "margin": 5
+ },
+ {
+  "pid": "SEN-MI-26",
+  "race": "SEN-MI",
+  "pollster": "YouGov",
+  "date": "2026-10-06",
+  "d": 49,
+  "r": 48,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-MI-27",
+  "race": "SEN-MI",
+  "pollster": "Quantus",
+  "date": "2026-10-07",
+  "d": 48,
+  "r": 47,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-MI-28",
+  "race": "SEN-MI",
+  "pollster": "Guidant (R)",
+  "date": "2026-10-07",
+  "d": 48,
+  "r": 43,
+  "margin": 5
+ },
+ {
+  "pid": "SEN-MI-29",
+  "race": "SEN-MI",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-10",
+  "d": 48,
+  "r": 46,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-MI-30",
+  "race": "SEN-MI",
+  "pollster": "Rasmussen",
+  "date": "2026-10-14",
+  "d": 46,
+  "r": 44,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-MI-31",
+  "race": "SEN-MI",
+  "pollster": "Marist",
+  "date": "2026-10-18",
+  "d": 50,
+  "r": 48,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-NH-32",
+  "race": "SEN-NH",
+  "pollster": "UNH",
+  "date": "2026-09-24",
+  "d": 50,
+  "r": 42,
+  "margin": 8
+ },
+ {
+  "pid": "SEN-NH-33",
+  "race": "SEN-NH",
+  "pollster": "St. Anselm/AARP",
+  "date": "2026-09-29",
+  "d": 51,
+  "r": 44,
+  "margin": 7
+ },
+ {
+  "pid": "SEN-NH-34",
+  "race": "SEN-NH",
+  "pollster": "YouGov",
+  "date": "2026-10-06",
+  "d": 51,
+  "r": 43,
+  "margin": 8
+ },
+ {
+  "pid": "SEN-NH-35",
+  "race": "SEN-NH",
+  "pollster": "NPA Polling",
+  "date": "2026-10-16",
+  "d": 50,
+  "r": 43,
+  "margin": 7
+ },
+ {
+  "pid": "SEN-GA-36",
+  "race": "SEN-GA",
+  "pollster": "Quantus",
+  "date": "2026-09-16",
+  "d": 48.2,
+  "r": 44.4,
+  "margin": 3.8
+ },
+ {
+  "pid": "SEN-GA-37",
+  "race": "SEN-GA",
+  "pollster": "YouGov",
+  "date": "2026-09-22",
+  "d": 51,
+  "r": 41,
+  "margin": 10
+ },
+ {
+  "pid": "SEN-GA-38",
+  "race": "SEN-GA",
+  "pollster": "Wedgewood",
+  "date": "2026-10-03",
+  "d": 55,
+  "r": 45,
+  "margin": 10
+ },
+ {
+  "pid": "SEN-GA-39",
+  "race": "SEN-GA",
+  "pollster": "Quantus",
+  "date": "2026-10-17",
+  "d": 51.8,
+  "r": 44.9,
+  "margin": 6.9
+ },
+ {
+  "pid": "GOV-OH-40",
+  "race": "GOV-OH",
+  "pollster": "Fox News",
+  "date": "2026-10-22",
+  "d": 50,
+  "r": 48,
+  "margin": 2
+ },
+ {
+  "pid": "GOV-GA-41",
+  "race": "GOV-GA",
+  "pollster": "Rasmussen",
+  "date": "2026-09-20",
+  "d": 45,
+  "r": 48,
+  "margin": -3
+ },
+ {
+  "pid": "GOV-GA-42",
+  "race": "GOV-GA",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-13",
+  "d": 47,
+  "r": 49,
+  "margin": -2
+ },
+ {
+  "pid": "GOV-NV-43",
+  "race": "GOV-NV",
+  "pollster": "Emerson",
+  "date": "2026-09-08",
+  "d": 44,
+  "r": 42,
+  "margin": 2
+ },
+ {
+  "pid": "GOV-NV-44",
+  "race": "GOV-NV",
+  "pollster": "Noble Predictive",
+  "date": "2026-09-26",
+  "d": 40,
+  "r": 42,
+  "margin": -2
+ },
+ {
+  "pid": "GOV-KS-45",
+  "race": "GOV-KS",
+  "pollster": "co/efficient",
+  "date": "2026-09-11",
+  "d": 43,
+  "r": 51,
+  "margin": -8
+ },
+ {
+  "pid": "GOV-KS-46",
+  "race": "GOV-KS",
+  "pollster": "Emerson",
+  "date": "2026-09-18",
+  "d": 44,
+  "r": 51,
+  "margin": -7
+ },
+ {
+  "pid": "GOV-KS-47",
+  "race": "GOV-KS",
+  "pollster": "Wedgewood",
+  "date": "2026-09-24",
+  "d": 48,
+  "r": 52,
+  "margin": -4
+ },
+ {
+  "pid": "GOV-KS-48",
+  "race": "GOV-KS",
+  "pollster": "NYT/Siena",
+  "date": "2026-10-04",
+  "d": 44,
+  "r": 49,
+  "margin": -5
+ },
+ {
+  "pid": "GOV-WI-49",
+  "race": "GOV-WI",
+  "pollster": "YouGov (adults)",
+  "date": "2026-10-16",
+  "d": 46,
+  "r": 42,
+  "margin": 4
+ },
+ {
+  "pid": "GOV-IA-50",
+  "race": "GOV-IA",
+  "pollster": "Fox News",
+  "date": "2026-10-21",
+  "d": 54,
+  "r": 43,
+  "margin": 11
+ },
+ {
+  "pid": "GOV-FL-51",
+  "race": "GOV-FL",
+  "pollster": "Mason-Dixon",
+  "date": "2026-10-01",
+  "d": 41,
+  "r": 48,
+  "margin": -7
+ },
+ {
+  "pid": "GOV-FL-52",
+  "race": "GOV-FL",
+  "pollster": "JMI/Targoz",
+  "date": "2026-10-04",
+  "d": 42,
+  "r": 52,
+  "margin": -10
+ },
+ {
+  "pid": "GOV-FL-53",
+  "race": "GOV-FL",
+  "pollster": "YouGov",
+  "date": "2026-10-05",
+  "d": 45,
+  "r": 47,
+  "margin": -2
+ },
+ {
+  "pid": "GOV-FL-54",
+  "race": "GOV-FL",
+  "pollster": "Pete Polls",
+  "date": "2026-10-07",
+  "d": 45,
+  "r": 45,
+  "margin": 0
+ },
+ {
+  "pid": "GOV-FL-55",
+  "race": "GOV-FL",
+  "pollster": "Stetson",
+  "date": "2026-10-09",
+  "d": 41,
+  "r": 52,
+  "margin": -11
+ },
+ {
+  "pid": "GOV-FL-56",
+  "race": "GOV-FL",
+  "pollster": "Change Research (D)",
+  "date": "2026-10-10",
+  "d": 47,
+  "r": 47,
+  "margin": 0
+ },
+ {
+  "pid": "GOV-MI-57",
+  "race": "GOV-MI",
+  "pollster": "Guidant (R)",
+  "date": "2026-10-07",
+  "d": 50,
+  "r": 45,
+  "margin": 5
+ },
+ {
+  "pid": "GOV-MI-58",
+  "race": "GOV-MI",
+  "pollster": "Marist",
+  "date": "2026-10-18",
+  "d": 51,
+  "r": 45,
+  "margin": 6
+ },
+ {
+  "pid": "GOV-AZ-59",
+  "race": "GOV-AZ",
+  "pollster": "AARP",
+  "date": "2026-07-28",
+  "d": 52,
+  "r": 44,
+  "margin": 8
+ },
+ {
+  "pid": "GOV-AZ-60",
+  "race": "GOV-AZ",
+  "pollster": "Noble Predictive",
+  "date": "2026-08-13",
+  "d": 48,
+  "r": 35,
+  "margin": 13
+ },
+ {
+  "pid": "GOV-AZ-61",
+  "race": "GOV-AZ",
+  "pollster": "HighGround",
+  "date": "2026-08-18",
+  "d": 49.5,
+  "r": 34.3,
+  "margin": 15.2
+ },
+ {
+  "pid": "GOV-ME-62",
+  "race": "GOV-ME",
+  "pollster": "Marist (RV)",
+  "date": "2026-10-04",
+  "d": 52,
+  "r": 40,
+  "margin": 12
+ },
+ {
+  "pid": "GOV-ME-63",
+  "race": "GOV-ME",
+  "pollster": "Suffolk",
+  "date": "2026-10-11",
+  "d": 49,
+  "r": 38,
+  "margin": 11
+ },
+ {
+  "pid": "SEN-ME-64",
+  "race": "SEN-ME",
+  "pollster": "Fox News",
+  "date": "2026-10-20",
+  "d": 49,
+  "r": 49,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-TX-65",
+  "race": "SEN-TX",
+  "pollster": "TPOR",
+  "date": "2026-10-18",
+  "d": 51,
+  "r": 47,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-TX-66",
+  "race": "SEN-TX",
+  "pollster": "Emerson",
+  "date": "2026-10-22",
+  "d": 49,
+  "r": 48,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-TX-67",
+  "race": "SEN-TX",
+  "pollster": "VoteHub/Verasight",
+  "date": "2026-10-23",
+  "d": 48,
+  "r": 45,
+  "margin": 3
+ },
+ {
+  "pid": "SEN-NC-68",
+  "race": "SEN-NC",
+  "pollster": "Carolina Journal/Harper",
+  "date": "2026-10-22",
+  "d": 49,
+  "r": 39,
+  "margin": 10
+ },
+ {
+  "pid": "SEN-NH-69",
+  "race": "SEN-NH",
+  "pollster": "St. Anselm",
+  "date": "2026-10-22",
+  "d": 50,
+  "r": 43,
+  "margin": 7
+ },
+ {
+  "pid": "GOV-ME-70",
+  "race": "GOV-ME",
+  "pollster": "Fox News",
+  "date": "2026-10-20",
+  "d": 49,
+  "r": 39,
+  "margin": 10
+ },
+ {
+  "pid": "GOV-NH-71",
+  "race": "GOV-NH",
+  "pollster": "St. Anselm",
+  "date": "2026-10-22",
+  "d": 42,
+  "r": 50,
+  "margin": -8
+ },
+ {
+  "pid": "SEN-IA-72",
+  "race": "SEN-IA",
+  "pollster": "NYT/Siena",
+  "date": "2026-10-01",
+  "d": 47,
+  "r": 48,
+  "margin": -1
+ },
+ {
+  "pid": "SEN-IA-73",
+  "race": "SEN-IA",
+  "pollster": "CNN",
+  "date": "2026-10-05",
+  "d": 43,
+  "r": 45,
+  "margin": -2
+ },
+ {
+  "pid": "SEN-IA-74",
+  "race": "SEN-IA",
+  "pollster": "Suffolk",
+  "date": "2026-10-04",
+  "d": 48,
+  "r": 44,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-IA-75",
+  "race": "SEN-IA",
+  "pollster": "Emerson",
+  "date": "2026-10-06",
+  "d": 45,
+  "r": 47,
+  "margin": -2
+ },
+ {
+  "pid": "SEN-IA-76",
+  "race": "SEN-IA",
+  "pollster": "Marist",
+  "date": "2026-10-11",
+  "d": 48,
+  "r": 45,
+  "margin": 3
+ },
+ {
+  "pid": "SEN-IA-77",
+  "race": "SEN-IA",
+  "pollster": "YouGov",
+  "date": "2026-10-12",
+  "d": 47,
+  "r": 46,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-IA-78",
+  "race": "SEN-IA",
+  "pollster": "Cook Political Report",
+  "date": "2026-10-13",
+  "d": 46,
+  "r": 44,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-IA-79",
+  "race": "SEN-IA",
+  "pollster": "Trafalgar",
+  "date": "2026-10-15",
+  "d": 44,
+  "r": 46,
+  "margin": -2
+ },
+ {
+  "pid": "SEN-IA-80",
+  "race": "SEN-IA",
+  "pollster": "co/efficient",
+  "date": "2026-10-19",
+  "d": 46,
+  "r": 49,
+  "margin": -3
+ },
+ {
+  "pid": "SEN-IA-81",
+  "race": "SEN-IA",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-22",
+  "d": 45,
+  "r": 47,
+  "margin": -2
+ },
+ {
+  "pid": "SEN-MI-82",
+  "race": "SEN-MI",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-23",
+  "d": 47,
+  "r": 46,
+  "margin": 1
+ },
+ {
+  "pid": "SEN-OH-83",
+  "race": "SEN-OH",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-23",
+  "d": 47,
+  "r": 44,
+  "margin": 3
+ }
+]

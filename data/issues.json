@@ -1,0 +1,72 @@
+[
+ {
+  "rank": 1,
+  "issue": "The economy",
+  "all": 84,
+  "r_sup": 82,
+  "d_sup": 88
+ },
+ {
+  "rank": 2,
+  "issue": "The future of democracy",
+  "all": 73,
+  "r_sup": 69,
+  "d_sup": 85
+ },
+ {
+  "rank": 3,
+  "issue": "Healthcare",
+  "all": 68,
+  "r_sup": 53,
+  "d_sup": 82
+ },
+ {
+  "rank": 4,
+  "issue": "Education",
+  "all": 62,
+  "r_sup": 48,
+  "d_sup": 74
+ },
+ {
+  "rank": 5,
+  "issue": "Immigration",
+  "all": 59,
+  "r_sup": 72,
+  "d_sup": 53
+ },
+ {
+  "rank": 6,
+  "issue": "Foreign policy",
+  "all": 57,
+  "r_sup": 56,
+  "d_sup": 64
+ },
+ {
+  "rank": 7,
+  "issue": "Energy policy",
+  "all": 54,
+  "r_sup": 48,
+  "d_sup": 62
+ },
+ {
+  "rank": 8,
+  "issue": "Violent crime",
+  "all": 52,
+  "r_sup": 64,
+  "d_sup": 37
+ },
+ {
+  "rank": 9,
+  "issue": "Abortion",
+  "all": 46,
+  "r_sup": 43,
+  "d_sup": 49
+ },
+ {
+  "rank": 10,
+  "issue": "Gun policy",
+  "all": 45,
+  "r_sup": 54,
+  "d_sup": 40
+ }
+]

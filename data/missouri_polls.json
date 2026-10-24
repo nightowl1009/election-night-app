@@ -1,0 +1,57 @@
+[
+ {
+  "pid": "A3-1",
+  "measure": "A3",
+  "pollster": "SLU/YouGov",
+  "dates": "Aug 13–24",
+  "date": "2026-08-24",
+  "sample": "900 LV",
+  "yes": 43,
+  "no": 44,
+  "undecided": 13
+ },
+ {
+  "pid": "A3-2",
+  "measure": "A3",
+  "pollster": "Missouri Scout/Remington",
+  "dates": "Oct 14–15",
+  "date": "2026-10-15",
+  "sample": "684 LV",
+  "yes": 43,
+  "no": 43,
+  "undecided": 14
+ },
+ {
+  "pid": "A6-1",
+  "measure": "A6",
+  "pollster": "SLU/YouGov",
+  "dates": "Aug 13–24",
+  "date": "2026-08-24",
+  "sample": "900 LV",
+  "yes": 48,
+  "no": 21,
+  "undecided": 32
+ },
+ {
+  "pid": "PA-1",
+  "measure": "PA",
+  "pollster": "SLU/YouGov",
+  "dates": "Aug 13–24",
+  "date": "2026-08-24",
+  "sample": "900 LV",
+  "yes": 35,
+  "no": 32,
+  "undecided": 33
+ },
+ {
+  "pid": "AUD-1",
+  "measure": "AUD",
+  "pollster": "SLU/YouGov",
+  "dates": "Aug 13–24",
+  "date": "2026-08-24",
+  "sample": "900 LV",
+  "yes": 43,
+  "no": 45,
+  "undecided": 12
+ }
+]

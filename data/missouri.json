@@ -1,0 +1,74 @@
+[
+ {
+  "id": "A3",
+  "kind": "Amendment",
+  "title": "Amendment 3",
+  "short": "Abortion limits & minors' gender transition care",
+  "yes_does": "Repeals the 2024 reproductive-freedom amendment. Allows abortion only for medical emergencies, fetal anomalies, and rape or incest up to 12 weeks; requires parental consent for minors; bans gender transition procedures for minors.",
+  "no_does": "Keeps the 2024 amendment voters passed, which protects abortion access up to fetal viability. No new constitutional ban on minors' transition care.",
+  "placed_by": "Missouri General Assembly",
+  "yes_label": "Yes",
+  "no_label": "No",
+  "note": "The 2024 abortion-rights amendment passed with 51.6%. Polls show this one deadlocked."
+ },
+ {
+  "id": "A6",
+  "kind": "Amendment",
+  "title": "Amendment 6",
+  "short": "Protect the citizen initiative process",
+  "yes_does": "Makes initiative and referendum a fundamental right. Lawmakers could only change a voter-passed law with 80% of both chambers plus a statewide vote. Courts could rewrite unfair ballot summaries. Keeps today's signature and simple-majority rules.",
+  "no_does": "No change: the legislature can still amend or repeal laws that voters pass by initiative.",
+  "placed_by": "Citizen initiative petition",
+  "yes_label": "Yes",
+  "no_label": "No",
+  "note": "Nearly a third of voters were unsure in August."
+ },
+ {
+  "id": "A7",
+  "kind": "Amendment",
+  "title": "Amendment 7",
+  "short": "“Show-Me Prosperity Fund” to eventually end state taxes",
+  "yes_does": "Creates a permanent state endowment invested in index funds. Nothing can be spent until the Treasurer certifies its earnings can replace state taxes; then those taxes are eliminated and can't be brought back except in a shortfall.",
+  "no_does": "No endowment fund; state taxes stay as they are.",
+  "placed_by": "Missouri General Assembly",
+  "yes_label": "Yes",
+  "no_label": "No",
+  "note": "Where the fund's starting money comes from isn't spelled out."
+ },
+ {
+  "id": "A8",
+  "kind": "Amendment",
+  "title": "Amendment 8",
+  "short": "County sheriffs in the constitution",
+  "yes_does": "Puts the 4-year election of county sheriffs and their duties into the constitution. An elected sheriff could only be removed by a quo warranto case brought by the Attorney General. St. Louis, St. Louis County and St. Charles County are exempt.",
+  "no_does": "Sheriff elections, duties and removal stay in regular state law, which the legislature can change.",
+  "placed_by": "Missouri General Assembly",
+  "yes_label": "Yes",
+  "no_label": "No",
+  "note": ""
+ },
+ {
+  "id": "PA",
+  "kind": "Proposition",
+  "title": "Proposition A",
+  "short": "Referendum on the 2025 congressional map",
+  "yes_does": "Approves the 2025 map (House Bill 1), which would likely shift Missouri's U.S. House delegation from 6–2 to 7–1 Republican in future elections.",
+  "no_does": "Rejects the 2025 map and keeps the 2022 district lines.",
+  "placed_by": "Citizen referendum petition",
+  "yes_label": "Yes",
+  "no_label": "No",
+  "note": "On Sept 25 the U.S. Supreme Court ruled the 2022 map is used for this November's House races either way."
+ },
+ {
+  "id": "AUD",
+  "kind": "Statewide race",
+  "title": "State Auditor",
+  "short": "Only statewide office on the ballot",
+  "yes_does": "Quentin Wilson (D) is a former director of the Missouri Department of Revenue. Libertarian Dustin Coffell is also running.",
+  "no_does": "Scott Fitzpatrick (R) is the incumbent, seeking a second term.",
+  "placed_by": "",
+  "yes_label": "Wilson (D)",
+  "no_label": "Fitzpatrick (R)",
+  "note": "SLU's poll is the only public one; its margin of error on this question is ±5.9."
+ }
+]

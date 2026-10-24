@@ -1,0 +1,74 @@
+[
+ {
+  "key": "trump",
+  "label": "Trump job approval",
+  "a": 38.8,
+  "b": 60.4,
+  "a_label": "Approve",
+  "b_label": "Disapprove",
+  "kind": "approval",
+  "source": "RCP average",
+  "dates": "Sep 28 – Oct 22",
+  "note": "Latest polls range from 34% to 42%."
+ },
+ {
+  "key": "congress",
+  "label": "Congress job approval",
+  "a": 21.8,
+  "b": 70.6,
+  "a_label": "Approve",
+  "b_label": "Disapprove",
+  "kind": "approval",
+  "source": "RCP average",
+  "dates": "Jul 9 – Oct 12",
+  "note": "Newest poll: Fox News (Oct 9–12), 15%."
+ },
+ {
+  "key": "gop_congress",
+  "label": "Republicans in Congress",
+  "a": 26,
+  "b": 67,
+  "a_label": "Approve",
+  "b_label": "Disapprove",
+  "kind": "approval",
+  "source": "Quinnipiac",
+  "dates": "Sep 24–27",
+  "note": "1,032 registered voters, ±3.8."
+ },
+ {
+  "key": "dem_congress",
+  "label": "Democrats in Congress",
+  "a": 22,
+  "b": 69,
+  "a_label": "Approve",
+  "b_label": "Disapprove",
+  "kind": "approval",
+  "source": "Quinnipiac",
+  "dates": "Sep 24–27",
+  "note": "Same Quinnipiac poll."
+ },
+ {
+  "key": "direction",
+  "label": "Country's direction",
+  "a": 32.1,
+  "b": 63.0,
+  "a_label": "Right direction",
+  "b_label": "Wrong track",
+  "kind": "approval",
+  "source": "RCP average",
+  "dates": "Sep 7 – Oct 20",
+  "note": ""
+ },
+ {
+  "key": "generic",
+  "label": "Generic ballot for Congress",
+  "a": 50.5,
+  "b": 42.4,
+  "a_label": "Democrats",
+  "b_label": "Republicans",
+  "kind": "party",
+  "source": "RCP average",
+  "dates": "Sep 28 – Oct 20",
+  "note": "Latest six polls: D+5 to D+12."
+ }
+]

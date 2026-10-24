@@ -1,0 +1,74 @@
+[
+ {
+  "order": 0,
+  "close_et": "6:00 PM",
+  "close_ct": "5:00 PM",
+  "states": "Most of Kentucky and Indiana",
+  "watch": "KY-06",
+  "close_utc": "2026-11-03T23:00:00Z",
+  "races": "HOU-KY-06"
+ },
+ {
+  "order": 1,
+  "close_et": "7:00 PM",
+  "close_ct": "6:00 PM",
+  "states": "Georgia, Virginia, South Carolina, Vermont, most of Florida",
+  "watch": "GA Senate & Gov · VA-01 · VA-02 · FL Gov",
+  "close_utc": "2026-11-04T00:00:00Z",
+  "races": "SEN-GA,GOV-GA,GOV-FL,HOU-VA-01,HOU-VA-02,HOU-FL-14,HOU-FL-22,HOU-FL-25,HOU-FL-13,HOU-FL-27,HOU-SC-01"
+ },
+ {
+  "order": 2,
+  "close_et": "7:30 PM",
+  "close_ct": "6:30 PM",
+  "states": "North Carolina, Ohio",
+  "watch": "NC Senate · OH Senate & Gov · OH-07 · OH-09",
+  "close_utc": "2026-11-04T00:30:00Z",
+  "races": "SEN-NC,SEN-OH,GOV-OH,HOU-OH-07,HOU-OH-09,HOU-NC-01,HOU-NC-11,HOU-OH-10,HOU-OH-15"
+ },
+ {
+  "order": 3,
+  "close_et": "8:00 PM",
+  "close_ct": "7:00 PM",
+  "states": "Missouri, Maine, New Hampshire, Pennsylvania, New Jersey, Alabama, most of Michigan, most of Texas & Kansas, Florida Panhandle",
+  "watch": "ME Senate · MI Senate & Gov · NH Senate · TX Senate · KS Senate & Gov · PA-10",
+  "close_utc": "2026-11-04T01:00:00Z",
+  "races": "SEN-ME,SEN-MI,SEN-NH,SEN-TX,SEN-KS,GOV-MI,GOV-KS,GOV-ME,GOV-NH,HOU-PA-10,HOU-MI-07,HOU-MI-04,MO-A3,MO-A6,MO-A7,MO-A8,MO-PA,MO-AUD,HOU-TX-35,HOU-TX-15,HOU-MI-10,HOU-PA-08,HOU-ME-02,HOU-TX-34,HOU-TX-23,HOU-PA-07,HOU-PA-01,HOU-NJ-07,HOU-AL-02"
+ },
+ {
+  "order": 4,
+  "close_et": "9:00 PM",
+  "close_ct": "8:00 PM",
+  "states": "Iowa, Nebraska, Wisconsin, Minnesota, Arizona, Colorado, New Mexico, New York",
+  "watch": "IA Senate & Gov · NE Senate · WI Gov · AZ Gov · AZ-06 · CO-08 · NY-17",
+  "close_utc": "2026-11-04T02:00:00Z",
+  "races": "SEN-IA,SEN-NE,GOV-IA,GOV-WI,GOV-AZ,HOU-AZ-06,HOU-CO-08,HOU-NY-17,HOU-IA-02,HOU-IA-01,HOU-IA-03,HOU-WI-03,HOU-WI-01,HOU-AZ-01,HOU-AZ-02,HOU-CO-04,HOU-CO-05,HOU-MN-01,HOU-NM-02,HOU-NY-21"
+ },
+ {
+  "order": 5,
+  "close_et": "10:00 PM",
+  "close_ct": "9:00 PM",
+  "states": "Nevada, Montana",
+  "watch": "NV Gov",
+  "close_utc": "2026-11-04T03:00:00Z",
+  "races": "GOV-NV,HOU-MT-01,HOU-NV-02"
+ },
+ {
+  "order": 6,
+  "close_et": "11:00 PM",
+  "close_ct": "10:00 PM",
+  "states": "California, Washington",
+  "watch": "CA-22",
+  "close_utc": "2026-11-04T04:00:00Z",
+  "races": "HOU-CA-22,HOU-CA-48,HOU-WA-03"
+ },
+ {
+  "order": 7,
+  "close_et": "12:00 AM",
+  "close_ct": "11:00 PM",
+  "states": "Alaska (most of state)",
+  "watch": "AK Senate — ranked-choice, may take days",
+  "close_utc": "2026-11-04T05:00:00Z",
+  "races": "SEN-AK,HOU-AK-AL"
+ }
+]

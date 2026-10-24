@@ -1,0 +1,44 @@
+[
+ {
+  "tid": "t1",
+  "issue": "Health care",
+  "d": 55,
+  "r": 31
+ },
+ {
+  "tid": "t2",
+  "issue": "Cost of living",
+  "d": 49,
+  "r": 36
+ },
+ {
+  "tid": "t3",
+  "issue": "International conflicts",
+  "d": 48,
+  "r": 40
+ },
+ {
+  "tid": "t4",
+  "issue": "The economy",
+  "d": 48,
+  "r": 42
+ },
+ {
+  "tid": "t5",
+  "issue": "Immigration",
+  "d": 47,
+  "r": 44
+ },
+ {
+  "tid": "t6",
+  "issue": "Corruption in government",
+  "d": 45,
+  "r": 33
+ },
+ {
+  "tid": "t7",
+  "issue": "Artificial intelligence",
+  "d": 42,
+  "r": 29
+ }
+]
