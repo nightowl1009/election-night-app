@@ -1450,7 +1450,7 @@ dash.calc('senate_base', {
   }
 
   // News
-  let newsFilter = 'all';
+  let newsFilter = 'all', newsAll = false;
   const ndate = d3.utcFormat('%b %-d');
   const safeUrl = (u) => /^https?:\/\//i.test(String(u || '')) ? u : null;
   function newsRows() {
@@ -1478,7 +1478,8 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     const list = rows.filter(n => newsFilter === 'all' || n.tag === newsFilter);
     if (!list.length) { box.append(el('div', 'en-watch-empty', 'No stories in this category yet.')); return; }
-    list.forEach(n => {
+    const NEWS_FIRST = 5, shown = newsAll ? list : list.slice(0, NEWS_FIRST);
+    shown.forEach(n => {
       const c = el('article', 'en-nc');
       const w = el('div', 'when'); w.append(el('b', '', ndate(new Date(n.date + 'T12:00:00Z'))), mk('span', 'en-ntag ' + String(n.tag).toLowerCase(), 'news', 'tag', 'nid', n.nid, n.tag));
       const body = el('div', '');
@@ -1488,9 +1489,19 @@ dash.calc('senate_base', {
       else body.append(mk('span', 'en-nmeta', 'news', 'source', 'nid', n.nid, n.source));
       c.append(w, body); box.append(c);
     });
+    if (list.length > NEWS_FIRST) {
+      const b = el('button', 'en-more-seats'); b.type = 'button'; b.setAttribute('aria-expanded', String(newsAll));
+      const t = el('span', 't'); t.append(document.createTextNode(newsAll ? 'Show fewer stories' : 'Show ' + (list.length - NEWS_FIRST) + ' more stories'), svgIc('chev'));
+      b.append(t);
+      b.addEventListener('click', () => {
+        newsAll = !newsAll; renderNews();
+        if (!newsAll) document.getElementById('news').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+      box.append(b);
+    }
   }
   document.querySelectorAll('#news-chips .en-chip').forEach(c => c.addEventListener('click', () => {
-    newsFilter = c.dataset.f;
+    newsFilter = c.dataset.f; newsAll = false;
     document.querySelectorAll('#news-chips .en-chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
     renderNews();
   }));
