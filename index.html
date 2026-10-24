@@ -55,9 +55,10 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 /* ---- "VOTE 2026" opening animation ---- */
 #vote-splash { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
   background: radial-gradient(120% 80% at 0% 0%, rgba(37,99,235,.55), transparent 60%), radial-gradient(120% 80% at 100% 0%, rgba(220,38,38,.5), transparent 60%), #0b1020;
-  color: #fff; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1); will-change: opacity, transform; }
+  color: #fff; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1); will-change: opacity, transform; animation: vs-in .7s cubic-bezier(.4,0,.2,1) backwards; }
 #vote-splash.out { opacity: 0; transform: scale(1.03); pointer-events: none; }
 /* the app eases in underneath as the splash fades */
+html.vs-on, html.vs-on body { background-color: #0b1020; }
 html.vs-on #dash-root { opacity: 0; transform: translateY(14px) scale(.985); }
 html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; transform: none; transition: opacity .9s cubic-bezier(.4,0,.2,1) .1s, transform .9s cubic-bezier(.4,0,.2,1) .1s; }
 #vote-splash .vs-arc { width: min(70vw, 300px); height: auto; margin-bottom: 4px; }
@@ -75,6 +76,13 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 #vote-splash .vs-sub { margin-top: 8px; font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.75); opacity: 0; animation: vs-fade .7s ease-out 1.3s forwards; }
 #vote-splash .vs-arc, #vote-splash .vs-word, #vote-splash .vs-year, #vote-splash .vs-stripe, #vote-splash .vs-sub { position: relative; z-index: 1; }
 #vote-splash .vs-burst { z-index: 0; position: absolute; width: 8px; height: 8px; border-radius: 2px; opacity: 0; animation: vs-burst 1.4s cubic-bezier(.16,1,.3,1) forwards; }
+#vote-splash .vs-pals { position: absolute; left: 0; right: 0; bottom: max(7vh, 34px); display: flex; justify-content: space-between; padding: 0 5vw; pointer-events: none; z-index: 1; }
+#vote-splash .vs-pal { width: min(30vw, 150px); height: auto; opacity: 0; filter: drop-shadow(0 8px 18px rgba(0,0,0,.45)); }
+#vote-splash .vs-pal.d { transform: translateX(-130%); animation: vs-slide .9s cubic-bezier(.22,1,.36,1) 1.0s forwards, vs-hop .5s ease-in-out 1.9s 2; }
+#vote-splash .vs-pal.r { transform: translateX(130%); animation: vs-slide .9s cubic-bezier(.22,1,.36,1) 1.15s forwards, vs-hop .5s ease-in-out 2.05s 2; }
+@keyframes vs-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes vs-slide { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 1; transform: translateX(0); } }
+@keyframes vs-hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 @keyframes vs-pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
 @keyframes vs-drop { to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes vs-rise { to { opacity: 1; transform: none; } }
@@ -85,6 +93,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 @media (prefers-reduced-motion: reduce) {
   #vote-splash *, #vote-splash .vs-arc circle { animation: none !important; opacity: 1 !important; transform: none !important; }
   #vote-splash .vs-burst { display: none; }
+  #vote-splash { animation: vs-in .5s ease-out backwards !important; }
 }
 </style>
 <script src="d3.min.js"></script>
@@ -98,6 +107,32 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
   <div class="vs-year shine">2026</div>
   <div class="vs-stripe"><i></i><i></i><i></i></div>
   <div class="vs-sub">Election Night</div>
+  <div class="vs-pals">
+  <svg class="vs-pal d" viewBox="0 0 120 100" aria-hidden="true">
+    <path d="M20 46 C12 52 10 62 8 70" stroke="#1d4ed8" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="8" cy="72" r="4.5" fill="#1d4ed8"/>
+    <rect x="27" y="58" width="7" height="32" rx="3" fill="#1d4ed8"/><rect x="59" y="58" width="7" height="32" rx="3" fill="#1d4ed8"/>
+    <ellipse cx="48" cy="52" rx="31" ry="16" fill="#3b82f6"/>
+    <rect x="35" y="58" width="7" height="33" rx="3" fill="#3b82f6"/><rect x="67" y="58" width="7" height="33" rx="3" fill="#3b82f6"/>
+    <rect x="34.5" y="87" width="8" height="5" rx="2" fill="#1e3a8a"/><rect x="66.5" y="87" width="8" height="5" rx="2" fill="#1e3a8a"/>
+    <path d="M64 44 L84 18 L98 26 L80 58 Z" fill="#3b82f6"/>
+    <path d="M70 40 L86 17" stroke="#1d4ed8" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="87" cy="9" rx="3.6" ry="11" transform="rotate(-18 87 9)" fill="#1d4ed8"/><ellipse cx="93" cy="9" rx="3.6" ry="11.5" transform="rotate(12 93 9)" fill="#3b82f6"/>
+    <ellipse cx="99" cy="30" rx="15" ry="8.5" transform="rotate(32 99 30)" fill="#3b82f6"/>
+    <ellipse cx="108" cy="37" rx="5.5" ry="4.5" transform="rotate(32 108 37)" fill="#93c5fd"/>
+    <circle cx="95" cy="24" r="2" fill="#fff"/>
+  </svg>
+  <svg class="vs-pal r" viewBox="0 0 120 100" aria-hidden="true"><g transform="translate(120 0) scale(-1 1)">
+    <path d="M16 40 C10 46 8 54 7 62" stroke="#b91c1c" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M5 60 l2 7 l3 -6 z" fill="#b91c1c"/>
+    <rect x="22" y="56" width="13" height="34" rx="4" fill="#b91c1c"/><rect x="58" y="56" width="13" height="34" rx="4" fill="#b91c1c"/>
+    <ellipse cx="50" cy="46" rx="37" ry="25" fill="#ef4444"/>
+    <rect x="36" y="58" width="13" height="33" rx="4" fill="#ef4444"/><rect x="72" y="58" width="13" height="33" rx="4" fill="#ef4444"/>
+    <path d="M100 38 C110 46 111 60 106 72 C104 77 110 80 112 76" stroke="#ef4444" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <circle cx="90" cy="34" r="18" fill="#ef4444"/>
+    <ellipse cx="80" cy="36" rx="11" ry="16" fill="#b91c1c"/>
+    <path d="M99 47 C104 52 108 52 111 50" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <circle cx="95" cy="28" r="2.1" fill="#fff"/>
+  </g></svg>
+  </div>
 </div>
 <script>
 (function () {
@@ -126,7 +161,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
   var done = false;
   function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
   sp.addEventListener('click', close);
-  setTimeout(close, reduce ? 1000 : 2900);
+  setTimeout(close, reduce ? 1200 : 3400);
 })();
 </script>
 <div id="dash-root">
