@@ -70,11 +70,12 @@
 
   // ---------- Races ----------
   // pick values: 'd' = Dem (or Independent) candidate / Yes, 'r' = GOP / No
-  // The game's 24 races, frozen Oct 24, 2026: the Senate and House races Cook rated Toss-up.
-  const GAME = ["SEN-OH", "SEN-AK", "SEN-ME", "SEN-TX", "SEN-IA", "SEN-KS", "SEN-MI", "HOU-FL-14", "HOU-FL-22", "HOU-NC-01", "HOU-OH-09", "HOU-TX-35", "HOU-CA-22", "HOU-IA-02", "HOU-KY-06", "HOU-MI-04", "HOU-MI-07", "HOU-MI-10", "HOU-MT-01", "HOU-NY-17", "HOU-OH-07", "HOU-PA-08", "HOU-TX-15", "HOU-VA-01"];
+  // The game's 28 races, frozen Oct 24, 2026: the Senate, governor and House races Cook rated Toss-up.
+  const GAME = ["SEN-OH", "SEN-AK", "SEN-ME", "SEN-TX", "SEN-IA", "SEN-KS", "SEN-MI", "GOV-OH", "GOV-GA", "GOV-NV", "GOV-KS", "HOU-FL-14", "HOU-FL-22", "HOU-NC-01", "HOU-OH-09", "HOU-TX-35", "HOU-CA-22", "HOU-IA-02", "HOU-KY-06", "HOU-MI-04", "HOU-MI-07", "HOU-MI-10", "HOU-MT-01", "HOU-NY-17", "HOU-OH-07", "HOU-PA-08", "HOU-TX-15", "HOU-VA-01"];
   function races() {
     const out = [];
     rows('senate').forEach(r => out.push({ key: 'SEN-' + r.id, group: 'Senate', label: r.state, held: r.held, a: last(r.cand_d), ap: r.party_d || 'D', b: last(r.cand_r), kd: r.kalshi_d }));
+    rows('governor').forEach(r => out.push({ key: 'GOV-' + r.id, group: 'Governors', label: r.state, held: r.held, a: last(r.cand_d), ap: r.party_d || 'D', b: last(r.cand_r), kd: null }));
     rows('house').forEach(r => out.push({ key: 'HOU-' + r.id, group: 'House', label: r.id, held: r.held, a: last(r.cand_d), ap: r.party_d || 'D', b: last(r.cand_r), kd: r.kalshi_d, rating: r.rating }));
     return out.filter(r => GAME.includes(r.key));
   }
@@ -144,7 +145,7 @@
   }
   function renderSignedOut(box) {
     const c = el('div', 'pl-card pl-hero');
-    c.append(el('h3', '', 'Play the Election Night Game'), el('p', '', 'Pick the winner of the 24 toss-up races: 7 for Senate and 17 for the House. Start a group with friends and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
+    c.append(el('h3', '', 'Play the Election Night Game'), el('p', '', 'Pick the winner of the 28 toss-up races: 7 for Senate, 4 for governor and 17 for the House. Start a group with friends and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
     const msg = el('p', 'pl-msg');
     const g = btn('pl-btn primary', 'Sign in with Google', async () => { msg.textContent = ''; try { await be.signInGoogle(); } catch (e) { msg.textContent = errText(e); } });
     const or = el('div', 'pl-or', 'or use email');
@@ -205,7 +206,7 @@
     head.append(el('p', 'pl-saved', saving ? 'Saving…' : (made ? 'Saved' : '')));
     box.append(head);
     const chips = el('div', 'en-chips pl-chips');
-    ['Senate', 'House'].forEach(g => {
+    ['Senate', 'Governors', 'House'].forEach(g => {
       const n = list.filter(r => r.group === g), m = n.filter(r => myPicks[r.key]).length;
       const c = btn('en-chip', g + ' · ' + m + '/' + n.length, () => { pickFilter = g; render(); }); c.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(c);
     });
@@ -345,7 +346,7 @@
     const c = card('Call races', 'Tap the winner when a race is called. Everyone’s scores update right away. Calls Claude adds to the app’s results also count — yours override them.');
     box.append(c);
     const chips = el('div', 'en-chips pl-chips');
-    ['Senate', 'House'].forEach(g => { const b = btn('en-chip', g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
+    ['Senate', 'Governors', 'House'].forEach(g => { const b = btn('en-chip', g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
     box.append(chips);
     const wrap = el('div', 'pl-list');
     races().filter(r => r.group === pickFilter).forEach(r => {
