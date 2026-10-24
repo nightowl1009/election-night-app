@@ -1,4 +1,4 @@
-/* Election Night 2026 — Prediction Pool tab.
+/* Election Night 2026 — Election Night Game (prediction game) section.
    Sign in (Google or email), pick every race, join groups with a code, and
    climb the leaderboard as races are called. Uses Firebase (Auth + Firestore)
    configured in pool-config.js. Picks lock at 5:00 PM CT on Nov 3, 2026. */
@@ -111,7 +111,7 @@
   function render() {
     const box = root(); if (!box) return;
     box.replaceChildren();
-    if (!be) { box.append(card('Election Pool', window.POOL_CONFIG && !window.firebase ? 'The pool needs an internet connection — reconnect and reopen the app.' : 'The pool is being set up. Check back soon.')); return; }
+    if (!be) { box.append(card('Election Night Game', window.POOL_CONFIG && !window.firebase ? 'The game needs an internet connection — reconnect and reopen the app.' : 'The game is being set up. Check back soon.')); return; }
     if (!me) return renderSignedOut(box);
     const top = el('div', 'pl-top');
     const who = el('div', 'pl-who'); who.append(el('b', '', profile && profile.name || me.name || me.email), el('small', '', me.email));
@@ -141,13 +141,13 @@
     if (/weak-password/.test(c)) return 'Password needs at least 6 characters.';
     if (/invalid-email/.test(c)) return 'That email doesn’t look right.';
     if (/popup-closed|cancelled-popup/.test(c)) return 'Sign-in window was closed.';
-    if (/unauthorized-domain/.test(c)) return 'This site isn’t on the pool’s allowed list yet.';
+    if (/unauthorized-domain/.test(c)) return 'This site isn’t on the game’s allowed list yet.';
     if (/network/.test(c)) return 'No connection — try again.';
     return 'Something went wrong (' + (c || 'unknown') + ').';
   }
   function renderSignedOut(box) {
     const c = el('div', 'pl-card pl-hero');
-    c.append(el('h3', '', 'Election Pool'), el('p', '', 'Pick every race, start a group with friends and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
+    c.append(el('h3', '', 'Play the Election Night Game'), el('p', '', 'Pick every race, start a group with friends and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
     const msg = el('p', 'pl-msg');
     const g = btn('pl-btn primary', 'Sign in with Google', async () => { msg.textContent = ''; try { await be.signInGoogle(); } catch (e) { msg.textContent = errText(e); } });
     const or = el('div', 'pl-or', 'or use email');
@@ -301,9 +301,9 @@
     profile.groups = groups; await be.saveProfile(me.uid, { groups });
   }
   function share(code, g) {
-    const url = location.origin + location.pathname + '#pool';
-    const text = 'Join my election pool "' + (g ? g.name : '') + '" — open ' + url + ', sign in, then Pool → Groups → Join with code ' + code;
-    if (navigator.share) navigator.share({ title: 'Election Pool', text }).catch(() => {});
+    const url = location.origin + location.pathname + '#game';
+    const text = 'Join my Election Night Game group "' + (g ? g.name : '') + '" — open ' + url + ', scroll to Election Night Game at the bottom, sign in, then Groups → Join with code ' + code;
+    if (navigator.share) navigator.share({ title: 'Election Night Game', text }).catch(() => {});
     else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => alertish('Invite copied — paste it to your friends.'));
   }
   function alertish(t) { const s = el('div', 'pl-toast', t); document.body.append(s); setTimeout(() => s.remove(), 2600); }
@@ -378,7 +378,8 @@
       render();
     });
     if (window.dash) window.dash.onData(() => { if (me && !document.activeElement?.closest?.('#pool-root')) render(); });
-    setInterval(() => { const b = $('.pl-lock'); if (b && !$('#pool').hidden) { const nb = lockBanner(); b.replaceWith(nb); } }, 60000);
+    setInterval(() => { const b = $('.pl-lock'); if (b) { const nb = lockBanner(); b.replaceWith(nb); } }, 60000);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
+  const jump = () => { if (location.hash === '#game') setTimeout(() => { const g = document.getElementById('game'); if (g) g.scrollIntoView({ block: 'start' }); }, 600); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { boot(); jump(); }); else { boot(); jump(); }
 })();

@@ -49,3 +49,7 @@
 .pl-rank .who b { display:block; } .pl-rank .who small { color: var(--color-fg-muted); font-size:.75rem; }
 .pl-rank .pts { text-align:right; } .pl-rank .pts b { display:block; font-family: var(--font-anthropic-serif); font-size:1.5rem; font-weight:400; } .pl-rank .pts small { color: var(--color-fg-muted); font-size:.72rem; }
 .pl-toast { position:fixed; left:50%; bottom: calc(env(safe-area-inset-bottom) + 20px); transform: translateX(-50%); background: var(--color-fg); color: var(--color-bg); padding:.6rem 1rem; border-radius:999px; font-size:.85rem; z-index:50; }
+
+/* Election Night Game: its own section at the bottom of the page */
+.en-game { margin-top: var(--cds-gap-xl, 2rem); padding-top: var(--cds-gap-lg, 1.25rem); border-top: 2px solid var(--en-gold, #fbbf24); scroll-margin-top: 3.5rem; }
+.en-game .en-sec-h h2 .en-ic { color: var(--en-gold, #fbbf24); }

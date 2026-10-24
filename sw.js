@@ -1,6 +1,6 @@
 /* Offline support: the app shell is cached; data files are fetched fresh
    when online and fall back to the last copy when offline. */
-const CACHE = 'election-night-v24';
+const CACHE = 'election-night-v25';
 const SHELL = ['./', 'index.html', 'd3.min.js', 'dash-lite.js', 'manifest.webmanifest', 'pool.js', 'pool.css', 'pool-config.js',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png',
   'fonts/InstrumentSans-Regular.ttf', 'fonts/InstrumentSans-Bold.ttf', 'fonts/InstrumentSerif-Regular.ttf'];

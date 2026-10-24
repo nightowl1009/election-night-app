@@ -533,7 +533,6 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 
     <div class="en-tabwrap"><div class="en-tabs" role="tablist">
       <button class="en-tab" role="tab" data-tab="news" aria-selected="true"><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>News</button>
-      <button class="en-tab" role="tab" data-tab="pool" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Pool</button>
       <button class="en-tab" role="tab" data-tab="mood" aria-selected="false">National mood</button>
       <button class="en-tab" role="tab" data-tab="governors" aria-selected="false">Governors</button>
       <button class="en-tab" role="tab" data-tab="house" aria-selected="false">House</button>
@@ -575,11 +574,6 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       <div class="en-map dash-skeleton" id="hou-map" data-source="usmap house results"></div>
       <div class="en-hsel" id="hou-sel" hidden></div>
       <div class="en-grid dash-skeleton" id="house-grid" data-source="house results pollclose"></div>
-    </section>
-
-    <section id="pool" class="en-panel" hidden>
-      <div class="en-sec-h"><div><h2>Election Pool</h2><p>Pick every race, compete with friends in groups, and watch the leaderboard on election night</p></div></div>
-      <div id="pool-root"></div>
     </section>
 
     <section id="mood" class="en-panel en-nm" hidden>
@@ -683,6 +677,11 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
         </div>
       </div>
       <div class="en-news-list dash-skeleton" id="news-list" data-source="news"></div>
+    </section>
+
+    <section id="game" class="en-game">
+      <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Election Night Game</h2><p>Pick every race, compete with friends in groups, and watch the leaderboard on election night</p></div></div>
+      <div id="pool-root"></div>
     </section>
 
     <p class="en-foot">Polls are snapshots, not predictions — most Senate leads here are inside the margin of error. Ratings: Cook Political Report, Decision Desk HQ (DDHQ) or RealClearPolitics (RCP) as labelled. Polls gathered Oct 22–23, 2026; results appear here on election night as they're updated. Your stars and Path to 51 picks are saved on this device.</p>
@@ -1734,7 +1733,7 @@ dash.calc('senate_base', {
   tabFade();
 
   const hash = location.hash.slice(1);
-  if (['senate', 'governors', 'house', 'mood', 'pool', 'missouri', 'path', 'night', 'news', 'watchlist'].includes(hash)) {
+  if (['senate', 'governors', 'house', 'mood', 'missouri', 'path', 'night', 'news', 'watchlist'].includes(hash)) {
     if (hash !== 'watchlist') show(hash);
     const t = document.getElementById(hash); if (t) t.scrollIntoView();
   }
