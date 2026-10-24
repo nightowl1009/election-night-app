@@ -18,7 +18,7 @@ service cloud.firestore {
     match /picks/{uid} {
       allow read: if signedIn() && (request.auth.uid == uid || !beforeLock());
       allow create, update: if signedIn() && request.auth.uid == uid && beforeLock()
-        && request.resource.data.keys().hasOnly(['picks', 'seats', 'updated']);
+        && request.resource.data.keys().hasOnly(['picks', 'seats', 'updated', 'lock', 'side']);
     }
 
     // Groups: look one up by its code; nobody can list them all
@@ -31,6 +31,18 @@ service cloud.firestore {
       match /members/{uid} {
         allow read: if signedIn();
         allow create, update, delete: if signedIn() && request.auth.uid == uid;
+      }
+      // Group chat: only members can read or post; you can delete only your own messages
+      match /chat/{msg} {
+        function isMember() { return signedIn() && exists(/databases/$(database)/documents/groups/$(code)/members/$(request.auth.uid)); }
+        allow read: if isMember();
+        allow create: if isMember()
+          && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'at'])
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
+          && request.resource.data.name is string && request.resource.data.name.size() <= 40
+          && request.resource.data.at is int;
+        allow delete: if signedIn() && resource.data.uid == request.auth.uid;
       }
     }
 

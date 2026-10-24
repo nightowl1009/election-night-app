@@ -375,6 +375,16 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 @media (max-width: 30rem) { .en-pick { grid-template-columns: auto 1fr; } .en-pick .btns { grid-column: 1 / -1; } .en-pb { flex:1; } }
 
 /* Election night timeline */
+.en-score { margin-top: var(--cds-gap-xl); }
+.en-score-sum { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr)); gap: var(--cds-gap-sm); margin-bottom: var(--cds-gap-md); }
+.en-score-sum > div { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); }
+.en-score-sum b { display:block; font-family: var(--font-anthropic-serif); font-weight:400; font-size: 1.7rem; line-height:1.1; }
+.en-score-sum small { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.en-score-tbl { display:flex; flex-direction:column; border:1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow:hidden; }
+.en-sc-row { display:grid; grid-template-columns: minmax(0,1.5fr) repeat(3, minmax(0,1fr)) 3rem; gap:.35rem; align-items:center; padding:.5rem .75rem; font-size: var(--cds-font-size-caption); border-top:1px solid var(--color-border-line); background: var(--color-panel); }
+.en-sc-row:first-child { border-top:0; background: transparent; color: var(--color-fg-muted); font-weight:600; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; }
+.en-sc-row .ok { color:#16a34a; font-weight:700; } .en-sc-row .bad { color: var(--en-red); font-weight:700; }
+.en-sc-row .d { color: var(--en-blue); font-weight:600; } .en-sc-row .r { color: var(--en-red); font-weight:600; }
 .en-times { display:flex; flex-direction:column; gap: var(--cds-gap-sm); min-height: 12rem; position: relative; }
 .en-time { display:grid; grid-template-columns: 7.5rem 1fr; gap: var(--cds-gap-md); background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); position:relative; }
 .en-time.done { opacity:.6; }
@@ -769,6 +779,11 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
     <section id="night" class="en-panel" hidden>
       <div class="en-sec-h"><div><h2>Election night game plan</h2><p>Typical closing time for most of each state · Chips light up red when counting starts and fill in when a race is called</p></div></div>
       <div class="en-times dash-skeleton" id="en-times" data-source="pollclose results"></div>
+      <div class="en-score" id="en-score" data-source="senate governor house results" hidden>
+        <div class="en-sec-h"><div><h2>How did the polls do?</h2><p>Final polling average and Kalshi favorite vs. the called result · Fills in as races are called</p></div></div>
+        <div class="en-score-sum" id="en-score-sum"></div>
+        <div class="en-score-tbl" id="en-score-tbl"></div>
+      </div>
     </section>
 
     <section id="news" class="en-panel">
@@ -1833,10 +1848,45 @@ dash.calc('senate_base', {
     redraw();
   }));
 
+
+  // After the votes: how the polling averages and Kalshi did against called races
+  function renderScorecard() {
+    const wrap = $('#en-score'); if (!wrap) return;
+    const res = okRows('results') || [];
+    const lists = [['SEN-', 'Senate', okRows('senate') || []], ['GOV-', 'Gov', okRows('governor') || []], ['HOU-', 'House', okRows('house') || []]];
+    const out = [];
+    lists.forEach(([pre, kind, rows]) => rows.forEach(r => {
+      const x = res.find(y => y.race === pre + r.id); if (!x || !x.winner_party) return;
+      const dWon = x.winner_party !== 'R';
+      const hasAvg = r.avg_d != null && r.avg_r != null;
+      const avgM = hasAvg ? Number(r.avg_d) - Number(r.avg_r) : null;
+      const actM = x.d_pct != null && x.r_pct != null ? Number(x.d_pct) - Number(x.r_pct) : null;
+      const kd = r.kalshi_d == null ? null : Number(r.kalshi_d);
+      out.push({ label: kind === 'House' ? r.id : r.state + ' ' + kind, dWon, avgM, actM, kOk: kd == null || kd === 50 ? null : (kd > 50) === dWon, pOk: avgM == null || avgM === 0 ? null : (avgM > 0) === dWon });
+    }));
+    wrap.hidden = !out.length; if (!out.length) return;
+    const pr = out.filter(o => o.pOk != null), kr = out.filter(o => o.kOk != null), miss = out.filter(o => o.avgM != null && o.actM != null);
+    const bias = miss.length ? miss.reduce((t, o) => t + (o.actM - o.avgM), 0) / miss.length : null;
+    const sum = $('#en-score-sum'); sum.replaceChildren();
+    const stat = (v, t) => { const d = el('div', ''); d.append(el('b', '', v), el('small', '', t)); sum.append(d); };
+    stat(pr.filter(o => o.pOk).length + '/' + pr.length, 'polling averages picked the winner');
+    stat(kr.filter(o => o.kOk).length + '/' + kr.length, 'Kalshi favorites won');
+    if (bias != null) stat(Math.abs(bias) < 0.05 ? 'Even' : (bias > 0 ? 'D+' : 'R+') + fmt(Math.abs(bias).toFixed(1)), 'average polling miss (' + miss.length + ' races with full counts)');
+    const tbl = $('#en-score-tbl'); tbl.replaceChildren();
+    const mg = (m) => m == null ? el('span', '', '—') : el('span', m > 0 ? 'd' : m < 0 ? 'r' : '', m === 0 ? 'Tie' : (m > 0 ? 'D+' : 'R+') + fmt(Math.abs(m).toFixed(1)));
+    const hd = el('div', 'en-sc-row'); ['Race', 'Final avg', 'Result', 'Miss', 'Kalshi'].forEach(t => hd.append(el('span', '', t))); tbl.append(hd);
+    out.forEach(o => {
+      const row = el('div', 'en-sc-row');
+      const lab = el('span', ''); lab.append(el('b', '', o.label), document.createTextNode(o.pOk === false ? ' · upset' : ''));
+      const ms = o.avgM != null && o.actM != null ? Math.abs(o.actM - o.avgM) : null;
+      row.append(lab, mg(o.avgM), mg(o.actM), el('span', '', ms == null ? '—' : fmt(ms.toFixed(1)) + ' pts'), el('span', o.kOk == null ? '' : o.kOk ? 'ok' : 'bad', o.kOk == null ? '—' : o.kOk ? '✓' : '✗'));
+      tbl.append(row);
+    });
+  }
   function redraw() {
     buildCtx();
     renderBreaking(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
-    renderTimes(); tick();
+    renderTimes(); tick(); renderScorecard();
     if (!$('#senate').hidden) renderMap('#sen-map', 'senate');
     if (!$('#governors').hidden) renderMap('#gov-map', 'governor');
     if (!$('#senate').hidden) renderRaces('#sen-grid', 'senate', 'senate_margins', senFilter === 'all' ? null : (r) => r.held === senFilter);
