@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    // Only this account can call races in the pool
+    function isAdmin() { return signedIn() && request.auth.token.email == 'brad.w.crook@gmail.com' && request.auth.token.email_verified == true; }
+    // Picks lock at 5:00 PM CT, Nov 3, 2026 (23:00 UTC)
+    function beforeLock() { return request.time < timestamp.value(1793746800000); }
+
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'groups', 'pickCount'])
+        && (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() <= 40));
+    }
+
+    // Your own picks only, and only before the lock. Others can see them after the lock.
+    match /picks/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || !beforeLock());
+      allow create, update: if signedIn() && request.auth.uid == uid && beforeLock()
+        && request.resource.data.keys().hasOnly(['picks', 'seats', 'updated']);
+    }
+
+    // Groups: look one up by its code; nobody can list them all
+    match /groups/{code} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if signedIn() && code.size() == 6
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.name is string && request.resource.data.name.size() <= 40;
+      match /members/{uid} {
+        allow read: if signedIn();
+        allow create, update, delete: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    match /admin/results {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}
