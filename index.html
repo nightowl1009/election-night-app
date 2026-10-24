@@ -321,6 +321,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-note { margin:0; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .en-close { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .en-close b { color: var(--color-fg); font-weight:600; }
+.en-nopoll { margin-top:.35rem; padding:.45rem .6rem; border:1px dashed var(--color-border-line); border-radius:8px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); text-align:center; }
 .en-odds { font-size: var(--cds-font-size-caption); font-weight:600; color: var(--color-fg); }
 .en-vs { display:flex; align-items:center; gap: var(--cds-gap-sm); font-size: var(--cds-font-size-body); flex-wrap:wrap; }
 .en-vs .dd { color: var(--en-blue); font-weight: 600; } .en-vs .ii { color: var(--en-purple); font-weight: 600; } .en-vs .rr { color: var(--en-red); font-weight: 600; }
@@ -695,7 +696,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
       </div>
       <div class="en-map dash-skeleton" id="hou-map" data-source="usmap house results"></div>
       <div class="en-hsel" id="hou-sel" hidden></div>
-      <div class="en-grid dash-skeleton" id="house-grid" data-source="house results pollclose"></div>
+      <div class="en-grid dash-skeleton" id="house-grid" data-source="house polls results pollclose"></div>
     </section>
 
     <section id="mood" class="en-panel en-nm" hidden>
@@ -1003,37 +1004,72 @@ dash.calc('senate_base', {
     return a;
   }
 
-  function houseCard(r, i) {
+  function houseCard(r, i, sparks) {
     const key = 'HOU-' + r.id;
-    const a = el('article', 'en-race'); a.dataset.held = r.held;
+    const a = el('article', 'en-race'); a.dataset.held = r.held; a.dataset.card = key;
     const x = ctx.res.get(key); if (x && x.winner) a.classList.add('called');
     if (!animated.has('house' + r.id)) { a.classList.add('in'); a.style.animationDelay = (i * 40) + 'ms'; }
     const h = el('div', 'en-race-h'); h.append(el('span', 'en-st', r.id));
     const t = el('div', 'en-race-t'); t.append(el('h3', '', 'District ' + r.id)); const p = el('p', ''); if (!/^(Open|Vacant)/.test(r.incumbent)) p.append(document.createTextNode('Held by ')); p.append(mk('span', '', 'house', 'incumbent', 'id', r.id, r.incumbent)); t.append(p);
     h.append(t, mk('span', 'en-pill ' + pillCls(r.rating), 'house', 'rating', 'id', r.id, r.rating), starBtn(key)); a.append(h);
-    const rb = resultBlock(key, { party_d: 'D' }, 'house'); if (rb) a.append(rb);
-    const vs = el('div', 'en-vs'); const dn = mk('span', r.party_d === 'I' ? 'ii' : 'dd', 'house', 'cand_d', 'id', r.id, r.cand_d);
-    const dw = el('span', r.party_d === 'I' ? 'ii' : 'dd'); dw.append(dn); if (r.party_d === 'I') dw.append(document.createTextNode(' (I)'));
-    vs.append(dw, el('small', '', 'vs'), mk('span', 'rr', 'house', 'cand_r', 'id', r.id, r.cand_r)); a.append(vs);
+    const rb = resultBlock(key, { party_d: r.party_d || 'D' }, 'house'); if (rb) a.append(rb);
+    const pd = r.party_d || 'D', pc = pd === 'I' ? 'i' : 'd';
+    const hasAvg = r.avg_d != null && r.avg_r != null, hasPoll = r.poll_d != null && r.poll_r != null;
+    const fD = hasAvg ? 'avg_d' : 'poll_d', fR = hasAvg ? 'avg_r' : 'poll_r';
+    const c = el('div', 'en-cands');
+    const L = el('div', 'en-c ' + pc); const ln = el('span', 'n'); ln.append(mk('span', '', 'house', 'cand_d', 'id', r.id, r.cand_d), document.createTextNode(' (' + pd + ')')); L.append(ln);
+    const R = el('div', 'en-c right r'); const rn = el('span', 'n'); rn.append(mk('span', '', 'house', 'cand_r', 'id', r.id, r.cand_r), document.createTextNode(' (R)')); R.append(rn);
+    if (hasAvg || hasPoll) {
+      const lp = el('span', 'p'); lp.append(mk('span', '', 'house', fD, 'id', r.id, fmt(r[fD])), document.createTextNode('%')); L.append(lp);
+      const rp = el('span', 'p'); rp.append(mk('span', '', 'house', fR, 'id', r.id, fmt(r[fR])), document.createTextNode('%')); R.append(rp);
+    }
+    c.append(L, R); a.append(c);
+    if (hasAvg || hasPoll) {
+      const bar = el('div', 'en-bar'); const bd = el('i', pc); const br = el('i', 'r'); bar.append(bd, br); a.append(bar);
+      const tot = Number(r[fD]) + Number(r[fR]);
+      const wd = (Number(r[fD]) / tot * 100) + '%', wr = (Number(r[fR]) / tot * 100) + '%';
+      if (animated.has('house' + r.id)) { bd.style.width = wd; br.style.width = wr; }
+      else requestAnimationFrame(() => requestAnimationFrame(() => { bd.style.width = wd; br.style.width = wr; }));
+    } else a.append(el('div', 'en-nopoll', 'No poll on file for this seat'));
     if (openCards.has(key)) a.classList.add('open');
     const lr = el('div', 'en-lead-row'); const ll = el('div', 'en-meta');
-    if (r.kalshi_d != null) {
-      const kd = Number(r.kalshi_d), fav = kd >= 50, side = fav ? (r.party_d === 'I' ? 'i' : 'd') : 'r';
-      const k = el('span', 'en-kline'); k.append(document.createTextNode('Kalshi: '));
-      const nm = el('span', side); nm.append(document.createTextNode(String(fav ? r.cand_d : r.cand_r).replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/, '').split(' ').slice(-1)[0] + ' '), fav ? mk('span', '', 'house', 'kalshi_d', 'id', r.id, fmt(kd)) : el('span', '', fmt(100 - kd)), document.createTextNode('%'));
-      k.append(nm);
-      const gap = Math.abs(kd - 50);
-      const vsRating = /toss/i.test(r.rating) && gap >= 25 ? ' · market leans harder than the rating' : (r.rating === 'Lean D' && kd < 50) || (r.rating === 'Lean R' && kd > 50) ? ' · market disagrees with the rating' : '';
-      if (r.kalshi_src || vsRating) k.append(el('small', '', (r.kalshi_src ? ' · ' + r.kalshi_src : '') + vsRating));
-      ll.append(k);
+    if (hasAvg || hasPoll) {
+      const m = r1(Number(r[fD]) - Number(r[fR])), last = (n) => String(n).replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/, '').split(' ').slice(-1)[0];
+      ll.append(el('span', 'en-lead', m === 0 ? 'Tied' : (m > 0 ? pd : 'R') + ' +' + fmt(Math.abs(m))));
+      ll.append(el('span', '', hasAvg ? 'average' : 'latest poll'));
     }
-    if (r.odds_note) ll.append(mk('span', 'en-odds', 'house', 'odds_note', 'id', r.id, r.odds_note));
+    if (r.kalshi_d != null) {
+      const kd = Number(r.kalshi_d), fav = kd >= 50;
+      const c2 = el('span', 'en-lead2'); c2.append(document.createTextNode('Kalshi '), el('b', '', (fav ? pd : 'R') + ' ' + fmt(fav ? kd : 100 - kd) + '%')); ll.append(c2);
+    }
     lr.append(ll, moreBtn(key)); a.append(lr);
     const more = el('div', 'en-more'); a.append(more);
+    const mm = el('div', 'en-meta');
+    if (hasAvg) mm.append(el('span', '', 'Average of each pollster’s latest poll (' + fmt(r.avg_n) + ' pollsters)'), el('span', '', '·'), mk('span', '', 'house', 'avg_dates', 'id', r.id, r.avg_dates));
+    else if (hasPoll) mm.append(el('span', '', 'Only one pollster so far · latest poll'));
+    else mm.append(el('span', '', 'No public polling found for this seat'));
+    mm.append(el('span', '', '· rating: Cook'));
+    more.append(mm);
+    if (hasPoll) {
+      const lpRow = el('div', 'en-latest');
+      lpRow.append(el('b', '', 'Latest poll '), mk('span', '', 'house', 'pollster', 'id', r.id, r.pollster), document.createTextNode(' '),
+        mk('span', pc, 'house', 'poll_d', 'id', r.id, fmt(r.poll_d)), document.createTextNode('–'), mk('span', 'r', 'house', 'poll_r', 'id', r.id, fmt(r.poll_r)),
+        document.createTextNode(' · '), mk('span', '', 'house', 'poll_dates', 'id', r.id, r.poll_dates));
+      more.append(lpRow);
+    }
+    if (r.kalshi_d != null) {
+      const kd = Number(r.kalshi_d), fav = kd >= 50, k = el('div', 'en-avg2');
+      k.append(el('b', '', 'Kalshi '), el('span', fav ? pc : 'r', last2(fav ? r.cand_d : r.cand_r) + ' ' + fmt(fav ? kd : 100 - kd) + '%'), document.createTextNode(r.kalshi_src ? ' · ' + r.kalshi_src : ''));
+      more.append(k);
+    }
+    const ps = ctx.pollsOf.get(key);
+    if (ps && ps.length && sparks) { const sp = el('div', 'en-spark'); sp.setAttribute('data-source', 'polls'); more.append(sp); sparks.push([sp, ps, pc]); }
     const cc = closeChip(key); if (cc) more.append(cc);
     if (r.note) more.append(mk('p', 'en-note', 'house', 'note', 'id', r.id, r.note));
     return a;
   }
+  const last2 = (n) => String(n || '').replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/, '').split(' ').slice(-1)[0];
+
 
   // Poll-margin dot chart: shared scale, Jul 20 → Nov 3, margin clamped to ±16
   const X0 = new Date('2026-07-20T00:00:00Z'), X1 = new Date('2026-11-03T00:00:00Z');
@@ -1229,7 +1265,9 @@ dash.calc('senate_base', {
     }
     const fold = houseFilter === 'all' && !houseShowLean && !houseState;
     const visible = fold ? shown.filter(r => /toss/i.test(r.rating)) : shown;
-    visible.forEach((r, i) => box.append(houseCard(r, i)));
+    const sparks = [];
+    visible.forEach((r, i) => box.append(houseCard(r, i, sparks)));
+    sparks.forEach(sp => drawSpark(...sp));
     if (houseFilter === 'all' && !houseState) {
       const hidden = shown.length - shown.filter(r => /toss/i.test(r.rating)).length;
       if (hidden) {
@@ -1255,7 +1293,7 @@ dash.calc('senate_base', {
     const sparks = [];
     keys.forEach((k, i) => {
       const [p, ...rest] = k.split('-'); const id = rest.join('-');
-      if (p === 'HOU') { const rows = okRows('house'); const r = rows && rows.find(x => x.id === id); if (r) box.append(houseCard(r, i)); return; }
+      if (p === 'HOU') { const rows = okRows('house'); const r = rows && rows.find(x => x.id === id); if (r) box.append(houseCard(r, i, sparks)); return; }
       if (p === 'MO') { const rows = okRows('missouri'); const r = rows && rows.find(x => x.id === id); if (r) { const t = el('a', 'en-watch-empty'); t.append(svgIc('home'), document.createTextNode(' ' + r.title + ' — ' + r.short + ' (see the Missouri tab)')); t.href = '#missouri'; t.style.display = 'block'; t.style.textDecoration = 'none'; t.addEventListener('click', (e) => { e.preventDefault(); show('missouri'); dash.setLink('missouri'); }); box.append(t); } return; }
       const ds = p === 'SEN' ? 'senate' : 'governor', mds = ds === 'senate' ? 'senate_margins' : 'governor_margins';
       const rows = okRows(ds), m = okRows(mds); const r = rows && rows.find(x => x.id === id);

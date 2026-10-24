@@ -754,5 +754,320 @@
   "d": 47,
   "r": 44,
   "margin": 3
+ },
+ {
+  "pid": "HOU-FL-14-0",
+  "race": "HOU-FL-14",
+  "pollster": "St. Pete Polls",
+  "date": "2026-07-15",
+  "d": 46,
+  "r": 38,
+  "margin": 8
+ },
+ {
+  "pid": "HOU-FL-14-1",
+  "race": "HOU-FL-14",
+  "pollster": "Emerson College",
+  "date": "2026-10-14",
+  "d": 48,
+  "r": 43,
+  "margin": 5
+ },
+ {
+  "pid": "HOU-FL-22-0",
+  "race": "HOU-FL-22",
+  "pollster": "Tavern Research",
+  "date": "2026-08-12",
+  "d": 50,
+  "r": 50,
+  "margin": 0
+ },
+ {
+  "pid": "HOU-NC-01-0",
+  "race": "HOU-NC-01",
+  "pollster": "Neighborhood Research and Media",
+  "date": "2026-10-06",
+  "d": 51,
+  "r": 41,
+  "margin": 10
+ },
+ {
+  "pid": "HOU-OH-09-0",
+  "race": "HOU-OH-09",
+  "pollster": "DCCC (D)",
+  "date": "2026-09-23",
+  "d": 48,
+  "r": 48,
+  "margin": 0
+ },
+ {
+  "pid": "HOU-TX-35-0",
+  "race": "HOU-TX-35",
+  "pollster": "Normington Petts (D)",
+  "date": "2026-08-31",
+  "d": 44,
+  "r": 45,
+  "margin": -1
+ },
+ {
+  "pid": "HOU-TX-35-1",
+  "race": "HOU-TX-35",
+  "pollster": "Emerson College",
+  "date": "2026-10-14",
+  "d": 51,
+  "r": 49,
+  "margin": 2
+ },
+ {
+  "pid": "HOU-TX-35-2",
+  "race": "HOU-TX-35",
+  "pollster": "Normington Petts (D)",
+  "date": "2026-10-14",
+  "d": 47,
+  "r": 45,
+  "margin": 2
+ },
+ {
+  "pid": "HOU-CA-22-0",
+  "race": "HOU-CA-22",
+  "pollster": "Tulchin Research (D)",
+  "date": "2026-06-21",
+  "d": 48,
+  "r": 44,
+  "margin": 4
+ },
+ {
+  "pid": "HOU-IA-02-0",
+  "race": "HOU-IA-02",
+  "pollster": "Global Strategy Group (D)",
+  "date": "2026-07-19",
+  "d": 46,
+  "r": 45,
+  "margin": 1
+ },
+ {
+  "pid": "HOU-IA-02-1",
+  "race": "HOU-IA-02",
+  "pollster": "Emerson College",
+  "date": "2026-10-14",
+  "d": 50,
+  "r": 47,
+  "margin": 3
+ },
+ {
+  "pid": "HOU-KY-06-0",
+  "race": "HOU-KY-06",
+  "pollster": "Lake Research (D)",
+  "date": "2026-10-04",
+  "d": 48,
+  "r": 45,
+  "margin": 3
+ },
+ {
+  "pid": "HOU-KY-06-1",
+  "race": "HOU-KY-06",
+  "pollster": "Public Policy Polling",
+  "date": "2026-10-20",
+  "d": 47,
+  "r": 41,
+  "margin": 6
+ },
+ {
+  "pid": "HOU-MI-04-0",
+  "race": "HOU-MI-04",
+  "pollster": "GBAO (D)",
+  "date": "2026-09-25",
+  "d": 47,
+  "r": 46,
+  "margin": 1
+ },
+ {
+  "pid": "HOU-MI-07-0",
+  "race": "HOU-MI-07",
+  "pollster": "Global Strategy Group (D)",
+  "date": "2026-08-13",
+  "d": 49,
+  "r": 47,
+  "margin": 2
+ },
+ {
+  "pid": "HOU-MI-07-1",
+  "race": "HOU-MI-07",
+  "pollster": "Emerson College",
+  "date": "2026-10-14",
+  "d": 53,
+  "r": 45,
+  "margin": 8
+ },
+ {
+  "pid": "HOU-MI-10-0",
+  "race": "HOU-MI-10",
+  "pollster": "Global Strategy Group (D)",
+  "date": "2026-08-13",
+  "d": 45,
+  "r": 45,
+  "margin": 0
+ },
+ {
+  "pid": "HOU-MT-01-0",
+  "race": "HOU-MT-01",
+  "pollster": "Upswing Research",
+  "date": "2026-05-05",
+  "d": 43,
+  "r": 48,
+  "margin": -5
+ },
+ {
+  "pid": "HOU-MT-01-1",
+  "race": "HOU-MT-01",
+  "pollster": "American Pulse",
+  "date": "2026-09-24",
+  "d": 45.4,
+  "r": 45.9,
+  "margin": -0.5
+ },
+ {
+  "pid": "HOU-MT-01-2",
+  "race": "HOU-MT-01",
+  "pollster": "Public Policy Polling",
+  "date": "2026-10-14",
+  "d": 48,
+  "r": 45,
+  "margin": 3
+ },
+ {
+  "pid": "HOU-MT-01-3",
+  "race": "HOU-MT-01",
+  "pollster": "Emerson College",
+  "date": "2026-10-14",
+  "d": 50,
+  "r": 46,
+  "margin": 4
+ },
+ {
+  "pid": "HOU-NY-17-0",
+  "race": "HOU-NY-17",
+  "pollster": "FM3 Research (D)",
+  "date": "2026-07-01",
+  "d": 51,
+  "r": 45,
+  "margin": 6
+ },
+ {
+  "pid": "HOU-NY-17-1",
+  "race": "HOU-NY-17",
+  "pollster": "co/efficient (R)",
+  "date": "2026-07-22",
+  "d": 45,
+  "r": 50,
+  "margin": -5
+ },
+ {
+  "pid": "HOU-NY-17-2",
+  "race": "HOU-NY-17",
+  "pollster": "Emerson College",
+  "date": "2026-09-29",
+  "d": 48,
+  "r": 46,
+  "margin": 2
+ },
+ {
+  "pid": "HOU-OH-07-0",
+  "race": "HOU-OH-07",
+  "pollster": "Unnamed pollster (via NOTUS)",
+  "date": "2026-07-30",
+  "d": 44,
+  "r": 39,
+  "margin": 5
+ },
+ {
+  "pid": "HOU-OH-07-1",
+  "race": "HOU-OH-07",
+  "pollster": "Tavern Research",
+  "date": "2026-08-05",
+  "d": 54,
+  "r": 46,
+  "margin": 8
+ },
+ {
+  "pid": "HOU-OH-07-2",
+  "race": "HOU-OH-07",
+  "pollster": "Bedrock Polling",
+  "date": "2026-08-10",
+  "d": 43,
+  "r": 35,
+  "margin": 8
+ },
+ {
+  "pid": "HOU-PA-08-0",
+  "race": "HOU-PA-08",
+  "pollster": "Lake Research (D)",
+  "date": "2026-06-23",
+  "d": 47,
+  "r": 45,
+  "margin": 2
+ },
+ {
+  "pid": "HOU-PA-08-1",
+  "race": "HOU-PA-08",
+  "pollster": "Emerson College",
+  "date": "2026-10-14",
+  "d": 52,
+  "r": 48,
+  "margin": 4
+ },
+ {
+  "pid": "HOU-TX-15-0",
+  "race": "HOU-TX-15",
+  "pollster": "Applecart",
+  "date": "2026-05-25",
+  "d": 48,
+  "r": 46,
+  "margin": 2
+ },
+ {
+  "pid": "HOU-TX-15-1",
+  "race": "HOU-TX-15",
+  "pollster": "Texas Southern Univ.",
+  "date": "2026-07-30",
+  "d": 50,
+  "r": 45,
+  "margin": 5
+ },
+ {
+  "pid": "HOU-TX-15-2",
+  "race": "HOU-TX-15",
+  "pollster": "Normington Petts (D)",
+  "date": "2026-09-28",
+  "d": 54,
+  "r": 41,
+  "margin": 13
+ },
+ {
+  "pid": "HOU-TX-15-3",
+  "race": "HOU-TX-15",
+  "pollster": "Texas Southern Univ.",
+  "date": "2026-10-16",
+  "d": 51,
+  "r": 44,
+  "margin": 7
+ },
+ {
+  "pid": "HOU-VA-01-0",
+  "race": "HOU-VA-01",
+  "pollster": "Washington Post-Schar",
+  "date": "2026-09-28",
+  "d": 50,
+  "r": 46,
+  "margin": 4
+ },
+ {
+  "pid": "HOU-VA-01-1",
+  "race": "HOU-VA-01",
+  "pollster": "Public Policy Polling",
+  "date": "2026-10-22",
+  "d": 47,
+  "r": 46,
+  "margin": 1
  }
 ]
