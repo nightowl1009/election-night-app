@@ -70,16 +70,13 @@
 
   // ---------- Races ----------
   // pick values: 'd' = Dem (or Independent) candidate / Yes, 'r' = GOP / No
+  // The game's 24 races, frozen Oct 24, 2026: the Senate and House races Cook rated Toss-up.
+  const GAME = ["SEN-OH", "SEN-AK", "SEN-ME", "SEN-TX", "SEN-IA", "SEN-KS", "SEN-MI", "HOU-FL-14", "HOU-FL-22", "HOU-NC-01", "HOU-OH-09", "HOU-TX-35", "HOU-CA-22", "HOU-IA-02", "HOU-KY-06", "HOU-MI-04", "HOU-MI-07", "HOU-MI-10", "HOU-MT-01", "HOU-NY-17", "HOU-OH-07", "HOU-PA-08", "HOU-TX-15", "HOU-VA-01"];
   function races() {
     const out = [];
     rows('senate').forEach(r => out.push({ key: 'SEN-' + r.id, group: 'Senate', label: r.state, held: r.held, a: last(r.cand_d), ap: r.party_d || 'D', b: last(r.cand_r), kd: r.kalshi_d }));
-    rows('governor').forEach(r => out.push({ key: 'GOV-' + r.id, group: 'Governors', label: r.state, held: r.held, a: last(r.cand_d), ap: r.party_d || 'D', b: last(r.cand_r), kd: null }));
     rows('house').forEach(r => out.push({ key: 'HOU-' + r.id, group: 'House', label: r.id, held: r.held, a: last(r.cand_d), ap: r.party_d || 'D', b: last(r.cand_r), kd: r.kalshi_d, rating: r.rating }));
-    rows('missouri').forEach(m => {
-      const race = m.kind === 'Statewide race';
-      out.push({ key: 'MO-' + m.id, group: 'Missouri', label: m.title, a: race ? last(m.yes_label.replace(/\s*\(.*\)/, '')) : 'Yes', ap: race ? 'D' : 'Y', b: race ? last(m.no_label.replace(/\s*\(.*\)/, '')) : 'No', kd: null });
-    });
-    return out;
+    return out.filter(r => GAME.includes(r.key));
   }
   // results: dataset rows (filled by Claude on election night), overridden by the admin's own calls
   let adminRes = {};
@@ -147,7 +144,7 @@
   }
   function renderSignedOut(box) {
     const c = el('div', 'pl-card pl-hero');
-    c.append(el('h3', '', 'Play the Election Night Game'), el('p', '', 'Pick every race, start a group with friends and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
+    c.append(el('h3', '', 'Play the Election Night Game'), el('p', '', 'Pick the winner of the 24 toss-up races: 7 for Senate and 17 for the House. Start a group with friends and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
     const msg = el('p', 'pl-msg');
     const g = btn('pl-btn primary', 'Sign in with Google', async () => { msg.textContent = ''; try { await be.signInGoogle(); } catch (e) { msg.textContent = errText(e); } });
     const or = el('div', 'pl-or', 'or use email');
@@ -208,7 +205,7 @@
     head.append(el('p', 'pl-saved', saving ? 'Saving…' : (made ? 'Saved' : '')));
     box.append(head);
     const chips = el('div', 'en-chips pl-chips');
-    ['Senate', 'Governors', 'House', 'Missouri'].forEach(g => {
+    ['Senate', 'House'].forEach(g => {
       const n = list.filter(r => r.group === g), m = n.filter(r => myPicks[r.key]).length;
       const c = btn('en-chip', g + ' · ' + m + '/' + n.length, () => { pickFilter = g; render(); }); c.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(c);
     });
@@ -250,7 +247,8 @@
     if (!me || locked()) return;
     saving = true; clearTimeout(saveT);
     saveT = setTimeout(async () => {
-      const clean = {}; Object.entries(myPicks).forEach(([k, v]) => { if (v === 'd' || v === 'r') clean[k] = v; });
+      const valid = new Set(races().map(r => r.key));
+      const clean = {}; Object.entries(myPicks).forEach(([k, v]) => { if ((v === 'd' || v === 'r') && valid.has(k)) clean[k] = v; });
       try { await be.savePicks(me.uid, { picks: clean, seats: mySeats, updated: Date.now() }); await be.saveProfile(me.uid, { pickCount: Object.keys(clean).length }); }
       catch (e) { console.error(e); }
       saving = false; const s = $('.pl-saved'); if (s) s.textContent = 'Saved';
@@ -326,7 +324,7 @@
       let p = null; if (lk || m.uid === me.uid) p = await be.getPicks(m.uid).catch(() => null);
       const prof = await be.getProfile(m.uid).catch(() => null);
       const s = p ? score(p.picks || {}, w, list) : { pts: 0, right: 0, wrong: 0, best: null };
-      out.push({ m, p, s, count: p ? Object.keys(p.picks || {}).length : (prof && prof.pickCount) || 0, seats: p ? p.seats : null });
+      out.push({ m, p, s, count: p ? list.filter(r => (p.picks || {})[r.key]).length : Math.min((prof && prof.pickCount) || 0, list.length), seats: p ? p.seats : null });
     }
     out.sort((a, b) => lk ? (b.s.pts - a.s.pts || b.s.right - a.s.right || String(a.m.name).localeCompare(b.m.name)) : (b.count - a.count || String(a.m.name).localeCompare(b.m.name)));
     c.replaceChildren();
@@ -347,7 +345,7 @@
     const c = card('Call races', 'Tap the winner when a race is called. Everyone’s scores update right away. Calls Claude adds to the app’s results also count — yours override them.');
     box.append(c);
     const chips = el('div', 'en-chips pl-chips');
-    ['Senate', 'Governors', 'House', 'Missouri'].forEach(g => { const b = btn('en-chip', g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
+    ['Senate', 'House'].forEach(g => { const b = btn('en-chip', g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
     box.append(chips);
     const wrap = el('div', 'pl-list');
     races().filter(r => r.group === pickFilter).forEach(r => {
