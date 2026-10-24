@@ -55,25 +55,28 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 /* ---- "VOTE 2026" opening animation ---- */
 #vote-splash { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
   background: radial-gradient(120% 80% at 0% 0%, rgba(37,99,235,.55), transparent 60%), radial-gradient(120% 80% at 100% 0%, rgba(220,38,38,.5), transparent 60%), #0b1020;
-  color: #fff; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .5s ease, transform .5s ease; }
-#vote-splash.out { opacity: 0; transform: scale(1.08); pointer-events: none; }
+  color: #fff; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1); will-change: opacity, transform; }
+#vote-splash.out { opacity: 0; transform: scale(1.03); pointer-events: none; }
+/* the app eases in underneath as the splash fades */
+html.vs-on #dash-root { opacity: 0; transform: translateY(14px) scale(.985); }
+html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; transform: none; transition: opacity .9s cubic-bezier(.4,0,.2,1) .1s, transform .9s cubic-bezier(.4,0,.2,1) .1s; }
 #vote-splash .vs-arc { width: min(70vw, 300px); height: auto; margin-bottom: 4px; }
-#vote-splash .vs-arc circle { opacity: 0; transform-box: fill-box; transform-origin: center; animation: vs-pop .35s cubic-bezier(.2,1.6,.4,1) forwards; }
+#vote-splash .vs-arc circle { opacity: 0; transform-box: fill-box; transform-origin: center; animation: vs-pop .5s cubic-bezier(.22,1.2,.36,1) forwards; }
 #vote-splash .vs-word { display: flex; gap: .04em; font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 800; font-size: clamp(64px, 22vw, 132px); line-height: .9; letter-spacing: .04em; }
-#vote-splash .vs-word span { display: inline-block; opacity: 0; transform: translateY(-60%) scale(.6); animation: vs-drop .55s cubic-bezier(.2,1.4,.4,1) forwards; text-shadow: 0 6px 30px rgba(0,0,0,.45); }
+#vote-splash .vs-word span { display: inline-block; opacity: 0; transform: translateY(-28%) scale(.9); filter: blur(6px); animation: vs-drop .7s cubic-bezier(.22,1,.36,1) forwards; text-shadow: 0 6px 30px rgba(0,0,0,.45); }
 #vote-splash .vs-word span:nth-child(1) { animation-delay: .30s; color: #60a5fa; } #vote-splash .vs-word span:nth-child(2) { animation-delay: .42s; }
 #vote-splash .vs-word span:nth-child(3) { animation-delay: .54s; } #vote-splash .vs-word span:nth-child(4) { animation-delay: .66s; color: #f87171; }
-#vote-splash .vs-year { position: relative; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(56px, 18vw, 112px); line-height: 1; opacity: 0; transform: scale(.85);
-  animation: vs-rise .6s ease-out .78s forwards; background: linear-gradient(100deg, #fbbf24 0%, #fff7d6 45%, #fbbf24 55%, #f59e0b 100%); background-size: 250% 100%;
+#vote-splash .vs-year { position: relative; font-family: "Instrument Serif", Georgia, serif; font-size: clamp(56px, 18vw, 112px); line-height: 1; opacity: 0; transform: translateY(10px) scale(.94);
+  animation: vs-rise .8s cubic-bezier(.22,1,.36,1) .8s forwards; background: linear-gradient(100deg, #fbbf24 0%, #fff7d6 45%, #fbbf24 55%, #f59e0b 100%); background-size: 250% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent; }
-#vote-splash .vs-year.shine { animation: vs-rise .6s ease-out .78s forwards, vs-shine 1.1s ease-in-out 1.1s 1; }
-#vote-splash .vs-stripe { display: flex; width: min(60vw, 260px); height: 6px; border-radius: 6px; overflow: hidden; margin-top: 10px; transform: scaleX(0); animation: vs-grow .5s ease-out 1.0s forwards; }
+#vote-splash .vs-year.shine { animation: vs-rise .8s cubic-bezier(.22,1,.36,1) .8s forwards, vs-shine 1.3s ease-in-out 1.1s 1; }
+#vote-splash .vs-stripe { display: flex; width: min(60vw, 260px); height: 6px; border-radius: 6px; overflow: hidden; margin-top: 10px; transform: scaleX(0); animation: vs-grow .7s cubic-bezier(.22,1,.36,1) 1.05s forwards; }
 #vote-splash .vs-stripe i { flex: 1; } #vote-splash .vs-stripe i:nth-child(1) { background: #3b82f6; } #vote-splash .vs-stripe i:nth-child(2) { background: #fff; } #vote-splash .vs-stripe i:nth-child(3) { background: #ef4444; }
-#vote-splash .vs-sub { margin-top: 8px; font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.75); opacity: 0; animation: vs-fade .5s ease-out 1.25s forwards; }
+#vote-splash .vs-sub { margin-top: 8px; font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.75); opacity: 0; animation: vs-fade .7s ease-out 1.3s forwards; }
 #vote-splash .vs-arc, #vote-splash .vs-word, #vote-splash .vs-year, #vote-splash .vs-stripe, #vote-splash .vs-sub { position: relative; z-index: 1; }
-#vote-splash .vs-burst { z-index: 0; position: absolute; width: 8px; height: 8px; border-radius: 2px; opacity: 0; animation: vs-burst 1.1s ease-out forwards; }
+#vote-splash .vs-burst { z-index: 0; position: absolute; width: 8px; height: 8px; border-radius: 2px; opacity: 0; animation: vs-burst 1.4s cubic-bezier(.16,1,.3,1) forwards; }
 @keyframes vs-pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
-@keyframes vs-drop { to { opacity: 1; transform: none; } }
+@keyframes vs-drop { to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes vs-rise { to { opacity: 1; transform: none; } }
 @keyframes vs-fade { to { opacity: 1; } }
 @keyframes vs-grow { to { transform: scaleX(1); } }
@@ -99,6 +102,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 <script>
 (function () {
   var sp = document.getElementById('vote-splash'); if (!sp) return;
+  document.documentElement.classList.add('vs-on');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   // chamber of dots: blue on the left, gold in the middle, red on the right
   var svg = sp.querySelector('.vs-arc'), NS = 'http://www.w3.org/2000/svg', rows = [[13, 70], [17, 95], [21, 120]], all = [];
@@ -120,9 +124,9 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
       b.style.animationDelay = (Math.random() * 0.15) + 's'; sp.appendChild(b); }
   }, 950);
   var done = false;
-  function close() { if (done) return; done = true; sp.classList.add('out'); setTimeout(function () { sp.remove(); }, 550); }
+  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
   sp.addEventListener('click', close);
-  setTimeout(close, reduce ? 1000 : 2700);
+  setTimeout(close, reduce ? 1000 : 2900);
 })();
 </script>
 <div id="dash-root">

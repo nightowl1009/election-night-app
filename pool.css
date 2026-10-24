@@ -53,3 +53,15 @@
 /* Election Night Game: its own section at the bottom of the page */
 .en-game { margin-top: var(--cds-gap-xl, 2rem); padding-top: var(--cds-gap-lg, 1.25rem); border-top: 2px solid var(--en-gold, #fbbf24); scroll-margin-top: 3.5rem; }
 .en-game .en-sec-h h2 .en-ic { color: var(--en-gold, #fbbf24); }
+
+/* Game pick buttons: always tinted by party, solid when picked */
+#pool-root .en-pb.d { border-color: rgba(59,130,246,.55); background: rgba(59,130,246,.10); color: #2563eb; }
+#pool-root .en-pb.r { border-color: rgba(239,68,68,.55); background: rgba(239,68,68,.10); color: #dc2626; }
+#pool-root .en-pb.i { border-color: rgba(168,85,247,.55); background: rgba(168,85,247,.10); color: #9333ea; }
+@media (prefers-color-scheme: dark) {
+  #pool-root .en-pb.d { color: #93c5fd; } #pool-root .en-pb.r { color: #fca5a5; } #pool-root .en-pb.i { color: #d8b4fe; }
+}
+#pool-root .en-pb.d[aria-pressed="true"] { background: #3b82f6; border-color: #3b82f6; color: #fff; box-shadow: 0 0 0 2px rgba(59,130,246,.35); }
+#pool-root .en-pb.r[aria-pressed="true"] { background: #ef4444; border-color: #ef4444; color: #fff; box-shadow: 0 0 0 2px rgba(239,68,68,.35); }
+#pool-root .en-pb.i[aria-pressed="true"] { background: #a855f7; border-color: #a855f7; color: #fff; box-shadow: 0 0 0 2px rgba(168,85,247,.35); }
+#pool-root .en-pb[aria-pressed="true"]::before { content: "✓ "; }
