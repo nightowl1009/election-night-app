@@ -31,7 +31,9 @@
         catch (e) { if (/popup|operation-not-supported|web-storage/i.test(e.code || '')) await auth.signInWithRedirect(p); else throw e; }
       },
       signInEmail: (email, pw) => auth.signInWithEmailAndPassword(email, pw),
-      signUpEmail: async (email, pw, name) => { const c = await auth.createUserWithEmailAndPassword(email, pw); if (name) await c.user.updateProfile({ displayName: name }); return c; },
+      signUpEmail: async (email, pw, name) => { const c = await auth.createUserWithEmailAndPassword(email, pw); if (name) await c.user.updateProfile({ displayName: name }); try { await c.user.sendEmailVerification(); } catch (e) { console.error(e); } return c; },
+      resendVerify: () => auth.currentUser ? auth.currentUser.sendEmailVerification() : Promise.resolve(),
+      refreshUser: async () => { const u = auth.currentUser; if (!u) return null; await u.reload(); await u.getIdToken(true); return userOf(auth.currentUser); },
       resetPassword: (email) => auth.sendPasswordResetEmail(email),
       signOut: () => auth.signOut(),
       isAdmin: (u) => !!u && !!u.email && u.verified && admins.includes(u.email.toLowerCase()),
@@ -41,14 +43,15 @@
       savePicks: (uid, data) => fs.doc('picks/' + uid).set(data),
       getGroup: async (code) => { const s = await fs.doc('groups/' + code).get(); return s.exists ? s.data() : null; },
       createGroup: (code, name, uid) => fs.doc('groups/' + code).set({ name, owner: uid, created: Date.now() }),
-      addMember: (code, uid, name) => fs.doc('groups/' + code + '/members/' + uid).set({ name, joined: Date.now() }),
+      addMember: (code, uid, data) => fs.doc('groups/' + code + '/members/' + uid).set(data, { merge: true }),
       removeMember: (code, uid) => fs.doc('groups/' + code + '/members/' + uid).delete(),
       listMembers: async (code) => { const q = await fs.collection('groups/' + code + '/members').get(); return q.docs.map(d => Object.assign({ uid: d.id }, d.data())); },
       watchAdminResults: (cb) => fs.doc('admin/results').onSnapshot(s => cb(s.exists ? s.data() : {}), () => cb({})),
       saveAdminResult: (key, val) => fs.doc('admin/results').set({ [key]: (val == null || val === '') ? firebase.firestore.FieldValue.delete() : val }, { merge: true }),
       watchChat: (code, cb, err) => fs.collection(chatPath(code)).orderBy('at', 'desc').limit(100)
         .onSnapshot(q => cb(q.docs.map(d => Object.assign({ id: d.id }, d.data())).reverse()), e => { console.error(e); if (err) err(e); }),
-      sendChat: (code, msg) => fs.collection(chatPath(code)).add(msg),
+      // the message and your "last posted" time are written together; the rules enforce a short cooldown
+      sendChat: (code, msg) => { const b = fs.batch(); b.set(fs.collection(chatPath(code)).doc(), msg); b.set(fs.doc('users/' + msg.uid), { lastChat: msg.at }, { merge: true }); return b.commit(); },
       deleteChat: (code, id) => fs.doc(chatPath(code) + '/' + id).delete(),
     };
   }
@@ -61,7 +64,9 @@
       onAuth: (cb) => { subs.push(cb); setTimeout(() => cb(cur), 0); },
       signInGoogle: async () => set({ uid: 'u_brad', name: 'Brad', email: 'brad@example.com', verified: true }),
       signInEmail: async (email) => set({ uid: 'u_' + email.split('@')[0], name: '', email, verified: true }),
-      signUpEmail: async (email, pw, name) => set({ uid: 'u_' + email.split('@')[0], name, email, verified: true }),
+      signUpEmail: async (email, pw, name) => set({ uid: 'u_' + email.split('@')[0], name, email, verified: !window.POOL_MOCK_UNVERIFIED }),
+      resendVerify: async () => {},
+      refreshUser: async () => { cur = Object.assign({}, cur, { verified: true }); return cur; },
       resetPassword: async () => {},
       signOut: async () => set(null),
       isAdmin: (u) => !!u && u.uid === 'u_brad',
@@ -71,7 +76,7 @@
       savePicks: async (uid, data) => { db.picks[uid] = data; },
       getGroup: async (code) => db.groups[code] || null,
       createGroup: async (code, name, uid) => { db.groups[code] = { name, owner: uid }; },
-      addMember: async (code, uid, name) => { (db.members[code] = db.members[code] || {})[uid] = { name }; },
+      addMember: async (code, uid, data) => { const m = (db.members[code] = db.members[code] || {}); m[uid] = Object.assign({}, m[uid], data); },
       removeMember: async (code, uid) => { if (db.members[code]) delete db.members[code][uid]; },
       listMembers: async (code) => Object.entries(db.members[code] || {}).map(([uid, v]) => Object.assign({ uid }, v)),
       watchAdminResults: (cb) => { adminSubs.push(cb); cb(db.admin); },
@@ -154,7 +159,7 @@
   // ---------- State ----------
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
   let pickFilter = 'Senate';
-  let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL;
+  let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL, lastSent = 0;
   const myDoc = () => ({ picks: myPicks, seats: mySeats, lock: myLock, side: mySide });
 
   // ---------- UI ----------
@@ -173,6 +178,7 @@
     });
     top.append(who, btn('en-chip', 'Sign out', () => be.signOut()));
     box.append(top, lockBanner(), nav);
+    if (!me.verified) return renderVerify(box);
     if (!profile || !profile.name) return renderName(box);
     if (view === 'picks') renderPicks(box);
     else if (view === 'groups') renderGroups(box);
@@ -239,6 +245,15 @@
     f.append(name, email, pw, go, el('div', 'pl-links'));
     f.lastChild.append(sw, forgot);
     c.append(g, or, f, msg);
+    box.append(c);
+  }
+  function renderVerify(box) {
+    const c = card('Verify your email to play', 'We sent a link to ' + me.email + '. Tap it, then come back and tap “I’ve verified.” This keeps bots out of the game and chat. Check your spam folder if it isn’t there.');
+    const msg = el('p', 'pl-msg');
+    c.append(btn('pl-btn primary', 'I’ve verified', async () => {
+      msg.textContent = '';
+      try { const u = await be.refreshUser(); if (u && u.verified) { me = u; render(); } else msg.textContent = 'Not verified yet — tap the link in the email first.'; } catch (e) { msg.textContent = errText(e); }
+    }), btn('pl-btn', 'Resend the email', async () => { try { await be.resendVerify(); msg.textContent = 'Sent — check your inbox.'; } catch (e) { msg.textContent = errText(e); } }), msg);
     box.append(c);
   }
   function renderName(box) {
@@ -365,7 +380,9 @@
           await be.savePicks(me.uid, { picks: clean, seats: mySeats, updated: Date.now() });
           alertish('Picks saved — lock of the night and side questions will save once the game is updated.');
         }
-        await be.saveProfile(me.uid, { pickCount: Object.keys(clean).length });
+        const n = Object.keys(clean).length;
+        await be.saveProfile(me.uid, { pickCount: n });
+        for (const code of ((profile && profile.groups) || [])) await be.addMember(code, me.uid, { name: profile.name, pickCount: n }).catch(() => {});
       }
       catch (e) { console.error(e); alertish(errText(e)); }
       saving = false; const s = $('.pl-saved'); if (s) s.textContent = 'Saved';
@@ -455,7 +472,7 @@
     box.append(make, jn);
   }
   async function join(code) {
-    await be.addMember(code, me.uid, profile.name);
+    await be.addMember(code, me.uid, { name: profile.name, joined: Date.now(), pickCount: races().filter(r => myPicks[r.key]).length });
     const groups = Array.from(new Set(((profile && profile.groups) || []).concat(code)));
     profile.groups = groups; await be.saveProfile(me.uid, { groups });
   }
@@ -490,8 +507,10 @@
     form.append(inp, send);
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault(); const t = inp.value.trim(); if (!t) return;
+      const now = Date.now(); if (now - lastSent < 3500) { alertish('Easy there — wait a couple seconds between messages.'); return; }
+      lastSent = now;
       inp.value = ''; inp.focus();
-      try { await be.sendChat(chatCode, { uid: me.uid, name: (profile && profile.name) || 'Player', text: t.slice(0, 500), at: Date.now() }); }
+      try { await be.sendChat(chatCode, { uid: me.uid, name: profile.name, text: t.slice(0, 500), at: now }); }
       catch (e) { inp.value = t; alertish(errText(e)); }
     });
     c.append(log, form);
@@ -531,9 +550,8 @@
     const out = [];
     for (const m of members) {
       let p = null; if (lk || m.uid === me.uid) p = await be.getPicks(m.uid).catch(() => null);
-      const prof = await be.getProfile(m.uid).catch(() => null);
       const s = p ? score(p, w, list) : { pts: 0, right: 0, wrong: 0, best: null, max: 0 };
-      out.push({ m, p, s, count: p ? list.filter(r => (p.picks || {})[r.key]).length : Math.min((prof && prof.pickCount) || 0, list.length), seats: p ? p.seats : null });
+      out.push({ m, p, s, count: p ? list.filter(r => (p.picks || {})[r.key]).length : Math.min(Number(m.pickCount) || 0, list.length), seats: p ? p.seats : null });
     }
     // ties: closest Senate seat guess wins when the admin has entered the final count
     const final = adminRes['Q-senate'] != null && adminRes['Q-senate'] !== '' ? Number(adminRes['Q-senate']) : null;

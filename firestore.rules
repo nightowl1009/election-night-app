@@ -2,22 +2,44 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn() { return request.auth != null; }
+    // Google sign-ins are verified automatically; email sign-ups must click the link first
+    function verified() { return signedIn() && request.auth.token.email_verified == true; }
     // Only this account can call races in the pool
-    function isAdmin() { return signedIn() && request.auth.token.email == 'brad.w.crook@gmail.com' && request.auth.token.email_verified == true; }
+    function isAdmin() { return verified() && request.auth.token.email == 'brad.w.crook@gmail.com'; }
     // Picks lock at 5:00 PM CT, Nov 3, 2026 (23:00 UTC)
     function beforeLock() { return request.time < timestamp.value(1793746800000); }
-
-    match /users/{uid} {
-      allow read: if signedIn();
-      allow create, update: if signedIn() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['name', 'groups', 'pickCount'])
-        && (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() <= 40));
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function cleanName(n) { return n is string && n.size() > 0 && n.size() <= 40; }
+    // A chat message: right shape, your own uid, your saved name, 1–500 characters, stamped with the
+    // current time, at least 3 seconds after your last message (written in the same batch)
+    function goodMessage() {
+      let m = request.resource.data;
+      let before = me();
+      return m.keys().hasOnly(['uid', 'name', 'text', 'at'])
+        && m.uid == request.auth.uid
+        && m.name == before.name
+        && m.text is string && m.text.size() > 0 && m.text.size() <= 500
+        && m.at is int
+        && m.at > request.time.toMillis() - 60000 && m.at < request.time.toMillis() + 60000
+        && (!('lastChat' in before) || m.at >= before.lastChat + 3000)
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.lastChat == m.at;
     }
 
-    // Your own picks only, and only before the lock. Others can see them after the lock.
+    // Your profile is private to you (name, your group codes, pick count, last chat time)
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'groups', 'pickCount', 'lastChat'])
+        && (!('name' in request.resource.data) || cleanName(request.resource.data.name))
+        && (!('groups' in request.resource.data) || (request.resource.data.groups is list && request.resource.data.groups.size() <= 20))
+        && (!('pickCount' in request.resource.data) || request.resource.data.pickCount is int)
+        && (!('lastChat' in request.resource.data) || request.resource.data.lastChat is int);
+    }
+
+    // Your own picks only, verified players only, and only before the lock. Others can see them after the lock.
     match /picks/{uid} {
       allow read: if signedIn() && (request.auth.uid == uid || !beforeLock());
-      allow create, update: if signedIn() && request.auth.uid == uid && beforeLock()
+      allow create, update: if verified() && request.auth.uid == uid && beforeLock()
         && request.resource.data.keys().hasOnly(['picks', 'seats', 'updated', 'lock', 'side']);
     }
 
@@ -25,36 +47,32 @@ service cloud.firestore {
     match /groups/{code} {
       allow get: if signedIn();
       allow list: if false;
-      allow create: if signedIn() && code.size() == 6
+      allow create: if verified() && code.size() == 6
+        && request.resource.data.keys().hasOnly(['name', 'owner', 'created'])
         && request.resource.data.owner == request.auth.uid
-        && request.resource.data.name is string && request.resource.data.name.size() <= 40;
+        && cleanName(request.resource.data.name);
+      // Members: you add or remove only yourself, under the name saved on your profile
       match /members/{uid} {
         allow read: if signedIn();
-        allow create, update, delete: if signedIn() && request.auth.uid == uid;
+        allow create, update: if verified() && request.auth.uid == uid
+          && request.resource.data.keys().hasOnly(['name', 'joined', 'pickCount'])
+          && request.resource.data.name == me().name
+          && (!('pickCount' in request.resource.data) || request.resource.data.pickCount is int);
+        allow delete: if signedIn() && request.auth.uid == uid;
       }
       // Group chat: only members can read or post; delete your own (the admin can remove any)
       match /chat/{msg} {
         function isMember() { return signedIn() && exists(/databases/$(database)/documents/groups/$(code)/members/$(request.auth.uid)); }
         allow read: if isMember();
-        allow create: if isMember()
-          && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'at'])
-          && request.resource.data.uid == request.auth.uid
-          && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
-          && request.resource.data.name is string && request.resource.data.name.size() <= 40
-          && request.resource.data.at is int;
+        allow create: if verified() && isMember() && goodMessage();
         allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
       }
     }
 
-    // Everyone chat: any signed-in player can read and post; delete your own (the admin can remove any)
+    // Everyone chat: any signed-in player can read; verified players can post; delete your own (the admin can remove any)
     match /lobby/{msg} {
       allow read: if signedIn();
-      allow create: if signedIn()
-        && request.resource.data.keys().hasOnly(['uid', 'name', 'text', 'at'])
-        && request.resource.data.uid == request.auth.uid
-        && request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() <= 500
-        && request.resource.data.name is string && request.resource.data.name.size() <= 40
-        && request.resource.data.at is int;
+      allow create: if verified() && goodMessage();
       allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
     }
 
