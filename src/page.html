@@ -12,7 +12,7 @@
 .en-break-track { display:inline-flex; gap:3rem; padding-left:100%; font-weight:600; font-size: var(--cds-font-size-body); }
 
 /* Hero */
-.en-hero { position: relative; overflow: hidden; color: #fff; padding: var(--cds-pad-xl) var(--cds-pad-lg) var(--cds-pad-lg);
+.en-hero { position: relative; overflow: hidden; color: #fff; padding: var(--cds-pad-lg) var(--cds-pad-lg) var(--cds-pad-lg);
   background: radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; }
 .en-hero::after { content:""; position:absolute; inset:0; pointer-events:none;
   background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.07) 45%, transparent 60%); background-size: 250% 100%; }
@@ -20,20 +20,43 @@
 .en-kicker { display:inline-flex; align-items:center; gap:.5rem; font-size: var(--cds-font-size-caption); letter-spacing:.14em; text-transform:uppercase; color: var(--en-gold); font-weight: var(--cds-font-weight-medium); }
 .en-kicker.live { color:#fca5a5; }
 .en-dot { width:.55rem; height:.55rem; border-radius:50%; background: var(--en-red); }
-.en-h1 { font-family: var(--font-anthropic-serif); font-weight:400; font-size: clamp(2rem, 6vw, 3.6rem); line-height:1.05; margin: .35rem 0 .25rem; }
+.en-h1 { font-family: var(--font-anthropic-serif); font-weight:400; font-size: clamp(1.9rem, 5.5vw, 3.2rem); line-height:1.05; margin: .35rem 0 .25rem; }
 .en-h1 span { background: linear-gradient(90deg, #93c5fd, #fff 45%, #fca5a5); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .en-sub { color: rgba(255,255,255,.75); font-size: var(--cds-font-size-body); margin:0; }
-.en-count { display:flex; gap: var(--cds-gap-xs) var(--cds-gap-sm); margin-top: var(--cds-gap-md); flex-wrap: wrap; align-items:stretch; min-height: 4.2rem; }
-.en-count > div:not(.wide) b { min-width: 2ch; display:block; }
-.en-count { display:grid !important; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)) minmax(0, 2.6fr); max-width: 46rem; }
-.en-count > div { min-width: 0 !important; box-sizing: border-box; }
-.en-count > div:not(.wide) { padding-inline: var(--cds-pad-xs) !important; }
-@media (max-width: 40rem) { .en-count { grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); } .en-count > div.wide { grid-column: 1 / -1; } }
-.en-count > div { background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius: var(--cds-radius); padding: var(--cds-pad-sm) var(--cds-pad-md); min-width: 4.5rem; text-align:center; }
-.en-count b { display:block; font-family: var(--font-anthropic-serif); font-weight:400; font-size: var(--cds-font-size-title); }
-.en-count small { font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.7); text-transform: uppercase; letter-spacing:.08em; }
-.en-count .wide { text-align:left; max-width: 24rem; display:flex; flex-direction:column; justify-content:center; }
-.en-count .wide small { text-transform:none; letter-spacing:0; }
+.en-count { margin-top: .5rem; display:flex; flex-direction:column; gap:.2rem; }
+.en-count .cd-top { display:flex; align-items:baseline; gap:.75rem; flex-wrap:wrap; }
+.en-count .cd-date { font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.08em; font-weight:600; }
+.en-count .cd-t { font-family: var(--font-anthropic-serif); font-size: 1.6rem; line-height:1; display:inline-flex; align-items:baseline; gap:.1rem; }
+.en-count .cd-t b { font-weight:400; } .en-count .cd-t i { font-style:normal; font-family: var(--font-anthropic-sans); font-size:.8rem; color: rgba(255,255,255,.6); margin-right:.45rem; }
+.en-count .cd-done { font-weight:600; }
+.en-count .cd-next { font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.8); }
+.en-count .cd-next b { color: var(--en-gold); font-weight:600; }
+/* Hero scoreboard */
+.en-score { margin-top: var(--cds-gap-md); display:flex; flex-direction:column; gap: var(--cds-gap-sm); min-height: 9rem; }
+.sb-row { appearance:none; text-align:left; width:100%; color:#fff; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius: var(--cds-radius); padding: .7rem .85rem .65rem; cursor:pointer; display:flex; flex-direction:column; gap:.35rem; }
+.sb-row:hover { background: rgba(255,255,255,.09); }
+.sb-h { display:flex; justify-content:space-between; align-items:baseline; gap:.5rem; }
+.sb-h b { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.sb-h span { font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.65); }
+.sb-nums { display:grid; grid-template-columns: auto 1fr auto; align-items:center; gap:.6rem; }
+.sb-nums .n { font-family: var(--font-anthropic-serif); font-size: 1.9rem; line-height:1; min-width:2ch; }
+.sb-nums .n.d { color:#93c5fd; } .sb-nums .n.r { color:#fca5a5; text-align:right; }
+.sb-bar { position:relative; display:flex; height:14px; border-radius:999px; overflow:hidden; background: rgba(255,255,255,.12); }
+.sb-bar i { display:block; height:100%; }
+.sb-bar i.d { background: var(--en-blue); } .sb-bar i.r { background: var(--en-red); } .sb-bar i.g { background: var(--en-gold); } .sb-bar i.o { background: rgba(255,255,255,.35); }
+.sb-bar em { position:absolute; left:50%; top:-3px; bottom:-3px; width:2px; margin-left:-1px; background:#fff; box-shadow: 0 0 0 1px rgba(11,16,32,.6); }
+.sb-sub { display:flex; flex-wrap:wrap; gap:.15rem .4rem; font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.78); }
+.sb-sub .dot { color: rgba(255,255,255,.4); }
+.sb-note { font-size: .72rem; color: rgba(255,255,255,.55); }
+.en-more { margin-top: var(--cds-gap-sm); }
+.en-more summary { cursor:pointer; font-size: var(--cds-font-size-caption); font-weight:600; color: rgba(255,255,255,.85); padding:.35rem 0; list-style:none; }
+.en-more summary::-webkit-details-marker { display:none; }
+.en-more summary::after { content:" ›"; } .en-more[open] summary::after { content:" ⌄"; }
+.en-more .en-tiles { margin-top: .4rem; }
+/* Seat charts inside the Senate / House tabs keep the hero's dark look */
+.en-chcard { color:#fff; border-radius: var(--cds-radius); padding: var(--cds-pad-md); margin-bottom: var(--cds-gap-xl);
+  background: radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; }
+.en-chcard .en-chamber { margin-top: .25rem; }
 .en-tiles { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: var(--cds-gap-sm); margin-top: var(--cds-gap-lg); min-height: 5.5rem; }
 .en-tile { background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius: var(--cds-radius); padding: var(--cds-pad-md); }
 .en-tile .v { font-family: var(--font-anthropic-serif); font-weight:400; font-size: clamp(1.35rem, 5vw, var(--cds-font-size-title)); line-height:1.1; display:block; }
@@ -262,6 +285,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 
 /* what changed today */
 .en-changes { background: var(--color-panel); border:1px solid var(--color-border-line); border-left:4px solid var(--en-gold); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); margin-bottom: var(--cds-gap-lg); }
+.en-changes .more { appearance:none; background:none; border:0; padding:.35rem 0 0; font: inherit; font-size: var(--cds-font-size-caption); font-weight:600; color: var(--ink-link, var(--en-blue)); cursor:pointer; }
 .en-changes[hidden] { display:none; }
 .en-changes .h { display:flex; justify-content:space-between; align-items:center; gap: var(--cds-gap-sm); margin-bottom:.4rem; }
 .en-changes .h b { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
@@ -609,28 +633,9 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
     <div class="en-hero-in">
       <div class="en-kicker" id="en-kicker"><span class="en-dot"></span><span id="en-mode">2026 Midterms · Pre-election polls</span></div>
       <h1 class="en-h1"><span>Election Night 2026</span></h1>
-      <p class="en-sub">Tuesday, November 3 · The races that decide the Senate, the House and key governorships</p>
       <div class="en-count" id="en-count" data-source="pollclose"></div>
-      <div class="en-tiles dash-skeleton" id="en-tiles" data-source="overview"></div>
-      <div class="en-strip-wrap" id="senate-math">
-        <div class="en-chmode" role="group" aria-label="What the chambers show">
-          <button type="button" data-m="now" aria-pressed="true">Seats tonight</button>
-          <button type="button" data-m="polls" aria-pressed="false">Polling projection</button>
-        </div>
-        <div class="en-chambers">
-          <div class="en-chamber" id="senate-chamber">
-            <h3>Senate</h3>
-            <div class="en-strip-h"><span id="en-strip-label">If every polling average held · gold = changes party · tap a state</span><span>51 for control</span></div>
-            <div class="en-strip dash-skeleton" id="en-strip" data-source="senate_projection senate_seats senate overview results"></div>
-          </div>
-          <div class="en-chamber" id="house-chamber">
-            <h3>House</h3>
-            <div class="en-strip-h"><span id="en-house-label">By Cook rating · gold = toss-up · tap a gold seat</span><span>218 for control</span></div>
-            <div class="en-strip dash-skeleton" id="en-house" data-source="overview house results"></div>
-          </div>
-        </div>
-        <p class="en-take" id="en-take"></p>
-      </div>
+      <div class="en-score dash-skeleton" id="en-score-top" data-source="overview senate house results senate_projection"></div>
+      <details class="en-more" id="en-more"><summary>All the odds and numbers</summary><div class="en-tiles dash-skeleton" id="en-tiles" data-source="overview"></div></details>
     </div>
   </section>
 
@@ -659,6 +664,18 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
     </div></div>
 
     <section id="senate" class="en-panel">
+      <div class="en-chcard" id="senate-math">
+        <div class="en-chmode" role="group" aria-label="What the chambers show">
+          <button type="button" data-m="now" aria-pressed="true">Seats tonight</button>
+          <button type="button" data-m="polls" aria-pressed="false">Polling projection</button>
+        </div>
+        <div class="en-chamber" id="senate-chamber">
+            <h3>Senate</h3>
+            <div class="en-strip-h"><span id="en-strip-label">If every polling average held · gold = changes party · tap a state</span><span>51 for control</span></div>
+            <div class="en-strip dash-skeleton" id="en-strip" data-source="senate_projection senate_seats senate overview results"></div>
+          </div>
+        <p class="en-take" id="en-take"></p>
+      </div>
       <div class="en-sec-h">
         <div><h2>Senate battlegrounds</h2><p>Big numbers = RealClearPolling average, latest poll underneath · Bar centre = 50/50 · Left stripe = party holding the seat · Dot chart = every poll found since late July</p></div>
         <div class="en-chips" id="sen-chips">
@@ -678,6 +695,17 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
     </section>
 
     <section id="house" class="en-panel" hidden>
+      <div class="en-chcard">
+        <div class="en-chmode" role="group" aria-label="What the chambers show">
+          <button type="button" data-m="now" aria-pressed="true">Seats tonight</button>
+          <button type="button" data-m="polls" aria-pressed="false">Polling projection</button>
+        </div>
+        <div class="en-chamber" id="house-chamber">
+            <h3>House</h3>
+            <div class="en-strip-h"><span id="en-house-label">By Cook rating · gold = toss-up · tap a gold seat</span><span>218 for control</span></div>
+            <div class="en-strip dash-skeleton" id="en-house" data-source="overview house results"></div>
+          </div>
+      </div>
       <div class="en-sec-h">
         <div><h2>House battlegrounds</h2><p>Every Cook Political Report Toss-up, Lean D and Lean R seat (Oct 23 ratings) · Few public district polls exist, so these show ratings and odds where found</p></div>
         <div class="en-chips" id="house-chips">
@@ -1258,7 +1286,7 @@ dash.calc('senate_base', {
   let houseState = '', houseMapMode = 'kalshi', chamberMode = 'now';
   document.querySelectorAll('.en-chmode button').forEach(b => b.addEventListener('click', () => {
     chamberMode = b.dataset.m;
-    document.querySelectorAll('.en-chmode button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    document.querySelectorAll('.en-chmode button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.m === b.dataset.m)));
     renderStrip(); renderHouseChamber();
   }));
   function renderHouseMap() {
@@ -1420,22 +1448,59 @@ dash.calc('senate_base', {
     const box = $('#en-count'); box.replaceChildren();
     const now = window.__simNow ? new Date(window.__simNow()) : new Date();
     const first = new Date('2026-11-04T00:00:00Z');
-    const add = (v, l) => { const d = el('div'); d.append(el('b', '', String(v).padStart(2, '0')), el('small', '', l)); box.append(d); };
     const next = closeRows && closeRows.find(c => new Date(c.close_utc) > now);
     const target = next ? new Date(next.close_utc) : (now < first ? first : null);
-    if (!target) { const d = el('div', 'wide'); d.append(el('b', '', 'All polls closed'), el('small', '', 'Counting continues — watch the results roll in')); box.append(d); return; }
-    const ms = target - now;
-    box.style.setProperty('--n', ms > 864e5 ? 4 : 3);
-    if (ms > 864e5) add(Math.floor(ms / 864e5), 'days');
-    add(Math.floor(ms / 36e5) % 24, 'hours'); add(Math.floor(ms / 6e4) % 60, 'min'); add(Math.floor(ms / 1e3) % 60, 'sec');
-    const d = el('div', 'wide');
-    if (next) { const b = el('b'); b.append(document.createTextNode('Next: '), mk('span', '', 'pollclose', 'close_et', 'order', next.order, next.close_et), document.createTextNode(' ET')); d.append(b, mk('small', '', 'pollclose', 'states', 'order', next.order, next.states)); }
-    else d.append(el('small', '', 'until first polls close (6 PM ET)'));
-    box.append(d);
+    const top = el('div', 'cd-top');
+    top.append(el('span', 'cd-date', 'Tue, Nov 3'));
+    if (!target) { top.append(el('b', 'cd-done', 'All polls closed · counting continues')); box.append(top); return; }
+    const ms = target - now, t = el('span', 'cd-t'); t.setAttribute('aria-label', 'Countdown');
+    const add = (v, u) => { t.append(el('b', '', String(v).padStart(2, '0')), el('i', '', u)); };
+    if (ms > 864e5) add(Math.floor(ms / 864e5), 'd');
+    add(Math.floor(ms / 36e5) % 24, 'h'); add(Math.floor(ms / 6e4) % 60, 'm'); add(Math.floor(ms / 1e3) % 60, 's');
+    top.append(t); box.append(top);
+    const nx = el('div', 'cd-next');
+    if (next) { nx.append(el('b', '', 'Next: '), mk('span', '', 'pollclose', 'close_et', 'order', next.order, next.close_et), document.createTextNode(' ET · '), mk('span', '', 'pollclose', 'states', 'order', next.order, next.states)); }
+    else nx.append(document.createTextNode('until the first polls close at 6 PM ET'));
+    box.append(nx);
   }
   if (window.__enTick) clearInterval(window.__enTick);
   let secs = 0;
   window.__enTick = setInterval(() => { tick(); if (++secs % 30 === 0 && !$('#night').hidden) renderTimes(); }, 1000);
+
+  // Hero scoreboard: Senate and House seat bars (seats tonight, changing as races are called) plus the headline odds
+  function renderScoreTop() {
+    const box = $('#en-score-top'), ov = okRows('overview'), sen = okRows('senate'), hs = okRows('house');
+    if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
+    box.classList.remove('dash-skeleton'); box.replaceChildren();
+    const val = (k) => Number((ov.find(o => o.key === k) || {}).value), disp = (k) => (ov.find(o => o.key === k) || {}).display;
+    let sFromR = 0, sFromD = 0, sCalled = 0;
+    sen.forEach(r => { const c = ctx.res.get('SEN-' + r.id); if (!c || !c.winner_party) return; sCalled++; const side = c.winner_party === 'R' ? 'R' : 'D'; if (r.held === 'R' && side === 'D') sFromR++; if (r.held === 'D' && side === 'R') sFromD++; });
+    const sD = val('senate_d_now') + sFromR - sFromD, sR = val('senate_r_now') - sFromR + sFromD;
+    const h = { D: val('house_d_now'), R: val('house_r_now'), I: val('house_i_now') || 0, V: val('house_vacant') || 0, fD: 0, fR: 0, called: 0 };
+    (hs || []).forEach(r => { const c = ctx.res.get('HOU-' + r.id); if (!c || !c.winner_party) return; h.called++; const to = c.winner_party === 'R' ? 'R' : 'D', from = /^vacant/i.test(r.incumbent || '') ? 'V' : r.held; if (to === from) return; h[from]--; h[to]++; if (to === 'D') h.fD++; else h.fR++; });
+    const row = (name, tab, dN, rN, fD, fR, other, total, need, subBits) => {
+      const r = el('button', 'sb-row'); r.type = 'button'; r.setAttribute('aria-label', name + ': Democrats ' + dN + ', Republicans ' + rN + '. Open the ' + name + ' tab');
+      r.addEventListener('click', () => { show(tab); dash.setLink(tab); document.querySelector('.en-tabwrap').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+      const hd = el('div', 'sb-h'); hd.append(el('b', '', name), el('span', '', need + ' for control ›')); r.append(hd);
+      const nums = el('div', 'sb-nums'); const bar = el('div', 'sb-bar');
+      const seg = (cls, n) => { if (n <= 0) return; const i = el('i', cls); i.style.width = (n / total * 100) + '%'; bar.append(i); };
+      seg('d', dN - fD); seg('g', fD); seg('o', other); seg('g', fR); seg('r', rN - fR);
+      bar.append(el('em', '')); 
+      nums.append(el('span', 'n d', String(dN)), bar, el('span', 'n r', String(rN))); r.append(nums);
+      const sb = el('div', 'sb-sub'); subBits.filter(Boolean).forEach((t, k) => { if (k) sb.append(el('span', 'dot', '·')); sb.append(el('span', '', t)); }); r.append(sb);
+      box.append(r);
+    };
+    const pr = okRows('senate_projection'), pv = (k) => pr ? Number((pr.find(x => x.metric === k) || {}).value) : NaN;
+    const ks = disp('kalshi_senate'), kh = disp('kalshi_house');
+    row('Senate', 'senate', sD, sR, sFromR, sFromD, 100 - sD - sR, 100, 51, [
+      sCalled ? sCalled + ' of ' + sen.length + ' called' : (disp('dems_need') ? 'Dems need ' + disp('dems_need') : ''),
+      !isNaN(pv('proj_other')) && pv('proj_other') + pv('proj_r') ? 'Polls point to ' + pv('proj_other') + '–' + pv('proj_r') : '',
+      ks ? 'Dem odds ' + ks : '']);
+    if (h.D + h.R) row('House', 'house', h.D, h.R, h.fD, h.fR, h.I + h.V, h.D + h.R + h.I + h.V, 218, [
+      h.called ? h.called + ' battlegrounds called' : (disp('cook_house_tossups') ? disp('cook_house_tossups') + ' toss-ups' : ''),
+      kh ? 'Dem odds ' + kh : '']);
+    const note = el('div', 'sb-note', 'Blue = Dem + Ind · Red = GOP · Gold = changed party · Odds from Kalshi'); box.append(note);
+  }
 
   function renderTiles() {
     const box = $('#en-tiles'), d = dash.data('overview');
@@ -1548,7 +1613,7 @@ dash.calc('senate_base', {
     });
     take.replaceChildren(document.createTextNode(called
       ? called + ' of the ' + sen.length + ' battleground Senate races called so far: Democrats and independents have flipped ' + fromR + ' GOP seat' + (fromR === 1 ? '' : 's') + ' and Republicans ' + fromD + '. Seats not yet called stay with the party that holds them. Tap “Polling projection” to see where the polls point.'
-      : 'This is the Senate and House as they stand going into election night. Seats change only as races are called. Tap “Polling projection” to see where the polls and ratings point.'));
+      : 'This is the Senate as it stands going into election night. Seats change only as races are called. Tap “Polling projection” to see where the polls point.'));
   }
   // Seats tonight: today's House (all 435 are up), changing as tracked battleground races are called
   function renderHouseNow() {
@@ -2351,10 +2416,19 @@ dash.calc('senate_base', {
       ul.append(li);
     });
     box.append(ul);
+    // Long lists start folded to two items so the tabs stay close to the top
+    const items = [...ul.children];
+    if (items.length > 2 && !changesOpen) {
+      items.slice(2).forEach(li => { li.hidden = true; });
+      const more = el('button', 'more', 'Show ' + (items.length - 2) + ' more'); more.type = 'button';
+      more.addEventListener('click', () => { changesOpen = true; items.forEach(li => { li.hidden = false; }); more.remove(); });
+      box.append(more);
+    }
   }
+  let changesOpen = false;
   function redraw() {
     buildCtx();
-    renderBreaking(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
+    renderBreaking(); renderScoreTop(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
     renderTimes(); tick(); renderScorecard(); renderChanges(); renderRecap();
     if (!$('#senate').hidden) renderMap('#sen-map', 'senate');
     if (!$('#governors').hidden) renderMap('#gov-map', 'governor');
