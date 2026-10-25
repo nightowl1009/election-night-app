@@ -79,6 +79,7 @@
   }
   function step() {
     const now = simNow(), data = frame(now);
+    window.__simDone = now >= END;
     window.dash.simSet('results', data);
     paintBar(now, data);
     if (now >= END) { clearInterval(timer); timer = null; }
@@ -87,11 +88,12 @@
     if (timer || !window.dash || !window.dash.simSet) return;
     if (!rows('results').length || !rows('pollclose').length) { setTimeout(start, 800); return; }
     plan = buildPlan(); t0 = Date.now();
-    window.__simOn = true; window.__simNow = simNow;
+    window.__simOn = true; window.__simNow = simNow; window.__simDone = false;
     document.documentElement.classList.add('sim-on');
     bar = document.createElement('div'); bar.className = 'sim-bar'; bar.setAttribute('role', 'status');
-    bar.innerHTML = '<span class="sim-t"></span><button type="button" class="sim-x">End</button><span class="sim-p"><i></i></span>';
+    bar.innerHTML = '<span class="sim-t"></span><span class="sim-btns"><button type="button" class="sim-g">Practice group</button><button type="button" class="sim-x">End</button></span><span class="sim-p"><i></i></span>';
     bar.querySelector('.sim-x').addEventListener('click', stop);
+    bar.querySelector('.sim-g').addEventListener('click', () => { const t = document.querySelector('.en-tab[data-tab="game"]'); if (t) t.click(); const g = document.getElementById('game'); if (g) g.scrollIntoView({ block: 'start' }); });
     document.body.append(bar);
     window.scrollTo({ top: 0 });
     const nt = document.querySelector('.en-tab[data-tab="night"]'); if (nt) nt.click();
@@ -99,7 +101,7 @@
   }
   function stop() {
     if (timer) clearInterval(timer); timer = null;
-    window.__simOn = false; window.__simNow = null;
+    window.__simOn = false; window.__simNow = null; window.__simDone = false;
     document.documentElement.classList.remove('sim-on');
     if (bar) bar.remove(); bar = null;
     window.dash.simClear();
@@ -111,7 +113,7 @@
   function addButton() {
     const host = document.getElementById('app-updated'); if (!host || document.getElementById('sim-go')) return;
     const b = document.createElement('button'); b.type = 'button'; b.id = 'sim-go'; b.className = 'sim-go';
-    b.innerHTML = '▶ Practice run<small>Watch a made-up election night play out in 3 minutes · only on this phone</small>';
+    b.innerHTML = '▶ Practice run<small>Watch a made-up election night play out in 3 minutes, with a practice group to play against · only on this phone</small>';
     b.addEventListener('click', start);
     host.after(b);
   }

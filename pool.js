@@ -160,6 +160,7 @@
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
   let pickFilter = 'Senate', finaleJumped = false;
   let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL, lastSent = 0;
+  const isMe = (o) => o.m.uid === 'you' || (!!me && o.m.uid === me.uid);
   const myDoc = () => ({ picks: myPicks, seats: mySeats, lock: myLock, side: mySide });
 
   // ---------- UI ----------
@@ -167,6 +168,7 @@
   function render() {
     const box = root(); if (!box) return;
     box.replaceChildren();
+    if (window.__simOn) { stopChat(); return renderPractice(box); }
     if (view !== 'chat') stopChat();
     if (!be) { box.append(card('Election Night Prediction Game', window.POOL_CONFIG && !window.firebase ? 'The game needs an internet connection — reconnect and reopen the app.' : 'The game is being set up. Check back soon.')); return; }
     if (!me) return renderSignedOut(box);
@@ -590,13 +592,13 @@
     const conf = el('div', 'pl-confetti'); conf.setAttribute('aria-hidden', 'true');
     for (let i = 0; i < 28; i++) { const b = el('i'); b.style.left = (i * 3.6 + Math.random() * 3) + '%'; b.style.animationDelay = (Math.random() * 2.2).toFixed(2) + 's'; b.style.background = ['#fbbf24', '#3b82f6', '#ef4444', '#fff', '#a855f7'][i % 5]; conf.append(b); }
     box.append(conf, el('span', 'k', '🏆 SEASON FINALE'));
-    const nm = (o) => o.m.uid === me.uid ? 'You' : (o.m.name || 'Player');
-    box.append(el('h4', '', champs.length > 1 ? champs.map(nm).join(' & ') + ' tie for the win!' : (champs[0].m.uid === me.uid ? 'You win ' : nm(champs[0]) + ' wins ') + gname + '!'));
+    const nm = (o) => isMe(o) ? 'You' : (o.m.name || 'Player');
+    box.append(el('h4', '', champs.length > 1 ? champs.map(nm).join(' & ') + ' tie for the win!' : (isMe(champs[0]) ? 'You win ' : nm(champs[0]) + ' wins ') + gname + '!'));
     box.append(el('p', '', top + ' points · ' + champs[0].s.right + ' of ' + list.length + ' races right' + (champs[0].s.best ? ' · best call: ' + champs[0].s.best.r.label + ' (+' + champs[0].s.best.v + ')' : '')));
     const pod = el('div', 'pl-podium');
     [1, 0, 2].forEach(i => { const o = out[i]; if (!o) return; const d = el('div', 'p' + (i + 1)); d.append(el('span', 'm', ['🥇', '🥈', '🥉'][i]), el('b', '', nm(o)), el('small', '', o.s.pts + ' pts'), el('i', '', String(i + 1))); pod.append(d); });
     box.append(pod);
-    const mine = out.findIndex(o => o.m.uid === me.uid);
+    const mine = out.findIndex(o => isMe(o));
     if (mine >= 0) { const o = out[mine]; box.append(el('p', 'you', 'Your finish: ' + ordinal(mine + 1) + ' of ' + out.length + ' · ' + o.s.pts + ' pts · ' + o.s.right + '–' + o.s.wrong + (o.s.sidePts ? ' · ' + o.s.sidePts + ' side question' + (o.s.sidePts > 1 ? 's' : '') : ''))); }
     const bt = el('div', 'btns');
     bt.append(btn('pl-btn primary', 'Share final standings', () => shareStandings(out, gname, list)));
@@ -623,7 +625,7 @@
     out.slice(0, rowsN).forEach((o, i) => {
       if (i % 2 === 0) { x.fillStyle = 'rgba(255,255,255,.05)'; x.fillRect(40, y - 50, W - 80, rowH); }
       x.fillStyle = i < 3 ? '#fbbf24' : 'rgba(255,255,255,.6)'; x.font = '700 36px system-ui, sans-serif'; x.fillText(String(i + 1), 70, y);
-      x.fillStyle = '#fff'; x.font = (o.m.uid === me.uid ? '700' : '500') + ' 36px system-ui, sans-serif'; const n = o.m.name || 'Player'; x.fillText(n.length > 22 ? n.slice(0, 21) + '…' : n, 140, y);
+      x.fillStyle = '#fff'; x.font = (isMe(o) ? '700' : '500') + ' 36px system-ui, sans-serif'; const n = o.m.name || 'Player'; x.fillText(n.length > 22 ? n.slice(0, 21) + '…' : n, 140, y);
       const t = o.s.pts + ' pts · ' + o.s.right + '–' + o.s.wrong; x.font = '700 34px system-ui, sans-serif'; x.fillText(t, W - 70 - x.measureText(t).width, y);
       y += rowH;
     });
@@ -644,7 +646,7 @@
     const recent = callOrder(list.filter(r => w[r.key])).slice(0, 3);
     recent.forEach(r => {
       const side = w[r.key], win = side === 'd' ? r.a : r.b;
-      const got = out.filter(o => o.p && (o.p.picks || {})[r.key] === side).map(o => (o.m.uid === me.uid ? 'You' : o.m.name || 'Player') + (o.p.lock === r.key ? ' ★' : ''));
+      const got = out.filter(o => o.p && (o.p.picks || {})[r.key] === side).map(o => (isMe(o) ? 'You' : o.m.name || 'Player') + (o.p.lock === r.key ? ' ★' : ''));
       const d = el('div', 'pl-call ' + (side === 'r' ? 'r' : r.ap === 'I' ? 'i' : 'd'));
       d.append(el('b', '', win + ' wins ' + r.long), el('small', '', got.length ? 'Got it (+' + worth(r, side) + '): ' + got.join(', ') : 'Nobody in the group called it'));
       box.append(d);
@@ -736,10 +738,10 @@
       if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) t.append(el('small', '', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
       t.addEventListener('click', () => drop(t));
       stack.prepend(t);
-      setTimeout(() => drop(t), 9000);
+      setTimeout(() => drop(t), sim ? 4500 : 9000);
     });
     if (extra > 0) { const t = el('div', 'pl-pop more'); t.append(el('b', '', '+ ' + extra + ' more race' + (extra > 1 ? 's' : '') + ' called'), el('small', '', 'See the Election night tab')); t.addEventListener('click', () => drop(t)); stack.append(t); setTimeout(() => drop(t), 9000); }
-    while (stack.children.length > 4) stack.lastElementChild.remove();
+    while (stack.children.length > (sim ? 2 : 4)) stack.lastElementChild.remove();
     try { if (!sim && navigator.vibrate) navigator.vibrate(30); } catch (e) {}
   }
   const indRace = (key) => { const id = key.replace(/^(SEN|GOV|HOU)-/, ''), src = key.startsWith('SEN-') ? 'senate' : key.startsWith('GOV-') ? 'governor' : key.startsWith('HOU-') ? 'house' : null; const r = src && rows(src).find(z => z.id === id); return !!(r && r.party_d === 'I'); };
@@ -767,19 +769,184 @@
     document.body.append(b);
   }
 
+
+  // ---------- Practice group (only during a practice run, only on this phone) ----------
+  // Three made-up players with their own picks; the board scores everyone against the practice results,
+  // the players chat about calls as they happen, and the season finale shows when the run ends.
+  // Nothing here touches Firebase: no saves, no real chat.
+  let prac = null, pracView = 'board';
+  const BOTS = [
+    { uid: 'bot-sam', name: 'Sam', style: 'fav' },       // goes with the favorite almost every time
+    { uid: 'bot-jordan', name: 'Jordan', style: 'mix' }, // picks in line with the odds
+    { uid: 'bot-riley', name: 'Riley', style: 'upset' }, // loves an underdog
+  ];
+  const pick1 = (a) => a[Math.floor(Math.random() * a.length)];
+  const pracNow = () => (window.__simNow ? window.__simNow() : Date.now());
+  function pracInit() {
+    const list = races(), pD = (r) => r.kd == null ? .5 : Number(r.kd) / 100;
+    const makeDoc = (style) => {
+      const picks = {};
+      list.forEach(r => { const p = pD(r); const q = style === 'fav' ? (p === .5 ? .5 : p > .5 ? .9 : .1) : style === 'upset' ? (p === .5 ? .5 : p > .5 ? .35 : .65) : p; picks[r.key] = Math.random() < q ? 'd' : 'r'; });
+      let lock;
+      if (style === 'fav') lock = list.slice().sort((a, b) => Math.abs(pD(b) - .5) - Math.abs(pD(a) - .5))[0];
+      else if (style === 'upset') lock = list.filter(r => worth(r, picks[r.key]) > 1).sort((a, b) => worth(b, picks[b.key]) - worth(a, picks[a.key]))[0] || pick1(list);
+      else lock = pick1(list);
+      return { picks, lock: lock ? lock.key : null, side: {} };
+    };
+    const mine = me && Object.keys(myPicks).length ? { picks: Object.assign({}, myPicks), lock: myLock, side: Object.assign({}, mySide) } : makeDoc('fav');
+    const auto = !(me && Object.keys(myPicks).length);
+    prac = { members: [{ uid: 'you', name: 'You', doc: mine, auto }].concat(BOTS.map(b => ({ uid: b.uid, name: b.name, style: b.style, doc: makeDoc(b.style) }))), chat: [], seen: new Set(), timers: [] };
+    rows('results').forEach(x => { if (x.winner_party) prac.seen.add(x.race); });
+    const label = (k) => { const r = list.find(x => x.key === k); return r ? r.long : k; };
+    const riley = prac.members[3];
+    pracSay(prac.members[1], 'Good luck everyone 🍀', 700);
+    pracSay(prac.members[2], 'Popcorn’s ready 🍿', 1800);
+    pracSay(riley, 'My lock is ' + label(riley.doc.lock) + ' ★ — going big', 3000);
+  }
+  function pracSay(m, text, delay) {
+    const t = setTimeout(() => {
+      if (!prac || !window.__simOn) return;
+      prac.chat.push({ uid: m.uid, name: m.name, text, at: pracNow() });
+      if (pracView === 'chat') pracPaint(); else pracBadge();
+    }, delay || 0);
+    prac.timers.push(t);
+  }
+  function pracStop() { if (prac) prac.timers.forEach(clearTimeout); prac = null; pracView = 'board'; }
+  // new practice calls → a couple of players react
+  function pracCalls() {
+    if (!prac) return;
+    const list = races(), fresh = rows('results').filter(x => x.winner_party && !prac.seen.has(x.race));
+    fresh.forEach(x => prac.seen.add(x.race));
+    let delay = 900;
+    fresh.forEach(x => {
+      const r = list.find(g => g.key === x.race); if (!r) return;
+      const side = /^(R|N)$/.test(x.winner_party) ? 'r' : 'd', win = side === 'd' ? r.a : r.b;
+      const bots = prac.members.slice(1);
+      const right = bots.filter(m => m.doc.picks[r.key] === side), wrong = bots.filter(m => m.doc.picks[r.key] && m.doc.picks[r.key] !== side);
+      const you = prac.members[0];
+      if (Math.random() < .75 && (right.length || wrong.length)) {
+        const happy = right.length && (!wrong.length || Math.random() < .55);
+        const m = happy ? pick1(right) : pick1(wrong), v = worth(r, side) * (m.doc.lock === r.key ? 2 : 1);
+        const text = happy
+          ? (m.doc.lock === r.key ? pick1(['LOCK HITS ★ +' + v, 'Lock of the night, baby ★ +' + v]) : v > 1 ? pick1(['UPSET! +' + v + ' for me 🔥', 'Who had ' + win + '? Me. +' + v]) : pick1(['Called it 😎', 'Easy money — ' + win, 'Knew ' + win + ' had it', '+1, keep ’em coming']))
+          : (m.doc.lock === r.key ? pick1(['There goes my lock… 💀', 'My lock?! ' + r.label + ' why']) : pick1(['Nooo, ' + r.label, 'Welp. ' + win + ' it is.', 'That one hurts 😩', 'Thought ' + r.label + ' would go the other way']));
+        pracSay(m, text, delay); delay += 1400;
+      }
+      if (you.doc.lock === r.key && Math.random() < .8) { const yes = you.doc.picks[r.key] === side; pracSay(pick1(prac.members.slice(1)), yes ? 'Ok your lock hit, I’m scared now' : 'Your lock just missed 😬', delay); delay += 1400; }
+    });
+    if (window.__simDone && !prac.finalSaid) {
+      prac.finalSaid = true;
+      const w = simWinners(), out = pracOut(list, w);
+      const champ = out[0];
+      pracSay(pick1(prac.members.slice(1).filter(m => m !== champ.m).concat(prac.members.slice(1)).slice(0, 2)), champ.m.uid === 'you' ? 'Ok fine, you win. GG 👏' : 'GG everyone — ' + champ.m.name + ' takes it 🏆', 1200);
+    }
+  }
+  function simWinners() { const w = {}; rows('results').forEach(x => { if (x.winner_party) w[x.race] = /^(R|N)$/.test(x.winner_party) ? 'r' : 'd'; }); return w; }
+  function pracOut(list, w) {
+    return prac.members.map(m => ({ m, p: m.doc, s: score(m.doc, w, list), count: list.filter(r => m.doc.picks[r.key]).length, seats: null }))
+      .sort((a, b) => b.s.pts - a.s.pts || b.s.right - a.s.right || (a.m.uid === 'you' ? -1 : b.m.uid === 'you' ? 1 : a.m.name.localeCompare(b.m.name)));
+  }
+  function pracBadge() { const b = $('#prac-chat-btn'); if (!b || pracView === 'chat') return; prac.unread = (prac.unread || 0) + 1; b.textContent = 'Chat (' + prac.unread + ')'; }
+  function renderPractice(box) {
+    if (!prac) pracInit();
+    const ban = el('div', 'pl-prac');
+    ban.append(el('b', '', '🧪 Practice group'), el('span', '', 'Sam, Jordan and Riley are made-up players. Nothing here is saved or sent — it ends with the practice run.'));
+    box.append(ban);
+    const nav = el('div', 'en-seg');
+    [['board', 'Leaderboard'], ['chat', 'Chat' + (prac.unread && pracView !== 'chat' ? ' (' + prac.unread + ')' : '')], ['picks', 'Everyone’s picks']].forEach(([k, t]) => {
+      const b = btn('', t, () => { pracView = k; if (k === 'chat') prac.unread = 0; render(); }); b.setAttribute('aria-pressed', String(pracView === k)); if (k === 'chat') b.id = 'prac-chat-btn'; nav.append(b);
+    });
+    box.append(nav);
+    if (pracView === 'chat') return pracChat(box);
+    if (pracView === 'picks') return pracPicks(box);
+    pracBoard(box);
+  }
+  function pracBoard(box) {
+    const list = races(), w = simWinners(), called = list.filter(r => w[r.key]).length, out = pracOut(list, w), done = !!window.__simDone;
+    const c = el('div', 'pl-card'); box.append(c);
+    if (done) c.append(finale(out, 'the practice group', list, w));
+    c.append(el('h3', '', done ? 'Final standings' : 'Practice leaderboard'), el('p', 'pl-note', called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') + (prac.members[0].auto ? ' · You have auto picks (the favorite in every race) — sign in and make picks to play your own' : ' · You’re playing your real picks')));
+    if (called) c.append(liveExtras(out, list, w));
+    const t = el('div', 'pl-board'), leader = out.length ? out[0].s.pts : 0;
+    out.forEach((o, i) => {
+      const r = el('div', 'pl-rank' + (o.m.uid === 'you' ? ' me' : ''));
+      r.append(el('span', 'n', String(i + 1)));
+      const bits = [];
+      if (o.p.lock) { const lr = list.find(x => x.key === o.p.lock); if (lr) bits.push('★ ' + lr.label); }
+      if (o.s.best) bits.push('best call: ' + o.s.best.r.label + ' (+' + o.s.best.v + ')');
+      if (called && !done) bits.push(o.s.max < leader ? 'max ' + o.s.max + ' · can’t catch the leader' : 'max ' + o.s.max);
+      const nm = el('div', 'who'); nm.append(el('b', '', o.m.name), el('small', '', bits.join(' · ')));
+      const pts = el('div', 'pts'); pts.append(el('b', '', String(o.s.pts)), el('small', '', o.s.right + '–' + o.s.wrong));
+      r.append(nm, pts); t.append(r);
+    });
+    c.append(t);
+  }
+  function pracPicks(box) {
+    const list = races(), w = simWinners(), c = el('div', 'pl-card pl-pgrid'); box.append(c);
+    const head = el('div', 'pl-prow h'); head.append(el('span', '', 'Race')); prac.members.forEach(m => head.append(el('span', '', m.name))); c.append(head);
+    ['Senate', 'Governors', 'House'].forEach(g => {
+      c.append(el('div', 'pl-pgrp', g));
+      list.filter(r => r.group === g).forEach(r => {
+        const row = el('div', 'pl-prow'); row.append(el('span', 'rc', r.label));
+        prac.members.forEach(m => {
+          const p = m.doc.picks[r.key], x = w[r.key];
+          const cell = el('span', 'pk ' + (p === 'r' ? 'r' : r.ap === 'I' ? 'i' : 'd') + (x ? (x === p ? ' ok' : ' no') : ''), (p ? (p === 'd' ? r.a : r.b) : '—') + (m.doc.lock === r.key ? ' ★' : ''));
+          row.append(cell);
+        });
+        c.append(row);
+      });
+    });
+    c.append(el('p', 'pl-note', '★ = lock of the night (double points) · green = right, struck out = wrong'));
+  }
+  function pracChat(box) {
+    const c = el('div', 'pl-card pl-chat'); box.append(c);
+    c.append(el('p', 'pl-chat-note', 'Practice chat · only on this phone · your messages here aren’t sent to anyone'));
+    const log = el('div', 'pl-chat-log'); log.setAttribute('role', 'log'); log.setAttribute('aria-live', 'polite');
+    const form = el('form', 'pl-chat-form');
+    const inp = el('input'); inp.placeholder = 'Talk some trash (practice)'; inp.maxLength = 500; inp.enterKeyHint = 'send'; inp.autocomplete = 'off';
+    const send = btn('pl-btn primary', 'Send'); send.type = 'submit';
+    form.append(inp, send);
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault(); const t = inp.value.trim(); if (!t) return;
+      inp.value = ''; inp.focus();
+      prac.chat.push({ uid: 'you', name: 'You', text: t.slice(0, 500), at: pracNow() }); pracPaint();
+      if (Math.random() < .6) pracSay(pick1(prac.members.slice(1)), pick1(['😂', 'We’ll see about that', 'Big talk for someone at ' + (pracOut(races(), simWinners()).findIndex(o => o.m.uid === 'you') + 1) + ' place', 'Bold.', 'Screenshotting this for later 📸']), 1500 + Math.random() * 1500);
+    });
+    c.append(log, form);
+    pracPaint();
+  }
+  function pracPaint() {
+    const log = $('.pl-chat-log'); if (!log || !prac) return;
+    log.replaceChildren();
+    if (!prac.chat.length) { log.append(el('p', 'pl-chat-empty', 'The group will start talking once the night gets going.')); return; }
+    const tf = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
+    prac.chat.forEach(m => {
+      const mine = m.uid === 'you', b = el('div', 'pl-msgb' + (mine ? ' mine' : ''));
+      const h = el('div', 'h'); h.append(el('b', '', m.name), el('small', '', tf.format(new Date(m.at)) + ' CT'));
+      b.append(h, el('p', '', m.text)); log.append(b);
+    });
+    log.scrollTop = log.scrollHeight;
+  }
+
   // ---------- Boot ----------
   function boot() {
     const cfg = window.POOL_CONFIG;
     if (window.POOL_MOCK) be = mockBackend();
     else if (cfg && cfg.apiKey && window.firebase) { try { be = firebaseBackend(cfg); } catch (e) { console.error(e); be = null; } }
     render();
-    if (window.dash) window.dash.onData(() => { liveCalls(); checkNewCalls(); });
+    let wasSim = false;
+    if (window.dash) window.dash.onData(() => {
+      liveCalls(); checkNewCalls();
+      const sim = !!window.__simOn;
+      if (sim !== wasSim) { wasSim = sim; pracStop(); if (sim) pracInit(); render(); return; }
+      if (sim && prac) { pracCalls(); if (pracView === 'board' && !document.activeElement?.closest?.('#pool-root')) render(); }
+    });
     if (!be) return;
     let unsubRes = null;
     be.onAuth(async (u) => {
       me = u; profile = null; myPicks = {}; mySeats = null; myLock = null; mySide = {}; stopChat();
       if (typeof unsubRes === 'function') unsubRes(); unsubRes = null; adminRes = {};
-      if (u) unsubRes = be.watchAdminResults((r) => { adminRes = r || {}; if (me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
+      if (u) unsubRes = be.watchAdminResults((r) => { adminRes = r || {}; if (!window.__simOn && me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
       if (u) {
         profile = await be.getProfile(u.uid).catch(() => null);
         if (!profile && u.name) { profile = { name: u.name, groups: [] }; await be.saveProfile(u.uid, profile).catch(() => {}); }
@@ -788,7 +955,7 @@
       }
       render();
     });
-    if (window.dash) window.dash.onData(() => { if (me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
+    if (window.dash) window.dash.onData(() => { if (!window.__simOn && me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
     setInterval(() => { const b = $('.pl-lock'); if (b) b.replaceWith(lockBanner()); }, 30000);
   }
   // #game in the address opens the Prediction Game tab (the page's own hash handling does it; this is a fallback)
