@@ -48,7 +48,7 @@
       listMembers: async (code) => { const q = await fs.collection('groups/' + code + '/members').get(); return q.docs.map(d => Object.assign({ uid: d.id }, d.data())); },
       watchAdminResults: (cb) => fs.doc('admin/results').onSnapshot(s => cb(s.exists ? s.data() : {}), () => cb({})),
       saveAdminResult: (key, val) => fs.doc('admin/results').set({ [key]: (val == null || val === '') ? firebase.firestore.FieldValue.delete() : val }, { merge: true }),
-      watchChat: (code, cb, err) => fs.collection(chatPath(code)).orderBy('at', 'desc').limit(50)
+      watchChat: (code, cb, err, n) => fs.collection(chatPath(code)).orderBy('at', 'desc').limit(n || 50)
         .onSnapshot(q => cb(q.docs.map(d => Object.assign({ id: d.id }, d.data())).reverse()), e => { console.error(e); if (err) err(e); }),
       // the message and your "last posted" time are written together; the rules enforce a short cooldown
       sendChat: (code, msg) => { const b = fs.batch(); b.set(fs.collection(chatPath(code)).doc(), msg); b.set(fs.doc('users/' + msg.uid), { lastChat: msg.at }, { merge: true }); return b.commit(); },
@@ -76,7 +76,8 @@
     const db = window.__poolMockDb || (window.__poolMockDb = { users: {}, picks: {}, groups: {}, members: {}, admin: {}, chat: {} });
     let cur = null; const subs = []; const adminSubs = []; const chatSubs = {};
     const set = (u) => { cur = u; subs.forEach(f => f(u)); };
-    const pushChat = (code) => (chatSubs[code] || []).forEach(f => f((db.chat[code] || []).slice(-100)));
+    const pushChat = (code) => (chatSubs[code] || []).forEach(f => f((db.chat[code] || []).slice(-300)));
+    window.__poolMockPush = pushChat;
     return {
       onAuth: (cb) => { subs.push(cb); setTimeout(() => cb(cur), 0); },
       signInGoogle: async () => set({ uid: 'u_brad', name: 'Brad', email: 'brad@example.com', verified: true }),
@@ -99,6 +100,7 @@
       watchAdminResults: (cb) => { adminSubs.push(cb); cb(db.admin); },
       saveAdminResult: async (key, val) => { if (val != null && val !== '') db.admin[key] = val; else delete db.admin[key]; adminSubs.forEach(f => f(Object.assign({}, db.admin))); },
       watchChat: (code, cb) => { (chatSubs[code] = chatSubs[code] || []).push(cb); setTimeout(() => pushChat(code), 0); return () => { chatSubs[code] = chatSubs[code].filter(f => f !== cb); }; },
+      __as: (u) => set(u),   // tests only: switch players
       sendChat: async (code, msg) => { (db.chat[code] = db.chat[code] || []).push(Object.assign({ id: 'm' + Math.random().toString(36).slice(2) }, msg)); pushChat(code); },
       deleteChat: async (code, id) => { db.chat[code] = (db.chat[code] || []).filter(m => m.id !== id); pushChat(code); },
       sendReport: async (data) => { (db.reports = db.reports || []).unshift(Object.assign({ id: 'r' + Math.random().toString(36).slice(2) }, data)); },
@@ -243,6 +245,7 @@
   // ---------- UI ----------
   const root = () => $('#pool-root');
   function render() {
+    try { feedSync(); } catch (e) {}
     const box = root(); if (!box) return;
     box.replaceChildren();
     if (window.__simOn) { stopChat(); return renderPractice(box); }
@@ -664,7 +667,8 @@
         const more = btn('pl-more', '⋯', () => { const open = b.querySelector('.pl-acts'); if (open) { open.remove(); return; } const a = el('div', 'pl-acts'); a.append(btn('', 'Report', () => reportMsg(m)), btn('', 'Block ' + (m.name || 'player'), () => blockUser(m.uid, m.name))); b.append(a); });
         more.setAttribute('aria-label', 'Report or block'); h.append(more);
       }
-      b.append(h, el('p', '', cleanText(m.text || '')));
+      const sp = specialMsg(m); if (sp) b.classList.add('pl-special');
+      b.append(h, sp || el('p', '', cleanText(m.text || '')));
       log.append(b);
     });
     if (atBottom || log.dataset.first !== '1') { log.scrollTop = log.scrollHeight; log.dataset.first = '1'; }
@@ -698,6 +702,8 @@
     }
     c.append(el('h3', '', done ? 'Final standings' : 'Leaderboard'), el('p', 'pl-note', lk ? called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') : 'Scores start once races are called. Picks stay hidden until they lock at 5:00 PM CT Nov 3.'));
     if (lk && called) { c.append(liveExtras(out, list, w)); const lb = leadBox(out, list); if (lb) c.append(lb); }
+    const odds = lk && !done ? winChances(out, list, w) : null;
+    grpOut = { out, list, w, code: activeGroup, lk }; out.forEach(o => { if (o.p) pickMap.set(o.m.uid, o.p); if (o.m.name) grpNames.set(o.m.uid, o.m.name); });
     if (lk) { const g = await getGroupC(activeGroup); tvBoard = { title: (g ? g.name : 'Your group') + ' · leaderboard', out, code: activeGroup, gname: g ? g.name : 'your group', lk: true }; }
     const t = el('div', 'pl-board');
     const leader = out.length ? out[0].s.pts : 0;
@@ -709,11 +715,15 @@
       if (lk && o.seats != null) bits.push('Senate guess ' + o.seats);
       if (o.s.best) bits.push('best call: ' + o.s.best.r.label + ' (+' + o.s.best.v + ')');
       if (lk && called && !done) bits.push(o.s.max < leader ? 'max ' + o.s.max + ' · can’t catch the leader' : 'max ' + o.s.max);
-      const nm = el('div', 'who'); nm.append(el('b', '', o.m.name || 'Player'), el('small', '', bits.join(' · ')));
+      const bd = lk && o.p ? badgesOf(o.p, list, w, isMe(o)) : [];
+      const nm = el('div', 'who'); const nb = el('b', '', o.m.name || 'Player'); if (bd.length) nb.append(el('span', 'pl-bdg', ' ' + bd.map(k => BADGES[k].i).join(''))); nm.append(nb, el('small', '', bits.join(' · ')));
+      if (odds && odds.has(o.m.uid)) { const pc = odds.get(o.m.uid); nm.append(winBar(pc)); }
       const pts = el('div', 'pts'); if (lk) pts.append(el('b', '', String(o.s.pts)), el('small', '', o.s.right + '–' + o.s.wrong)); else pts.append(el('small', '', o.count >= list.length ? 'All picked ✓' : ''));
       r.append(nm, pts); t.append(r);
     });
     c.append(t);
+    if (odds) c.append(el('p', 'pl-note', 'Win chance: thousands of simulated finishes, using the betting odds for every race still open (side questions not counted).'));
+    if (lk) { c.append(badgeLegend()); const sp = splitCard(out, list, w, activeGroup); if (sp) box.append(sp); }
     if (lk && called && !done && out.length) { const gg = await getGroupC(activeGroup); const sb = el('div', 'pl-sharerow'); sb.append(btn('pl-btn', '📤 Share standings', () => shareStandings(out, gg ? gg.name : 'Your group', list, false))); c.append(sb); }
   }
   // ---- Share pictures: phones get the share sheet; elsewhere the picture downloads ----
@@ -787,7 +797,8 @@
     out.slice(0, rowsN).forEach((o, i) => {
       if (i % 2 === 0) { x.fillStyle = 'rgba(255,255,255,.05)'; x.fillRect(40, y - 50, W - 80, rowH); }
       x.fillStyle = i < 3 ? '#fbbf24' : 'rgba(255,255,255,.6)'; x.font = '700 36px system-ui, sans-serif'; x.fillText(String(i + 1), 70, y);
-      x.fillStyle = '#fff'; x.font = (isMe(o) ? '700' : '500') + ' 36px system-ui, sans-serif'; const n = o.m.name || 'Player'; x.fillText(n.length > 22 ? n.slice(0, 21) + '…' : n, 140, y);
+      x.fillStyle = '#fff'; x.font = (isMe(o) ? '700' : '500') + ' 36px system-ui, sans-serif'; const n0 = o.m.name || 'Player', n = n0.length > 18 ? n0.slice(0, 17) + '…' : n0; x.fillText(n, 140, y);
+      const bd = o.p ? badgesOf(o.p, list, winners(), isMe(o)) : []; if (bd.length) { x.font = '30px system-ui, sans-serif'; x.fillText(bd.map(k => BADGES[k].i).join(' '), 150 + x.measureText(n).width + 0, y); }
       const t = o.s.pts + ' pts · ' + o.s.right + '–' + o.s.wrong; x.font = '700 34px system-ui, sans-serif'; x.fillText(t, W - 70 - x.measureText(t).width, y);
       y += rowH;
     });
@@ -978,9 +989,292 @@
     if (!tvBoard || !tvBoard.out.length || !(tvBoard.lk || tvBoard.practice)) return null;
     const d = document.createElement('div'); d.className = 'tv-board';
     const h = document.createElement('h2'); h.textContent = tvBoard.title; d.append(h);
-    tvBoard.out.slice(0, 8).forEach((o, i) => { const r = document.createElement('div'); r.className = 'tv-rank'; r.innerHTML = '<span></span><b></b><i></i>'; r.children[0].textContent = i + 1; r.children[1].textContent = isMe(o) ? 'You' : o.m.name || 'Player'; r.children[2].textContent = o.s.pts + ' pts'; d.append(r); });
+    const list = races(), w = window.__simOn ? simWinners() : winners(), ch = winChances(tvBoard.out, list, w, 2500);
+    tvBoard.out.slice(0, 8).forEach((o, i) => { const r = document.createElement('div'); r.className = 'tv-rank'; r.innerHTML = '<span></span><b></b><i></i>'; r.children[0].textContent = i + 1; const bd = o.p ? badgesOf(o.p, list, w, isMe(o)) : []; r.children[1].textContent = (isMe(o) ? 'You' : o.m.name || 'Player') + (bd.length ? ' ' + bd.map(k => BADGES[k].i).join('') : ''); r.children[2].textContent = o.s.pts + ' pts' + (ch && ch.has(o.m.uid) ? ' · ' + Math.round(ch.get(o.m.uid) * 100) + '% to win' : ''); d.append(r); });
     return d;
   });
+
+  // ---------- Win chances: simulate the rest of the night using the betting odds ----------
+  function winChances(out, list, w, runs) {
+    const players = out.filter(o => o.p); if (players.length < 2) return null;
+    const open = list.filter(r => !w[r.key]); if (!open.length) return null;
+    const pD = (r) => r.kd == null ? 0.5 : Math.min(0.98, Math.max(0.02, Number(r.kd) / 100));
+    const probs = open.map(pD);
+    const gain = players.map(o => open.map(r => { const p = (o.p.picks || {})[r.key]; if (!p) return [0, 0]; const v = worth(r, p) * (o.p.lock === r.key ? 2 : 1); return p === 'd' ? [v, 0] : [0, v]; }));
+    const base = players.map(o => o.s.pts), wins = new Array(players.length).fill(0), N = runs || 4000, tot = new Array(players.length);
+    for (let n = 0; n < N; n++) {
+      const draw = probs.map(p => (Math.random() < p ? 0 : 1));
+      let top = -1;
+      for (let i = 0; i < players.length; i++) { let t = base[i]; const g = gain[i]; for (let k = 0; k < draw.length; k++) t += g[k][draw[k]]; tot[i] = t; if (t > top) top = t; }
+      let c = 0; for (let i = 0; i < players.length; i++) if (tot[i] === top) c++;
+      for (let i = 0; i < players.length; i++) if (tot[i] === top) wins[i] += 1 / c;
+    }
+    return new Map(players.map((o, i) => [o.m.uid, wins[i] / N]));
+  }
+  function winBar(p) {
+    const pc = Math.round(p * 100), d = el('div', 'pl-win'); const b = el('i'); b.style.width = Math.max(2, pc) + '%'; const tr = el('span', 'tr'); tr.append(b);
+    d.append(tr, el('small', '', (pc < 1 && p > 0 ? '<1' : pc > 99 && p < 1 ? '>99' : pc) + '% to win')); return d;
+  }
+
+  // ---------- Badges ----------
+  const BADGES = {
+    slayer: { i: '🗡️', n: 'Giant Slayer', d: 'Called a big underdog (Kalshi under 30%)' },
+    upset: { i: '🎯', n: 'Upset Caller', d: 'Called an underdog' },
+    lock: { i: '🔒', n: 'Lock Legend', d: 'Lock of the night hit' },
+    senate: { i: '🏛️', n: 'Perfect Senate', d: 'Every Senate race in the game right' },
+    streak: { i: '🔥', n: 'Hot Streak', d: '5 calls right in a row' },
+    oracle: { i: '🔮', n: 'Oracle', d: '10 or more races right' },
+    owl: { i: '🦉', n: 'Night Owl', d: 'Still watching after midnight CT (your phone only)' },
+  };
+  function badgesOf(doc, list, w, self) {
+    const pk = (doc && doc.picks) || {}, out = []; let up = false, slay = false, right = 0;
+    list.forEach(r => { const p = pk[r.key], x = w[r.key]; if (p && x && p === x) { right++; const v = worth(r, p); if (v >= 2) up = true; if (v >= 3) slay = true; } });
+    if (slay) out.push('slayer'); else if (up) out.push('upset');
+    if (doc && doc.lock && w[doc.lock] && pk[doc.lock] === w[doc.lock]) out.push('lock');
+    const sen = list.filter(r => r.group === 'Senate'); if (sen.length && sen.every(r => w[r.key] && pk[r.key] === w[r.key])) out.push('senate');
+    let run = 0, best = 0; callOrder(list.filter(r => w[r.key])).reverse().forEach(r => { if (!pk[r.key]) return; if (pk[r.key] === w[r.key]) { run++; best = Math.max(best, run); } else run = 0; }); if (best >= 5) out.push('streak');
+    if (right >= 10) out.push('oracle');
+    if (self && (window.__simOn ? simOwl : store.get('en-owl') === '1')) out.push('owl');
+    return out;
+  }
+  let simOwl = false;
+  function owlCheck() {
+    const now = window.__simNow ? window.__simNow() : Date.now(), h = Number(new Intl.DateTimeFormat('en-US', { hour: 'numeric', hourCycle: 'h23', timeZone: 'America/Chicago' }).format(new Date(now)));
+    const night = now >= Date.UTC(2026, 10, 4, 5) && now < Date.UTC(2026, 10, 4, 11) && h < 6;
+    if (window.__simOn) { if (night) simOwl = true; } else if (night && !document.hidden) store.set('en-owl', '1');
+  }
+  function badgeLegend() {
+    const d = el('details', 'pl-bleg'); d.append(el('summary', '', '🏅 Badges'));
+    const g = el('div', 'pl-bgrid'); Object.values(BADGES).forEach(b => { const r = el('div', ''); r.append(el('span', 'i', b.i), el('b', '', b.n), el('small', '', b.d)); g.append(r); });
+    d.append(g); return d;
+  }
+  // a pop-up the first time you earn each badge
+  let badgeSeenSim = null;
+  function checkBadges() {
+    owlCheck();
+    const sim = !!window.__simOn, list = races();
+    const doc = sim ? (prac && prac.members[0].doc) : (me && locked() ? myDoc() : null); if (!doc) return;
+    const w = sim ? simWinners() : winners(), have = badgesOf(doc, list, w, true);
+    let seen; if (sim) seen = badgeSeenSim || (badgeSeenSim = new Set(have)); else { try { seen = new Set(JSON.parse(store.get('en-badges') || 'null') || have); } catch (e) { seen = new Set(have); } if (store.get('en-badges') == null) { store.set('en-badges', JSON.stringify(have)); return; } }
+    have.filter(k => !seen.has(k)).forEach(k => { seen.add(k); const b = BADGES[k]; if (window.enCelebrate && !(window.enTvIsOpen && window.enTvIsOpen())) window.enCelebrate({ side: 'g', kicker: '🏅 New badge', title: b.i + ' ' + b.n, sub: b.d }); else alertish('🏅 New badge: ' + b.i + ' ' + b.n); });
+    if (!sim) store.set('en-badges', JSON.stringify([...seen]));
+  }
+
+  // ---------- How your group picked (after the lock) + head-to-head challenges ----------
+  let grpOut = null; const pickMap = new Map();
+  function splitOf(out, r) {
+    const d = [], rr = []; out.forEach(o => { const p = o.p && (o.p.picks || {})[r.key]; if (p === 'd') d.push(o); else if (p === 'r') rr.push(o); }); return { d, r: rr };
+  }
+  function splitCard(out, list, w, code) {
+    const players = out.filter(o => o.p); if (players.length < 2) return null;
+    const c = el('div', 'pl-card pl-split'); c.append(el('h3', '', 'How your group picked'), el('p', 'pl-note', code ? 'Open races first · tap ⚔️ to challenge someone who picked the other side (bragging rights, posted in your group chat)' : 'Open races first'));
+    const rows = list.map(r => ({ r, s: splitOf(players, r), x: w[r.key] })).filter(o => o.s.d.length + o.s.r.length);
+    rows.sort((a, b) => (!!a.x - !!b.x) || (Math.abs(a.s.d.length - a.s.r.length) - Math.abs(b.s.d.length - b.s.r.length)));
+    const nm = (o) => isMe(o) ? 'You' : o.m.name || 'Player';
+    const meO = players.find(isMe);
+    const SHOW = 6; let more = null;
+    rows.forEach(({ r, s, x }, idx) => {
+      const row = el('div', 'pl-sp' + (x ? ' done' : '')); const n = s.d.length + s.r.length;
+      if (idx >= SHOW) { row.hidden = true; if (!more) { more = btn('pl-link pl-spmore', 'Show all ' + rows.length + ' races', () => { c.querySelectorAll('.pl-sp[hidden]').forEach(z => { z.hidden = false; }); more.remove(); }); } }
+      const top = el('div', 'h'); top.append(el('b', '', r.long), el('small', '', x ? '✓ ' + (x === 'd' ? r.a : r.b) + ' won' : s.d.length + '–' + s.r.length)); row.append(top);
+      const bar = el('div', 'bar'); const bd = el('i', r.ap === 'I' ? 'i' : 'd'), br = el('i', 'r'); bd.style.width = (s.d.length / n * 100) + '%'; br.style.width = (s.r.length / n * 100) + '%'; bar.append(bd, br); row.append(bar);
+      const sides = el('div', 'sides');
+      [['d', r.a, s.d], ['r', r.b, s.r]].forEach(([k, cand, who]) => {
+        const col = el('div', k); col.append(el('b', '', cand + ' · ' + who.length));
+        const names = el('div', 'n');
+        who.forEach(o => { const t = el('span', x ? (x === k ? 'ok' : 'no') : '', nm(o) + (o.p.lock === r.key ? ' ★' : '')); names.append(t);
+          const mine = meO && meO.p && (meO.p.picks || {})[r.key];
+          if (code && !x && mine && mine !== k && !isMe(o) && !window.__simOn) { const cb = btn('pl-chal', '⚔️', () => challenge(code, r, o)); cb.setAttribute('aria-label', 'Challenge ' + nm(o) + ' on ' + r.long); names.append(cb); }
+        });
+        col.append(names); sides.append(col);
+      });
+      row.append(sides); c.append(row);
+    });
+    if (more) c.append(more);
+    return c;
+  }
+  async function challenge(code, r, o) {
+    if (!profile || !profile.agreed) { alertish('Agree to the chat rules first (Chat tab), then challenge away.'); return; }
+    const ok = await sendMsg(code, '⚔️ ' + profile.name + ' challenges ' + (o.m.name || 'Player') + ' on ' + r.long + ' {bet:' + r.key + ':' + o.m.uid + '}');
+    if (ok) alertish('Challenge posted in your group chat ⚔️');
+  }
+  // chat messages that carry a game action: {bet:RACE:UID}, {ql:RACE:DEADLINE}, {qa:RACE:SIDE:DEADLINE}
+  const TOKEN = /\s*\{(bet|ql|qa):([^}]+)\}\s*$/;
+  const plainText = (t) => String(t || '').replace(TOKEN, '');
+  function specialMsg(m) {
+    const t = TOKEN.exec(String(m.text || '')); if (!t) return null;
+    const kind = t[1], parts = t[2].split(':'), list = races(), w = winners();
+    const raceOf = (key) => list.find(x => x.key === key) || anyRace(key);
+    if (kind === 'bet') {
+      const r = raceOf(parts[0]), opp = parts[1]; if (!r) return null;
+      const d = el('div', 'pl-bet'); d.append(el('b', '', '⚔️ Challenge · ' + r.long));
+      const a = pickMap.get(m.uid), b = pickMap.get(opp);
+      if (!a || !b) { needPicks([m.uid, opp]); d.append(el('small', '', plainText(m.text).replace(/^⚔️\s*/, ''))); return d; }
+      const pa = (a.picks || {})[r.key], pb = (b.picks || {})[r.key], oppName = (grpNames.get(opp) || 'Player');
+      d.append(el('small', '', (m.name || 'Player') + ': ' + (pa === 'd' ? r.a : r.b) + '  vs  ' + oppName + ': ' + (pb === 'd' ? r.a : r.b)));
+      const x = w[r.key]; d.append(el('span', 'st', x ? '🏆 ' + (pa === x ? (m.name || 'Player') : pb === x ? oppName : 'Nobody') + ' wins the challenge' : 'Waiting on the call…'));
+      return d;
+    }
+    if (kind === 'ql') {
+      const r = raceOf(parts[0]), dl = Number(parts[1]); if (!r) return null;
+      const d = el('div', 'pl-bet pl-ql'); d.append(el('b', '', '⚡ Lightning round · ' + r.long));
+      const res = lightningResult(parts[0], dl); d.append(el('small', '', res.text));
+      if (Date.now() < dl && lrCanAnswer(parts[0], dl)) d.append(btn('pl-btn primary', 'Answer now', () => lrPrompt({ key: parts[0], dl, code: lrCode() })));
+      return d;
+    }
+    if (kind === 'qa') { const p = el('p', 'pl-qa', '⚡ locked in an answer'); return p; }
+    return null;
+  }
+  const grpNames = new Map();
+  let needT = null; const needing = new Set();
+  function needPicks(uids) {
+    if (!locked() || !be) return; uids.forEach(u => { if (!pickMap.has(u)) needing.add(u); });
+    clearTimeout(needT); needT = setTimeout(async () => { const us = [...needing]; needing.clear(); for (const u of us) { const p = await picksC(u).catch(() => null); if (p) pickMap.set(u, p); } paintChat(); }, 200);
+  }
+  // any race in the app (lightning rounds can ask about races outside the game)
+  function anyRace(key) {
+    const id = key.replace(/^(SEN|GOV|HOU)-/, ''), last2 = (n) => String(n || '').split(' ').slice(-1)[0];
+    const src = key.startsWith('SEN-') ? ['senate', ' Senate'] : key.startsWith('GOV-') ? ['governor', ' governor'] : key.startsWith('HOU-') ? ['house', ''] : null; if (!src) return null;
+    const r = rows(src[0]).find(x => x.id === id); if (!r) return null;
+    return { key, label: r.state || r.id, long: (r.state || r.id) + src[1], a: last2(r.cand_d), b: last2(r.cand_r), ap: r.party_d || 'D', kd: r.kalshi_d, group: src[0] };
+  }
+
+  // ---------- Lightning round: the TV asks, phones answer within 60 seconds; fastest right answer earns a ⚡ ----------
+  const LR_MS = 60000;
+  let feed = null;   // { code, unsub, msgs }
+  const lrCode = () => (profile && (profile.groups || []).length ? (profile.groups.includes(activeGroup) ? activeGroup : profile.groups[0]) : '');
+  function lrWindow() { const now = Date.now(); return (now >= Date.UTC(2026, 10, 3, 21, 30) && now < Date.UTC(2026, 10, 4, 10)) || gameVisible() || (window.enTvIsOpen && window.enTvIsOpen()); }
+  function feedSync() {
+    const code = be && me && profile && !window.__simOn && lrWindow() ? lrCode() : '';
+    if (feed && feed.code === code) return;
+    if (feed && typeof feed.unsub === 'function') feed.unsub(); feed = null;
+    if (!code) return;
+    feed = { code, msgs: [], seen: null, unsub: null };
+    try { feed.unsub = be.watchChat(code, (msgs) => onFeed(msgs), () => {}, 300); } catch (e) { console.error(e); }
+  }
+  function onFeed(msgs) {
+    if (!feed) return; feed.msgs = msgs;
+    msgs.forEach(m => { if (m.uid && m.name) grpNames.set(m.uid, m.name); });
+    const first = !feed.seen; if (first) feed.seen = new Set();
+    msgs.forEach(m => {
+      if (feed.seen.has(m.id)) return; feed.seen.add(m.id);
+      const t = TOKEN.exec(String(m.text || '')); if (!t || t[1] !== 'ql') return;
+      const [key, dl] = t[2].split(':'); const d = Number(dl);
+      if (Date.now() < d && lrCanAnswer(key, d) && !(window.enTvIsOpen && window.enTvIsOpen())) lrPrompt({ key, dl: d, code: feed.code });
+    });
+    if (window.enTvIsOpen && window.enTvIsOpen()) tvLightningTick();
+  }
+  const lrAnswers = (key, dl) => { const out = new Map(); (feed ? feed.msgs : []).forEach(m => { const t = TOKEN.exec(String(m.text || '')); if (!t || t[1] !== 'qa') return; const [k, side, d] = t[2].split(':'); if (k === key && Number(d) === dl && Number(m.at) <= dl + 3000 && !out.has(m.uid)) out.set(m.uid, { side, at: Number(m.at), name: m.name || 'Player' }); }); return out; };
+  const lrCanAnswer = (key, dl) => !!(me && profile && profile.agreed) && !lrAnswers(key, dl).has(me.uid) && !lrMine.has(key + ':' + dl);
+  const lrMine = new Set();
+  function lightningResult(key, dl) {
+    const ans = lrAnswers(key, dl), r = races().find(x => x.key === key) || anyRace(key), w = winners()[key] || (rows('results').find(x => x.race === key && x.winner_party) ? (/^(R|N)$/.test(rows('results').find(x => x.race === key).winner_party) ? 'r' : 'd') : null);
+    if (!r) return { text: '' };
+    if (Date.now() < dl) return { text: ans.size + ' locked in · closes in ' + Math.max(0, Math.ceil((dl - Date.now()) / 1000)) + 's' };
+    let nd = 0, nr = 0; ans.forEach(a => { if (a.side === 'd') nd++; else nr++; });
+    if (!w) return { text: ans.size + ' answered · ' + r.a + ' ' + nd + ' · ' + r.b + ' ' + nr + ' · waiting on the call' };
+    const right = [...ans.values()].filter(a => a.side === w).sort((a, b) => a.at - b.at);
+    return { text: right.length ? '⚡ Fastest right answer: ' + right[0].name + ' (' + ((right[0].at - (dl - LR_MS)) / 1000).toFixed(1) + 's)' : 'Nobody got it right', winner: right[0] || null, right };
+  }
+  // ⚡ tally: one per round for the fastest right answer
+  function lightningTally() {
+    const t = new Map(); (feed ? feed.msgs : []).forEach(m => { const x = TOKEN.exec(String(m.text || '')); if (!x || x[1] !== 'ql') return; const [key, dl] = x[2].split(':'); const res = lightningResult(key, Number(dl)); if (res.winner) t.set(res.winner.name, (t.get(res.winner.name) || 0) + 1); });
+    return [...t.entries()].sort((a, b) => b[1] - a[1]);
+  }
+  function lrPrompt(q) {
+    if ($('#lr-sheet') || !q.code) return;
+    const r = races().find(x => x.key === q.key) || anyRace(q.key); if (!r) return;
+    const sh = el('div', 'lr-sheet'); sh.id = 'lr-sheet'; sh.setAttribute('role', 'dialog'); sh.setAttribute('aria-label', 'Lightning round');
+    const tm = el('span', 'lr-t', '60'); const hd = el('div', 'lr-h'); hd.append(el('b', '', '⚡ LIGHTNING ROUND'), tm);
+    sh.append(hd, el('h3', '', 'Who wins ' + r.long + '?'), el('p', '', 'Fastest right answer in your group earns a ⚡'));
+    const bs = el('div', 'lr-b');
+    const answer = async (side) => { bs.querySelectorAll('button').forEach(b => { b.disabled = true; }); lrMine.add(q.key + ':' + q.dl); const ok = await sendMsg(q.code, '⚡ locked in {qa:' + q.key + ':' + side + ':' + q.dl + '}'); if (!ok) { lrMine.delete(q.key + ':' + q.dl); bs.querySelectorAll('button').forEach(b => { b.disabled = false; }); return; } sh.querySelector('p').textContent = 'Locked in: ' + (side === 'd' ? r.a : r.b) + ' ✓'; if (window.enSound) window.enSound.play('pop'); setTimeout(close, 1400); };
+    bs.append(btn('lr-o ' + (r.ap === 'I' ? 'i' : 'd'), r.a, () => answer('d')), btn('lr-o r', r.b, () => answer('r')));
+    const x = btn('lr-x', 'Skip', () => close()); sh.append(bs, x); document.body.append(sh);
+    if (window.enSound) window.enSound.play('chime'); try { if (navigator.vibrate) navigator.vibrate([60, 40, 60]); } catch (e) {}
+    const iv = setInterval(() => { const left = Math.ceil((q.dl - Date.now()) / 1000); tm.textContent = String(Math.max(0, left)); if (left <= 0) close(); }, 250);
+    function close() { clearInterval(iv); sh.classList.add('out'); setTimeout(() => sh.remove(), 250); }
+  }
+  // TV: ask a question (auto at each wave of poll closings, or the ⚡ button)
+  function lrPickRace(wave) {
+    const res = new Map(rows('results').map(x => [x.race, x]));
+    const asked = new Set((feed ? feed.msgs : []).map(m => { const t = TOKEN.exec(String(m.text || '')); return t && t[1] === 'ql' ? t[2].split(':')[0] : null; }).filter(Boolean));
+    const ok = (k) => !asked.has(k) && !(res.get(k) && res.get(k).winner_party) && anyRace(k);
+    let keys = wave ? String(wave.races || '').split(',').map(s => s.trim()) : [];
+    if (!wave) { const now = Date.now(); rows('pollclose').slice().sort((a, b) => a.order - b.order).forEach(c => { if (Date.parse(c.close_utc) <= now + 3600e3) keys = keys.concat(String(c.races || '').split(',').map(s => s.trim())); }); if (!keys.length) keys = rows('senate').map(r => 'SEN-' + r.id).concat(rows('governor').map(r => 'GOV-' + r.id)); }
+    const rank = (k) => (k.startsWith('SEN-') ? 0 : k.startsWith('GOV-') ? 1 : 2);
+    return keys.filter(ok).sort((a, b) => rank(a) - rank(b))[0] || null;
+  }
+  async function lrAsk(wave) {
+    const code = lrCode(); if (!code || !feed) { alertish('Sign in and join a group to run a lightning round.'); return false; }
+    const key = lrPickRace(wave); if (!key) { if (!wave) alertish('No open races left to ask about.'); return false; }
+    const r = anyRace(key), dl = Date.now() + LR_MS + 2000;
+    const ok = await sendMsg(code, '⚡ Lightning round: who wins ' + r.long + '? 60 seconds! {ql:' + key + ':' + dl + '}');
+    if (ok && window.enSay) window.enSay('Lightning round! Who wins ' + r.long + '? You have sixty seconds.');
+    return ok;
+  }
+  let lrTvT = null, lrLastWave = null;
+  function tvLightningTick() {
+    if (!(window.enTvIsOpen && window.enTvIsOpen()) || !feed) return;
+    const now = Date.now(); let q = null;
+    feed.msgs.forEach(m => { const t = TOKEN.exec(String(m.text || '')); if (t && t[1] === 'ql') { const [key, dl] = t[2].split(':'); if (now < Number(dl) + 15000) q = { key, dl: Number(dl) }; } });
+    if (!q) return;
+    const r = anyRace(q.key); if (!r) return;
+    const d = el('div', 'tv-call tv-lr'); const res = lightningResult(q.key, q.dl);
+    d.append(el('p', 'k', '⚡ Lightning round'), el('h2', '', 'Who wins ' + r.long + '?'));
+    if (now < q.dl) d.append(el('div', 'tv-lr-t', String(Math.max(0, Math.ceil((q.dl - now) / 1000)))), el('p', 'm', res.text.replace(/ · closes in.*$/, '') + ' · answer on your phone'));
+    else d.append(el('p', 'm', res.text));
+    d.dataset.lr = '1';
+    window.enTvInterrupt(d, Math.max(3000, q.dl - now + 12000));
+    clearTimeout(lrTvT); lrTvT = setTimeout(tvLightningTick, 1000);
+  }
+  function tvLightningAuto() {
+    if (!(window.enTvIsOpen && window.enTvIsOpen()) || !feed || window.__simOn) return;
+    const now = Date.now(), wave = rows('pollclose').find(c => { const t = Date.parse(c.close_utc); return now >= t && now - t < 5 * 60e3; });
+    if (wave && lrLastWave !== wave.order) { lrLastWave = wave.order; lrAsk(wave).catch(() => {}); }
+  }
+  // ⚡ button on the TV, and a lightning tally slide
+  window.enTvOnOpen = window.enTvOnOpen || [];
+  window.enTvOnOpen.push((o) => {
+    feedSync();
+    const r = o && o.querySelector('.en-tv-top .r'); if (!r || !lrCode()) return;
+    const b = el('button', 'en-tv-x', '⚡ Lightning round'); b.type = 'button'; b.addEventListener('click', async (e) => { e.stopPropagation(); feedSync(); setTimeout(() => lrAsk(null).then(() => setTimeout(tvLightningTick, 600)), 300); });
+    r.insertBefore(b, r.lastElementChild);
+    const iv = setInterval(() => { if (!(window.enTvIsOpen && window.enTvIsOpen())) { clearInterval(iv); return; } tvLightningAuto(); }, 15000);
+  });
+  window.enTvSlides = window.enTvSlides || [];
+  window.enTvSlides.push(() => {
+    const t = lightningTally(); if (!t.length) return null;
+    const d = el('div', 'tv-board'); d.append(el('h2', '', '⚡ Lightning round leaders'));
+    t.slice(0, 6).forEach(([n, c], i) => { const r = el('div', 'tv-rank'); r.append(el('span', '', String(i + 1)), el('b', '', n), el('i', '', '⚡'.repeat(Math.min(c, 5)) + (c > 5 ? ' ' + c : ''))); d.append(r); });
+    return d;
+  });
+  // TV: the group's toughest calls (most evenly split open races)
+  window.enTvSlides.push(() => {
+    if (!tvBoard || !(tvBoard.lk || tvBoard.practice)) return null;
+    const list = races(), w = window.__simOn ? simWinners() : winners(), players = tvBoard.out.filter(o => o.p); if (players.length < 2) return null;
+    const rowsS = list.filter(r => !w[r.key]).map(r => ({ r, s: splitOf(players, r) })).filter(o => o.s.d.length && o.s.r.length).sort((a, b) => Math.abs(a.s.d.length - a.s.r.length) - Math.abs(b.s.d.length - b.s.r.length)).slice(0, 5);
+    if (!rowsS.length) return null;
+    const d = el('div', 'tv-board tv-split'); d.append(el('h2', '', 'Your group’s toughest calls'));
+    rowsS.forEach(({ r, s }) => { const row = el('div', 'tv-rank'); row.append(el('span', '', '')); const b = el('b', '', r.long); row.append(b, el('i', '', r.a + ' ' + s.d.length + ' – ' + s.r.length + ' ' + r.b)); d.append(row); });
+    return d;
+  });
+
+  // ---------- Tonight's rundown: your group at a glance ----------
+  window.enRundownExtra = () => {
+    const c = el('div', 'en-rd-c'); c.append(el('h4', '', 'Your Prediction Game'));
+    const list = races();
+    if (grpOut && grpOut.lk) {
+      const players = grpOut.out.filter(o => o.p), w = winners();
+      const tough = list.filter(r => !w[r.key]).map(r => ({ r, s: splitOf(players, r) })).filter(o => o.s.d.length && o.s.r.length).sort((a, b) => Math.abs(a.s.d.length - a.s.r.length) - Math.abs(b.s.d.length - b.s.r.length)).slice(0, 4);
+      if (tough.length) { c.append(el('p', '', 'Your group’s toughest calls:')); tough.forEach(({ r, s }) => { const row = el('div', 'en-rd-r'); row.append(el('b', '', r.long), el('span', '', r.a + ' ' + s.d.length + '–' + s.r.length + ' ' + r.b)); c.append(row); }); }
+      else c.append(el('p', '', 'Your group agrees on every open race.'));
+      return c;
+    }
+    if (me && Object.keys(myPicks).length) { const n = list.filter(r => myPicks[r.key]).length, lk = list.find(r => r.key === myLock); c.append(el('p', '', 'Your picks: ' + n + ' of ' + list.length + (lk ? ' · lock ★ ' + lk.long : ' · no lock yet') + (locked() ? '' : ' · picks lock 5:00 PM CT'))); return c; }
+    const a = el('a', '', 'Make your picks before 5:00 PM CT →'); a.href = '#game'; a.addEventListener('click', (e) => { e.preventDefault(); const t = document.querySelector('.en-tab[data-tab="game"]'); if (t) t.click(); });
+    c.append(el('p', '', 'Call the toss-ups and play your friends.'), a); return c;
+  };
 
   // ---------- Big moments: full-screen celebrations (your lock, races you starred, a chamber clinched) ----------
   let clinched = {};
@@ -1013,7 +1307,7 @@
     CLINCH.forEach(([k, title, side, c]) => {
       if (!f[k] || clinched[k]) return;
       const st = f.st, sub = c === 's' ? st.sD + ' Dem/Ind – ' + st.sR + ' GOP seats' : st.hD + ' Dem – ' + st.hR + ' GOP seats';
-      if (tvOn) { const d = el('div', 'tv-call ' + side); d.append(el('p', 'k', '🏛️ Control decided'), el('h2', '', title), el('p', 'm', sub), el('p', 'more', 'On this app’s count of called races')); setTimeout(() => window.enTvInterrupt(d, 16000), 15000); setTimeout(() => window.enCelebrate && window.enCelebrate({ side, big: true, tvOnly: true }), 15000); }
+      if (tvOn) { if (window.enSay) setTimeout(() => window.enSay(title + '!'), 15000); const d = el('div', 'tv-call ' + side); d.append(el('p', 'k', '🏛️ Control decided'), el('h2', '', title), el('p', 'm', sub), el('p', 'more', 'On this app’s count of called races')); setTimeout(() => window.enTvInterrupt(d, 16000), 15000); setTimeout(() => window.enCelebrate && window.enCelebrate({ side, big: true, tvOnly: true }), 15000); }
       else if (window.enCelebrate) window.enCelebrate({ side, big: true, kicker: '🏛️ Control decided', title, sub, note: 'On this app’s count of called races' });
     });
     clinched = f;
@@ -1030,6 +1324,7 @@
     for (const m of members) { const p = lk || m.uid === me.uid ? await picksC(m.uid) : null; out.push({ m, p, s: p ? score(p, w, list) : { pts: 0, right: 0, wrong: 0, max: 0 } }); }
     out.sort((a, b) => b.s.pts - a.s.pts || b.s.right - a.s.right || String(a.m.name).localeCompare(String(b.m.name)));
     tvBoard = { title: (g ? g.name : 'Your group') + ' · leaderboard', out, code, gname: g ? g.name : 'your group', lk };
+    out.forEach(o => { if (o.p) pickMap.set(o.m.uid, o.p); if (o.m.name) grpNames.set(o.m.uid, o.m.name); }); grpOut = { out, list, w, code, lk };
     return tvBoard;
   }
   const leaderOf = (b) => { if (!b || !b.out.length) return ''; const top = b.out[0]; if (top.s.pts <= 0 || b.out.filter(o => o.s.pts === top.s.pts).length > 1) return ''; return isMe(top) ? 'You' : top.m.name || 'Player'; };
@@ -1046,8 +1341,11 @@
       if (got.length || missed.length) { const v = el('div', 'tv-verdict'); if (got.length) v.append(el('p', 'ok', '✓ Called it: ' + got.join(', ') + ' · +' + worth(r, side))); if (missed.length) v.append(el('p', 'no', '✗ Missed: ' + missed.join(', '))); d.append(v); }
       const after = leaderOf(tvBoard); if (after && after !== before) d.append(el('p', 'lead', '👑 ' + after + (after === 'You' ? ' take' : ' takes') + ' the lead'));
     }
+    const lq = (feed ? feed.msgs : []).map(m => TOKEN.exec(String(m.text || ''))).filter(t => t && t[1] === 'ql' && t[2].split(':')[0] === x.race).pop();
+    if (lq) { const lr = lightningResult(x.race, Number(lq[2].split(':')[1])); if (lr.text) d.append(el('p', 'lead', lr.text)); }
     if (fresh.length > 1) d.append(el('p', 'more', '+ ' + (fresh.length - 1) + ' more race' + (fresh.length > 2 ? 's' : '') + ' called'));
     window.enTvInterrupt(d, 14000);
+    if (window.enSay) window.enSay('Race called. ' + callText(x) + '.');
     if (window.enCelebrate) window.enCelebrate({ side: celebSide(x.winner_party), tvOnly: true });
   }
   // QR slide to join your group (until picks lock)
@@ -1069,7 +1367,7 @@
     t.append(m); while (t.children.length > 3) t.firstElementChild.remove();
     setTimeout(() => { m.classList.add('out'); setTimeout(() => m.remove(), 400); }, 9000);
   }
-  function tvChatMsg(m) { const e = leadEmoji(m.text); if (e && String(m.text).trim() === e) { if (window.enFloat) window.enFloat(e, { who: m.name || 'Player' }); } else { tvTicker(m.name || 'Player', m.text || ''); if (e && window.enFloat) window.enFloat(e, { n: 5 }); } }
+  function tvChatMsg(m) { const tk = TOKEN.exec(String(m.text || '')); if (tk) { if (tk[1] === 'qa') { tvTicker(m.name || 'Player', '⚡ locked in'); return; } if (tk[1] === 'ql') return; m = Object.assign({}, m, { text: plainText(m.text) }); } const e = leadEmoji(m.text); if (e && String(m.text).trim() === e) { if (window.enFloat) window.enFloat(e, { who: m.name || 'Player' }); } else { tvTicker(m.name || 'Player', m.text || ''); if (e && window.enFloat) window.enFloat(e, { n: 5 }); } }
   window.enTvOnOpen = window.enTvOnOpen || []; window.enTvOnClose = window.enTvOnClose || [];
   window.enTvOnOpen.push(() => {
     if (!window.qrcode) loadQR().catch(() => {});
@@ -1135,6 +1433,7 @@
         t.append(el('small', ok ? 'ok' : 'no', ok ? '✓ You got it · +' + v + (myLock === r.key ? ' (lock ★)' : '') : '✗ You picked ' + (mine === 'd' ? r.a : r.b)));
       }
       if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) t.append(el('small', '', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
+      const gb = sim ? tvBoard : grpOut; if (r && gb && gb.out && (gb.lk || gb.practice)) { const sp = splitOf(gb.out.filter(o => o.p), r), side = w[x.race]; const got = side === 'd' ? sp.d.length : sp.r.length, n = sp.d.length + sp.r.length; if (n > 1) t.append(el('small', '', 'Your group: ' + got + ' of ' + n + ' called it')); }
       const sh = el('button', 'pl-popshare', 'Share'); sh.type = 'button'; sh.addEventListener('click', (e) => { e.stopPropagation(); shareCall(x.race); drop(t); }); t.append(sh);
       const rg = !sim && me && profile && profile.agreed && (profile.groups || []).length ? ((profile.groups.includes(activeGroup) ? activeGroup : profile.groups[0])) : '';
       if (rg) {
@@ -1296,6 +1595,7 @@
     c.append(el('h3', '', done ? 'Final standings' : 'Practice leaderboard'), el('p', 'pl-note', called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') + (prac.members[0].auto ? ' · You have auto picks (the favorite in every race) — sign in and make picks to play your own' : ' · You’re playing your real picks')));
     if (called) { c.append(liveExtras(out, list, w)); const lb = leadBox(out, list); if (lb) c.append(lb); }
     tvBoard = { title: 'Practice group · leaderboard', out, practice: true };
+    const podds = !done ? winChances(out, list, w) : null;
     const t = el('div', 'pl-board'), leader = out.length ? out[0].s.pts : 0;
     out.forEach((o, i) => {
       const r = el('div', 'pl-rank' + (o.m.uid === 'you' ? ' me' : ''));
@@ -1304,11 +1604,16 @@
       if (o.p.lock) { const lr = list.find(x => x.key === o.p.lock); if (lr) bits.push('★ ' + lr.label); }
       if (o.s.best) bits.push('best call: ' + o.s.best.r.label + ' (+' + o.s.best.v + ')');
       if (called && !done) bits.push(o.s.max < leader ? 'max ' + o.s.max + ' · can’t catch the leader' : 'max ' + o.s.max);
-      const nm = el('div', 'who'); nm.append(el('b', '', o.m.name), el('small', '', bits.join(' · ')));
+      const bd = badgesOf(o.p, list, w, o.m.uid === 'you');
+      const nm = el('div', 'who'); const nb = el('b', '', o.m.name); if (bd.length) nb.append(el('span', 'pl-bdg', ' ' + bd.map(k => BADGES[k].i).join(''))); nm.append(nb, el('small', '', bits.join(' · ')));
+      if (podds && podds.has(o.m.uid)) nm.append(winBar(podds.get(o.m.uid)));
       const pts = el('div', 'pts'); pts.append(el('b', '', String(o.s.pts)), el('small', '', o.s.right + '–' + o.s.wrong));
       r.append(nm, pts); t.append(r);
     });
     c.append(t);
+    if (podds) c.append(el('p', 'pl-note', 'Win chance: thousands of simulated finishes, using the betting odds for every race still open.'));
+    c.append(badgeLegend());
+    const sp = splitCard(out, list, w, ''); if (sp) box.append(sp);
   }
   function pracPicks(box) {
     const list = races(), w = simWinners(), c = el('div', 'pl-card pl-pgrid'); box.append(c);
@@ -1365,7 +1670,7 @@
     render();
     let wasSim = false;
     if (window.dash) window.dash.onData(() => {
-      liveCalls(); checkNewCalls();
+      liveCalls(); checkNewCalls(); try { checkBadges(); feedSync(); } catch (e) { console.error(e); }
       const sim = !!window.__simOn;
       if (sim !== wasSim) { wasSim = sim; pracStop(); if (sim) pracInit(); render(); return; }
       if (sim && prac) { pracCalls(); if (pracView === 'board' && gameVisible() && !document.activeElement?.closest?.('#pool-root')) render(); }
@@ -1390,7 +1695,7 @@
     if (window.dash) window.dash.onData(() => { if (!window.__simOn && me && view !== 'chat' && gameVisible() && !document.activeElement?.closest?.('#pool-root')) render(); });
     // the game tab redraws when you open it (no downloads while it's out of sight)
     const gt = document.querySelector('.en-tab[data-tab="game"]'); if (gt) gt.addEventListener('click', () => setTimeout(render, 0));
-    setInterval(() => { const b = $('.pl-lock'); if (b) b.replaceWith(lockBanner()); }, 30000);
+    setInterval(() => { const b = $('.pl-lock'); if (b) b.replaceWith(lockBanner()); try { feedSync(); owlCheck(); } catch (e) {} }, 30000);
   }
   // #game opens the Prediction Game tab; #join=CODE also offers a one-tap join after sign-in
   const jump = () => {

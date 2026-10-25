@@ -371,3 +371,51 @@ button.wl-tip { cursor:pointer; }
 
 @media (prefers-reduced-motion: reduce) { .cb-back, .cb-back.out, .cb-card, .fe, .fe-who, .en-tv .tv-msg { animation:none; } }
 .en-tv .tv-odds .tv-nums { font-size: clamp(40px, 6vw, 100px); margin:.15em 0 .2em; }
+
+/* ---------- Win chances ---------- */
+.pl-win { display:flex; align-items:center; gap:.45rem; margin-top:.25rem; }
+.pl-win .tr { flex:1; max-width:9rem; height:6px; border-radius:999px; background: var(--color-border-line); overflow:hidden; }
+.pl-win .tr i { display:block; height:100%; border-radius:999px; background: var(--en-gold, #fbbf24); }
+.pl-win small { font-size:.7rem; font-weight:700; font-variant-numeric: tabular-nums; color: var(--color-fg); }
+
+/* ---------- Badges ---------- */
+.pl-bdg { font-weight:400; letter-spacing:.05em; }
+.pl-bleg { font-size:.8rem; } .pl-bleg summary { cursor:pointer; font-weight:700; color: var(--color-fg-muted); }
+.pl-bgrid { display:grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap:.4rem .8rem; margin-top:.5rem; }
+.pl-bgrid > div { display:grid; grid-template-columns: 1.6rem 1fr; column-gap:.4rem; align-items:baseline; }
+.pl-bgrid .i { grid-row: span 2; font-size:1.2rem; } .pl-bgrid small { color: var(--color-fg-muted); font-size:.72rem; }
+
+/* ---------- How your group picked ---------- */
+.pl-split { gap:.2rem; }
+.pl-sp { padding:.6rem 0; border-top:1px solid var(--color-border-line); display:flex; flex-direction:column; gap:.3rem; }
+.pl-sp.done { opacity:.75; }
+.pl-sp .h { display:flex; justify-content:space-between; align-items:baseline; gap:.5rem; font-size:.85rem; } .pl-sp .h small { color: var(--color-fg-muted); font-weight:700; font-variant-numeric: tabular-nums; }
+.pl-sp .bar { display:flex; height:6px; gap:2px; border-radius:999px; overflow:hidden; }
+.pl-sp .bar i { display:block; height:100%; } .pl-sp .bar i.d { background: var(--en-blue, #3b82f6); } .pl-sp .bar i.r { background: var(--en-red, #ef4444); } .pl-sp .bar i.i { background: var(--en-purple, #a855f7); }
+.pl-sp .sides { display:grid; grid-template-columns: 1fr 1fr; gap:.6rem; font-size:.74rem; }
+.pl-sp .sides .r { text-align:right; } .pl-sp .sides .r .n { justify-content:flex-end; }
+.pl-sp .sides b { font-size:.74rem; color: var(--color-fg-muted); }
+.pl-sp .n { display:flex; flex-wrap:wrap; gap:.2rem .4rem; align-items:center; margin-top:.15rem; }
+.pl-sp .n .ok { color:#16a34a; font-weight:700; } .pl-sp .n .no { color: var(--color-fg-muted); text-decoration: line-through; }
+.pl-chal { appearance:none; border:1px solid var(--color-border-line); background: var(--color-panel); border-radius:999px; font-size:.8rem; line-height:1; padding:.25rem .4rem; min-height:28px; min-width:28px; cursor:pointer; }
+
+/* ---------- Challenge + lightning cards in chat ---------- */
+.pl-msgb.pl-special { background: linear-gradient(135deg, rgba(251,191,36,.16), rgba(251,191,36,.04)); border-color: rgba(251,191,36,.5); }
+.pl-bet { display:flex; flex-direction:column; gap:.15rem; } .pl-bet b { font-size:.85rem; } .pl-bet small { font-size:.78rem; } .pl-bet .st { font-size:.8rem; font-weight:700; }
+.pl-bet .pl-btn { align-self:flex-start; margin-top:.3rem; }
+.pl-qa { margin:0; font-style:italic; color: var(--color-fg-muted); }
+
+/* ---------- Lightning round sheet (phones) ---------- */
+.lr-sheet { position:fixed; left:50%; bottom: calc(env(safe-area-inset-bottom) + 12px); transform:translateX(-50%); width:min(26rem, calc(100% - 20px)); z-index:410; background:#0b1020; color:#fff; border:1px solid rgba(251,191,36,.6); border-radius:18px; padding:1rem 1rem .8rem; box-shadow:0 20px 60px rgba(0,0,0,.5); animation: lr-in .4s cubic-bezier(.2,1.3,.4,1) both; }
+.lr-sheet.out { animation: lr-out .25s ease both; }
+.lr-h { display:flex; justify-content:space-between; align-items:center; } .lr-h b { color:#fbbf24; font-size:.75rem; letter-spacing:.14em; }
+.lr-t { font-size:1.5rem; font-weight:800; font-variant-numeric: tabular-nums; color:#fbbf24; }
+.lr-sheet h3 { margin:.2rem 0 .1rem; font-size:1.25rem; } .lr-sheet p { margin:0 0 .6rem; font-size:.8rem; color: rgba(255,255,255,.7); }
+.lr-b { display:grid; grid-template-columns: 1fr 1fr; gap:.5rem; }
+.lr-o { appearance:none; border:0; border-radius:12px; padding:.8rem .5rem; font: inherit; font-weight:800; font-size:1rem; color:#fff; cursor:pointer; min-height:52px; }
+.lr-o.d { background:#2563eb; } .lr-o.r { background:#dc2626; } .lr-o.i { background:#7e22ce; } .lr-o:disabled { opacity:.6; }
+.lr-x { appearance:none; border:0; background:transparent; color: rgba(255,255,255,.6); font: inherit; font-size:.75rem; margin-top:.4rem; cursor:pointer; padding:.3rem; }
+@keyframes lr-in { from { opacity:0; transform: translate(-50%, 30px); } } @keyframes lr-out { to { opacity:0; transform: translate(-50%, 20px); } }
+.en-tv .tv-lr-t { font-size: clamp(60px, 12vw, 200px); font-weight:800; color: var(--en-gold); line-height:1; font-variant-numeric: tabular-nums; margin:.1em 0; }
+.en-tv .tv-split .tv-rank { grid-template-columns: 0 1fr auto; } .en-tv .tv-split .tv-rank i { font-size:.75em; }
+@media (prefers-reduced-motion: reduce) { .lr-sheet, .lr-sheet.out { animation:none; } }

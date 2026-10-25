@@ -39,6 +39,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     if (opts.odds) await page.route(/\.netlify\/functions\/odds/, (r) => r.fulfill({ json: opts.odds }));
     if (opts.results) await page.route(/data\/results\.json/, async (r) => { const rows = DATA('results'); opts.results(rows); r.fulfill({ json: rows }); });
     await page.addInitScript((w) => { window.POOL_MOCK = true; if (!w) localStorage.setItem('en-welcome-v1', '1'); }, !!opts.welcome);
+    if (opts.db) await page.addInitScript((db) => { window.__poolMockDb = db; }, opts.db);
     if (opts.time) await page.clock.install({ time: new Date(opts.time) });
     await page.goto(BASE + hash);
     if (opts.time) await page.clock.runFor(4500); else await page.waitForTimeout(3500);
@@ -226,6 +227,56 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const z = await a.page.evaluate(() => ({ meta: document.querySelector('meta[name=viewport]').content, ta: getComputedStyle(document.documentElement).touchAction, ev: (() => { const e = new Event('gesturestart', { cancelable: true }); document.dispatchEvent(e); return e.defaultPrevented; })() }));
     ok(/maximum-scale=1/.test(z.meta) && /user-scalable=no/.test(z.meta), 'viewport ' + z.meta);
     ok(/pan-x pan-y/.test(z.ta), 'touch-action ' + z.ta); ok(z.ev, 'iPhone pinch gesture not blocked'); await a.close();
+  });
+  await test('polling-miss slider moves seats; rundown lists the night', async () => {
+    const a = await open('#path');
+    const at = async (v) => { await a.page.evaluate((x) => { const s = document.querySelector('#en-miss input'); s.value = String(x); s.dispatchEvent(new Event('input')); }, v); return a.page.evaluate(() => [...document.querySelectorAll('.en-miss-nums span')].map((e) => Number(e.textContent))); };
+    const [d0, r0] = await at(0), [dm, rm] = await at(-8), [dp, rp] = await at(8);
+    ok(d0 + r0 === 100 && dm <= d0 && dp >= d0 && dm < dp, 'seats ' + [d0, r0, dm, rm, dp, rp]);
+    ok(/Tipping point/.test(await a.page.textContent('#en-miss')), 'tipping point line');
+    await a.page.click('.en-tab[data-tab="night"]'); await a.page.waitForTimeout(300);
+    const rd = await a.page.evaluate(() => { const d = document.getElementById('en-rundown'); return { open: d.open, hours: d.querySelectorAll('.en-rd-h').length, close: d.querySelectorAll('.en-rd-r').length }; });
+    ok(!rd.open && rd.hours === DATA('pollclose').length && rd.close >= 5, 'rundown before Nov 3 ' + JSON.stringify(rd)); await a.close();
+    const b = await open('#night', { time: '2026-11-03T22:30:00Z' }); ok(await b.page.evaluate(() => document.getElementById('en-rundown').open), 'rundown should open itself at 4 PM CT Nov 3'); await b.close();
+  });
+  await test('game night: win chances, badges, group split, challenges, lightning round', async () => {
+    const G = 'ABCDEF', mk = (o) => Object.assign({ seats: null, side: {} }, o);
+    const db = { users: { u_brad: { name: 'Brad', groups: [G], agreed: 1 } }, picks: {
+      u_brad: mk({ picks: { 'SEN-OH': 'd', 'SEN-TX': 'r', 'SEN-IA': 'r', 'GOV-OH': 'd' }, lock: 'SEN-OH' }),
+      u_jake: mk({ picks: { 'SEN-OH': 'r', 'SEN-TX': 'd', 'SEN-IA': 'r', 'GOV-OH': 'r' }, lock: 'SEN-TX' }),
+      u_sam: mk({ picks: { 'SEN-OH': 'd', 'SEN-TX': 'd', 'SEN-IA': 'd', 'GOV-OH': 'd' }, lock: 'SEN-IA' }) },
+      groups: { [G]: { name: 'Boonville crew', owner: 'u_brad' } }, members: { [G]: { u_brad: { name: 'Brad', pickCount: 4 }, u_jake: { name: 'Jake', pickCount: 4 }, u_sam: { name: 'Sam', pickCount: 4 } } }, admin: {}, chat: {} };
+    const a = await open('#game', { time: '2026-11-04T01:00:00Z', db, odds: ODDS });
+    await a.page.click('text=Sign in with Google'); await a.page.clock.runFor(800);
+    await inject(a.page, callJS('SEN-OH', 'D', 'Sherrod Brown')); await a.page.clock.runFor(800);
+    await a.page.evaluate(() => document.querySelectorAll('.cb-back').forEach((x) => x.click())); await a.page.clock.runFor(800);
+    await a.page.click('.en-seg button:has-text("Leaderboard")'); await a.page.clock.runFor(1200);
+    const b = await a.page.evaluate(() => ({ win: [...document.querySelectorAll('.pl-win small')].map((x) => x.textContent), bdg: [...document.querySelectorAll('.pl-rank')].map((r) => r.textContent), split: document.querySelectorAll('.pl-sp').length, chal: document.querySelectorAll('.pl-chal').length }));
+    ok(b.win.length === 3, 'win chances ' + b.win); const tot = b.win.reduce((t, x) => t + (parseInt(x) || 0), 0); ok(tot >= 97 && tot <= 103, 'chances add to ~100: ' + b.win);
+    ok(b.bdg.some((t) => /Brad/.test(t) && /🔒/.test(t)), 'Brad should have Lock Legend: ' + b.bdg.join(' | '));
+    ok(b.split >= 3 && b.chal >= 1, 'group split ' + JSON.stringify(b));
+    await a.page.locator('.pl-chal').first().click(); await a.page.clock.runFor(600);
+    const bet = await a.page.evaluate((g) => (window.__poolMockDb.chat[g] || []).map((m) => m.text).join(' | '), G);
+    ok(/\{bet:[A-Z]+-[A-Z0-9-]+:u_\w+\}/.test(bet), 'challenge message ' + bet);
+    await a.page.click('.en-seg button:has-text("Chat")'); await a.page.clock.runFor(500);
+    await a.page.click('.pl-chips .en-chip:has-text("Boonville crew")'); await a.page.clock.runFor(900);
+    ok(/vs/.test(await a.page.evaluate(() => (document.querySelector('.pl-bet') || {}).textContent || '')), 'challenge card in chat');
+    // lightning: the TV asks
+    await a.page.click('.en-tab[data-tab="night"]'); await a.page.clock.runFor(300);
+    await a.page.click('#tv-open'); await a.page.clock.runFor(800);
+    ok(await a.page.isVisible('.en-tv-voice'), 'voice toggle on TV');
+    await a.page.click('.en-tv-top button:has-text("Lightning")'); await a.page.clock.runFor(4100);
+    const q = await a.page.evaluate((g) => (window.__poolMockDb.chat[g] || []).map((m) => m.text).filter((t) => /\{ql:/.test(t)), G);
+    ok(q.length === 1, 'lightning question ' + q); ok(await a.page.evaluate(() => !!document.querySelector('.en-tv .tv-lr')), 'TV lightning slide');
+    await a.page.click('.en-tv-x:has-text("Exit")'); await a.page.clock.runFor(300);
+    // a question from someone else's TV reaches this phone
+    await a.page.evaluate((g) => { const dl = Date.now() + 60000; window.__poolMockDb.chat[g].push({ id: 'zq', uid: 'u_jake', name: 'Jake', text: '⚡ Lightning round: who wins Georgia governor? {ql:GOV-GA:' + dl + '}', at: Date.now() }); window.__poolMockPush(g); }, G);
+    await a.page.clock.runFor(500);
+    ok(await a.page.isVisible('#lr-sheet'), 'lightning prompt on phone');
+    await a.page.locator('#lr-sheet .lr-o').first().click(); await a.page.clock.runFor(4000);
+    const ans = await a.page.evaluate((g) => (window.__poolMockDb.chat[g] || []).filter((m) => m.uid === 'u_brad' && /\{qa:GOV-GA:d:/.test(m.text)).length, G);
+    ok(ans === 1, 'answer posted');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
   await test('top of the page is readable (text contrast, light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {

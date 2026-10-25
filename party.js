@@ -87,6 +87,30 @@
   }
   window.enCelebrate = celebrate;
 
+  // ---------- TV announcer voice (the TV reads calls out loud) ----------
+  const voiceOn = () => store.get('en-voice') !== '0';
+  let voice = null;
+  function pickVoice() { try { const vs = speechSynthesis.getVoices().filter(v => /^en(-|_)US/i.test(v.lang)); voice = vs.find(v => /Samantha|Alex|Google US English|Aaron|Nicky/i.test(v.name)) || vs[0] || null; } catch (e) {} }
+  if (window.speechSynthesis) { pickVoice(); try { speechSynthesis.addEventListener('voiceschanged', pickVoice); } catch (e) {} }
+  window.enSay = (text) => {
+    if (!window.speechSynthesis || !voiceOn() || !(window.enTvIsOpen && window.enTvIsOpen())) return false;
+    try {
+      const u = new SpeechSynthesisUtterance(String(text).replace(/\(D\)/g, ', Democrat,').replace(/\(R\)/g, ', Republican,').replace(/\(I\)/g, ', independent,').replace(/ CT\b/g, ' central time').replace(/\s+/g, ' '));
+      if (voice) u.voice = voice; u.rate = 1.02; u.pitch = 1; u.volume = 1;
+      speechSynthesis.speak(u); return true;
+    } catch (e) { return false; }
+  };
+  window.enTvOnOpen = window.enTvOnOpen || [];
+  window.enTvOnOpen.push((o) => {
+    const r = o && o.querySelector('.en-tv-top .r'); if (!r || !window.speechSynthesis) return;
+    const b = h('button', 'en-tv-x en-tv-voice'); b.type = 'button';
+    const paint = () => { b.textContent = voiceOn() ? '🗣️ Voice on' : '🗣️ Voice off'; b.setAttribute('aria-pressed', String(voiceOn())); };
+    b.addEventListener('click', (e) => { e.stopPropagation(); store.set('en-voice', voiceOn() ? '0' : '1'); paint(); if (voiceOn()) window.enSay('Announcer on.'); else try { speechSynthesis.cancel(); } catch (x) {} });
+    paint(); r.insertBefore(b, r.lastElementChild);
+  });
+  window.enTvOnClose = window.enTvOnClose || [];
+  window.enTvOnClose.push(() => { try { speechSynthesis.cancel(); } catch (e) {} });
+
   // ---------- Floating emoji (group reactions) ----------
   function floatEmoji(emoji, opts) {
     const host = (window.enTvLayer && window.enTvLayer()) || document.body;

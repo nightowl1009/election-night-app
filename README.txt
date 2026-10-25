@@ -31,6 +31,11 @@ WHAT'S HERE
   Watch party           TV mode (Election night tab) shows your group's leaderboard, a join QR until picks lock,
                         a slide for every race call naming who in the group called it, betting odds, and the
                         group chat along the bottom. Poll closings get a banner (and an alert, unless turned off).
+  Game night extras     win chances (simulated with the betting odds), badges, "How your group picked" with ⚔️
+                        challenges, and ⚡ lightning rounds. Challenges and lightning rounds travel as group-chat
+                        messages ending in {bet:…}, {ql:…} or {qa:…}, so no Firestore rule changes were needed.
+                        The TV reads calls aloud (🗣️ Voice on/off). Path tab: "What if the polls are off?" slider.
+                        Election night tab: "Tonight's rundown" (opens itself at 4 PM CT Nov 3).
   tests/                automated checks — run before shipping code changes (see TESTS below)
 
 UPDATES
