@@ -1,7 +1,0 @@
-# Static site published from the repo root; Netlify functions send race-call alerts.
-[build]
-  publish = "."
-
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"

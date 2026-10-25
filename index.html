@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792902931"></script>
-<link rel="stylesheet" href="pool.css?v=1792902931">
+<script src="dash-lite.js?v=1792903123"></script>
+<link rel="stylesheet" href="pool.css?v=1792903123">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -765,6 +765,23 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 .en-kline .d { color:#2563eb; } .en-kline .r { color:#dc2626; } .en-kline .i { color:#9333ea; } .en-kline small { font-weight:500; color: var(--color-fg-muted); }
 .en-maptip { position:absolute; z-index:5; pointer-events:none; max-width: 16rem; white-space: normal; }
 @media (max-width: 40rem) { .en-usmap .sb, .en-usmap .nb { display:none; } .en-usmap .ab { font-size: 24px; } .en-usmap .cl { font-size: 15px; } }
+
+/* Accessibility: text set in party / yes-no colors uses darker (light theme) or lighter (dark theme) shades so it
+   meets WCAG AA contrast (4.5:1). Bars, seats and fills keep the brand colors. */
+.en { --ink-d:#1d4ed8; --ink-r:#b91c1c; --ink-i:#7e22ce; --ink-y:#0f766e; --ink-n:#c2410c; --ink-gold:#92400e; --ink-link:#1d4ed8; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .en { --color-fg-muted: #565e6b; } }
+:root[data-theme="light"] .en { --color-fg-muted: #565e6b; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r:#fca5a5; --ink-i:#d8b4fe; --ink-y:#5eead4; --ink-n:#fdba74; --ink-gold:#fbbf24; --ink-link:#93c5fd; } }
+:root[data-theme="dark"] .en { --ink-d:#93c5fd; --ink-r:#fca5a5; --ink-i:#d8b4fe; --ink-y:#5eead4; --ink-n:#fdba74; --ink-gold:#fbbf24; --ink-link:#93c5fd; }
+.en-pill.dem, .en-c.d .p, .en-latest .d, .en-vs .dd, .en-res-v .d, .en-path-nums .big.d, .en-verdict.d, .en-sc-row .d, .en-mo-card.race .en-mo-nums .y, .en-mo-card.race .en-mo-what .wy b, .en-nm-g.party .ab .a, .en-div .lead.d, .en-tr .l b, .en-ev-row .pt b.d, .en-kline .d, #pool-root .en-pb.d:not([aria-pressed="true"]), .pl-prow .pk.d { color: var(--ink-d); }
+.en-pill.rep, .en-c.r .p, .en-latest .r, .en-vs .rr, .en-res-v .r, .en-path-nums .big.r, .en-verdict.r, .en-sc-row .r, .en-sc-row .bad, .en-mo-card.race .en-mo-nums .n, .en-mo-card.race .en-mo-what .wn b, .en-nm-g.party .ab .b, .en-div .lead.r, .en-tr .r b, .en-ev-row .pt b.r, .en-kline .r, .en-res-h .live, .en-rchip.live, .pl-prow .pk.r, .en-ntag.house { color: var(--ink-r); }
+.en-c.i .p, .en-latest .i, .en-vs .ii, .en-res-v .i, .en-kline .i, #pool-root .en-pb.i:not([aria-pressed="true"]), .pl-prow .pk.i, .en-ntag.governors { color: var(--ink-i); }
+.en-mo-nums .y, .en-mo-what .wy b, .en-nm-g .ab .a, .en-apl .n .a, #pool-root .en-pb.y:not([aria-pressed="true"]), .en-ntag.missouri { color: var(--ink-y); }
+.en-mo-nums .n, .en-mo-what .wn b, .en-nm-g .ab .b, .en-apl .n .b, .en-apl .net, #pool-root .en-pb.n:not([aria-pressed="true"]) { color: var(--ink-n); }
+.en-pill.toss, .en-res-h .call, .en-ev-row .nm .tag, .pl-lock .pl-todo, .en-ntag.national { color: var(--ink-gold); }
+.en-vcard ul a, .en-changes ul a, .en-nc a, .en-link-btn, .pl-link, .en-ntag.senate { color: var(--ink-link); }
+/* keyboard users: a clear focus ring everywhere */
+.en :focus-visible, #pool-root :focus-visible { outline: 3px solid var(--en-gold); outline-offset: 2px; }
 </style>
 
 <div class="en">
@@ -2581,9 +2598,9 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792902931"></script>
-<script src="pool.js?v=1792902931"></script>
-<script src="sim.js?v=1792902931"></script>
-<script src="push.js?v=1792902931"></script>
+<script src="pool-config.js?v=1792903123"></script>
+<script src="pool.js?v=1792903123"></script>
+<script src="sim.js?v=1792903123"></script>
+<script src="push.js?v=1792903123"></script>
 </body>
 </html>

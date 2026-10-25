@@ -226,3 +226,6 @@ html.sim-on .en-tile, html.sim-on #en-count { outline: 1px dashed rgba(251,191,3
 /* alerts button beside TV mode */
 .en-hbtns { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:flex-end; flex:none; }
 .en-alert-btn[aria-pressed="true"] { border-color: var(--en-gold, #fbbf24); }
+
+/* accessibility: muted text outside the dashboard area */
+@media (prefers-color-scheme: light) { .app-updated, .sim-go small { color: #565e6b !important; } }

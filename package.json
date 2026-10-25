@@ -1,9 +1,0 @@
-{
-  "name": "election-night-app",
-  "private": true,
-  "description": "Election Night 2026 phone app (static site) plus Netlify functions for race-call alerts.",
-  "dependencies": {
-    "@netlify/blobs": "^8.1.0",
-    "web-push": "^3.6.7"
-  }
-}
