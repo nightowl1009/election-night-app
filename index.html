@@ -1218,13 +1218,13 @@ dash.calc('senate_base', {
     const box = $('#hou-map'), rows = okRows('house');
     if (!box) return; if (!rows) return fail(box, dash.data('house').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const hd = el('div', 'en-map-h'); hd.append(el('h3', '', 'House battleground map'), el('p', '', 'One dot per competitive seat · tap a state to see its races'));
+    const hd = el('div', 'en-map-h'); hd.append(el('h3', '', 'House battleground map'), el('p', '', 'One dot per competitive seat · states fill in as seats are called · tap a state to see its races'));
     const mm = el('div', 'en-mapmode'); mm.setAttribute('role', 'group'); mm.setAttribute('aria-label', 'Color dots by');
     [['kalshi', 'Kalshi odds'], ['cook', 'Cook rating']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(houseMapMode === k)); b.addEventListener('click', () => { houseMapMode = k; renderHouseMap(); }); mm.append(b); });
     hd.append(mm);
     box.append(hd);
     const kCls = (r) => { if (r.kalshi_d == null) return 'kn'; const k = Number(r.kalshi_d); return k >= 65 ? 'kd' : k > 50 ? 'ld' : k === 50 ? 't' : k > 35 ? 'lr' : 'kr'; };
-    const byState = new Map();
+    const byState = new Map(); let anyCalled = false;
     rows.forEach(r => { const st = r.id.split('-')[0]; if (!byState.has(st)) byState.set(st, []); byState.get(st).push(r); });
     drawUSMap(box, (st) => {
       const seats = byState.get(st); if (!seats) return null;
@@ -1235,7 +1235,15 @@ dash.calc('senate_base', {
         return /toss/i.test(r.rating) ? 't' : r.rating === 'Lean D' ? 'ld' : 'lr'; });
       const tally = (k) => seats.filter(r => r.rating === k).length;
       const sel = houseState === st, hasToss = seats.some(r => /toss/i.test(r.rating));
-      return { fill: hasToss ? 'var(--en-maptoss)' : 'var(--en-mapon)', ink: hasToss ? 'var(--en-maptoss-ink)' : 'var(--color-fg)', sel, dots,
+      let fill = hasToss ? 'var(--en-maptoss)' : 'var(--en-mapon)', ink = hasToss ? 'var(--en-maptoss-ink)' : 'var(--color-fg)', sub = '';
+      if (td + tr) {
+        // once seats are called, the state takes the color of who's won more of them — solid when every seat is called
+        const all = td + tr === seats.length, side = td > tr ? 'd' : tr > td ? 'r' : '';
+        if (!side) { fill = '#64748b'; ink = '#fff'; }
+        else { const c = side + (all ? '3' : '1'); fill = MAPC[c]; ink = MAPINK[c] || '#fff'; }
+        anyCalled = true;
+      }
+      return { fill, ink, sub, sel, dots,
         tip: [st + ' · ' + seats.length + ' competitive seat' + (seats.length > 1 ? 's' : ''), houseMapMode === 'kalshi'
           ? seats.map(r => r.id + ' ' + (r.kalshi_d == null ? 'no odds' : Number(r.kalshi_d) >= 50 ? (r.party_d || 'D') + ' ' + r.kalshi_d + '%' : 'R ' + (100 - Number(r.kalshi_d)) + '%')).join(' · ')
           : [['Toss-up', tally('Toss-up')], ['Lean D', tally('Lean D')], ['Lean R', tally('Lean R')]].filter(x => x[1]).map(x => x[1] + ' ' + x[0]).join(', ') + ((td + tr) ? ' · called ' + td + ' D, ' + tr + ' R' : '')],
@@ -1248,6 +1256,10 @@ dash.calc('senate_base', {
       : [['var(--en-gold)', 'Toss-up'], ['#60a5fa', 'Lean D'], ['#f87171', 'Lean R'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]).forEach(([c, t]) => { const s = el('span'); const i = el('i'); i.style.cssText = 'width:.6rem;height:.6rem;border-radius:50%;display:block;background:' + c; s.append(i, document.createTextNode(t)); key.append(s); });
     const key2 = el('div', 'en-map-key');
     [['var(--en-maptoss)', 'State with a toss-up seat'], ['var(--en-mapon)', 'Lean seats only']].forEach(([c, t]) => { const s2 = el('span'); const i = el('i'); i.style.cssText = 'width:.75rem;height:.6rem;border-radius:3px;display:block;background:' + c; s2.append(i, document.createTextNode(t)); key2.append(s2); });
+    if (anyCalled) {
+      [['#1d4ed8', 'All seats called · Dem won more'], ['#93c5fd', 'Some called · Dem ahead'], ['#64748b', 'Called seats split'], ['#fca5a5', 'Some called · GOP ahead'], ['#b91c1c', 'All called · GOP won more']]
+        .forEach(([c, t]) => { const s3 = el('span'); const i = el('i'); i.style.cssText = 'width:.75rem;height:.6rem;border-radius:3px;display:block;background:' + c; s3.append(i, document.createTextNode(t)); key2.append(s3); });
+    }
     box.append(key, key2);
   }
   function renderHouse() {
