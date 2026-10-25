@@ -1,5 +1,14 @@
 [
  {
+  "nid": "n42",
+  "date": "2026-10-25",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/todd-blanche-attroney-general-face-the-nation-transcript-10-25-2026/",
+  "tag": "National",
+  "headline": "Blanche: DOJ could step in on certification if law requires",
+  "summary": "On Face the Nation, Attorney General Todd Blanche said counting and certification should proceed normally but the Justice Department could intervene if the facts and law require it. He declined to describe his conversations with Trump about the Alaska case."
+ },
+ {
   "nid": "n33",
   "date": "2026-10-25",
   "source": "Washington Examiner",
@@ -180,6 +189,15 @@
   "summary": "Talarico raised $17.6M to Paxton's $2.8M in Oct 1–14, and El-Sayed raised $8.7M to Rogers's $2.5M. The GOP-aligned Senate Leadership Fund still has $88M in the bank, the most of any Senate group."
  },
  {
+  "nid": "n37",
+  "date": "2026-10-22",
+  "source": "NC Newsline",
+  "url": "https://ncnewsline.com/2026/10/22/cooper-rallies-support-one-week-into-north-carolinas-early-voting/",
+  "tag": "Senate",
+  "headline": "North Carolina early vote tops 1.1 million as Cooper rallies",
+  "summary": "After one week of early voting, about 1.1 million North Carolinians had voted, 38% more than at the same point in 2022, with unaffiliated turnout up 72%. Democrat Roy Cooper, who has led Republican Michael Whatley in polls for the open Senate seat, rallied supporters in Raleigh."
+ },
+ {
   "nid": "n34",
   "date": "2026-10-22",
   "source": "Bangor Daily News",
@@ -189,6 +207,33 @@
   "summary": "A Fox News poll of 1,514 likely voters (Oct. 16-20) found Sen. Susan Collins and Democrat Troy Jackson tied, with Collins leading independents by 13 points. Democrat Hannah Pingree led the governor's race by 10 points."
  },
  {
+  "nid": "n40",
+  "date": "2026-10-20",
+  "source": "WSB-TV",
+  "url": "https://www.wsbtv.com/news/local/ajcuga-poll-bottoms-jackson-dead-heat-georgia-governor-race/76TN3NROXRG4HDILVYDUMJS4RQ/",
+  "tag": "Governors",
+  "headline": "Georgia governor's race a dead heat in AJC/UGA poll",
+  "summary": "Republican Rick Jackson had 46% and Democrat Keisha Lance Bottoms 45% among 1,000 likely voters surveyed Oct. 7-15, within the 3.1-point margin of error. Bottoms led independents 43% to 38%."
+ },
+ {
+  "nid": "n39",
+  "date": "2026-10-20",
+  "source": "Votebeat",
+  "url": "https://www.votebeat.org/pennsylvania/2026/10/20/mail-ballot-requests-data-2026-election-democrats-trump/",
+  "tag": "National",
+  "headline": "Pennsylvania Democrats requesting fewer mail ballots",
+  "summary": "About 1.2 million Pennsylvanians had been approved for mail ballots as of Oct. 19, with Democratic requests down 14% from 2022 while Republican requests rose 11%. Experts said the data can't show whether Trump's blocked mail-voting order caused the drop."
+ },
+ {
+  "nid": "n38",
+  "date": "2026-10-20",
+  "source": "Punchbowl News",
+  "url": "https://punchbowl.news/article/campaigns/house-sleeper-races/",
+  "tag": "House",
+  "headline": "Under-the-radar House races shift toward Democrats",
+  "summary": "Most of the lesser-watched House races Punchbowl flagged in September have moved toward Democrats, with GOP groups cutting ad spending in seats such as New York's 3rd and Nevada's 3rd. Democrats are now competing in redder seats including Florida's 22nd, Wisconsin's 1st and Kentucky's 6th."
+ },
+ {
   "nid": "n36",
   "date": "2026-10-19",
   "source": "KOMU 8",
@@ -196,5 +241,14 @@
   "tag": "Missouri",
   "headline": "Martin and Brewer make final push in House District 44",
   "summary": "Republican Rep. John Martin faces Democrat Bekki Brewer in Boone County's only contested Missouri House race, covering parts of Columbia, Centralia, Hallsville and Ashland. Martin is running on public safety and limited government; Brewer is focused on affordability."
+ },
+ {
+  "nid": "n41",
+  "date": "2026-10-15",
+  "source": "Marist Poll",
+  "url": "https://maristpoll.marist.edu/polls/2026-midterm-elections-in-iowa-october-2026/",
+  "tag": "Governors",
+  "headline": "Marist: Sand leads Iowa governor race, Turek edges Hinson",
+  "summary": "Among Iowa likely voters, Democrat Rob Sand led Republican Zach Lahn 52% to 45% for governor, and Democrat Josh Turek led Republican Ashley Hinson 48% to 45% for Senate. The poll was taken Oct. 8-11."
  }
 ]
