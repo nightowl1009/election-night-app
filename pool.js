@@ -9,7 +9,7 @@
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
   const btn = (cls, text, fn) => { const b = el('button', cls, text); b.type = 'button'; if (fn) b.addEventListener('click', fn); return b; };
   const last = (n) => String(n || '').replace(/\s+(Jr\.?|Sr\.?|II|III|IV)$/i, '').split(' ').slice(-1)[0];
-  const locked = () => Date.now() >= LOCK;
+  const locked = () => (window.__simNow ? window.__simNow() : Date.now()) >= LOCK;
   const rows = (id) => { const d = window.dash && window.dash.data(id); return d && d.status === 'ok' ? d.data : []; };
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
 
@@ -189,6 +189,7 @@
   function card(h, p) { const c = el('div', 'pl-card'); c.append(el('h3', '', h)); if (p) c.append(el('p', '', p)); return c; }
   function lockBanner() {
     const b = el('div', 'pl-lock' + (locked() ? ' done' : ''));
+    if (window.__simOn) { b.textContent = 'Practice run: picks are shown as locked and scored against the made-up results. Nothing is saved.'; return b; }
     if (locked()) { b.textContent = 'Picks are locked — everyone’s picks are now visible. Scores update as races are called.'; return b; }
     const ms = LOCK - Date.now(), d = Math.floor(ms / 864e5), h = Math.floor(ms % 864e5 / 36e5), m = Math.floor(ms % 36e5 / 6e4);
     const when = d ? d + 'd ' + h + 'h' : h ? h + 'h ' + m + 'm' : m + 'm';
@@ -596,6 +597,7 @@
 
   // ---- Admin: call races yourself ----
   function renderAdmin(box) {
+    if (window.__simOn) { box.append(card('Practice run in progress', 'Race calling is turned off during a practice run so nothing real changes. End the practice run to call races.')); return; }
     const c = card('Call races', 'Tap the winner when a race is called. Everyone’s scores update right away. Calls Claude adds to the app’s results also count — yours override them.');
     box.append(c);
     const chips = el('div', 'en-chips pl-chips');
@@ -635,6 +637,7 @@
     return id + ' (House)';
   }
   function checkNewCalls() {
+    if (window.__simOn) { const o = $('#pl-new'); if (o) o.remove(); return; }
     const res = rows('results'); if (!res.length) return;
     const called = res.filter(x => x.winner_party);
     const raw = store.get('en-seen-calls');

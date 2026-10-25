@@ -1312,7 +1312,7 @@ dash.calc('senate_base', {
     if (d.status !== 'ok') return fail(box, d.status);
     closeRows = d.data.slice().sort((a, b) => a.order - b.order);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const now = new Date();
+    const now = window.__simNow ? new Date(window.__simNow()) : new Date();
     const nextIdx = closeRows.findIndex(c => new Date(c.close_utc) > now);
     const names = new Map();
     (okRows('senate') || []).forEach(r => names.set('SEN-' + r.id, r.id + ' Sen'));
@@ -1345,7 +1345,7 @@ dash.calc('senate_base', {
   // Hero countdown / next wave — re-run every 30s
   function tick() {
     const box = $('#en-count'); box.replaceChildren();
-    const now = new Date();
+    const now = window.__simNow ? new Date(window.__simNow()) : new Date();
     const first = new Date('2026-11-04T00:00:00Z');
     const add = (v, l) => { const d = el('div'); d.append(el('b', '', String(v).padStart(2, '0')), el('small', '', l)); box.append(d); };
     const next = closeRows && closeRows.find(c => new Date(c.close_utc) > now);
@@ -1996,5 +1996,6 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="pool-config.js"></script>
 <script src="pool.js"></script>
+<script src="sim.js"></script>
 </body>
 </html>

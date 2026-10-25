@@ -132,3 +132,13 @@
 #pool-root .en-seg::-webkit-scrollbar { display: none; }
 #pool-root .en-seg button { white-space: nowrap; flex: none; }
 .pl-chat-note { margin:0 !important; padding:.55rem .8rem; font-size:.75rem !important; border-bottom:1px solid var(--color-border-line); }
+
+/* Practice run (election night simulation) */
+.sim-go { display:flex; flex-direction:column; align-items:center; gap:.2rem; margin: 0 auto 2rem; padding:.75rem 1.1rem; border-radius:14px; border:1.5px dashed var(--en-gold, #fbbf24); background: rgba(251,191,36,.08); color: var(--color-fg); font: inherit; font-weight:700; font-size:.95rem; cursor:pointer; max-width: 22rem; }
+.sim-go small { font-weight:500; font-size:.72rem; color: var(--color-fg-muted); }
+.sim-bar { position:fixed; left:50%; transform:translateX(-50%); bottom: calc(env(safe-area-inset-bottom) + 12px); z-index:70; width:min(94vw, 30rem); background:#0b1020; color:#fff; border-radius:14px; padding:.6rem .7rem .7rem .9rem; display:grid; grid-template-columns: 1fr auto; align-items:center; gap:.45rem .6rem; box-shadow: 0 16px 40px rgba(0,0,0,.45); border:1px solid rgba(251,191,36,.6); }
+.sim-bar .sim-t { font-weight:700; font-size:.82rem; letter-spacing:.02em; }
+.sim-bar .sim-x { appearance:none; border:0; border-radius:999px; padding:.35rem .8rem; background:#fbbf24; color:#1f1300; font: inherit; font-weight:700; font-size:.78rem; cursor:pointer; }
+.sim-bar .sim-p { grid-column: 1 / -1; height:4px; border-radius:4px; background: rgba(255,255,255,.15); overflow:hidden; }
+.sim-bar .sim-p i { display:block; height:100%; width:0; background: linear-gradient(90deg, #3b82f6, #fbbf24, #ef4444); transition: width 2.4s linear; }
+html.sim-on .en-tile, html.sim-on #en-count { outline: 1px dashed rgba(251,191,36,.6); outline-offset: 2px; }

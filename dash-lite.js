@@ -9,6 +9,7 @@
   const state = {};
   const calcs = {};
   const subs = [];
+  const sim = {};  // practice-run stand-in data (never saved)
   let calcCache = {};
 
   DATASETS.forEach((id) => { state[id] = { status: 'loading', data: [] }; });
@@ -75,6 +76,7 @@
   window.dash = {
     data(id) {
       if (calcs[id]) return Object.assign({ refreshing: false, meta: [] }, runCalc(id));
+      if (sim[id]) return { refreshing: false, meta: [], status: 'ok', data: sim[id], columns: sim[id].length ? Object.keys(sim[id][0]) : [] };
       return Object.assign({ refreshing: false, meta: [] }, state[id] || { status: 'missing', data: [] });
     },
     calc(id, spec) { calcs[id] = spec; },
@@ -85,6 +87,8 @@
     resetParams() { params = Object.assign({}, DEFAULTS); saveParams(); notify(); },
     setLink(name) { try { history.replaceState(null, '', '#' + name); } catch (e) { /* ignore */ } },
     refresh(id) { load(id).then(notify); },
+    simSet(id, rows) { sim[id] = rows; notify(); },
+    simClear() { Object.keys(sim).forEach(k => delete sim[k]); notify(); },
     colors: ['#3b82f6', '#ef4444', '#fbbf24', '#a855f7', '#10b981', '#f97316', '#06b6d4', '#ec4899']
   };
 
