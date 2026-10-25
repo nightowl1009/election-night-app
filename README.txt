@@ -9,7 +9,7 @@ WHAT'S HERE
   src/app-tail.html     app-only footer, install banner, service-worker registration
   src/build.py          assembles index.html and version-stamps scripts
   data/*.json           polls, odds, results — the only files the scheduled updates change
-  dash-lite.js          loads data/, refreshes every 2 min (1 min on election night), freshness badge
+  dash-lite.js          loads the newest data (live bundle, else data/), refreshes every 2 min (30 s on election night), freshness badge
   pool.js / pool.css    Election Night Prediction Game: picks, groups, chat, moderation, finale
   pool-config.js        Firebase web config (the apiKey is public by design; Firestore rules protect data)
   firestore.rules       security rules — paste into Firebase console → Firestore → Rules → Publish
@@ -20,6 +20,10 @@ WHAT'S HERE
   netlify.toml          marks the public Firebase key as a known non-secret for Netlify's scanner
   sw.js                 offline support + alert display (bump CACHE when code changes)
   qrcode.js             QR codes for group invites (MIT, Kazuhiko Arase)
+  netlify/functions/latest.mjs + netlify/lib/latest.mjs
+                        live data: data-only commits skip Netlify deploys (netlify.toml ignore rule);
+                        phones read the newest data/ files from GitHub through this function
+  tests/                automated checks — run before shipping code changes (see TESTS below)
 
 UPDATES
   Scheduled Claude tasks update the dashboard artifact and push data/*.json here:
@@ -28,3 +32,12 @@ UPDATES
 INSTALL ON A PHONE
   iPhone (Safari): Share → Add to Home Screen, then open it from the icon (needed for alerts).
   Android (Chrome): Install button, or menu (⋮) → Install app.
+
+TESTS
+  node tests/run.cjs      (Node 18+ and Playwright: npm i -g playwright && npx playwright install chromium)
+  Runs about 20 checks in a few minutes, with Firebase/YouTube/Netlify stubbed so nothing real is touched:
+  data files are valid and sourced · the live-data function (caching, partial bundles, alert sender) ·
+  every tab opens with no errors in light and dark · tab order by date · scoreboard matches the seat charts ·
+  phones pick up new data versions and fall back when the server is down · share pictures · welcome card ·
+  watchlist · Money tab · Ad Wars loop/skip · text contrast on the top of the page.
+  Exit code 0 = all passed. News outlets over the 4-story limit show as warnings, not failures.
