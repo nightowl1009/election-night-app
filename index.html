@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792917532"></script>
-<link rel="stylesheet" href="pool.css?v=1792917532">
+<script src="dash-lite.js?v=1792918157"></script>
+<link rel="stylesheet" href="pool.css?v=1792918157">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -242,8 +242,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .sb-bar i.d { background: var(--en-blue); } .sb-bar i.r { background: var(--en-red); } .sb-bar i.g { background: var(--en-gold); } .sb-bar i.o { background: rgba(255,255,255,.35); }
 .sb-bar em { position:absolute; left:50%; top:-3px; bottom:-3px; width:2px; margin-left:-1px; background:#fff; box-shadow: 0 0 0 1px rgba(11,16,32,.6); }
 .sb-sub { display:flex; flex-wrap:wrap; gap:.15rem .4rem; font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.78); }
-.sb-sub .dot { color: rgba(255,255,255,.4); }
-.sb-note { font-size: .72rem; color: rgba(255,255,255,.55); }
+.sb-sub .dot { color: rgba(255,255,255,.7); }
+.sb-note { font-size: .72rem; color: rgba(255,255,255,.75); }
 .en-more { margin-top: var(--cds-gap-sm); }
 .en-more summary { cursor:pointer; font-size: var(--cds-font-size-caption); font-weight:600; color: rgba(255,255,255,.85); padding:.35rem 0; list-style:none; }
 .en-more summary::-webkit-details-marker { display:none; }
@@ -1675,17 +1675,43 @@ dash.calc('senate_base', {
   let secs = 0;
   window.__enTick = setInterval(() => { tick(); if (++secs % 30 === 0 && !$('#night').hidden) renderTimes(); }, 1000);
 
+  // Seats tonight, counted once for the scoreboard and the seat charts: today's chambers, changing only as races are called
+  function senateCounts() {
+    const ov = okRows('overview'), sen = okRows('senate'); if (!ov || !sen) return null;
+    const now = (k) => Number((ov.find(o => o.key === k) || {}).value);
+    let fromR = 0, fromD = 0, called = 0;
+    const seats = sen.map(r => {
+      const c = ctx.res.get('SEN-' + r.id), isCalled = !!(c && c.winner_party);
+      const side = isCalled ? (c.winner_party === 'R' ? 'R' : 'D') : r.held;
+      if (isCalled) { called++; if (r.held === 'R' && side === 'D') fromR++; if (r.held === 'D' && side === 'R') fromD++; }
+      return { id: r.id, held: r.held, side, flip: side !== r.held, called: isCalled, r, c };
+    });
+    return { d: now('senate_d_now') + fromR - fromD, r: now('senate_r_now') - fromR + fromD, fromR, fromD, called, total: sen.length, seats };
+  }
+  function houseCounts() {
+    const ov = okRows('overview'), hs = okRows('house'); if (!ov || !hs) return null;
+    const val = (k) => Number((ov.find(o => o.key === k) || {}).value);
+    const n = { D: val('house_d_now'), R: val('house_r_now'), I: val('house_i_now') || 0, V: val('house_vacant') || 0 };
+    const flipsD = [], flipsR = []; let called = 0;
+    hs.forEach(r => {
+      const c = ctx.res.get('HOU-' + r.id); if (!c || !c.winner_party) return; called++;
+      const to = c.winner_party === 'R' ? 'R' : 'D', from = /^vacant/i.test(r.incumbent || '') ? 'V' : r.held;
+      if (to === from) return;
+      n[from]--; n[to]++;
+      (to === 'D' ? flipsD : flipsR).push({ cls: 'en-seat' + (to === 'D' ? ' d' : '') + ' flip', tip: [r.id + ' · ' + (from === 'V' ? 'was vacant' : 'was ' + from), 'Called: ' + c.winner + ' (' + to + ')'] });
+    });
+    return { n, flipsD, flipsR, called };
+  }
+
   // Hero scoreboard: Senate and House seat bars (seats tonight, changing as races are called) plus the headline odds
   function renderScoreTop() {
     const box = $('#en-score-top'), ov = okRows('overview'), sen = okRows('senate'), hs = okRows('house');
     if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const val = (k) => Number((ov.find(o => o.key === k) || {}).value), disp = (k) => (ov.find(o => o.key === k) || {}).display;
-    let sFromR = 0, sFromD = 0, sCalled = 0;
-    sen.forEach(r => { const c = ctx.res.get('SEN-' + r.id); if (!c || !c.winner_party) return; sCalled++; const side = c.winner_party === 'R' ? 'R' : 'D'; if (r.held === 'R' && side === 'D') sFromR++; if (r.held === 'D' && side === 'R') sFromD++; });
-    const sD = val('senate_d_now') + sFromR - sFromD, sR = val('senate_r_now') - sFromR + sFromD;
-    const h = { D: val('house_d_now'), R: val('house_r_now'), I: val('house_i_now') || 0, V: val('house_vacant') || 0, fD: 0, fR: 0, called: 0 };
-    (hs || []).forEach(r => { const c = ctx.res.get('HOU-' + r.id); if (!c || !c.winner_party) return; h.called++; const to = c.winner_party === 'R' ? 'R' : 'D', from = /^vacant/i.test(r.incumbent || '') ? 'V' : r.held; if (to === from) return; h[from]--; h[to]++; if (to === 'D') h.fD++; else h.fR++; });
+    const disp = (k) => (ov.find(o => o.key === k) || {}).display;
+    const S = senateCounts(), Hc = houseCounts();
+    const sD = S.d, sR = S.r, sFromR = S.fromR, sFromD = S.fromD, sCalled = S.called;
+    const h = Hc ? { D: Hc.n.D, R: Hc.n.R, I: Hc.n.I, V: Hc.n.V, fD: Hc.flipsD.length, fR: Hc.flipsR.length, called: Hc.called } : { D: 0, R: 0, I: 0, V: 0, fD: 0, fR: 0, called: 0 };
     const row = (name, tab, dN, rN, fD, fR, other, total, need, subBits) => {
       const r = el('button', 'sb-row'); r.type = 'button'; r.setAttribute('aria-label', name + ': Democrats ' + dN + ', Republicans ' + rN + '. Open the ' + name + ' tab');
       r.addEventListener('click', () => { show(tab); dash.setLink(tab); document.querySelector('.en-tabwrap').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
@@ -1695,7 +1721,7 @@ dash.calc('senate_base', {
       seg('d', dN - fD); seg('g', fD); seg('o', other); seg('g', fR); seg('r', rN - fR);
       bar.append(el('em', '')); 
       nums.append(el('span', 'n d', String(dN)), bar, el('span', 'n r', String(rN))); r.append(nums);
-      const sb = el('div', 'sb-sub'); subBits.filter(Boolean).forEach((t, k) => { if (k) sb.append(el('span', 'dot', '·')); sb.append(el('span', '', t)); }); r.append(sb);
+      const sb = el('div', 'sb-sub'); subBits.filter(Boolean).forEach((t, k) => { if (k) { const dt = el('span', 'dot', '·'); dt.setAttribute('aria-hidden', 'true'); sb.append(dt); } sb.append(el('span', '', t)); }); r.append(sb);
       box.append(r);
     };
     const pr = okRows('senate_projection'), pv = (k) => pr ? Number((pr.find(x => x.metric === k) || {}).value) : NaN;
@@ -1790,15 +1816,7 @@ dash.calc('senate_base', {
     const box = $('#en-strip'), take = $('#en-take'), ov = okRows('overview'), sen = okRows('senate');
     if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const now = (k) => Number((ov.find(o => o.key === k) || {}).value);
-    let fromR = 0, fromD = 0, called = 0;
-    const seats = sen.map(r => {
-      const c = ctx.res.get('SEN-' + r.id), isCalled = !!(c && c.winner_party);
-      const side = isCalled ? (c.winner_party === 'R' ? 'R' : 'D') : r.held;
-      if (isCalled) { called++; if (r.held === 'R' && side === 'D') fromR++; if (r.held === 'D' && side === 'R') fromD++; }
-      return { id: r.id, held: r.held, side, flip: side !== r.held, called: isCalled, r, c };
-    });
-    const other = now('senate_d_now') + fromR - fromD, gopN = now('senate_r_now') - fromR + fromD;
+    const S = senateCounts(), seats = S.seats, fromR = S.fromR, fromD = S.fromD, called = S.called, other = S.d, gopN = S.r;
     $('#en-strip-label').textContent = called ? 'Called races so far · gold = changed party · tap a state' : 'Today’s Senate · seats change only when a race is called · tap a state';
     const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
     const ord = (a, b) => (b.called - a.called) || a.id.localeCompare(b.id);
@@ -1827,18 +1845,9 @@ dash.calc('senate_base', {
   function renderHouseNow() {
     const box = $('#en-house'), ov = okRows('overview'), hs = okRows('house');
     if (!ov || !hs) return fail(box, dash.data(ov ? 'house' : 'overview').status);
-    const val = (k) => Number((ov.find(o => o.key === k) || {}).value);
-    const n = { D: val('house_d_now'), R: val('house_r_now'), I: val('house_i_now') || 0, V: val('house_vacant') || 0 };
+    const Hc = houseCounts(), n = Hc.n, flipsD = Hc.flipsD, flipsR = Hc.flipsR, called = Hc.called;
     if (!(n.D + n.R)) return renderHouseRatings();
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const flipsD = [], flipsR = []; let called = 0;
-    hs.forEach(r => {
-      const c = ctx.res.get('HOU-' + r.id); if (!c || !c.winner_party) return; called++;
-      const to = c.winner_party === 'R' ? 'R' : 'D', from = /^vacant/i.test(r.incumbent || '') ? 'V' : r.held;
-      if (to === from) return;
-      n[from]--; n[to]++;
-      (to === 'D' ? flipsD : flipsR).push({ cls: 'en-seat' + (to === 'D' ? ' d' : '') + ' flip', tip: [r.id + ' · ' + (from === 'V' ? 'was vacant' : 'was ' + from), 'Called: ' + c.winner + ' (' + to + ')'] });
-    });
     $('#en-house-label').textContent = called ? called + ' battleground seats called · gold = changed party' : 'Today’s House · seats change as races are called';
     const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
     const seats = [
@@ -2689,11 +2698,11 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792917532"></script>
-<script src="pool.js?v=1792917532"></script>
-<script src="sim.js?v=1792917532"></script>
-<script src="push.js?v=1792917532"></script>
-<script src="ads.js?v=1792917532"></script>
-<script src="welcome.js?v=1792917532"></script>
+<script src="pool-config.js?v=1792918157"></script>
+<script src="pool.js?v=1792918157"></script>
+<script src="sim.js?v=1792918157"></script>
+<script src="push.js?v=1792918157"></script>
+<script src="ads.js?v=1792918157"></script>
+<script src="welcome.js?v=1792918157"></script>
 </body>
 </html>
