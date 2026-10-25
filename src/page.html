@@ -641,7 +641,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       <div id="watch-grid"></div>
     </section>
 
-    <section class="en-news-top" id="latest-news">
+    <section class="en-news-top" id="latest-news" hidden>
       <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>Latest news</h2><p>The newest election headlines</p></div><button class="en-link-btn" id="news-all">All news<svg class="en-ic" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
       <div class="en-news-strip dash-skeleton" id="news-strip" data-source="news"></div>
     </section>
@@ -1697,7 +1697,7 @@ dash.calc('senate_base', {
     return d.data.slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(a.nid).localeCompare(String(b.nid)));
   }
   function renderNewsStrip() {
-    const top = $('#latest-news'); if (top) top.hidden = !$('#news').hidden;
+    const top = $('#latest-news'); if (top) top.hidden = true; // headlines live in the News tab only
     const box = $('#news-strip'), rows = newsRows();
     if (!rows) return fail(box, dash.data('news').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();

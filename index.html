@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792915670"></script>
-<link rel="stylesheet" href="pool.css?v=1792915670">
+<script src="dash-lite.js?v=1792915905"></script>
+<link rel="stylesheet" href="pool.css?v=1792915905">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -837,7 +837,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       <div id="watch-grid"></div>
     </section>
 
-    <section class="en-news-top" id="latest-news">
+    <section class="en-news-top" id="latest-news" hidden>
       <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>Latest news</h2><p>The newest election headlines</p></div><button class="en-link-btn" id="news-all">All news<svg class="en-ic" aria-hidden="true"><use href="#i-arrow"/></svg></button></div>
       <div class="en-news-strip dash-skeleton" id="news-strip" data-source="news"></div>
     </section>
@@ -1905,7 +1905,7 @@ dash.calc('senate_base', {
     return d.data.slice().sort((a, b) => String(b.date).localeCompare(String(a.date)) || String(a.nid).localeCompare(String(b.nid)));
   }
   function renderNewsStrip() {
-    const top = $('#latest-news'); if (top) top.hidden = !$('#news').hidden;
+    const top = $('#latest-news'); if (top) top.hidden = true; // headlines live in the News tab only
     const box = $('#news-strip'), rows = newsRows();
     if (!rows) return fail(box, dash.data('news').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
@@ -2604,10 +2604,10 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792915670"></script>
-<script src="pool.js?v=1792915670"></script>
-<script src="sim.js?v=1792915670"></script>
-<script src="push.js?v=1792915670"></script>
-<script src="ads.js?v=1792915670"></script>
+<script src="pool-config.js?v=1792915905"></script>
+<script src="pool.js?v=1792915905"></script>
+<script src="sim.js?v=1792915905"></script>
+<script src="push.js?v=1792915905"></script>
+<script src="ads.js?v=1792915905"></script>
 </body>
 </html>
