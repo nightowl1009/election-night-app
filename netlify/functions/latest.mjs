@@ -7,7 +7,8 @@ export default async (req) => {
   if (want && /^[0-9a-f]{40}$/.test(want)) {
     const b = await bundle(want);
     if (!b) return out({ error: 'unavailable' }, 503, 'no-store');
-    const r = out(b, 200, 'public, max-age=31536000, immutable'); // a version never changes
+    if (!b.complete) return out(b, 200, 'no-store'); // partial: phones fill the gaps and ask again next time
+    const r = out(b, 200, 'public, max-age=31536000, immutable'); // a complete version never changes
     r.headers.set('Netlify-CDN-Cache-Control', 'public, max-age=31536000, immutable');
     return r;
   }

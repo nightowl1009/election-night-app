@@ -70,7 +70,8 @@
       changed = DATASETS.map((id) => b.data[id] ? apply(id, b.data[id]) : false);
       const missing = DATASETS.filter((id) => state[id].status !== 'ok');
       if (missing.length) changed = changed.concat(await Promise.all(missing.map((id) => load(id))));
-      liveSha = sha; showMeta(b.data.meta);
+      if (b.complete !== false) liveSha = sha; // partial bundle: ask again next time
+      if (b.data.meta) showMeta(b.data.meta); else { try { showMeta(await (await fetch('data/meta.json', { cache: 'no-cache' })).json()); } catch (e) { /* optional */ } }
     } else {
       changed = await Promise.all(DATASETS.map((id) => load(id)));
       try { showMeta(await (await fetch('data/meta.json', { cache: 'no-cache' })).json()); } catch (e) { /* optional */ }

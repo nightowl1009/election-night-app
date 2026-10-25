@@ -29,14 +29,19 @@ export async function latestSha() {
 export async function bundle(sha) {
   if (memBundle && memBundle.sha === sha) return memBundle;
   let b = null; try { b = await blobs.get('bundle'); } catch (e) { /* none yet */ }
-  if (b && b.sha === sha) { memBundle = b; return b; }
+  if (b && b.sha === sha && b.complete) { memBundle = b; return b; }
   const data = {};
-  const got = await Promise.all(FILES.map(async (f) => { try { const r = await fetch(raw(sha, f)); return r.ok ? [f, await r.json()] : null; } catch (e) { return null; } }));
-  got.forEach((g) => { if (g) data[g[0]] = g[1]; });
+  const one = async (f) => {
+    for (let k = 0; k < 3; k++) {
+      try { const r = await fetch(raw(sha, f), { headers: { 'User-Agent': 'election-night-app' } }); if (r.ok) { data[f] = await r.json(); return; } } catch (e) { /* retry */ }
+      await new Promise((ok) => setTimeout(ok, 300 * (k + 1)));
+    }
+  };
+  for (let i = 0; i < FILES.length; i += 4) await Promise.all(FILES.slice(i, i + 4).map(one)); // small batches: GitHub throttles bursts
   if (!data.results) return null; // GitHub not reachable — caller falls back
-  b = { sha, data };
-  try { await blobs.set('bundle', b); } catch (e) { /* cache only */ }
-  memBundle = b; return b;
+  b = { sha, complete: FILES.every((f) => f in data), data };
+  if (b.complete) { try { await blobs.set('bundle', b); } catch (e) { /* cache only */ } memBundle = b; }
+  return b;
 }
 
 export async function dataFile(name) {
