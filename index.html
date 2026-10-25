@@ -143,8 +143,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792956080"></script>
-<link rel="stylesheet" href="pool.css?v=1792956080">
+<script src="dash-lite.js?v=1792956756"></script>
+<link rel="stylesheet" href="pool.css?v=1792956756">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -897,6 +897,12 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
   <symbol id="i-news" viewBox="0 0 24 24"><path d="M5 5h11v14H6.5A1.5 1.5 0 0 1 5 17.5zM16 9h3v8.5a1.5 1.5 0 0 1-3 0M8 9h5M8 12.5h5M8 16h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-capitol" viewBox="0 0 24 24"><path d="M12 3.5v2.2M6.8 11a5.2 5.2 0 0 1 10.4 0M5 11h14M7 11v7M10.3 11v7M13.7 11v7M17 11v7M4 19.5h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3.8 19a5.2 5.2 0 0 1 10.4 0M15.6 6.3a2.5 2.5 0 1 1 0 4.6M16.8 13.9a4.8 4.8 0 0 1 3.4 5.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 20.5V4M6 4.8h11.5l-2.2 3.6 2.2 3.6H6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4.2 16.5a7.8 7.8 0 0 1 15.6 0M12 16.5l3.8-4.6M7 12.6l-1-.8M12 8.7V7.5M17 12.6l1-.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="16.5" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-dollar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.6 9.4c-.5-.9-1.5-1.5-2.7-1.5-1.5 0-2.6.8-2.6 2s1.1 1.7 2.7 2.1c1.6.4 2.8 1 2.8 2.3s-1.2 2.1-2.8 2.1c-1.2 0-2.3-.6-2.8-1.5M12 6.3v1.6M12 16.4v1.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-ballot" viewBox="0 0 24 24"><path d="M4.5 12.5h15v7h-15zM7.5 12.5V4.5h9v8M9.8 8.4l1.6 1.6 3-3.2M9 16h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
@@ -930,14 +936,14 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 
     <div class="en-tabwrap"><div class="en-tabs" role="tablist">
       <button class="en-tab" role="tab" data-tab="night" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-clock"/></svg>Election night</button>
-      <button class="en-tab" role="tab" data-tab="senate" aria-selected="true">Senate</button>
-      <button class="en-tab" role="tab" data-tab="house" aria-selected="false">House</button>
-      <button class="en-tab" role="tab" data-tab="governors" aria-selected="false">Governors</button>
+      <button class="en-tab" role="tab" data-tab="senate" aria-selected="true"><svg class="en-ic" aria-hidden="true"><use href="#i-capitol"/></svg>Senate</button>
+      <button class="en-tab" role="tab" data-tab="house" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-people"/></svg>House</button>
+      <button class="en-tab" role="tab" data-tab="governors" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-flag"/></svg>Governors</button>
       <button class="en-tab" role="tab" data-tab="path" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-target"/></svg>Path to control</button>
       <button class="en-tab" role="tab" data-tab="missouri" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-home"/></svg>Missouri</button>
-      <button class="en-tab" role="tab" data-tab="mood" aria-selected="false">National mood</button>
-      <button class="en-tab" role="tab" data-tab="money" aria-selected="false">💰 Money</button>
-      <button class="en-tab" role="tab" data-tab="voting" aria-selected="false">Voting</button>
+      <button class="en-tab" role="tab" data-tab="mood" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-gauge"/></svg>National mood</button>
+      <button class="en-tab" role="tab" data-tab="money" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-dollar"/></svg>Money</button>
+      <button class="en-tab" role="tab" data-tab="voting" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-ballot"/></svg>Voting</button>
       <button class="en-tab" role="tab" data-tab="news" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>News</button>
       <button class="en-tab en-tab-game" role="tab" data-tab="game" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Prediction Game</button>
       <button class="en-tab" role="tab" data-tab="ads" aria-selected="false"><svg class="en-ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5zM10 9.2v5.6l4.6-2.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Ad Wars</button>
@@ -2898,11 +2904,11 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792956080"></script>
-<script src="pool.js?v=1792956080"></script>
-<script src="sim.js?v=1792956080"></script>
-<script src="push.js?v=1792956080"></script>
-<script src="ads.js?v=1792956080"></script>
-<script src="welcome.js?v=1792956080"></script>
+<script src="pool-config.js?v=1792956756"></script>
+<script src="pool.js?v=1792956756"></script>
+<script src="sim.js?v=1792956756"></script>
+<script src="push.js?v=1792956756"></script>
+<script src="ads.js?v=1792956756"></script>
+<script src="welcome.js?v=1792956756"></script>
 </body>
 </html>
