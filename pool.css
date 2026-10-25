@@ -279,3 +279,9 @@ button.wl-tip { cursor:pointer; }
 .wl-ok { width:100%; appearance:none; font:inherit; font-weight:700; font-size:1rem; padding:.8rem; border-radius:12px; border:0; background: var(--en-gold, #fbbf24); color:#111; cursor:pointer; min-height:48px; }
 @keyframes wl-in { from { opacity:0; } to { opacity:1; } }
 @media (prefers-reduced-motion: reduce) { .wl-back { animation:none; } }
+
+/* Phones: hide scroll bars like a native app (desktop keeps them) */
+@media (hover: none) and (pointer: coarse) {
+  html, body, * { scrollbar-width: none; }
+  html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+}
