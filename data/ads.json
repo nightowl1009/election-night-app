@@ -1,10 +1,142 @@
 [
-  {"id": "2P1EV1r0U3A", "party": "R", "sponsor": "Vivek Ramaswamy campaign", "race": "Ohio governor", "target": "Amy Acton (D)", "title": "Acton's estranged mother", "what": "Acton's estranged mother calls her a liar. Acton's brother and campaign called the ad a \"despicable low,\" and Republicans in both parties criticized it. Shown here in CBS News Pittsburgh coverage.", "aired": "2026-10-20"},
-  {"id": "yyjocyKeKm0", "party": "D", "sponsor": "Sherrod Brown campaign", "race": "Ohio Senate", "target": "Sen. Jon Husted (R)", "title": "Listen to This Shit", "what": "Ohioans react to audio of Husted saying people in poverty are \"not very experienced at navigating the real world.\" Strong language.", "aired": "2026-09-29"},
-  {"id": "9ynHpNRAzQg", "party": "R", "sponsor": "Senate Leadership Fund", "race": "Ohio Senate", "target": "Sherrod Brown (D)", "title": "Ohio Kids Deserve Better", "what": "A detransitioner suggests Brown supports gender surgeries for minors. Fact-checkers noted she had her surgery at 19, in Texas.", "aired": "2026-10"},
-  {"id": "7RHvUtD_DUE", "party": "D", "sponsor": "Progress Action Fund", "race": "Ohio and Texas (national message)", "target": "Republicans", "title": "Republicans in Your Bathroom", "what": "An actor playing a Republican congressman confronts a girl in a school bathroom and questions whether she is \"really a girl.\" Part of a buy of more than $1 million.", "aired": "2026-10-13"},
-  {"id": "H8zvE95HMlA", "party": "R", "sponsor": "Senate Leadership Fund", "race": "Georgia Senate", "target": "Sen. Jon Ossoff (D)", "title": "Ugly Record", "what": "AI-generated images show Ossoff at a salon while the narrator attacks his tax votes. There is no AI disclaimer, and Ossoff's campaign demanded the ad be pulled.", "aired": "2026-09"},
-  {"id": "Nga2Q207-58", "party": "D", "sponsor": "Scott Colom campaign", "race": "Mississippi Senate", "target": "Sen. Cindy Hyde-Smith (R)", "title": "Pick Another Senator", "what": "Uses Hyde-Smith's \"so many proteins\" remark about beef prices. Mississippians say they'd rather pick another senator.", "aired": "2026-10-13"},
-  {"id": "8scpR_wOLCU", "party": "R", "sponsor": "Senate Leadership Fund", "race": "New Hampshire Senate", "target": "Chris Pappas (D)", "title": "Chris Pappas Lied to Voters", "what": "Replays Pappas's 2020 denial of a relationship with an Amazon lobbyist, whom he later married. Pappas says it didn't affect his votes.", "aired": "2026-09"},
-  {"id": "myFtZSV0Img", "party": "D", "sponsor": "Edge Action Fund", "race": "Kansas Senate", "target": "Sen. Roger Marshall (R)", "title": "Country song", "what": "A country-song TV ad attacking Marshall.", "aired": "2026-10-15"}
+ {
+  "id": "2P1EV1r0U3A",
+  "party": "R",
+  "sponsor": "Vivek Ramaswamy campaign",
+  "race": "Ohio governor",
+  "target": "Amy Acton (D)",
+  "title": "Acton's estranged mother",
+  "what": "Acton's estranged mother calls her a liar. Acton's brother and campaign called the ad a \"despicable low,\" and Republicans in both parties criticized it. Shown here in CBS News Pittsburgh coverage.",
+  "aired": "2026-10-20"
+ },
+ {
+  "id": "yyjocyKeKm0",
+  "party": "D",
+  "sponsor": "Sherrod Brown campaign",
+  "race": "Ohio Senate",
+  "target": "Sen. Jon Husted (R)",
+  "title": "Listen to This Shit",
+  "what": "Ohioans react to audio of Husted saying people in poverty are \"not very experienced at navigating the real world.\" Strong language.",
+  "aired": "2026-09-29"
+ },
+ {
+  "id": "9ynHpNRAzQg",
+  "party": "R",
+  "sponsor": "Senate Leadership Fund",
+  "race": "Ohio Senate",
+  "target": "Sherrod Brown (D)",
+  "title": "Ohio Kids Deserve Better",
+  "what": "A detransitioner suggests Brown supports gender surgeries for minors. Fact-checkers noted she had her surgery at 19, in Texas.",
+  "aired": "2026-10"
+ },
+ {
+  "id": "7RHvUtD_DUE",
+  "party": "D",
+  "sponsor": "Progress Action Fund",
+  "race": "Ohio and Texas (national message)",
+  "target": "Republicans",
+  "title": "Republicans in Your Bathroom",
+  "what": "An actor playing a Republican congressman confronts a girl in a school bathroom and questions whether she is \"really a girl.\" Part of a buy of more than $1 million.",
+  "aired": "2026-10-13"
+ },
+ {
+  "id": "H8zvE95HMlA",
+  "party": "R",
+  "sponsor": "Senate Leadership Fund",
+  "race": "Georgia Senate",
+  "target": "Sen. Jon Ossoff (D)",
+  "title": "Ugly Record",
+  "what": "AI-generated images show Ossoff at a salon while the narrator attacks his tax votes. There is no AI disclaimer, and Ossoff's campaign demanded the ad be pulled.",
+  "aired": "2026-09"
+ },
+ {
+  "id": "Nga2Q207-58",
+  "party": "D",
+  "sponsor": "Scott Colom campaign",
+  "race": "Mississippi Senate",
+  "target": "Sen. Cindy Hyde-Smith (R)",
+  "title": "Pick Another Senator",
+  "what": "Uses Hyde-Smith's \"so many proteins\" remark about beef prices. Mississippians say they'd rather pick another senator.",
+  "aired": "2026-10-13"
+ },
+ {
+  "id": "8scpR_wOLCU",
+  "party": "R",
+  "sponsor": "Senate Leadership Fund",
+  "race": "New Hampshire Senate",
+  "target": "Chris Pappas (D)",
+  "title": "Chris Pappas Lied to Voters",
+  "what": "Replays Pappas's 2020 denial of a relationship with an Amazon lobbyist, whom he later married. Pappas says it didn't affect his votes.",
+  "aired": "2026-09"
+ },
+ {
+  "id": "myFtZSV0Img",
+  "party": "D",
+  "sponsor": "Edge Action Fund",
+  "race": "Kansas Senate",
+  "target": "Sen. Roger Marshall (R)",
+  "title": "Country song",
+  "what": "A country-song TV ad attacking Marshall.",
+  "aired": "2026-10-15"
+ },
+ {
+  "id": "tRH90xpHsVQ",
+  "party": "R",
+  "sponsor": "NRSC",
+  "race": "Texas Senate",
+  "target": "James Talarico (D)",
+  "title": "In His Own Words (AI deepfake)",
+  "what": "An AI-generated Talarico reads his old social media posts on transgender issues, race, religion and Planned Parenthood, along with commentary he never said. It's labeled \"AI GENERATED.\"",
+  "aired": "2026-05"
+ },
+ {
+  "id": "kLyWKIr0Qgo",
+  "party": "D",
+  "sponsor": "James Talarico campaign",
+  "race": "Texas Senate",
+  "target": "Ken Paxton (R)",
+  "title": "A Different Kind of Experience",
+  "what": "Turns Paxton's \"no experience\" attack into a joke by listing Paxton's securities fraud indictment, FBI bribery probe and impeachment by his own party, then pivots to Talarico's record. It drew over a million views within hours.",
+  "aired": "2026-10-20"
+ },
+ {
+  "id": "lTWeP2w7aZI",
+  "party": "R",
+  "sponsor": "Senate Leadership Fund",
+  "race": "Maine Senate",
+  "target": "Troy Jackson (D)",
+  "title": "Jackson's temper",
+  "what": "Claims Jackson hit a female colleague, citing a \"water bottle incident.\" PolitiFact rated the claim false. Shown here in WMTW-TV's fact-check coverage.",
+  "aired": "2026-07"
+ },
+ {
+  "id": "zjqdqwr3v2Q",
+  "party": "D",
+  "sponsor": "Sherrod Brown campaign",
+  "race": "Ohio Senate",
+  "target": "Sen. Jon Husted (R)",
+  "title": "The Face",
+  "what": "Calls Husted \"the face of data centers in Ohio\" and blames the tax breaks he approved as lieutenant governor for rising utility bills.",
+  "aired": "2026-08"
+ },
+ {
+  "id": "WP1Aty-nq9c",
+  "party": "R",
+  "sponsor": "Lone Star Liberty PAC",
+  "race": "Texas Senate",
+  "target": "James Talarico (D)",
+  "title": "Anti-Talarico attack ad",
+  "what": "An attack ad against Talarico from a Texas PAC.",
+  "aired": "2026-05"
+ },
+ {
+  "id": "u_9GX4n5GHI",
+  "party": "D",
+  "sponsor": "Amy Acton campaign",
+  "race": "Ohio governor",
+  "target": "Vivek Ramaswamy (R)",
+  "title": "Acton's brother responds",
+  "what": "Acton's brother backs up her account of their childhood and calls Ramaswamy \"unfit to lead\" after Ramaswamy's ad featuring their mother.",
+  "aired": "2026-10"
+ }
 ]
