@@ -1,5 +1,41 @@
 [
  {
+  "nid": "n33",
+  "date": "2026-10-25",
+  "source": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/live-blog-posts/trump-campaign-iowa-gop-struggles-in-polls",
+  "tag": "Senate",
+  "headline": "Rogers says he never called El-Sayed a terrorist",
+  "summary": "Michigan Republican Senate nominee Mike Rogers said he has never called Democrat Abdul El-Sayed a terrorist, distancing himself from Trump's rhetoric about his opponent. Obama rallied for El-Sayed in Detroit on Saturday as Michigan's early voting began."
+ },
+ {
+  "nid": "n31",
+  "date": "2026-10-25",
+  "source": "Reuters",
+  "url": "https://www.investing.com/news/economic-indicators/the-midterm-election-outcomes-that-could-shape-trumps-final-two-years-4971100",
+  "tag": "National",
+  "headline": "What each midterm outcome would mean for Trump's last two years",
+  "summary": "Republicans hold the House 218-214 and the Senate 53-47; polls favor Democrats for the House while the Senate is seen as too close to call. A Democratic House would gain subpoena power, while Senate control mainly decides judicial and cabinet confirmations."
+ },
+ {
+  "nid": "n30",
+  "date": "2026-10-25",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/mary-peltola-car-accident-alaska-senate-race/",
+  "tag": "Senate",
+  "headline": "Peltola hurt in car crash, reschedules Alaska events",
+  "summary": "Democratic Senate candidate Mary Peltola and her family suffered minor injuries when another driver struck their vehicle on the way to the Alaska Federation of Natives banquet. On medical advice she is rescheduling Sunday and Monday events and delaying the start of a statewide tour."
+ },
+ {
+  "nid": "n29",
+  "date": "2026-10-25",
+  "source": "AP",
+  "url": "https://www.boston25news.com/news/politics/blanche-says-trump/5CVSUD23BM5S5FIXEFM4LRSRYA/",
+  "tag": "Senate",
+  "headline": "Blanche defends DOJ suit over Alaska Senate certification",
+  "summary": "On CNN's State of the Union, Attorney General Todd Blanche said the Justice Department's suit, which seeks to block certification if Sen. Dan Sullivan loses, is meant to prevent voter confusion over a second Sullivan on the ballot, not to overturn results. Peltola called the suit corrupt and Sen. Lisa Murkowski criticized it."
+ },
+ {
   "nid": "n22",
   "date": "2026-10-25",
   "source": "Fox News",
@@ -16,6 +52,15 @@
   "tag": "Missouri",
   "headline": "Amendment 3's exceptions draw scrutiny from doctors and lawyers",
   "summary": "Amendment 3 would repeal the 2024 abortion-rights amendment and restore a ban with exceptions for medical emergencies, certain fetal anomalies, and rape or incest up to 12 weeks. Physicians and attorneys say the language may be hard to apply, and it is unclear whether clinics could provide even the exempted abortions given pending court rulings."
+ },
+ {
+  "nid": "n32",
+  "date": "2026-10-24",
+  "source": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
+  "tag": "National",
+  "headline": "DOJ to send poll monitors to six Georgia counties",
+  "summary": "The Justice Department plans to monitor voting in Bibb, Chatham, Cobb, DeKalb, Fulton and Gwinnett counties, all Democratic-leaning. It follows the department's announcement of about 1,000 observers nationwide."
  },
  {
   "nid": "n28",
@@ -81,15 +126,6 @@
   "summary": "Barack Obama rallied for Ohio Democrats Sherrod Brown and Amy Acton, then for Michigan Democrats Abdul El-Sayed and Jocelyn Benson."
  },
  {
-  "nid": "n16",
-  "date": "2026-10-24",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/trump-weekend-rallies-georgia-michigan-2026-midterm-elections",
-  "tag": "National",
-  "headline": "Trump casts early ballot in Palm Beach",
-  "summary": "President Trump voted early in Palm Beach, Florida, 10 days before the Nov. 3 midterms."
- },
- {
   "nid": "n01",
   "date": "2026-10-24",
   "source": "RealClearPolling",
@@ -97,6 +133,15 @@
   "tag": "Senate",
   "headline": "Iowa Senate average tips to Hinson",
   "summary": "Two straight polls show Republican Ashley Hinson ahead, moving the RealClearPolling average to Hinson +0.6 over Democrat Josh Turek. Kansas's average also sits at Marshall +0.3."
+ },
+ {
+  "nid": "n35",
+  "date": "2026-10-23",
+  "source": "Missouri Independent",
+  "url": "https://missouriindependent.com/2026/10/23/follow-the-money-whos-bankrolling-missouris-final-election-push/",
+  "tag": "Missouri",
+  "headline": "Nearly $60 million flows into Missouri ballot measure fights",
+  "summary": "Missouri ballot measure campaigns have raised about $59.6 million since 2025, led by almost $26 million for the opponents of Amendment 3. The report also tracks spending in the 2nd Congressional District, competitive state Senate seats and the state auditor's race, where Republican Scott Fitzpatrick far outraised Democrat Quentin Wilson."
  },
  {
   "nid": "n26",
@@ -126,87 +171,6 @@
   "summary": "Decision Desk HQ's model gives Democrats a 79% chance to win the House and 57% for the Senate."
  },
  {
-  "nid": "n13",
-  "date": "2026-10-23",
-  "source": "Fox News (AAA figures)",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "National",
-  "headline": "Gas at $4.29 a gallon heading into Election Day",
-  "summary": "AAA's national average for regular is well above last year's, and fuel prices are expected to be a major issue for voters."
- },
- {
-  "nid": "n12",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "National",
-  "headline": "DOJ plans its largest team of Election Day observers",
-  "summary": "The Civil Rights Division will send its biggest observer deployment to polling places on Nov 3. Attorney General Todd Blanche didn't rule out federal involvement in certification in a “doomsday scenario.”"
- },
- {
-  "nid": "n11",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "National",
-  "headline": "Supreme Court lets New Hampshire reject student IDs for voting",
-  "summary": "Citing the rule against changing election procedures close to an election, the Court let New Hampshire's student-ID restriction stand for the midterms."
- },
- {
-  "nid": "n10",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "National",
-  "headline": "Trump's final-stretch rally tour: Iowa, Florida, Georgia, Michigan",
-  "summary": "Trump rallied in Iowa Thursday and Florida Friday, with Georgia set for Saturday and Michigan for Sunday. In Fort Myers he announced a federal plan to hire at least 5,000 elder-care nurses."
- },
- {
-  "nid": "n09",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "Governors",
-  "headline": "Georgia: Rick Jackson will join Trump's rally after all",
-  "summary": "The GOP nominee for governor had planned to skip Saturday's rally but now will attend. His race with Keisha Lance Bottoms is within 1.5 points on average."
- },
- {
-  "nid": "n08",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "Governors",
-  "headline": "Ohio: Ramaswamy defends ad featuring Acton's estranged mother",
-  "summary": "Trump backed the ad; Democrats and Republican Gov. Mike DeWine criticized it. Acton leads the RealClearPolling average by 3.6."
- },
- {
-  "nid": "n07",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "Senate",
-  "headline": "Texas: Musk targets Talarico as early voting runs",
-  "summary": "Elon Musk attacked James Talarico over transgender youth policy and Ken Paxton called him a “radical Democrat.” Talarico said he has already voted and pointed to his volunteer base."
- },
- {
-  "nid": "n06",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "Senate",
-  "headline": "Maine: Ocasio-Cortez stumps for Troy Jackson",
-  "summary": "Rep. Alexandria Ocasio-Cortez campaigned for Jackson against Sen. Susan Collins, whose campaign criticized Jackson in response. The race is tied in Fox's latest poll."
- },
- {
-  "nid": "n05",
-  "date": "2026-10-23",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "Senate",
-  "headline": "Justice Department sues Alaska over a second “Daniel Sullivan” on the ballot",
-  "summary": "The DOJ alleges a challenger named Daniel J. Sullivan entered the race to confuse voters in Sen. Dan Sullivan's contest with Mary Peltola. Trump said he urged the suit."
- },
- {
   "nid": "n04",
   "date": "2026-10-23",
   "source": "Roll Call",
@@ -216,12 +180,21 @@
   "summary": "Talarico raised $17.6M to Paxton's $2.8M in Oct 1–14, and El-Sayed raised $8.7M to Rogers's $2.5M. The GOP-aligned Senate Leadership Fund still has $88M in the bank, the most of any Senate group."
  },
  {
-  "nid": "n02",
-  "date": "2026-10-23",
-  "source": "Fox News (AP figures)",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-campaigning-blitz-october-23",
-  "tag": "National",
-  "headline": "More than 20 million votes already cast",
-  "summary": "The AP counted over 20 million early votes as of Thursday, with Texas and California leading. Harris County, Texas, and Georgia have reported record early turnout."
+  "nid": "n34",
+  "date": "2026-10-22",
+  "source": "Bangor Daily News",
+  "url": "https://www.bangordailynews.com/2026/10/22/politics/elections/fox-news-poll-susan-collins-troy-jackson-tied/",
+  "tag": "Senate",
+  "headline": "Maine poll: Collins and Jackson tied at 49%",
+  "summary": "A Fox News poll of 1,514 likely voters (Oct. 16-20) found Sen. Susan Collins and Democrat Troy Jackson tied, with Collins leading independents by 13 points. Democrat Hannah Pingree led the governor's race by 10 points."
+ },
+ {
+  "nid": "n36",
+  "date": "2026-10-19",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/martin-brewer-make-final-push-to-voters-in-house-district-44-race/article_f8b48f67-e968-4e71-9828-5ee0d3688c50.html",
+  "tag": "Missouri",
+  "headline": "Martin and Brewer make final push in House District 44",
+  "summary": "Republican Rep. John Martin faces Democrat Bekki Brewer in Boone County's only contested Missouri House race, covering parts of Columbia, Centralia, Hallsville and Ashland. Martin is running on public safety and limited government; Brewer is focused on affordability."
  }
 ]
