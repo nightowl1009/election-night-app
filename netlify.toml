@@ -1,0 +1,8 @@
+# Race-call alert functions live in netlify/functions (Netlify's default folder).
+#
+# Netlify's secret scanner flags the Firebase web "apiKey" in pool-config.js because it looks like a
+# Google API key. It is public by design (every Firebase web app ships it to the browser; Firestore
+# security rules protect the data), so it's listed here as a known non-secret. Scanning stays on for
+# everything else.
+[build.environment]
+  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyCTF7XgR63NcwfxP9dBpxxl--cTV0FsVsU"

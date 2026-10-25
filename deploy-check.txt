@@ -1,1 +1,1 @@
-revert ok — static only
+alerts server + scanner exception
