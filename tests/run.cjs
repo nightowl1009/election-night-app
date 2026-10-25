@@ -32,7 +32,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
   const browser = await chromium.launch();
   // opts: time (fake clock), scheme, results (mutate results.json), live (stub for the latest function), welcome (show first-visit card)
   async function open(hash = '', opts = {}) {
-    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, serviceWorkers: 'block', colorScheme: opts.scheme || 'light', acceptDownloads: true });
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: !!opts.touch, isMobile: !!opts.touch, serviceWorkers: 'block', colorScheme: opts.scheme || 'light', acceptDownloads: true });
     const page = await ctx.newPage(); const errors = []; page.on('pageerror', (e) => errors.push(e.message));
     await page.route(/gstatic|youtube|googleapis/, (r) => r.abort());
     if (opts.live) await page.route(/\.netlify\/functions\/latest/, opts.live); else await page.route(/\.netlify\/functions\//, (r) => r.fulfill({ status: 503, body: '{}' }));
@@ -222,11 +222,20 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(await a.page.evaluate(() => [...document.querySelectorAll('.pl-msgb p')].some((p) => /Iowa Senate/.test(p.textContent))), 'pop-up reaction not posted');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
-  await test('no pinch or double-tap zoom', async () => {
-    const a = await open('');
+  await test('no pinch or double-tap zoom; sideways rows still scroll', async () => {
+    const a = await open('', { touch: true });
     const z = await a.page.evaluate(() => ({ meta: document.querySelector('meta[name=viewport]').content, ta: getComputedStyle(document.documentElement).touchAction, ev: (() => { const e = new Event('gesturestart', { cancelable: true }); document.dispatchEvent(e); return e.defaultPrevented; })() }));
     ok(/maximum-scale=1/.test(z.meta) && /user-scalable=no/.test(z.meta), 'viewport ' + z.meta);
-    ok(/pan-x pan-y/.test(z.ta), 'touch-action ' + z.ta); ok(z.ev, 'iPhone pinch gesture not blocked'); await a.close();
+    ok(/manipulation/.test(z.ta), 'touch-action ' + z.ta);
+    const tb = await a.page.evaluate(() => getComputedStyle(document.querySelector('.en-tabs')).touchAction); ok(/pan-x/.test(tb), 'tab bar must pan sideways: ' + tb);
+    // a sideways swipe on the tab bar scrolls it
+    await a.page.waitForTimeout(1200); // splash gone
+    const box = await a.page.locator('.en-tabs').boundingBox(); const cdp = await a.ctx.newCDPSession(a.page);
+    const y = Math.round(box.y + box.height / 2); let x = Math.round(box.x + box.width * 0.85);
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
+    for (let i = 0; i < 12; i++) { x -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] }); await a.page.waitForTimeout(16); }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await a.page.waitForTimeout(400); ok(await a.page.evaluate(() => document.querySelector('.en-tabs').scrollLeft) > 20, 'tab bar did not scroll on swipe'); ok(z.ev, 'iPhone pinch gesture not blocked'); await a.close();
   });
   await test('polling-miss slider moves seats; rundown lists the night', async () => {
     const a = await open('#path');
