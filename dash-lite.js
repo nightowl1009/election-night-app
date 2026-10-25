@@ -76,6 +76,7 @@
   window.dash = {
     data(id) {
       if (calcs[id]) return Object.assign({ refreshing: false, meta: [] }, runCalc(id));
+      if (!state[id] && !calcs[id]) { state[id] = { status: 'loading', data: [] }; load(id).then(notify); }
       if (sim[id]) return { refreshing: false, meta: [], status: 'ok', data: sim[id], columns: sim[id].length ? Object.keys(sim[id][0]) : [] };
       return Object.assign({ refreshing: false, meta: [] }, state[id] || { status: 'missing', data: [] });
     },
