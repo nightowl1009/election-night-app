@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792951068"></script>
-<link rel="stylesheet" href="pool.css?v=1792951068">
+<script src="dash-lite.js?v=1792952184"></script>
+<link rel="stylesheet" href="pool.css?v=1792952184">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -248,7 +248,38 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-more summary { cursor:pointer; font-size: var(--cds-font-size-caption); font-weight:600; color: rgba(255,255,255,.85); padding:.35rem 0; list-style:none; }
 .en-more summary::-webkit-details-marker { display:none; }
 .en-more summary::after { content:" ›"; } .en-more[open] summary::after { content:" ⌄"; }
-.en-more .en-tiles { margin-top: .4rem; }
+.en-more /* Follow the money */
+.mn-wrap { display:flex; flex-direction:column; gap: var(--cds-gap-md); min-height: 20rem; }
+.mn-hero { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--cds-gap-sm); }
+.mn-stat { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); display:flex; flex-direction:column; gap:.2rem; }
+.mn-stat b { font-family: var(--font-anthropic-serif); font-weight:400; font-size: 2.1rem; line-height:1; color: var(--ink-gold, var(--en-gold)); }
+.mn-stat .l { font-weight:600; }
+.mn-stat small { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height:1.4; }
+.mn-card { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); display:flex; flex-direction:column; gap:.55rem; }
+.mn-card h3 { margin:0; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.mn-sub { margin:-.3rem 0 .1rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.mn-two { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--cds-gap-md); }
+.mn-bar, .mn-split { display:flex; flex-direction:column; gap:.2rem; }
+.mn-bt { display:flex; justify-content:space-between; gap:.6rem; align-items:baseline; font-size: var(--cds-font-size-body); }
+.mn-bt b { font-variant-numeric: tabular-nums; white-space:nowrap; }
+.mn-track { height:10px; border-radius:999px; background: var(--color-border-line); overflow:hidden; }
+.mn-fill { height:100%; border-radius:999px; background: var(--en-gold); }
+.mn-fill.r { background: var(--en-red); } .mn-fill.d { background: var(--en-blue); } .mn-fill.o { background: var(--en-gold); }
+.mn-fill.split { background: linear-gradient(90deg, var(--en-blue) 0 var(--d), var(--en-red) var(--d) 100%); }
+.mn-sbar { display:flex; height:22px; border-radius:6px; overflow:hidden; font-size:.72rem; font-weight:700; color:#fff; }
+.mn-sbar i { display:flex; align-items:center; padding:0 .45rem; font-style:normal; min-width:2.2rem; }
+.mn-sbar i.d { background:#1d4ed8; } .mn-sbar i.r { background:#b91c1c; justify-content:flex-end; }
+.mn-note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); line-height:1.4; }
+.mn-src { font-size:.75rem; color: var(--ink-link, var(--en-blue)); text-decoration:none; align-self:flex-start; }
+.mn-src:hover { text-decoration:underline; }
+.mn-h4 { margin:.5rem 0 0; font-size:.8rem; text-transform:uppercase; letter-spacing:.06em; color: var(--color-fg-muted); }
+.mn-mo { display:grid; grid-template-columns: 1fr auto; gap:.1rem .6rem; padding:.35rem 0; border-top:1px solid var(--color-border-line); }
+.mn-mo b { font-variant-numeric: tabular-nums; }
+.mn-mo .mn-note { grid-column: 1 / -1; }
+.mn-facts { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-sm); }
+.mn-fact { border-left:3px solid var(--en-gold); padding:.3rem .7rem; display:flex; flex-direction:column; gap:.25rem; }
+.mn-fact p { margin:0; line-height:1.45; }
+.en-tiles { margin-top: .4rem; }
 /* Seat charts inside the Senate / House tabs keep the hero's dark look */
 .en-chcard { color:#fff; border-radius: var(--cds-radius); padding: var(--cds-pad-md); margin-bottom: var(--cds-gap-xl);
   background: radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; }
@@ -855,6 +886,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       <button class="en-tab" role="tab" data-tab="path" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-target"/></svg>Path to control</button>
       <button class="en-tab" role="tab" data-tab="missouri" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-home"/></svg>Missouri</button>
       <button class="en-tab" role="tab" data-tab="mood" aria-selected="false">National mood</button>
+      <button class="en-tab" role="tab" data-tab="money" aria-selected="false">💰 Money</button>
       <button class="en-tab" role="tab" data-tab="voting" aria-selected="false">Voting</button>
       <button class="en-tab" role="tab" data-tab="news" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>News</button>
       <button class="en-tab en-tab-game" role="tab" data-tab="game" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Prediction Game</button>
@@ -916,6 +948,11 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       <div class="en-map dash-skeleton" id="hou-map" data-source="usmap house results"></div>
       <div class="en-hsel" id="hou-sel" hidden></div>
       <div class="en-grid dash-skeleton" id="house-grid" data-source="house polls results pollclose"></div>
+    </section>
+
+    <section id="money" class="en-panel en-money" hidden>
+      <div class="en-sec-h"><div><h2>Follow the money</h2><p>What this election costs, who's paying, and where it's going · Ads, outside groups, big donors and Missouri's own campaigns · Every figure links to its source</p></div></div>
+      <div class="mn-wrap dash-skeleton" id="mn-wrap" data-source="spending"></div>
     </section>
 
     <section id="mood" class="en-panel en-nm" hidden>
@@ -2607,6 +2644,74 @@ dash.calc('senate_base', {
   }
 
   // "What changed" card — written by the daily refresh
+  // ---------- Follow the money ----------
+  function renderMoney() {
+    const box = $('#mn-wrap'), d = dash.data('spending');
+    if (d.status !== 'ok') return fail(box, d.status);
+    box.classList.remove('dash-skeleton'); box.replaceChildren();
+    const rows = d.data, of = (k, g) => rows.filter(r => r.kind === k && (g == null || r.group === g));
+    const money = (n) => n >= 1e9 ? '$' + (n / 1e9).toFixed(1).replace(/\.0$/, '') + 'B' : n >= 1e6 ? '$' + Math.round(n / 1e6) + 'M' : '$' + Math.round(n / 1e3) + 'K';
+    const src = (r) => { const a = el('a', 'mn-src', r.source + (r.as_of ? ' · ' + r.as_of : '')); if (/^https:\/\//.test(r.url || '')) { a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; } return a; };
+    const card = (title, sub) => { const c = el('div', 'mn-card'); c.append(el('h3', '', title)); if (sub) c.append(el('p', 'mn-sub', sub)); box.append(c); return c; };
+    const leanCls = (l) => l === 'R' || l === 'N' ? 'r' : l === 'D' || l === 'Y' ? 'd' : 'o';
+    const bars = (c, list, opts = {}) => {
+      const max = Math.max(...list.map(r => r.value || 0)) || 1;
+      list.forEach(r => {
+        const row = el('div', 'mn-bar');
+        const top = el('div', 'mn-bt'); top.append(mk('span', 'nm', 'spending', 'label', 'id', r.id, r.label), mk('b', '', 'spending', 'display', 'id', r.id, r.display)); row.append(top);
+        const track = el('div', 'mn-track'), fill = el('div', 'mn-fill ' + (opts.lean ? leanCls(r.lean) : 'o'));
+        fill.style.width = Math.max(2, (r.value || 0) / max * 100) + '%';
+        if (r.share_d != null && opts.split) { fill.classList.add('split'); fill.style.setProperty('--d', (r.share_d * 100).toFixed(1) + '%'); fill.title = 'Pro-Dem share ' + Math.round(r.share_d * 100) + '%'; }
+        track.append(fill); row.append(track);
+        if (r.note) row.append(mk('div', 'mn-note', 'spending', 'note', 'id', r.id, r.note));
+        c.append(row);
+      });
+      const s0 = list[0]; if (s0) c.append(src(s0));
+    };
+    // 1. headline numbers
+    const hero = el('div', 'mn-hero'); box.append(hero);
+    of('total').forEach(r => { const t = el('div', 'mn-stat'); t.append(mk('b', '', 'spending', 'display', 'id', r.id, r.display), mk('span', 'l', 'spending', 'label', 'id', r.id, r.label)); if (r.note) t.append(mk('small', '', 'spending', 'note', 'id', r.id, r.note)); t.append(src(r)); hero.append(t); });
+    // 2. record
+    bars(card('A record for a midterm', 'Total political ad spending per cycle'), of('compare'));
+    // 3. who is spending more
+    const sc = card('Who’s outspending whom', 'Blue = pro-Democratic · Red = pro-Republican');
+    of('split').forEach(r => {
+      const row = el('div', 'mn-split');
+      const top = el('div', 'mn-bt'); top.append(mk('span', 'nm', 'spending', 'label', 'id', r.id, r.label), mk('b', '', 'spending', 'display', 'id', r.id, r.display)); row.append(top);
+      const bar = el('div', 'mn-sbar'); const dd = el('i', 'd'), rr = el('i', 'r'); const dp = Math.round(r.share_d * 100);
+      dd.style.width = dp + '%'; rr.style.width = (100 - dp) + '%'; dd.textContent = dp + '%'; rr.textContent = (100 - dp) + '%'; bar.append(dd, rr); row.append(bar);
+      if (r.note) row.append(mk('div', 'mn-note', 'spending', 'note', 'id', r.id, r.note));
+      row.append(src(r)); sc.append(row);
+    });
+    // 4. most expensive races
+    bars(card('The priciest races, whole cycle', 'Ads aired plus airtime already booked · Bar color split = pro-Dem vs pro-GOP share where reported'), of('race', 'cycle'), { split: true });
+    bars(card('Senate ad spending, last two weeks', 'Sep 28 – Oct 11 · Bar split = pro-Dem (blue) vs pro-GOP (red) share'), of('race', 'senate2w'), { split: true });
+    const two = el('div', 'mn-two'); box.append(two);
+    const g = el('div', 'mn-card'); g.append(el('h3', '', 'Governor races, last two weeks')); two.append(g); bars(g, of('race', 'gov2w'), { split: true });
+    const h = el('div', 'mn-card'); h.append(el('h3', '', 'House races, last two weeks')); two.append(h); bars(h, of('race', 'house2w'));
+    bars(card('Where outside groups are spending most', 'Super PACs and other groups, all cycle'), of('race', 'outside'));
+    // 5. groups and donors
+    bars(card('The biggest outside groups', 'Red = conservative · Blue = Democratic · Gold = industry or single-issue'), of('group'), { lean: true });
+    bars(card('The biggest individual donors', 'Largest givers named in TIME’s analysis of FEC filings · Red = to Republicans · Blue = to Democrats'), of('donor'), { lean: true });
+    // 6. Missouri
+    const mo = card('Missouri’s money', 'Money raised by each campaign, from state and federal finance reports');
+    const mrows = of('missouri');
+    const groupT = { total: '', a3: 'Amendment 3 (abortion)', a6: 'Amendment 6', pa: 'Proposition A (redistricting)', aud: 'State Auditor', house: 'U.S. House' };
+    let last = null;
+    mrows.forEach(r => {
+      if (r.group !== last && groupT[r.group]) mo.append(el('h4', 'mn-h4', groupT[r.group]));
+      last = r.group;
+      const row = el('div', 'mn-mo'); row.append(mk('span', 'nm', 'spending', 'label', 'id', r.id, r.label), mk('b', '', 'spending', 'display', 'id', r.id, r.display));
+      if (r.note) row.append(mk('div', 'mn-note', 'spending', 'note', 'id', r.id, r.note));
+      mo.append(row);
+    });
+    if (mrows[0]) mo.append(src(mrows[0]));
+    // 7. did you know
+    const fc = card('Did you know?');
+    const fl = el('div', 'mn-facts'); fc.append(fl);
+    of('fact').forEach(r => { const f = el('div', 'mn-fact'); f.append(mk('p', '', 'spending', 'label', 'id', r.id, r.label), src(r)); fl.append(f); });
+  }
+
   function renderChanges() {
     const box = $('#en-changes'), d = dash.data('changes');
     if (!box) return;
@@ -2655,6 +2760,7 @@ dash.calc('senate_base', {
     if (!$('#path').hidden) { if (pathMode === 'house') renderHousePath(); else renderPath(); }
     if (!$('#missouri').hidden) { renderMissouri(); renderLocal(); }
     if (!$('#mood').hidden) renderMood();
+    if (!$('#money').hidden) renderMoney();
     if (!$('#news').hidden) renderNews();
     if (!$('#voting').hidden) renderEarlyVote();
   }
@@ -2670,7 +2776,7 @@ dash.calc('senate_base', {
   const votingOff = nowMs >= POLLS_DONE;
   if (votingOff && tabBtn('voting')) tabBtn('voting').style.display = 'none';
   const hash = location.hash.slice(1);
-  if (['senate', 'governors', 'house', 'mood', 'missouri', 'path', 'night', 'news', 'voting', 'game', 'ads', 'watchlist'].includes(hash) && !(hash === 'voting' && votingOff)) {
+  if (['senate', 'governors', 'house', 'mood', 'money', 'missouri', 'path', 'night', 'news', 'voting', 'game', 'ads', 'watchlist'].includes(hash) && !(hash === 'voting' && votingOff)) {
     if (hash !== 'watchlist') show(hash);
     const t = document.getElementById(hash); if (t) t.scrollIntoView();
   } else if (nowMs >= FIRST_CLOSE) show('night');
@@ -2698,11 +2804,11 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792951068"></script>
-<script src="pool.js?v=1792951068"></script>
-<script src="sim.js?v=1792951068"></script>
-<script src="push.js?v=1792951068"></script>
-<script src="ads.js?v=1792951068"></script>
-<script src="welcome.js?v=1792951068"></script>
+<script src="pool-config.js?v=1792952184"></script>
+<script src="pool.js?v=1792952184"></script>
+<script src="sim.js?v=1792952184"></script>
+<script src="push.js?v=1792952184"></script>
+<script src="ads.js?v=1792952184"></script>
+<script src="welcome.js?v=1792952184"></script>
 </body>
 </html>

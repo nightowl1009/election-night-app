@@ -5,7 +5,7 @@
 import { blobs } from './push.mjs';
 
 export const REPO = 'nightowl1009/election-night-app';
-export const FILES = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'earlyvote', 'local', 'changes', 'meta'];
+export const FILES = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'earlyvote', 'local', 'changes', 'spending', 'meta'];
 const raw = (sha, f) => `https://raw.githubusercontent.com/${REPO}/${sha}/data/${f}.json`;
 let memSha = null, memBundle = null;
 
