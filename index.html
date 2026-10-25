@@ -456,6 +456,20 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-mo-res .call { color:#b45309; }
 .en-rchip.cy { background: #0d9488; border-color: #0d9488; color:#fff; } .en-rchip.cn { background: #ea580c; border-color: #ea580c; color:#fff; }
 .en-news-top { margin-bottom: var(--cds-gap-xl); }
+.en-swipe { display:block !important; min-height: 0 !important; }
+.en-swipe-track { display:flex; gap: var(--cds-gap-sm); overflow-x:auto; scroll-snap-type: x mandatory; scroll-padding: 0; scrollbar-width:none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; padding: 2px 0 4px; outline: none; }
+.en-swipe-track::-webkit-scrollbar { display:none; }
+.en-swipe-track > * { flex: 0 0 min(86%, 24rem); scroll-snap-align: start; }
+#news-strip .en-swipe-track > * { flex-basis: min(78%, 19rem); }
+.en-swipe .en-nc { grid-template-columns: 1fr; gap: var(--cds-gap-xs); align-content: start; }
+.en-swipe .en-nc .when { flex-direction: row; align-items: center; }
+.en-swipe-nav { display:flex; align-items:center; justify-content:center; gap:.6rem; margin-top: var(--cds-gap-sm); }
+.en-swipe-btn { appearance:none; width:2rem; height:2rem; border-radius:50%; border:1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); font-size:1.15rem; line-height:1; cursor:pointer; }
+.en-swipe-btn:disabled { opacity:.35; cursor:default; }
+.en-swipe-dots { display:flex; gap:4px; flex-wrap:wrap; justify-content:center; max-width: 60%; }
+.en-swipe-dots i { width:6px; height:6px; border-radius:50%; background: var(--color-border-line); transition: background .2s, transform .2s; }
+.en-swipe-dots i.on { background: var(--en-gold); transform: scale(1.35); }
+.en-swipe-pos { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); min-width: 3.2rem; text-align:center; font-variant-numeric: tabular-nums; }
 .en-news-strip { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-sm); min-height: 5rem; }
 .en-ns { display:flex; flex-direction:column; gap:.25rem; background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md); color: inherit; text-decoration:none; transition: transform var(--cds-dur-slow) var(--cds-ease-out); }
 .en-ns:hover { transform: translateY(-2px); }
@@ -812,7 +826,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 
     <section id="news" class="en-panel">
       <div class="en-sec-h">
-        <div><h2>Election news</h2><p>Short summaries with a link to the full story · Newest first</p></div>
+        <div><h2>Election news</h2><p>Swipe through short summaries with a link to the full story · Newest first</p></div>
         <div class="en-chips" id="news-chips">
           <button class="en-chip" data-f="all" aria-pressed="true">All</button>
           <button class="en-chip" data-f="National" aria-pressed="false">National</button>
@@ -1661,14 +1675,36 @@ dash.calc('senate_base', {
     const box = $('#news-strip'), rows = newsRows();
     if (!rows) return fail(box, dash.data('news').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    rows.slice(0, 3).forEach(n => {
+    const cards = [];
+    rows.slice(0, 8).forEach(n => {
       const u = safeUrl(n.url);
       const a = el(u ? 'a' : 'div', 'en-ns');
       if (u) { a.href = u; a.target = '_blank'; a.rel = 'noopener noreferrer'; }
       a.append(mk('span', 'en-ntag ' + String(n.tag).toLowerCase(), 'news', 'tag', 'nid', n.nid, n.tag), mk('b', '', 'news', 'headline', 'nid', n.nid, n.headline));
       const m = el('span', 'en-nmeta'); m.append(mk('span', '', 'news', 'source', 'nid', n.nid, n.source), document.createTextNode(' · ' + ndate(new Date(n.date + 'T12:00:00Z'))));
-      a.append(m); box.append(a);
+      a.append(m); cards.push(a);
     });
+    swipe(box, cards, 'headline');
+  }
+  // Swipeable row of cards with snap points, arrows and a position counter
+  function swipe(box, cards, noun) {
+    box.classList.add('en-swipe');
+    const track = el('div', 'en-swipe-track'); track.setAttribute('tabindex', '0'); track.setAttribute('aria-label', 'Swipe for more ' + noun + 's');
+    cards.forEach(c => track.append(c));
+    box.append(track);
+    if (cards.length < 2) return;
+    const nav = el('div', 'en-swipe-nav');
+    const prev = el('button', 'en-swipe-btn', '‹'), next = el('button', 'en-swipe-btn', '›'), pos = el('span', 'en-swipe-pos');
+    prev.type = next.type = 'button'; prev.setAttribute('aria-label', 'Previous ' + noun); next.setAttribute('aria-label', 'Next ' + noun);
+    const dots = el('span', 'en-swipe-dots'); cards.forEach(() => dots.append(el('i', '')));
+    nav.append(prev, dots, pos, next); box.append(nav);
+    const idx = () => { const w = cards[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 8); return Math.max(0, Math.min(cards.length - 1, Math.round(track.scrollLeft / (w || 1)))); };
+    const paint = () => { const i = idx(); pos.textContent = (i + 1) + ' / ' + cards.length; [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i)); prev.disabled = i === 0; next.disabled = i >= cards.length - 1 || track.scrollLeft + track.clientWidth >= track.scrollWidth - 4; };
+    const go = (d) => { const i = Math.max(0, Math.min(cards.length - 1, idx() + d)); track.scrollTo({ left: cards[i].offsetLeft - track.offsetLeft, behavior: 'smooth' }); };
+    prev.addEventListener('click', () => go(-1)); next.addEventListener('click', () => go(1));
+    track.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); go(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); } });
+    let raf = 0; track.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(paint); }, { passive: true });
+    requestAnimationFrame(paint);
   }
   function renderNews() {
     const box = $('#news-list'), rows = newsRows();
@@ -1676,8 +1712,7 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     const list = rows.filter(n => newsFilter === 'all' || n.tag === newsFilter);
     if (!list.length) { box.append(el('div', 'en-watch-empty', 'No stories in this category yet.')); return; }
-    const NEWS_FIRST = 5, shown = newsAll ? list : list.slice(0, NEWS_FIRST);
-    shown.forEach(n => {
+    const cards = list.map(n => {
       const c = el('article', 'en-nc');
       const w = el('div', 'when'); w.append(el('b', '', ndate(new Date(n.date + 'T12:00:00Z'))), mk('span', 'en-ntag ' + String(n.tag).toLowerCase(), 'news', 'tag', 'nid', n.nid, n.tag));
       const body = el('div', '');
@@ -1685,18 +1720,9 @@ dash.calc('senate_base', {
       const u = safeUrl(n.url);
       if (u) { const a = el('a', ''); a.href = u; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.append(document.createTextNode('Read at '), mk('span', '', 'news', 'source', 'nid', n.nid, n.source), document.createTextNode(' →')); body.append(a); }
       else body.append(mk('span', 'en-nmeta', 'news', 'source', 'nid', n.nid, n.source));
-      c.append(w, body); box.append(c);
+      c.append(w, body); return c;
     });
-    if (list.length > NEWS_FIRST) {
-      const b = el('button', 'en-more-seats'); b.type = 'button'; b.setAttribute('aria-expanded', String(newsAll));
-      const t = el('span', 't'); t.append(document.createTextNode(newsAll ? 'Show fewer stories' : 'Show ' + (list.length - NEWS_FIRST) + ' more stories'), svgIc('chev'));
-      b.append(t);
-      b.addEventListener('click', () => {
-        newsAll = !newsAll; renderNews();
-        if (!newsAll) document.getElementById('news').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-      box.append(b);
-    }
+    swipe(box, cards, 'story');
   }
   document.querySelectorAll('#news-chips .en-chip').forEach(c => c.addEventListener('click', () => {
     newsFilter = c.dataset.f; newsAll = false;
