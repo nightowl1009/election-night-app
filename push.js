@@ -65,7 +65,10 @@
   // keep the saved subscription in step with the phone (it can expire or be revoked)
   async function check() { if (!supported || !isOn()) return; try { const sub = await current(); if (!sub || Notification.permission !== 'granted') { store.set(LS, '0'); paint(); } } catch (e) {} }
 
-  window.enPush = { enable, disable, sync, isOn, why, supported: () => supported && !(ios && !standalone) };
-  const boot = () => { addButton(); check(); };
+  // Alerts appear only once the alert server is live (it answers with a public key)
+  let ready = false;
+  async function probe() { try { const r = await fetch(FN + 'push-key', { cache: 'no-store' }); const j = r.ok ? await r.json() : null; ready = !!(j && j.publicKey); } catch (e) { ready = false; } if (ready) { addButton(); check(); } }
+  window.enPush = { enable, disable, sync, isOn, why, ready: () => ready, supported: () => supported && !(ios && !standalone) };
+  const boot = () => { probe(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

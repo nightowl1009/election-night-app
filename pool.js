@@ -842,7 +842,7 @@
     const links = el('div', 'btns'); links.append(btn('en-chip', 'Privacy & terms', () => showPrivacy()), btn('en-chip', 'Chat rules', () => showPrivacy('rules')));
     if (((profile && profile.blocked) || []).length) links.append(btn('en-chip', 'Unblock everyone (' + profile.blocked.length + ')', unblockAll));
     c.append(links);
-    if (window.enPush) {
+    if (window.enPush && window.enPush.ready()) {
       const al = el('div', 'pl-card'); box.append(al);
       const on = window.enPush.isOn(), w = window.enPush.why();
       al.append(el('h3', '', 'Race-call alerts'), el('p', '', on ? 'On — this phone gets a buzz when races are called (with how your picks did), and a reminder an hour before picks lock.' : 'Get a notification when races are called — with how your picks did — and a reminder an hour before picks lock.'));
