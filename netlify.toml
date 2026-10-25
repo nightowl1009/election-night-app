@@ -6,3 +6,9 @@
 # everything else.
 [build.environment]
   SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "AIzaSyCTF7XgR63NcwfxP9dBpxxl--cTV0FsVsU"
+
+# Data updates (only files under data/ changed) don't rebuild or redeploy the site: each production deploy
+# costs 15 Netlify credits, and election night pushes dozens of data updates. Phones read the newest data
+# straight from GitHub instead (see netlify/functions/latest.mjs). Any change outside data/ deploys as usual.
+[build]
+  ignore = "[ \"$CACHED_COMMIT_REF\" != \"$COMMIT_REF\" ] && git diff --quiet $CACHED_COMMIT_REF $COMMIT_REF -- . ':(exclude)data'"

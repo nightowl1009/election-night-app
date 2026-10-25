@@ -40,15 +40,42 @@
     }
   }
 
+  // Data updates are GitHub commits that don't redeploy the site. Ask which version is newest (a tiny request);
+  // when it changes, fetch that version's bundle of every data file in one go. If either step fails, read the
+  // copy that ships with the site instead.
+  let liveSha = null;
+  async function getJSON(url, ms) {
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), ms);
+    try { const r = await fetch(url, { signal: ctl.signal }); return r.ok ? await r.json() : null; } catch (e) { return null; } finally { clearTimeout(t); }
+  }
+  function apply(id, rows) {
+    if (!Array.isArray(rows)) return false;
+    const before = JSON.stringify(state[id].data);
+    state[id] = { status: 'ok', data: rows, columns: rows.length ? Object.keys(rows[0]) : [] };
+    return before !== JSON.stringify(rows);
+  }
+  function showMeta(m) {
+    if (!m || !m.updated) return;
+    const el = document.getElementById('app-updated');
+    if (el) el.textContent = 'Data updated ' + new Date(m.updated).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+    window.__enMetaAt = Date.parse(m.updated); fresh();
+  }
   async function loadAll() {
-    const changed = await Promise.all(DATASETS.map(load));
+    const head = await getJSON('/.netlify/functions/latest?t=' + Math.floor(Date.now() / 10000), 5000);
+    const sha = head && /^[0-9a-f]{40}$/.test(head.sha) ? head.sha : null;
+    if (sha && sha === liveSha && window.__enLoadedOnce) return; // nothing new
+    const b = sha ? await getJSON('/.netlify/functions/latest?sha=' + sha, 15000) : null;
+    let changed;
+    if (b && b.data && Array.isArray(b.data.results)) {
+      changed = DATASETS.map((id) => b.data[id] ? apply(id, b.data[id]) : false);
+      const missing = DATASETS.filter((id) => state[id].status !== 'ok');
+      if (missing.length) changed = changed.concat(await Promise.all(missing.map((id) => load(id))));
+      liveSha = sha; showMeta(b.data.meta);
+    } else {
+      changed = await Promise.all(DATASETS.map((id) => load(id)));
+      try { showMeta(await (await fetch('data/meta.json', { cache: 'no-cache' })).json()); } catch (e) { /* optional */ }
+    }
     if (changed.some(Boolean) || !window.__enLoadedOnce) { window.__enLoadedOnce = true; notify(); }
-    try {
-      const m = await (await fetch('data/meta.json', { cache: 'no-cache' })).json();
-      const el = document.getElementById('app-updated');
-      if (el && m.updated) el.textContent = 'Data updated ' + new Date(m.updated).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-      if (m.updated) { window.__enMetaAt = Date.parse(m.updated); fresh(); }
-    } catch (e) { /* optional */ }
   }
 
   function runCalc(id) {

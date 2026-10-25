@@ -2,11 +2,16 @@
 // race calls (personalized with the player's picks), plus a one-time "picks lock in 1 hour" reminder.
 // Quiet outside Nov 3 – Dec 3, 2026.
 import { vapid, blobs, send } from '../lib/push.mjs';
+import { dataFile } from '../lib/latest.mjs';
 
 const LOCK = Date.UTC(2026, 10, 3, 23, 0, 0);
 const START = Date.UTC(2026, 10, 3, 21, 0, 0), END = Date.UTC(2026, 11, 3, 6, 0, 0);
 const base = () => process.env.URL || 'https://election-night.netlify.app';
-const get = async (f) => { try { const r = await fetch(base() + '/data/' + f + '.json?t=' + Date.now()); return r.ok ? await r.json() : []; } catch (e) { return []; } };
+// Newest data straight from GitHub (data commits don't redeploy the site); falls back to the deployed copy
+const get = async (f) => {
+  try { const d = await dataFile(f); if (Array.isArray(d)) return d; } catch (e) { /* fall back */ }
+  try { const r = await fetch(base() + '/data/' + f + '.json?t=' + Date.now()); return r.ok ? await r.json() : []; } catch (e) { return []; }
+};
 
 function labeler(sen, gov, mo, local) {
   return (key) => {
