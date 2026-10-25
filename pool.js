@@ -985,6 +985,25 @@
     if (extra > 0) { const t = el('div', 'pl-pop more'); t.append(el('b', '', '+ ' + extra + ' more race' + (extra > 1 ? 's' : '') + ' called'), el('small', '', 'See the Election night tab')); t.addEventListener('click', () => drop(t)); stack.append(t); setTimeout(() => drop(t), 9000); }
     while (stack.children.length > (sim ? 2 : 4)) stack.lastElementChild.remove();
     try { if (!sim && navigator.vibrate) navigator.vibrate(30); } catch (e) {}
+    if (sim) pracAlerts(fresh, list, w);
+  }
+  // Practice run alerts (only if you've turned alerts on): the first call, your lock's call, and the finale
+  let pracSent = null;
+  function pracAlerts(fresh, list, w) {
+    if (!window.enPush || !window.enPush.isOn()) return;
+    if (!pracSent) pracSent = { first: false, lock: false, n: 0 };
+    if (pracSent.n >= 3) return;
+    const lockKey = prac && prac.members[0].doc.lock;
+    const lockCall = lockKey && fresh.find(x => x.race === lockKey);
+    if (lockCall && !pracSent.lock) {
+      pracSent.lock = true; pracSent.n++;
+      const r = list.find(g => g.key === lockKey), mine = prac.members[0].doc.picks[lockKey], right = r && mine === w[lockKey];
+      window.enPush.practice('Race called', callText(lockCall) + (right ? ' · ✓ You called it — lock of the night ★' : ' · ✗ Your lock missed'));
+    } else if (!pracSent.first && fresh.length) {
+      pracSent.first = true; pracSent.n++;
+      const x = fresh[0], r = list.find(g => g.key === x.race), mine = prac && prac.members[0].doc.picks[x.race];
+      window.enPush.practice('Race called', callText(x) + (r && mine ? (mine === w[x.race] ? ' · ✓ You called it' : ' · ✗ Your pick missed') : ''));
+    }
   }
   const indRace = (key) => { const id = key.replace(/^(SEN|GOV|HOU)-/, ''), src = key.startsWith('SEN-') ? 'senate' : key.startsWith('GOV-') ? 'governor' : key.startsWith('HOU-') ? 'house' : null; const r = src && rows(src).find(z => z.id === id); return !!(r && r.party_d === 'I'); };
   const fmtPct = (v) => { const n = Number(v); return (Number.isInteger(n) ? n : n.toFixed(1)) + '%'; };
@@ -1053,7 +1072,7 @@
     }, delay || 0);
     prac.timers.push(t);
   }
-  function pracStop() { if (prac) prac.timers.forEach(clearTimeout); prac = null; pracView = 'board'; tvBoard = null; }
+  function pracStop() { if (prac) prac.timers.forEach(clearTimeout); prac = null; pracView = 'board'; tvBoard = null; pracSent = null; }
   // new practice calls → a couple of players react
   function pracCalls() {
     if (!prac) return;
@@ -1078,6 +1097,7 @@
     });
     if (window.__simDone && !prac.finalSaid) {
       prac.finalSaid = true;
+      if (window.enPush && window.enPush.isOn()) { const fo = pracOut(list, simWinners()), mi = fo.findIndex(o => o.m.uid === 'you'); setTimeout(() => window.enPush.practice('🏆 Final standings', (fo[0].m.uid === 'you' ? 'You win the practice group' : fo[0].m.name + ' wins the practice group') + ' with ' + fo[0].s.pts + ' pts · you finished ' + ordinal(mi + 1) + ' of ' + fo.length), 9000); }
       const w = simWinners(), out = pracOut(list, w);
       const champ = out[0];
       pracSay(pick1(prac.members.slice(1).filter(m => m !== champ.m).concat(prac.members.slice(1)).slice(0, 2)), champ.m.uid === 'you' ? 'Ok fine, you win. GG 👏' : 'GG everyone — ' + champ.m.name + ' takes it 🏆', 1200);

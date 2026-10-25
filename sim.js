@@ -98,6 +98,9 @@
     window.scrollTo({ top: 0 });
     const nt = document.querySelector('.en-tab[data-tab="night"]'); if (nt) nt.click();
     step(); timer = setInterval(step, STEP_MS);
+    if (window.enPush && window.enPush.ready && window.enPush.ready() && !window.enPush.isOn()) {
+      const t = document.createElement('div'); t.className = 'pl-toast'; t.textContent = 'Tip: turn on 🔔 Race alerts (Election night tab) to get practice alerts on your phone too.'; document.body.append(t); setTimeout(() => t.remove(), 6000);
+    }
   }
   function stop() {
     if (timer) clearInterval(timer); timer = null;

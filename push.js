@@ -51,6 +51,12 @@
     syncT = setTimeout(async () => { try { const sub = await current(); if (sub) await post('push-subscribe', Object.assign({ subscription: sub.toJSON() }, last)); } catch (e) { console.error(e); } }, 1500);
   }
   const isOn = () => store.get(LS) === '1';
+  // practice run: a real alert through the alert server to this phone only
+  async function practice(title, body) {
+    if (!isOn()) return false;
+    try { const sub = await current(); if (!sub) return false; const r = await post('push-test', { subscription: sub.toJSON(), practice: { title, body } }); return !!(r && r.ok); }
+    catch (e) { return false; }
+  }
   function paint() {
     document.querySelectorAll('.en-alert-btn').forEach(b => { b.textContent = isOn() ? '🔔 Alerts on' : '🔕 Race alerts'; b.setAttribute('aria-pressed', String(isOn())); });
   }
@@ -68,7 +74,7 @@
   // Alerts appear only once the alert server is live (it answers with a public key)
   let ready = false;
   async function probe() { try { const r = await fetch(FN + 'push-key', { cache: 'no-store' }); const j = r.ok ? await r.json() : null; ready = !!(j && j.publicKey); } catch (e) { ready = false; } if (ready) { addButton(); check(); } }
-  window.enPush = { enable, disable, sync, isOn, why, ready: () => ready, supported: () => supported && !(ios && !standalone) };
+  window.enPush = { enable, disable, sync, isOn, why, practice, ready: () => ready, supported: () => supported && !(ios && !standalone) };
   const boot = () => { probe(); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
