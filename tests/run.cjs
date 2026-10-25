@@ -221,6 +221,12 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(await a.page.evaluate(() => [...document.querySelectorAll('.pl-msgb p')].some((p) => /Iowa Senate/.test(p.textContent))), 'pop-up reaction not posted');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('no pinch or double-tap zoom', async () => {
+    const a = await open('');
+    const z = await a.page.evaluate(() => ({ meta: document.querySelector('meta[name=viewport]').content, ta: getComputedStyle(document.documentElement).touchAction, ev: (() => { const e = new Event('gesturestart', { cancelable: true }); document.dispatchEvent(e); return e.defaultPrevented; })() }));
+    ok(/maximum-scale=1/.test(z.meta) && /user-scalable=no/.test(z.meta), 'viewport ' + z.meta);
+    ok(/pan-x pan-y/.test(z.ta), 'touch-action ' + z.ta); ok(z.ev, 'iPhone pinch gesture not blocked'); await a.close();
+  });
   await test('top of the page is readable (text contrast, light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {
       const a = await open('', { scheme }); await a.page.click('#en-more summary');

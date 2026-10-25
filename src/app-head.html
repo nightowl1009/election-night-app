@@ -2,7 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<style>html, body { touch-action: pan-x pan-y; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }</style>
+<script>
+/* No pinch zoom: it's an app, not a web page. iPhone Safari ignores user-scalable=no, so block its pinch gestures too.
+   Double-tap zoom is off through touch-action (CSS above), which keeps quick double taps on buttons working. */
+(function () {
+  const stop = (e) => { e.preventDefault(); };
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach((t) => document.addEventListener(t, stop, { passive: false }));
+  document.addEventListener('touchmove', (e) => { if (e.touches && e.touches.length > 1) e.preventDefault(); }, { passive: false });
+})();
+</script>
 <title>Election Night 2026</title>
 <meta name="description" content="Polls, races and results for the 2026 Senate, House and governor battlegrounds.">
 <meta name="theme-color" content="#0b1020">
