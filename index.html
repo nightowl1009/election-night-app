@@ -102,8 +102,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792896956"></script>
-<link rel="stylesheet" href="pool.css?v=1792896956">
+<script src="dash-lite.js?v=1792898007"></script>
+<link rel="stylesheet" href="pool.css?v=1792898007">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -431,6 +431,45 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 .en-vlinks a { display:inline-flex; align-items:center; padding:.45rem .8rem; border-radius:999px; background: var(--color-fg); color: var(--color-bg); text-decoration:none; font-weight:600; font-size: var(--cds-font-size-caption); }
 .en-vcard ul a { color:#2563eb; font-weight:600; }
 .en-vsrc { margin: .5rem 0 0 !important; font-size: .7rem !important; color: var(--color-fg-muted); }
+
+/* what changed today */
+.en-changes { background: var(--color-panel); border:1px solid var(--color-border-line); border-left:4px solid var(--en-gold); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); margin-bottom: var(--cds-gap-lg); }
+.en-changes[hidden] { display:none; }
+.en-changes .h { display:flex; justify-content:space-between; align-items:center; gap: var(--cds-gap-sm); margin-bottom:.4rem; }
+.en-changes .h b { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.en-changes .h small { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); margin-left:.4rem; }
+.en-changes .x { background:none; border:0; color: var(--color-fg-muted); font-size:1.1rem; cursor:pointer; padding:.2rem .4rem; }
+.en-changes ul { margin:0; padding-left:1.1rem; display:flex; flex-direction:column; gap:.35rem; font-size: var(--cds-font-size-body); line-height:1.45; }
+.en-changes ul a { color: #2563eb; font-weight:600; text-decoration:none; white-space:nowrap; }
+/* viewing guide */
+.en-gintro { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); margin-bottom: var(--cds-gap-md); }
+.en-gintro h3 { margin:0 0 .4rem; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.en-gintro ul { margin:0; padding-left:1.1rem; display:flex; flex-direction:column; gap:.35rem; font-size: var(--cds-font-size-caption); line-height:1.45; }
+.en-time .gd { margin-top:.5rem; font-size: var(--cds-font-size-caption); line-height:1.45; }
+.en-time .gd summary { cursor:pointer; font-weight:600; color: var(--color-fg); list-style:none; display:inline-flex; align-items:center; gap:.3rem; }
+.en-time .gd summary::-webkit-details-marker { display:none; }
+.en-time .gd summary::before { content:"▸"; transition: transform .2s; display:inline-block; }
+.en-time .gd[open] summary::before { transform: rotate(90deg); }
+.en-time .gd p { margin:.35rem 0 0; color: var(--color-fg-muted); }
+.en-time .gd p b { color: var(--color-fg); }
+.en-gsrc { margin-top: var(--cds-gap-md); font-size:.7rem; color: var(--color-fg-muted); line-height:1.5; }
+.en-gsrc a { color: inherit; }
+/* Cooper County ballot */
+.en-local { margin-top: var(--cds-gap-xl); }
+.en-local-grid { display:flex; flex-direction:column; border:1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow:hidden; background: var(--color-panel); }
+.en-lrow { display:grid; grid-template-columns: 1fr auto; gap: .2rem var(--cds-gap-md); padding: .7rem var(--cds-pad-lg); border-top:1px solid var(--color-border-line); align-items:center; }
+.en-lrow:first-child { border-top:0; }
+.en-lrow .k { font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color: var(--color-fg-muted); }
+.en-lrow b { display:block; font-weight: var(--cds-font-weight-medium); }
+.en-lrow .c { font-size: var(--cds-font-size-caption); }
+.en-lrow .nt { font-size:.72rem; color: var(--color-fg-muted); }
+.en-lrow .rs { text-align:right; font-size: var(--cds-font-size-caption); white-space:nowrap; }
+.en-lrow .rs .call { display:inline-block; font-weight:700; padding:.15rem .5rem; border-radius:999px; background: var(--en-gold); color:#1f1300; margin-bottom:.2rem; }
+.en-lrow .rs small { display:block; color: var(--color-fg-muted); }
+.en-lrow.hl { background: rgba(251,191,36,.07); }
+.en-local-links { display:flex; flex-wrap:wrap; gap:.4rem; margin-top: var(--cds-gap-md); }
+.en-local-links a { display:inline-flex; padding:.4rem .75rem; border-radius:999px; border:1px solid var(--color-border-line); color: var(--color-fg); text-decoration:none; font-weight:600; font-size: var(--cds-font-size-caption); }
+@media (max-width: 30rem) { .en-lrow { grid-template-columns: 1fr; } .en-lrow .rs { text-align:left; } }
 .en-times { display:flex; flex-direction:column; gap: var(--cds-gap-sm); min-height: 12rem; position: relative; }
 .en-time { display:grid; grid-template-columns: 7.5rem 1fr; gap: var(--cds-gap-md); background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); position:relative; }
 .en-time.done { opacity:.6; }
@@ -708,6 +747,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
   </section>
 
   <div class="en-body">
+    <section class="en-changes" id="en-changes" data-source="changes" hidden></section>
     <section class="en-watch" id="watchlist">
       <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-star-fill"/></svg>My watchlist</h2><p>Tap the star on any race to pin it here</p></div></div>
       <div id="watch-grid"></div>
@@ -804,6 +844,16 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
         <p><b>Polls close 7:00 PM CT.</b> No U.S. Senate seat is up in Missouri this year (next: 2028). U.S. House races use the 2022 district lines after the Supreme Court's Sept 25 ruling.</p>
       </div>
       <div class="en-mo-grid dash-skeleton" id="mo-grid" data-source="missouri missouri_polls results"></div>
+      <div class="en-local" id="mo-local-wrap">
+        <div class="en-sec-h"><div><h2>Your Cooper County ballot</h2><p>Every contest on the county’s Nov 3 ballot, in ballot order · Contested races fill in with results on election night</p></div></div>
+        <div class="en-local-grid dash-skeleton" id="mo-local" data-source="local results"></div>
+        <div class="en-local-links">
+          <a href="https://voteroutreach.sos.mo.gov/portal/" target="_blank" rel="noopener">My exact sample ballot</a>
+          <a href="https://clerk.coopercountymo.gov/uploads/6/3/6/9/63696319/publication_ballot_november_3_2026.pdf" target="_blank" rel="noopener">County’s official ballot (PDF)</a>
+          <a href="https://clerk.coopercountymo.gov/elections-results.html" target="_blank" rel="noopener">County results page</a>
+        </div>
+        <p class="en-vsrc">Source: Cooper County Clerk, publication ballot for Nov 3, 2026. Clerk’s office: (660) 882-2114, 200 Main St., Room 23, Boonville.</p>
+      </div>
     </section>
 
     <section id="path" class="en-panel" hidden>
@@ -879,8 +929,18 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
     </section>
 
     <section id="night" class="en-panel" hidden>
-      <div class="en-sec-h"><div><h2>Election night game plan</h2><p>Typical closing time for most of each state · Chips light up red when counting starts and fill in when a race is called</p></div></div>
+      <div class="en-sec-h"><div><h2>Election night game plan</h2><p>Typical closing time for most of each state · Chips light up red when counting starts and fill in when a race is called · Tap “What to watch” on any wave</p></div></div>
+      <div class="en-gintro">
+        <h3>Before you watch</h3>
+        <ul>
+          <li><b>Early numbers move.</b> States count mail, early and Election Day ballots at different times, so a lead with little of the vote in can shrink or flip.</li>
+          <li><b>Called means projected.</b> A race shows as called here only once AP or a major network projects a winner.</li>
+          <li><b>The magic numbers.</b> Senate: Republicans hold 53 seats, so Democrats need a net gain of 4 for 51 (the vice president breaks 50–50 ties). House: 218 seats for a majority.</li>
+          <li><b>Some races won’t finish tonight.</b> Maine and Alaska may need ranked-choice counts, Georgia may go to a Dec 1 runoff, and Arizona, Nevada and California count for days.</li>
+        </ul>
+      </div>
       <div class="en-times dash-skeleton" id="en-times" data-source="pollclose results"></div>
+      <p class="en-gsrc">Counting facts: <a href="https://votingrightslab.org/2026/10/21/verified-election-results-are-worth-the-wait/" target="_blank" rel="noopener">Voting Rights Lab (Oct 21, 2026)</a> · <a href="https://www.factcheck.org/2024/11/election-night-expectations/" target="_blank" rel="noopener">FactCheck.org (2024)</a> · <a href="https://www.votebeat.org/arizona/2026/07/21/primary-2026-election-results-timing-congress-governor/" target="_blank" rel="noopener">Votebeat Arizona</a> · <a href="https://www.kunr.org/local-stories/2026-06-29/mail-ballots-in-nevada-can-continue-to-be-counted-after-election-day" target="_blank" rel="noopener">KUNR (Nevada)</a> · <a href="https://www.newsfromthestates.com/article/outcome-maines-us-senate-race-may-not-be-known-weeks-heres-why" target="_blank" rel="noopener">Maine Morning Star</a> · <a href="https://alaskapublic.org/news/politics/elections/2026-10-05/what-to-know-about-alaskas-general-election" target="_blank" rel="noopener">Alaska Public Media</a> · <a href="https://en.wikipedia.org/wiki/2026_Georgia_state_elections" target="_blank" rel="noopener">Georgia runoff date</a></p>
       <div class="en-score" id="en-score" data-source="senate governor house results" hidden>
         <div class="en-sec-h"><div><h2>How did the polls do?</h2><p>Final polling average and Kalshi favorite vs. the called result · Fills in as races are called</p></div></div>
         <div class="en-score-sum" id="en-score-sum"></div>
@@ -1419,6 +1479,9 @@ dash.calc('senate_base', {
   }
 
   let closeRows = null;
+  const openGuides = new Set();
+  const LOCAL_CHIP = { 'MO-03': 'MO-03', 'MO-H48': 'MO House 48', 'MO-H58': 'MO House 58', 'MO-JW': 'MO Sup. Ct.', 'MO-JH': 'MO Appeals' };
+  function localTitle(key) { const r = (okRows('local') || []).find(x => x.race === key); return r ? r.title : null; }
   function renderTimes() {
     const box = $('#en-times'), d = dash.data('pollclose');
     if (d.status !== 'ok') return fail(box, d.status);
@@ -1431,6 +1494,7 @@ dash.calc('senate_base', {
     (okRows('governor') || []).forEach(r => names.set('GOV-' + r.id, r.id + ' Gov'));
     (okRows('house') || []).forEach(r => names.set('HOU-' + r.id, r.id));
     (okRows('missouri') || []).forEach(r => names.set('MO-' + r.id, 'MO ' + (r.kind === 'Amendment' ? 'Amend. ' + String(r.id).slice(1) : r.id === 'PA' ? 'Prop A' : 'Auditor')));
+    Object.entries(LOCAL_CHIP).forEach(([k, v]) => names.set(k, v));
     closeRows.forEach((r, i) => {
       const row = el('div', 'en-time');
       row.id = 'wave-' + r.order;
@@ -1450,6 +1514,15 @@ dash.calc('senate_base', {
         chips.append(ch);
       });
       tx.append(chips);
+      if (r.guide || r.count) {
+        const gd = el('details', 'gd'); if (i === nextIdx) gd.open = true;
+        gd.append(el('summary', '', 'What to watch'));
+        if (r.guide) { const p = el('p'); p.append(el('b', '', 'Watch: '), mk('span', '', 'pollclose', 'guide', 'order', r.order, r.guide)); gd.append(p); }
+        if (r.count) { const p = el('p'); p.append(el('b', '', 'Counting: '), mk('span', '', 'pollclose', 'count', 'order', r.order, r.count)); gd.append(p); }
+        const was = openGuides.has(r.order); if (was) gd.open = true;
+        gd.addEventListener('toggle', () => { if (gd.open) openGuides.add(r.order); else openGuides.delete(r.order); });
+        tx.append(gd);
+      }
       row.append(clk, tx); box.append(row);
     });
   }
@@ -1714,7 +1787,9 @@ dash.calc('senate_base', {
     wrap.hidden = !called.length;
     called.forEach(r => {
       const s = el('span', ''); const nm = r.race.replace(/^SEN-/, '').replace(/^GOV-/, '').replace(/^HOU-/, '');
-      if (r.race.startsWith('MO-') && r.race !== 'MO-AUD') {
+      if (LOCAL_CHIP[r.race]) {
+        s.append(document.createTextNode('Projected: ' + (localTitle(r.race) || r.race) + ' — '), mk('span', '', 'results', 'winner', 'race', r.race, r.winner));
+      } else if (r.race.startsWith('MO-') && r.race !== 'MO-AUD') {
         const mo = (okRows('missouri') || []).find(x => 'MO-' + x.id === r.race);
         s.append(document.createTextNode('Projected: Missouri ' + (mo ? mo.title : nm) + ' — '), mk('span', '', 'results', 'winner', 'race', r.race, r.winner));
       } else {
@@ -2195,17 +2270,72 @@ dash.calc('senate_base', {
     box.append(list);
     box.append(el('p', 'en-vsrc', 'Top ' + states.length + ' states by ballots cast. Party = voters\u2019 party registration where the state publishes it, not how they voted. Early votes lean differently by state and year, so they don\u2019t predict the result.'));
   }
+
+  // Cooper County ballot (Missouri tab)
+  function renderLocal() {
+    const box = $('#mo-local'), d = dash.data('local');
+    if (!box) return;
+    if (d.status !== 'ok') return fail(box, d.status);
+    box.classList.remove('dash-skeleton'); box.replaceChildren();
+    d.data.forEach(r => {
+      const row = el('div', 'en-lrow'); row.id = 'local-' + r.lid;
+      const a = el('div', '');
+      a.append(mk('span', 'k', 'local', 'kind', 'lid', r.lid, r.kind), mk('b', '', 'local', 'title', 'lid', r.lid, r.title), mk('div', 'c', 'local', 'cands', 'lid', r.lid, r.cands));
+      if (r.note) a.append(mk('div', 'nt', 'local', 'note', 'lid', r.lid, r.note));
+      row.append(a);
+      const rs = el('div', 'rs');
+      const x = r.race ? ctx.res.get(r.race) : null;
+      if (x && (x.winner || Number(x.reporting) > 0)) {
+        row.classList.add('hl');
+        if (x.winner) { const c = el('span', 'call', '✓ '); c.append(mk('span', '', 'results', 'winner', 'race', r.race, x.winner)); rs.append(c); }
+        const sm = el('small', '');
+        if (x.d_pct != null) sm.append(document.createTextNode(r.d_label + ' '), mk('span', '', 'results', 'd_pct', 'race', r.race, fmt(x.d_pct)), document.createTextNode('% · ' + r.r_label + ' '), mk('span', '', 'results', 'r_pct', 'race', r.race, fmt(x.r_pct)), document.createTextNode('% · '));
+        sm.append(mk('span', '', 'results', 'reporting', 'race', r.race, fmt(x.reporting)), document.createTextNode('% in'));
+        rs.append(sm);
+      } else if (r.race) rs.append(el('small', '', 'Results after 7 PM CT Nov 3'));
+      row.append(rs); box.append(row);
+    });
+  }
+
+  // "What changed" card — written by the daily refresh
+  function renderChanges() {
+    const box = $('#en-changes'), d = dash.data('changes');
+    if (!box) return;
+    if (d.status !== 'ok' || !d.data.length) { box.hidden = true; return; }
+    const latest = d.data.map(r => String(r.date)).sort().slice(-1)[0];
+    const age = (Date.now() - Date.parse(latest + 'T12:00:00Z')) / 864e5;
+    let gone = null; try { gone = localStorage.getItem('en-changes-x'); } catch (e) {}
+    if (age > 2.5 || gone === latest || window.__simOn) { box.hidden = true; return; }
+    box.hidden = false; box.replaceChildren();
+    const h = el('div', 'h'), t = el('div', '');
+    const dt = new Date(latest + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+    t.append(el('b', '', 'What changed'), el('small', '', dt));
+    const x = el('button', 'x', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Hide until the next update');
+    x.addEventListener('click', () => { try { localStorage.setItem('en-changes-x', latest); } catch (e) {} box.hidden = true; });
+    h.append(t, x); box.append(h);
+    const ul = el('ul', '');
+    d.data.filter(r => String(r.date) === latest).forEach(r => {
+      const li = el('li', ''); li.append(mk('span', '', 'changes', 'text', 'cid', r.cid, r.text));
+      if (r.tab && document.getElementById(r.tab)) {
+        const a = el('a', '', ' → See it'); a.href = '#' + r.tab;
+        a.addEventListener('click', (e) => { e.preventDefault(); show(r.tab); dash.setLink(r.tab); const p = document.getElementById(r.tab); if (p) p.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+        li.append(a);
+      }
+      ul.append(li);
+    });
+    box.append(ul);
+  }
   function redraw() {
     buildCtx();
     renderBreaking(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
-    renderTimes(); tick(); renderScorecard();
+    renderTimes(); tick(); renderScorecard(); renderChanges();
     if (!$('#senate').hidden) renderMap('#sen-map', 'senate');
     if (!$('#governors').hidden) renderMap('#gov-map', 'governor');
     if (!$('#senate').hidden) renderRaces('#sen-grid', 'senate', 'senate_margins', senFilter === 'all' ? null : (r) => r.held === senFilter);
     if (!$('#governors').hidden) renderRaces('#gov-grid', 'governor', 'governor_margins');
     if (!$('#house').hidden) { renderHouseMap(); renderHouse(); }
     if (!$('#path').hidden) { if (pathMode === 'house') renderHousePath(); else renderPath(); }
-    if (!$('#missouri').hidden) renderMissouri();
+    if (!$('#missouri').hidden) { renderMissouri(); renderLocal(); }
     if (!$('#mood').hidden) renderMood();
     if (!$('#news').hidden) renderNews();
     if (!$('#voting').hidden) renderEarlyVote();
@@ -2242,8 +2372,8 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792896956"></script>
-<script src="pool.js?v=1792896956"></script>
-<script src="sim.js?v=1792896956"></script>
+<script src="pool-config.js?v=1792898007"></script>
+<script src="pool.js?v=1792898007"></script>
+<script src="sim.js?v=1792898007"></script>
 </body>
 </html>

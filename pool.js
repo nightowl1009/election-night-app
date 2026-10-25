@@ -158,7 +158,7 @@
 
   // ---------- State ----------
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
-  let pickFilter = 'Senate';
+  let pickFilter = 'Senate', finaleJumped = false;
   let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL, lastSent = 0;
   const myDoc = () => ({ picks: myPicks, seats: mySeats, lock: myLock, side: mySide });
 
@@ -170,6 +170,7 @@
     if (view !== 'chat') stopChat();
     if (!be) { box.append(card('Election Night Game', window.POOL_CONFIG && !window.firebase ? 'The game needs an internet connection — reconnect and reopen the app.' : 'The game is being set up. Check back soon.')); return; }
     if (!me) return renderSignedOut(box);
+    if (!finaleJumped && locked() && (adminRes['Q-final'] === 'y' || (races().length && races().every(r => winners()[r.key]))) && profile && (profile.groups || []).length) { finaleJumped = true; if (view === 'picks') view = 'board'; }
     const top = el('div', 'pl-top');
     const who = el('div', 'pl-who'); who.append(el('b', '', profile && profile.name || me.name || me.email), el('small', '', me.email));
     const nav = el('div', 'en-seg');
@@ -559,7 +560,11 @@
     const tbd = (o) => final == null || o.seats == null ? 99 : Math.abs(o.seats - final);
     out.sort((a, b) => lk ? (b.s.pts - a.s.pts || tbd(a) - tbd(b) || b.s.right - a.s.right || String(a.m.name).localeCompare(b.m.name)) : (b.count - a.count || String(a.m.name).localeCompare(b.m.name)));
     c.replaceChildren();
-    const done = lk && called === list.length;
+    const done = lk && (called === list.length || adminRes['Q-final'] === 'y');
+    if (done && out.length) {
+      const g = await be.getGroup(activeGroup).catch(() => null);
+      c.append(finale(out, g ? g.name : 'your group', list, w));
+    }
     c.append(el('h3', '', done ? 'Final standings' : 'Leaderboard'), el('p', 'pl-note', lk ? called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') : 'Scores start once races are called. Picks stay hidden until they lock at 5:00 PM CT Nov 3.'));
     if (lk && called) c.append(liveExtras(out, list, w));
     const t = el('div', 'pl-board');
@@ -578,6 +583,61 @@
     });
     c.append(t);
   }
+  // ---- Season finale: winner banner, podium, your finish, shareable standings ----
+  function finale(out, gname, list, w) {
+    const top = out[0].s.pts, champs = out.filter(o => o.s.pts === top && (o === out[0] || sameRank(o, out[0])));
+    const box = el('div', 'pl-finale');
+    const conf = el('div', 'pl-confetti'); conf.setAttribute('aria-hidden', 'true');
+    for (let i = 0; i < 28; i++) { const b = el('i'); b.style.left = (i * 3.6 + Math.random() * 3) + '%'; b.style.animationDelay = (Math.random() * 2.2).toFixed(2) + 's'; b.style.background = ['#fbbf24', '#3b82f6', '#ef4444', '#fff', '#a855f7'][i % 5]; conf.append(b); }
+    box.append(conf, el('span', 'k', '🏆 SEASON FINALE'));
+    const nm = (o) => o.m.uid === me.uid ? 'You' : (o.m.name || 'Player');
+    box.append(el('h4', '', champs.length > 1 ? champs.map(nm).join(' & ') + ' tie for the win!' : (champs[0].m.uid === me.uid ? 'You win ' : nm(champs[0]) + ' wins ') + gname + '!'));
+    box.append(el('p', '', top + ' points · ' + champs[0].s.right + ' of ' + list.length + ' races right' + (champs[0].s.best ? ' · best call: ' + champs[0].s.best.r.label + ' (+' + champs[0].s.best.v + ')' : '')));
+    const pod = el('div', 'pl-podium');
+    [1, 0, 2].forEach(i => { const o = out[i]; if (!o) return; const d = el('div', 'p' + (i + 1)); d.append(el('span', 'm', ['🥇', '🥈', '🥉'][i]), el('b', '', nm(o)), el('small', '', o.s.pts + ' pts'), el('i', '', String(i + 1))); pod.append(d); });
+    box.append(pod);
+    const mine = out.findIndex(o => o.m.uid === me.uid);
+    if (mine >= 0) { const o = out[mine]; box.append(el('p', 'you', 'Your finish: ' + ordinal(mine + 1) + ' of ' + out.length + ' · ' + o.s.pts + ' pts · ' + o.s.right + '–' + o.s.wrong + (o.s.sidePts ? ' · ' + o.s.sidePts + ' side question' + (o.s.sidePts > 1 ? 's' : '') : ''))); }
+    const bt = el('div', 'btns');
+    bt.append(btn('pl-btn primary', 'Share final standings', () => shareStandings(out, gname, list)));
+    bt.append(btn('pl-btn', 'How did the polls do?', () => { const t = document.querySelector('.en-tab[data-tab="night"]'); if (t) t.click(); setTimeout(() => { const s = document.getElementById('en-score'); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 400); }));
+    box.append(bt);
+    return box;
+  }
+  const sameRank = (a, b) => {
+    const f = adminRes['Q-senate'] != null && adminRes['Q-senate'] !== '' ? Number(adminRes['Q-senate']) : null;
+    const gap = (o) => f == null || o.seats == null ? 99 : Math.abs(o.seats - f);
+    return a.s.pts === b.s.pts && gap(a) === gap(b) && a.s.right === b.s.right;
+  };
+  const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
+  function shareStandings(out, gname, list) {
+    const W = 1080, rowH = 74, rowsN = Math.min(out.length, 12), H = 350 + rowsN * rowH + 110;
+    const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+    const g = x.createLinearGradient(0, 0, W, 0); g.addColorStop(0, '#1e3a8a'); g.addColorStop(.5, '#0b1020'); g.addColorStop(1, '#991b1b');
+    x.fillStyle = '#0b1020'; x.fillRect(0, 0, W, H); x.fillStyle = g; x.fillRect(0, 0, W, 300);
+    x.fillStyle = '#fbbf24'; x.font = '700 30px system-ui, sans-serif'; x.fillText('🏆 SEASON FINALE · ELECTION NIGHT GAME 2026', 60, 80);
+    x.fillStyle = '#fff'; x.font = '700 64px system-ui, sans-serif';
+    const champ = (out[0].m.name || 'Player') + ' wins!'; x.fillText(champ.length > 26 ? champ.slice(0, 25) + '…' : champ, 60, 170);
+    x.font = '500 32px system-ui, sans-serif'; x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText(gname + ' · final standings · ' + list.length + ' races', 60, 230);
+    let y = 380;
+    out.slice(0, rowsN).forEach((o, i) => {
+      if (i % 2 === 0) { x.fillStyle = 'rgba(255,255,255,.05)'; x.fillRect(40, y - 50, W - 80, rowH); }
+      x.fillStyle = i < 3 ? '#fbbf24' : 'rgba(255,255,255,.6)'; x.font = '700 36px system-ui, sans-serif'; x.fillText(String(i + 1), 70, y);
+      x.fillStyle = '#fff'; x.font = (o.m.uid === me.uid ? '700' : '500') + ' 36px system-ui, sans-serif'; const n = o.m.name || 'Player'; x.fillText(n.length > 22 ? n.slice(0, 21) + '…' : n, 140, y);
+      const t = o.s.pts + ' pts · ' + o.s.right + '–' + o.s.wrong; x.font = '700 34px system-ui, sans-serif'; x.fillText(t, W - 70 - x.measureText(t).width, y);
+      y += rowH;
+    });
+    if (out.length > rowsN) { x.fillStyle = 'rgba(255,255,255,.6)'; x.font = '500 26px system-ui, sans-serif'; x.fillText('+ ' + (out.length - rowsN) + ' more', 140, y - 20); }
+    x.fillStyle = 'rgba(255,255,255,.5)'; x.font = '500 24px system-ui, sans-serif'; x.fillText('election-night.netlify.app', 60, H - 40);
+    c.toBlob(async (blob) => {
+      if (!blob) return;
+      const file = new File([blob], 'election-game-final.png', { type: 'image/png' });
+      try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Election Night Game — final standings' }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'election-game-final.png'; document.body.append(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000); alertish('Picture saved — send it to your group.');
+    }, 'image/png');
+  }
+
   // election night: latest calls with who got them right, and the biggest upset so far
   function liveExtras(out, list, w) {
     const box = el('div', 'pl-live');
@@ -618,6 +678,8 @@
       const sn = el('input'); sn.type = 'number'; sn.inputMode = 'numeric'; sn.placeholder = 'Final D + I Senate seats'; sn.value = adminRes['Q-senate'] == null ? '' : adminRes['Q-senate'];
       sn.addEventListener('change', () => { const v = parseInt(sn.value, 10); be.saveAdminResult('Q-senate', isNaN(v) ? null : v); });
       row('Tiebreaker: final Senate seats for Democrats + independents', 'Used only to break ties on the leaderboard.', sn);
+      const fin = el('div', 'btns pl-yn'); const fb = btn('en-pb y', adminRes['Q-final'] === 'y' ? 'Finale is showing — tap to undo' : 'Show the season finale now', () => be.saveAdminResult('Q-final', adminRes['Q-final'] === 'y' ? null : 'y')); fb.setAttribute('aria-pressed', String(adminRes['Q-final'] === 'y')); fin.append(fb);
+      row('Season finale', 'Shows automatically once every game race is called. Use this if a race (Alaska or Maine ranked choice, a recount) will take weeks.', fin);
     } else {
       races().filter(r => r.group === pickFilter).forEach(r => {
         const cur = adminRes[r.key] || '';
@@ -633,9 +695,57 @@
     if (key.startsWith('SEN-')) { const r = rows('senate').find(x => x.id === id); return (r ? r.state : id) + ' Senate'; }
     if (key.startsWith('GOV-')) { const r = rows('governor').find(x => x.id === id); return (r ? r.state : id) + ' governor'; }
     if (key === 'MO-AUD') return 'Missouri State Auditor';
+    const lr = rows('local').find(x => x.race === key); if (lr) return lr.title.replace(/\?$/, '');
     if (key.startsWith('MO-')) { const r = rows('missouri').find(x => x.id === id); return 'Missouri ' + (r ? r.title : id); }
     return id + ' (House)';
   }
+  function callText(x) {
+    const p = x.winner_party, w = String(x.winner);
+    if (/^(Passes|Fails)$/.test(w)) return raceName(x.race) + ' ' + w.toLowerCase();
+    if (/retain/i.test(w)) return raceName(x.race) + ': ' + w.toLowerCase();
+    return w + (p && p.length === 1 && 'DRI'.includes(p) ? ' (' + p + ')' : '') + ' wins ' + raceName(x.race);
+  }
+  const partyCls = (p) => p === 'R' || p === 'N' ? 'r' : p === 'Y' ? 'y' : p === 'I' ? 'i' : 'd';
+
+  // ---------- Live "race called" pop-ups while the app is open ----------
+  let liveSeen = null, liveSim = false;
+  function liveCalls() {
+    const res = rows('results'); if (!res.length) return;
+    const sim = !!window.__simOn;
+    const calledNow = res.filter(x => x.winner_party);
+    if (liveSeen === null || sim !== liveSim) { liveSeen = new Set(calledNow.map(x => x.race)); liveSim = sim; return; } // baseline: nothing pops on first load
+    const fresh = calledNow.filter(x => !liveSeen.has(x.race)).sort((a, b) => String(a.called_at).localeCompare(String(b.called_at)));
+    if (!fresh.length) return;
+    fresh.forEach(x => liveSeen.add(x.race));
+    if (!sim) { // you saw these live, so the "since you last looked" card skips them
+      let seen = []; try { seen = JSON.parse(store.get('en-seen-calls') || '[]') || []; } catch (e) {}
+      store.set('en-seen-calls', JSON.stringify(Array.from(new Set(seen.concat(fresh.map(x => x.race))))));
+      const o = $('#pl-new'); if (o) o.remove();
+    }
+    let stack = $('#pl-live'); if (!stack) { stack = el('div', 'pl-livestack'); stack.id = 'pl-live'; stack.setAttribute('aria-live', 'polite'); document.body.append(stack); }
+    const show = fresh.slice(-3), extra = fresh.length - show.length;
+    const w = winners(), list = races();
+    show.forEach(x => {
+      const t = el('div', 'pl-pop ' + partyCls(x.winner_party));
+      t.append(el('span', 'k', 'RACE CALLED'), el('b', '', callText(x)));
+      const r = list.find(g => g.key === x.race), mine = myPicks[x.race];
+      if (r && mine && w[x.race]) {
+        const ok = mine === w[x.race], v = worth(r, mine) * (myLock === r.key ? 2 : 1);
+        t.append(el('small', ok ? 'ok' : 'no', ok ? '✓ You got it · +' + v + (myLock === r.key ? ' (lock ★)' : '') : '✗ You picked ' + (mine === 'd' ? r.a : r.b)));
+      }
+      if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) t.append(el('small', '', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
+      t.addEventListener('click', () => drop(t));
+      stack.prepend(t);
+      setTimeout(() => drop(t), 9000);
+    });
+    if (extra > 0) { const t = el('div', 'pl-pop more'); t.append(el('b', '', '+ ' + extra + ' more race' + (extra > 1 ? 's' : '') + ' called'), el('small', '', 'See the Election night tab')); t.addEventListener('click', () => drop(t)); stack.append(t); setTimeout(() => drop(t), 9000); }
+    while (stack.children.length > 4) stack.lastElementChild.remove();
+    try { if (!sim && navigator.vibrate) navigator.vibrate(30); } catch (e) {}
+  }
+  const indRace = (key) => { const id = key.replace(/^(SEN|GOV|HOU)-/, ''), src = key.startsWith('SEN-') ? 'senate' : key.startsWith('GOV-') ? 'governor' : key.startsWith('HOU-') ? 'house' : null; const r = src && rows(src).find(z => z.id === id); return !!(r && r.party_d === 'I'); };
+  const fmtPct = (v) => { const n = Number(v); return (Number.isInteger(n) ? n : n.toFixed(1)) + '%'; };
+  function drop(t) { if (!t.isConnected || t.classList.contains('out')) return; t.classList.add('out'); setTimeout(() => t.remove(), 350); }
+
   function checkNewCalls() {
     if (window.__simOn) { const o = $('#pl-new'); if (o) o.remove(); return; }
     const res = rows('results'); if (!res.length) return;
@@ -651,11 +761,7 @@
     const ok = btn('pl-btn primary', 'Got it', () => { store.set('en-seen-calls', JSON.stringify(called.map(x => x.race))); b.classList.add('out'); setTimeout(() => b.remove(), 300); });
     h.append(ok); b.append(h);
     const ul = el('ul', '');
-    fresh.slice(0, 6).forEach(x => {
-      const p = x.winner_party, cls = p === 'R' || p === 'N' ? 'r' : p === 'Y' ? 'y' : p === 'I' ? 'i' : 'd';
-      const li = el('li', cls); const nm = /^(Passes|Fails)$/.test(String(x.winner)) ? raceName(x.race) + ' ' + String(x.winner).toLowerCase() : x.winner + (p && p.length === 1 && 'DRI'.includes(p) ? ' (' + p + ')' : '') + ' wins ' + raceName(x.race);
-      li.textContent = nm; ul.append(li);
-    });
+    fresh.slice(0, 6).forEach(x => { const li = el('li', partyCls(x.winner_party)); li.textContent = callText(x); ul.append(li); });
     if (fresh.length > 6) ul.append(el('li', 'more', '+ ' + (fresh.length - 6) + ' more — see the Election night tab'));
     b.append(ul);
     document.body.append(b);
@@ -667,7 +773,7 @@
     if (window.POOL_MOCK) be = mockBackend();
     else if (cfg && cfg.apiKey && window.firebase) { try { be = firebaseBackend(cfg); } catch (e) { console.error(e); be = null; } }
     render();
-    if (window.dash) window.dash.onData(() => { checkNewCalls(); });
+    if (window.dash) window.dash.onData(() => { liveCalls(); checkNewCalls(); });
     if (!be) return;
     let unsubRes = null;
     be.onAuth(async (u) => {

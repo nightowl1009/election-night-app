@@ -1,0 +1,20 @@
+[
+ {
+  "cid": "c1",
+  "date": "2026-10-24",
+  "tab": "missouri",
+  "text": "New: your Cooper County ballot is on the Missouri tab \u2014 every contest from the county's official ballot, with live results for the contested races on election night."
+ },
+ {
+  "cid": "c2",
+  "date": "2026-10-24",
+  "tab": "night",
+  "text": "New: an election-night viewing guide on the Election night tab \u2014 what to watch in each poll-closing wave and how fast each state counts."
+ },
+ {
+  "cid": "c3",
+  "date": "2026-10-24",
+  "tab": "",
+  "text": "New: race calls now pop up live while the app is open, and the game shows a season finale once every race is called."
+ }
+]

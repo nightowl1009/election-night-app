@@ -30,11 +30,18 @@
     rows('senate').forEach(r => base.set('SEN-' + r.id, { m: fromRow(r), d: r.cand_d, r: r.cand_r, pd: r.party_d || 'D' }));
     rows('governor').forEach(r => base.set('GOV-' + r.id, { m: fromRow(r), d: r.cand_d, r: r.cand_r, pd: r.party_d || 'D' }));
     rows('house').forEach(r => base.set('HOU-' + r.id, { m: fromRow(r), d: r.cand_d, r: r.cand_r, pd: r.party_d || 'D' }));
+    // Cooper County ballot: candidate names come from the local dataset ("Name (R, incumbent) · Name (D)")
+    const LOCAL_LEAN = { 'MO-03': -22, 'MO-H48': -40, 'MO-H58': -45 };
+    rows('local').forEach(r => {
+      if (!(r.race in LOCAL_LEAN)) return;
+      const nm = (p) => { const m = String(r.cands || '').split('·').map(t => t.trim()).find(t => new RegExp('\\(' + p + '\\b').test(t)); return m ? m.replace(/\s*\(.*$/, '') : ''; };
+      base.set(r.race, { m: LOCAL_LEAN[r.race], d: nm('D') || 'Democrat', r: nm('R') || 'Republican', pd: 'D' });
+    });
     const swing = gauss() * 2;              // a national polling miss, same for every race tonight
     return rows('results').map(x => {
-      const b = base.get(x.race), mo = /^MO-/.test(x.race), measure = mo && x.race !== 'MO-AUD';
-      const margin = measure ? rnd(-14, 16) : (b ? b.m : x.race === 'MO-AUD' ? -4 : 0) + swing + gauss() * 3.5;
-      const other = measure ? 0 : rnd(1, 3);
+      const b = base.get(x.race), mo = /^MO-/.test(x.race), retain = /^MO-J/.test(x.race), measure = mo && !b && x.race !== 'MO-AUD';
+      const margin = retain ? rnd(8, 30) : measure ? rnd(-14, 16) : (b ? b.m : x.race === 'MO-AUD' ? -4 : 0) + swing + gauss() * 3.5;
+      const other = measure || retain ? 0 : rnd(1, 3);
       const d = (100 - other + margin) / 2, r = (100 - other - margin) / 2;
       const close = closeOf.get(x.race) || Date.UTC(2026, 10, 4, 1, 0, 0);
       const absM = Math.abs(margin);
@@ -43,7 +50,8 @@
         tau: rnd(70, 140) * 60000,                         // how fast the count comes in
         early: rnd(-6, 6),                                 // early-count lean that fades as votes are counted
         callAt: absM >= 12 ? 0 : absM >= 6 ? rnd(20, 45) : absM >= 3 ? rnd(55, 80) : absM >= 1.2 ? rnd(85, 95) : 101,
-        win: measure ? (margin > 0 ? ['Passes', 'Y'] : ['Fails', 'N'])
+        win: retain ? (margin > 0 ? ['Retained', 'Y'] : ['Not retained', 'N'])
+          : measure ? (margin > 0 ? ['Passes', 'Y'] : ['Fails', 'N'])
           : x.race === 'MO-AUD' ? (margin > 0 ? ['Quentin Wilson', 'D'] : ['Scott Fitzpatrick', 'R'])
           : margin > 0 ? [b ? b.d : 'Democrat', b ? b.pd : 'D'] : [b ? b.r : 'Republican', 'R'],
         calledAt: ''

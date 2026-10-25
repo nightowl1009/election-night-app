@@ -1,0 +1,101 @@
+[
+ {
+  "lid": "L01",
+  "kind": "U.S. House",
+  "title": "U.S. Representative, 3rd District",
+  "cands": "Bob Onder (R, incumbent) \u00b7 Bethany E. Mann (D) \u00b7 Jim Higgins (L)",
+  "race": "MO-03",
+  "d_label": "Mann (D)",
+  "r_label": "Onder (R)",
+  "note": "Uses the 2022 district lines.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L02",
+  "kind": "Statewide",
+  "title": "State Auditor",
+  "cands": "Scott Fitzpatrick (R, incumbent) \u00b7 Quentin Wilson (D) \u00b7 Dustin Coffell (L)",
+  "race": "MO-AUD",
+  "d_label": "Wilson (D)",
+  "r_label": "Fitzpatrick (R)",
+  "note": "Polls and details on the State Auditor card above.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L03",
+  "kind": "Missouri House",
+  "title": "State Representative, 48th District",
+  "cands": "Tim Taylor (R, incumbent) \u00b7 Hope Tinker (D)",
+  "race": "MO-H48",
+  "d_label": "Tinker (D)",
+  "r_label": "Taylor (R)",
+  "note": "Cooper County ballots include the 48th and 58th districts \u2014 your sample ballot shows which one is yours.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L04",
+  "kind": "Missouri House",
+  "title": "State Representative, 58th District",
+  "cands": "Willard Haley (R, incumbent) \u00b7 Roger Korenberg (D)",
+  "race": "MO-H58",
+  "d_label": "Korenberg (D)",
+  "r_label": "Haley (R)",
+  "note": "",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L05",
+  "kind": "Judicial retention",
+  "title": "Missouri Supreme Court: retain Judge Paul C. Wilson?",
+  "cands": "Yes / No",
+  "race": "MO-JW",
+  "d_label": "Yes",
+  "r_label": "No",
+  "note": "Retained if a majority votes Yes.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L06",
+  "kind": "Judicial retention",
+  "title": "Court of Appeals, Western District: retain Judge Lisa White Hardwick?",
+  "cands": "Yes / No",
+  "race": "MO-JH",
+  "d_label": "Yes",
+  "r_label": "No",
+  "note": "Retained if a majority votes Yes.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L07",
+  "kind": "Cooper County",
+  "title": "County offices \u2014 all unopposed",
+  "cands": "Associate Circuit Judge: Keith M. Bail (R) \u00b7 Presiding Commissioner: George Monk (R, incumbent) \u00b7 Circuit Clerk: Nancy Fisher (R) \u00b7 County Clerk: Jerrid Richards (R) \u00b7 Prosecuting Attorney: Eric B. Phelps (R) \u00b7 Treasurer: Teresa Brandes (R) \u00b7 Collector: Diana L. Thomas (R) \u00b7 Recorder of Deeds: Georgia Esser (R)",
+  "race": "",
+  "d_label": "",
+  "r_label": "",
+  "note": "Each has a write-in line.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L08",
+  "kind": "Statewide questions",
+  "title": "Amendments 3, 6, 7, 8 and Proposition A",
+  "cands": "Yes / No on each",
+  "race": "",
+  "d_label": "",
+  "r_label": "",
+  "note": "Polls, results and what a Yes or No does are on the cards above.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ },
+ {
+  "lid": "L09",
+  "kind": "Local questions",
+  "title": "City of Boonville and other local questions",
+  "cands": "None",
+  "race": "",
+  "d_label": "",
+  "r_label": "",
+  "note": "The county's Nov 3 ballot has no local tax, bond or city questions.",
+  "source": "Cooper County Clerk, Nov 3, 2026 publication ballot"
+ }
+]

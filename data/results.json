@@ -778,5 +778,55 @@
   "r_pct": null,
   "reporting": 0,
   "called_at": ""
+ },
+ {
+  "race": "MO-03",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-H48",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-H58",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-JW",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-JH",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
  }
 ]

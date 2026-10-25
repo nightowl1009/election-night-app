@@ -6,43 +6,53 @@
   "states": "Most of Kentucky and Indiana",
   "watch": "KY-06",
   "close_utc": "2026-11-03T23:00:00Z",
-  "races": "HOU-KY-06"
+  "races": "HOU-KY-06",
+  "guide": "First polls of the night. KY-06 is an open House toss-up \u2014 the first chance to compare a toss-up's result with its polling on the House card.",
+  "count": ""
  },
  {
   "order": 1,
   "close_et": "7:00 PM",
   "close_ct": "6:00 PM",
   "states": "Georgia, Virginia, South Carolina, Vermont, most of Florida",
-  "watch": "GA Senate & Gov · VA-01 · VA-02 · FL Gov",
+  "watch": "GA Senate & Gov \u00b7 VA-01 \u00b7 VA-02 \u00b7 FL Gov",
   "close_utc": "2026-11-04T00:00:00Z",
-  "races": "SEN-GA,GOV-GA,GOV-FL,HOU-VA-01,HOU-VA-02,HOU-FL-14,HOU-FL-22,HOU-FL-25,HOU-FL-13,HOU-FL-27,HOU-SC-01"
+  "races": "SEN-GA,GOV-GA,GOV-FL,HOU-VA-01,HOU-VA-02,HOU-FL-14,HOU-FL-22,HOU-FL-25,HOU-FL-13,HOU-FL-27,HOU-SC-01",
+  "guide": "Georgia has both a Senate and a governor race. Virginia's 1st and 2nd, South Carolina's 1st and several Florida seats are on the House battleground list, plus Florida governor.",
+  "count": "Florida can process and count mail ballots weeks before Election Day, so it is known for reporting fast. Georgia requires more than 50% to win; otherwise the top two meet in a Dec 1 runoff. A new Georgia law requires automatic hand recounts in the top two statewide races when the margin is 0.5% or less."
  },
  {
   "order": 2,
   "close_et": "7:30 PM",
   "close_ct": "6:30 PM",
   "states": "North Carolina, Ohio",
-  "watch": "NC Senate · OH Senate & Gov · OH-07 · OH-09",
+  "watch": "NC Senate \u00b7 OH Senate & Gov \u00b7 OH-07 \u00b7 OH-09",
   "close_utc": "2026-11-04T00:30:00Z",
-  "races": "SEN-NC,SEN-OH,GOV-OH,HOU-OH-07,HOU-OH-09,HOU-NC-01,HOU-NC-11,HOU-OH-10,HOU-OH-15"
+  "races": "SEN-NC,SEN-OH,GOV-OH,HOU-OH-07,HOU-OH-09,HOU-NC-01,HOU-NC-11,HOU-OH-10,HOU-OH-15",
+  "guide": "North Carolina's Senate seat is open (Thom Tillis is retiring). Ohio has a Senate special election and an open governor's race, plus House toss-ups OH-09 and NC-01.",
+  "count": ""
  },
  {
   "order": 3,
   "close_et": "8:00 PM",
   "close_ct": "7:00 PM",
   "states": "Missouri, Maine, New Hampshire, Pennsylvania, New Jersey, Alabama, most of Michigan, most of Texas & Kansas, Florida Panhandle",
-  "watch": "ME Senate · MI Senate & Gov · NH Senate · TX Senate · KS Senate & Gov · PA-10",
+  "watch": "ME Senate \u00b7 MI Senate & Gov \u00b7 NH Senate \u00b7 TX Senate \u00b7 KS Senate & Gov \u00b7 PA-10",
   "close_utc": "2026-11-04T01:00:00Z",
-  "races": "SEN-ME,SEN-MI,SEN-NH,SEN-TX,SEN-KS,GOV-MI,GOV-KS,GOV-ME,GOV-NH,HOU-PA-10,HOU-MI-07,HOU-MI-04,MO-A3,MO-A6,MO-A7,MO-A8,MO-PA,MO-AUD,HOU-TX-35,HOU-TX-15,HOU-MI-10,HOU-PA-08,HOU-ME-02,HOU-TX-34,HOU-TX-23,HOU-PA-07,HOU-PA-01,HOU-NJ-07,HOU-AL-02"
+  "races": "SEN-ME,SEN-MI,SEN-NH,SEN-TX,SEN-KS,GOV-MI,GOV-KS,GOV-ME,GOV-NH,HOU-PA-10,HOU-MI-07,HOU-MI-04,MO-A3,MO-A6,MO-A7,MO-A8,MO-PA,MO-AUD,HOU-TX-35,HOU-TX-15,HOU-MI-10,HOU-PA-08,HOU-ME-02,HOU-TX-34,HOU-TX-23,HOU-PA-07,HOU-PA-01,HOU-NJ-07,HOU-AL-02,MO-03,MO-H48,MO-H58,MO-JW,MO-JH",
+  "guide": "The biggest wave: Senate races in Maine, Michigan, New Hampshire, Texas and Kansas, governors in Michigan, Kansas, Maine and New Hampshire, and Missouri's ballot (7 PM CT here) \u2014 see the Missouri tab for statewide questions and your Cooper County ballot.",
+  "count": "Pennsylvania can't start processing mail ballots until 7 a.m. on Election Day, so its count can run late; in 2024 NBC expected 98\u201399% counted by Wednesday morning. Michigan lets large jurisdictions start processing absentee ballots before Election Day. Maine uses ranked choice: if no Senate candidate tops 50% of all ballots cast, a ranked-choice runoff count follows \u2014 the Secretary of State expects it to last at least until Friday, Nov 6, and results are due to the governor by Nov 23."
  },
  {
   "order": 4,
   "close_et": "9:00 PM",
   "close_ct": "8:00 PM",
   "states": "Iowa, Nebraska, Wisconsin, Minnesota, Arizona, Colorado, New Mexico, New York",
-  "watch": "IA Senate & Gov · NE Senate · WI Gov · AZ Gov · AZ-06 · CO-08 · NY-17",
+  "watch": "IA Senate & Gov \u00b7 NE Senate \u00b7 WI Gov \u00b7 AZ Gov \u00b7 AZ-06 \u00b7 CO-08 \u00b7 NY-17",
   "close_utc": "2026-11-04T02:00:00Z",
-  "races": "SEN-IA,SEN-NE,GOV-IA,GOV-WI,GOV-AZ,HOU-AZ-06,HOU-CO-08,HOU-NY-17,HOU-IA-02,HOU-IA-01,HOU-IA-03,HOU-WI-03,HOU-WI-01,HOU-AZ-01,HOU-AZ-02,HOU-CO-04,HOU-CO-05,HOU-MN-01,HOU-NM-02,HOU-NY-21"
+  "races": "SEN-IA,SEN-NE,GOV-IA,GOV-WI,GOV-AZ,HOU-AZ-06,HOU-CO-08,HOU-NY-17,HOU-IA-02,HOU-IA-01,HOU-IA-03,HOU-WI-03,HOU-WI-01,HOU-AZ-01,HOU-AZ-02,HOU-CO-04,HOU-CO-05,HOU-MN-01,HOU-NM-02,HOU-NY-21",
+  "guide": "Iowa's Senate and governor races, Nebraska's Senate race (independent Dan Osborn vs. Pete Ricketts), Wisconsin and Arizona governor, and a cluster of House toss-ups including NY-17, AZ-06, CO-08 and the Iowa seats.",
+  "count": "Wisconsin law bars processing early ballots before Election Day, so counting there can finish late. Arizona's first results usually post about an hour after polls close, but full results are likely to take days \u2014 in 2024 as much as 20% of the vote was still uncounted after election night."
  },
  {
   "order": 5,
@@ -51,7 +61,9 @@
   "states": "Nevada, Montana",
   "watch": "NV Gov",
   "close_utc": "2026-11-04T03:00:00Z",
-  "races": "GOV-NV,HOU-MT-01,HOU-NV-02"
+  "races": "GOV-NV,HOU-MT-01,HOU-NV-02",
+  "guide": "Nevada governor (Republican Joe Lombardo is the incumbent), plus House seats MT-01 and NV-02.",
+  "count": "Nevada counts mail ballots postmarked by Election Day that arrive up to four days later. In 2024 nearly a quarter of the vote was still uncounted the Wednesday morning after Election Day."
  },
  {
   "order": 6,
@@ -60,15 +72,19 @@
   "states": "California, Washington",
   "watch": "CA-22",
   "close_utc": "2026-11-04T04:00:00Z",
-  "races": "HOU-CA-22,HOU-CA-48,HOU-WA-03"
+  "races": "HOU-CA-22,HOU-CA-48,HOU-WA-03",
+  "guide": "California and Washington House seats: CA-22, CA-48 and WA-03.",
+  "count": "California counts mail ballots postmarked by Election Day if they arrive within seven days, and counting can take weeks when many ballots arrive late."
  },
  {
   "order": 7,
   "close_et": "12:00 AM",
   "close_ct": "11:00 PM",
   "states": "Alaska (most of state)",
-  "watch": "AK Senate — ranked-choice, may take days",
+  "watch": "AK Senate \u2014 ranked-choice, may take days",
   "close_utc": "2026-11-04T05:00:00Z",
-  "races": "SEN-AK,HOU-AK-AL"
+  "races": "SEN-AK,HOU-AK-AL",
+  "guide": "Alaska's Senate race and its at-large House seat \u2014 the last polls of the night.",
+  "count": "Alaska plans its first results release between 8:45 and 9 p.m. Alaska time (12:45\u20131 a.m. ET). A ranked-choice tabulation is set for Nov 18, only for races where no one tops 50%; certification is targeted for Nov 25."
  }
 ]

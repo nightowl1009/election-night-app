@@ -3,7 +3,7 @@
    watchlist and Path-to-51 picks on this device, and re-checks for new data
    every 2 minutes while the app is open. */
 (function () {
-  const DATASETS = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'usmap', 'earlyvote'];
+  const DATASETS = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'usmap', 'earlyvote', 'local', 'changes'];
   const KEY = 'en-params-v1';
   const DEFAULTS = { watch: [], picks: [], hpicks: [] };
   const state = {};
@@ -94,6 +94,12 @@
   };
 
   loadAll();
-  setInterval(() => { if (navigator.onLine !== false && document.visibilityState === 'visible') loadAll(); }, 120000);
+  // every 2 minutes; every minute on election night (Nov 3, 5 PM CT – Nov 4, 6 AM CT)
+  let lastLoad = Date.now();
+  setInterval(() => {
+    const now = Date.now(), night = now >= Date.UTC(2026, 10, 3, 23) && now < Date.UTC(2026, 10, 4, 12);
+    if (now - lastLoad < (night ? 60000 : 120000) - 500) return;
+    if (navigator.onLine !== false && document.visibilityState === 'visible') { lastLoad = now; loadAll(); }
+  }, 15000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') loadAll(); });
 })();
