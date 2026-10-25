@@ -216,6 +216,10 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-seat { fill: var(--en-red); }
 .en-seat.d { fill: var(--en-blue); }
 .en-seat.flip, .en-seat.toss { fill: var(--en-gold); }
+.en-seat.i { fill: var(--en-purple); } .en-seat.v { fill: rgba(255,255,255,.28); }
+.en-chmode { display:inline-flex; gap:2px; padding:3px; border-radius:999px; background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16); margin: 0 0 var(--cds-gap-sm); }
+.en-chmode button { appearance:none; border:0; background:transparent; color: rgba(255,255,255,.7); font: inherit; font-size: var(--cds-font-size-caption); font-weight:600; padding:.35rem .85rem; border-radius:999px; cursor:pointer; }
+.en-chmode button[aria-pressed="true"] { background:#fff; color:#0b1020; }
 .en-ch-num { font-family: var(--font-anthropic-serif); font-size: 38px; }
 .en-ch-num.sm { font-size: 30px; }
 .en-ch-lbl { font-family: var(--font-anthropic-sans); font-size: 13px; font-weight: 600; fill: rgba(255,255,255,.7); letter-spacing: .08em; text-transform: uppercase; }
@@ -627,15 +631,19 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
       <div class="en-count" id="en-count" data-source="pollclose"></div>
       <div class="en-tiles dash-skeleton" id="en-tiles" data-source="overview"></div>
       <div class="en-strip-wrap" id="senate-math">
+        <div class="en-chmode" role="group" aria-label="What the chambers show">
+          <button type="button" data-m="now" aria-pressed="true">Seats tonight</button>
+          <button type="button" data-m="polls" aria-pressed="false">Polling projection</button>
+        </div>
         <div class="en-chambers">
           <div class="en-chamber" id="senate-chamber">
             <h3>Senate</h3>
             <div class="en-strip-h"><span id="en-strip-label">If every polling average held · gold = changes party · tap a state</span><span>51 for control</span></div>
-            <div class="en-strip dash-skeleton" id="en-strip" data-source="senate_projection senate_seats senate"></div>
+            <div class="en-strip dash-skeleton" id="en-strip" data-source="senate_projection senate_seats senate overview results"></div>
           </div>
           <div class="en-chamber" id="house-chamber">
             <h3>House</h3>
-            <div class="en-strip-h"><span>By Cook rating · gold = toss-up · tap a gold seat</span><span>218 for control</span></div>
+            <div class="en-strip-h"><span id="en-house-label">By Cook rating · gold = toss-up · tap a gold seat</span><span>218 for control</span></div>
             <div class="en-strip dash-skeleton" id="en-house" data-source="overview house results"></div>
           </div>
         </div>
@@ -1213,7 +1221,12 @@ dash.calc('senate_base', {
   }
 
 
-  let houseState = '', houseMapMode = 'kalshi';
+  let houseState = '', houseMapMode = 'kalshi', chamberMode = 'now';
+  document.querySelectorAll('.en-chmode button').forEach(b => b.addEventListener('click', () => {
+    chamberMode = b.dataset.m;
+    document.querySelectorAll('.en-chmode button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    renderStrip(); renderHouseChamber();
+  }));
   function renderHouseMap() {
     const box = $('#hou-map'), rows = okRows('house');
     if (!box) return; if (!rows) return fail(box, dash.data('house').status);
@@ -1443,7 +1456,82 @@ dash.calc('senate_base', {
     box.append(lg);
   }
 
+  // Seats tonight: today's Senate, changing only when a race is actually called
+  function renderSenateNow() {
+    const box = $('#en-strip'), take = $('#en-take'), ov = okRows('overview'), sen = okRows('senate');
+    if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
+    box.classList.remove('dash-skeleton'); box.replaceChildren();
+    const now = (k) => Number((ov.find(o => o.key === k) || {}).value);
+    let fromR = 0, fromD = 0, called = 0;
+    const seats = sen.map(r => {
+      const c = ctx.res.get('SEN-' + r.id), isCalled = !!(c && c.winner_party);
+      const side = isCalled ? (c.winner_party === 'R' ? 'R' : 'D') : r.held;
+      if (isCalled) { called++; if (r.held === 'R' && side === 'D') fromR++; if (r.held === 'D' && side === 'R') fromD++; }
+      return { id: r.id, held: r.held, side, flip: side !== r.held, called: isCalled, r, c };
+    });
+    const other = now('senate_d_now') + fromR - fromD, gopN = now('senate_r_now') - fromR + fromD;
+    $('#en-strip-label').textContent = called ? 'Called races so far · gold = changed party · tap a state' : 'Today’s Senate · seats change only when a race is called · tap a state';
+    const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
+    const ord = (a, b) => (b.called - a.called) || a.id.localeCompare(b.id);
+    const dHold = seats.filter(s => s.side === 'D' && !s.flip).sort(ord), dFlip = seats.filter(s => s.side === 'D' && s.flip).sort(ord);
+    const rFlip = seats.filter(s => s.side === 'R' && s.flip).sort(ord), rHold = seats.filter(s => s.side === 'R' && !s.flip).sort(ord);
+    const safeD = Math.max(0, other - dHold.length - dFlip.length), safeR = Math.max(0, gopN - rHold.length - rFlip.length);
+    const bgSeat = (s) => {
+      const party = s.r.party_d || 'D', w = s.called ? s.c.winner + ' (' + (s.side === 'R' ? 'R' : party) + ')' : '';
+      return { cls: 'en-seat' + (s.side === 'D' ? (party === 'I' && s.flip ? ' i' : ' d') : '') + (s.flip ? ' flip' : ''), label: s.id, src: 'senate', dark: s.flip,
+        tip: [(s.r.state || s.id) + ' · held by ' + s.held, s.called ? 'Called: ' + w + (s.flip ? ' — changes party' : '') : s.r.cand_d + ' (' + party + ') vs ' + s.r.cand_r + ' (R) · not called yet'] };
+    };
+    const seatList = [...d3.range(safeD).map(() => ({ cls: 'en-seat d' })), ...dHold.map(bgSeat), ...dFlip.map(bgSeat), ...rFlip.map(bgSeat), ...rHold.map(bgSeat), ...d3.range(safeR).map(() => ({ cls: 'en-seat' }))];
+    while (seatList.length < 100) seatList.push({ cls: 'en-seat' });
+    drawChamber(box, {
+      total: 100, rows: 5, r0: 0.48, majority: 51, firstDraw, seat: (i) => seatList[i],
+      left: { n: other, src: 'overview', where: 'key=senate_d_now' }, right: { n: gopN, src: 'overview', where: 'key=senate_r_now' },
+      label: other >= 51 ? 'Democrats take control' : gopN >= 50 && called === sen.length ? 'GOP keeps control' : gopN >= 50 ? 'GOP holds control for now' : 'Too close to call',
+      legend: [['var(--en-blue)', 'Dem + Ind'], ['var(--en-gold)', 'Changed party'], ['var(--en-red)', 'GOP']],
+      aria: `Senate chamber: ${other} Democrats and independents, ${gopN} Republicans`
+    });
+    take.replaceChildren(document.createTextNode(called
+      ? called + ' of the ' + sen.length + ' battleground Senate races called so far: Democrats and independents have flipped ' + fromR + ' GOP seat' + (fromR === 1 ? '' : 's') + ' and Republicans ' + fromD + '. Seats not yet called stay with the party that holds them. Tap “Polling projection” to see where the polls point.'
+      : 'This is the Senate and House as they stand going into election night. Seats change only as races are called. Tap “Polling projection” to see where the polls and ratings point.'));
+  }
+  // Seats tonight: today's House (all 435 are up), changing as tracked battleground races are called
+  function renderHouseNow() {
+    const box = $('#en-house'), ov = okRows('overview'), hs = okRows('house');
+    if (!ov || !hs) return fail(box, dash.data(ov ? 'house' : 'overview').status);
+    const val = (k) => Number((ov.find(o => o.key === k) || {}).value);
+    const n = { D: val('house_d_now'), R: val('house_r_now'), I: val('house_i_now') || 0, V: val('house_vacant') || 0 };
+    if (!(n.D + n.R)) return renderHouseRatings();
+    box.classList.remove('dash-skeleton'); box.replaceChildren();
+    const flipsD = [], flipsR = []; let called = 0;
+    hs.forEach(r => {
+      const c = ctx.res.get('HOU-' + r.id); if (!c || !c.winner_party) return; called++;
+      const to = c.winner_party === 'R' ? 'R' : 'D', from = /^vacant/i.test(r.incumbent || '') ? 'V' : r.held;
+      if (to === from) return;
+      n[from]--; n[to]++;
+      (to === 'D' ? flipsD : flipsR).push({ cls: 'en-seat' + (to === 'D' ? ' d' : '') + ' flip', tip: [r.id + ' · ' + (from === 'V' ? 'was vacant' : 'was ' + from), 'Called: ' + c.winner + ' (' + to + ')'] });
+    });
+    $('#en-house-label').textContent = called ? called + ' battleground seats called · gold = changed party' : 'Today’s House · seats change as races are called';
+    const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
+    const seats = [
+      ...d3.range(n.D - flipsD.length).map(() => ({ cls: 'en-seat d' })), ...flipsD,
+      ...d3.range(n.I).map(() => ({ cls: 'en-seat i', tip: ['Independent', 'Not counted with either party'] })),
+      ...d3.range(n.V).map(() => ({ cls: 'en-seat v', tip: ['Vacant seat', 'Filled by tonight’s election'] })),
+      ...flipsR, ...d3.range(n.R - flipsR.length).map(() => ({ cls: 'en-seat' }))
+    ];
+    drawChamber(box, {
+      total: seats.length, rows: 10, r0: 0.45, majority: 218, firstDraw, small: true, seat: (i) => seats[i],
+      left: { n: n.D, src: 'overview', where: 'key=house_d_now' }, right: { n: n.R, src: 'overview', where: 'key=house_r_now' },
+      label: called ? (n.D >= 218 ? 'Dem majority if the rest hold' : n.R >= 218 ? 'GOP majority if the rest hold' : 'No majority yet') : (n.D >= 218 ? 'Democrats have a majority' : n.R >= 218 ? 'GOP has a majority' : 'No majority'),
+      legend: [['var(--en-blue)', 'Dem'], ['var(--en-gold)', 'Changed party'], ['var(--en-purple)', 'Ind'], ['rgba(255,255,255,.3)', 'Vacant'], ['var(--en-red)', 'GOP']],
+      aria: `House chamber today: ${n.D} Democrats, ${n.R} Republicans, ${n.I} independent, ${n.V} vacant`
+    });
+  }
   function renderHouseChamber() {
+    if (chamberMode === 'now') return renderHouseNow();
+    return renderHouseRatings();
+  }
+  function renderHouseRatings() {
+    const lbl = $('#en-house-label'); if (lbl) lbl.textContent = 'By Cook rating · gold = toss-up · tap a gold seat';
     const box = $('#en-house'), d = dash.data('overview');
     if (d.status !== 'ok') return fail(box, d.status);
     const val = (k) => Number((d.data.find(o => o.key === k) || {}).value);
@@ -1473,6 +1561,7 @@ dash.calc('senate_base', {
   }
 
   function renderStrip() {
+    if (chamberMode === 'now') return renderSenateNow();
     const box = $('#en-strip'), take = $('#en-take'), p = dash.data('senate_projection');
     if (p.status !== 'ok') { fail(box, p.status); take.replaceChildren(); return; }
     box.classList.remove('dash-skeleton'); box.replaceChildren();

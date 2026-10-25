@@ -89,5 +89,33 @@
   "value": 181,
   "display": "181",
   "source": "Cook Political Report, Oct 23"
+ },
+ {
+  "key": "house_r_now",
+  "label": "House today · GOP",
+  "value": 218,
+  "display": "218",
+  "source": "House Press Gallery party breakdown (page updated Sep 2, 2026)"
+ },
+ {
+  "key": "house_d_now",
+  "label": "House today · Dem",
+  "value": 214,
+  "display": "214",
+  "source": "House Press Gallery party breakdown (page updated Sep 2, 2026)"
+ },
+ {
+  "key": "house_i_now",
+  "label": "House today · Independent",
+  "value": 1,
+  "display": "1",
+  "source": "House Press Gallery party breakdown (page updated Sep 2, 2026)"
+ },
+ {
+  "key": "house_vacant",
+  "label": "House today · vacant",
+  "value": 2,
+  "display": "2",
+  "source": "House Press Gallery party breakdown (page updated Sep 2, 2026)"
  }
 ]
