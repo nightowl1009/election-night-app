@@ -76,13 +76,18 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 #vote-splash .vs-sub { margin-top: 8px; font-family: "Instrument Sans", system-ui, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.75); opacity: 0; animation: vs-fade .7s ease-out 1.3s forwards; }
 #vote-splash .vs-arc, #vote-splash .vs-word, #vote-splash .vs-year, #vote-splash .vs-stripe, #vote-splash .vs-sub { position: relative; z-index: 1; }
 #vote-splash .vs-burst { z-index: 0; position: absolute; width: 8px; height: 8px; border-radius: 2px; opacity: 0; animation: vs-burst 1.4s cubic-bezier(.16,1,.3,1) forwards; }
-#vote-splash .vs-pals { position: absolute; left: 0; right: 0; bottom: max(7vh, 34px); display: flex; justify-content: space-between; padding: 0 5vw; pointer-events: none; z-index: 1; }
-#vote-splash .vs-pal { width: min(30vw, 150px); height: auto; opacity: 0; filter: drop-shadow(0 8px 18px rgba(0,0,0,.45)); }
-#vote-splash .vs-pal.d { transform: translateX(-130%); animation: vs-slide .9s cubic-bezier(.22,1,.36,1) 1.0s forwards, vs-hop .5s ease-in-out 1.9s 2; }
-#vote-splash .vs-pal.r { transform: translateX(130%); animation: vs-slide .9s cubic-bezier(.22,1,.36,1) 1.15s forwards, vs-hop .5s ease-in-out 2.05s 2; }
-@keyframes vs-in { from { opacity: 0; } to { opacity: 1; } }
-@keyframes vs-slide { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 1; transform: translateX(0); } }
-@keyframes vs-hop { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+#vote-splash .vs-pals { position: absolute; left: 0; right: 0; bottom: max(5vh, 26px); display: flex; justify-content: space-between; padding: 0 5vw; pointer-events: none; z-index: 1; }
+#vote-splash .vs-pal { width: min(44vw, 230px, 21vh); height: auto; opacity: 0; overflow: visible; filter: drop-shadow(0 10px 22px rgba(0,0,0,.5)); }
+/* the donkey and elephant walk in from the edges toward each other, then fade out with the splash */
+#vote-splash .vs-pal.d { transform: translateX(-115%); animation: vs-walk-d 2.6s cubic-bezier(.3,.6,.35,1) .85s forwards; }
+#vote-splash .vs-pal.r { transform: translateX(115%); animation: vs-walk-r 2.6s cubic-bezier(.3,.6,.35,1) .95s forwards; }
+#vote-splash .vs-pal .bob { transform-box: fill-box; transform-origin: 50% 100%; animation: vs-step .32s ease-in-out .85s 8 alternate; }
+#vote-splash .vs-pal.r .bob { animation-delay: .95s; }
+#vote-splash .vs-pals { transition: opacity .55s ease-out; }
+#vote-splash.out .vs-pals { opacity: 0; }
+@keyframes vs-walk-d { 0% { opacity: 0; transform: translateX(-115%); } 14% { opacity: 1; } 100% { opacity: 1; transform: translateX(5%); } }
+@keyframes vs-walk-r { 0% { opacity: 0; transform: translateX(115%); } 14% { opacity: 1; } 100% { opacity: 1; transform: translateX(-5%); } }
+@keyframes vs-step { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-6%) rotate(1.5deg); } }
 @keyframes vs-pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
 @keyframes vs-drop { to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes vs-rise { to { opacity: 1; transform: none; } }
@@ -108,7 +113,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
   <div class="vs-stripe"><i></i><i></i><i></i></div>
   <div class="vs-sub">Election Night</div>
   <div class="vs-pals">
-  <svg class="vs-pal d" viewBox="0 0 120 100" aria-hidden="true">
+  <svg class="vs-pal d" viewBox="0 0 120 100" aria-hidden="true"><g class="bob">
     <path d="M20 46 C12 52 10 62 8 70" stroke="#1d4ed8" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="8" cy="72" r="4.5" fill="#1d4ed8"/>
     <rect x="27" y="58" width="7" height="32" rx="3" fill="#1d4ed8"/><rect x="59" y="58" width="7" height="32" rx="3" fill="#1d4ed8"/>
     <ellipse cx="48" cy="52" rx="31" ry="16" fill="#3b82f6"/>
@@ -120,8 +125,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
     <ellipse cx="99" cy="30" rx="15" ry="8.5" transform="rotate(32 99 30)" fill="#3b82f6"/>
     <ellipse cx="108" cy="37" rx="5.5" ry="4.5" transform="rotate(32 108 37)" fill="#93c5fd"/>
     <circle cx="95" cy="24" r="2" fill="#fff"/>
-  </svg>
-  <svg class="vs-pal r" viewBox="0 0 120 100" aria-hidden="true"><g transform="translate(120 0) scale(-1 1)">
+  </g></svg>
+  <svg class="vs-pal r" viewBox="0 0 120 100" aria-hidden="true"><g class="bob"><g transform="translate(120 0) scale(-1 1)">
     <path d="M16 40 C10 46 8 54 7 62" stroke="#b91c1c" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M5 60 l2 7 l3 -6 z" fill="#b91c1c"/>
     <rect x="22" y="56" width="13" height="34" rx="4" fill="#b91c1c"/><rect x="58" y="56" width="13" height="34" rx="4" fill="#b91c1c"/>
     <ellipse cx="50" cy="46" rx="37" ry="25" fill="#ef4444"/>
@@ -131,7 +136,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
     <ellipse cx="80" cy="36" rx="11" ry="16" fill="#b91c1c"/>
     <path d="M99 47 C104 52 108 52 111 50" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
     <circle cx="95" cy="28" r="2.1" fill="#fff"/>
-  </g></svg>
+  </g></g></svg>
   </div>
 </div>
 <script>
