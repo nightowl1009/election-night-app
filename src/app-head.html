@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<style>html, body { touch-action: pan-x pan-y; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }</style>
+<style>html, body { touch-action: pan-x pan-y; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overflow-x: clip; overscroll-behavior-x: none; }
+/* iPhone honors 'manipulation' on every element to turn off double-tap zoom (taps on charts and buttons were zooming the page) */
+body * { touch-action: manipulation; }</style>
 <script>
 /* No pinch zoom: it's an app, not a web page. iPhone Safari ignores user-scalable=no, so block its pinch gestures too.
    Double-tap zoom is off through touch-action (CSS above), which keeps quick double taps on buttons working. */

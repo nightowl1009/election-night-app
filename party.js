@@ -164,7 +164,7 @@
       const px = (clientX - rect.left) / rect.width * w; let best = series[0];
       series.forEach(p => { if (Math.abs(X(p[0]) - px) < Math.abs(X(best[0]) - px)) best = p; });
       hair.setAttribute('x1', X(best[0])); hair.setAttribute('x2', X(best[0])); hair.style.display = ''; hd.setAttribute('cx', X(best[0])); hd.setAttribute('cy', Y(best[1])); hd.style.display = '';
-      readout((night ? tf.format(new Date(best[0] * 1000)) + ' CT' : df.format(new Date(best[0] * 1000)) + ', ' + tf.format(new Date(best[0] * 1000)) + ' CT') + ' · Dems ' + pct(best[1]) + '% · GOP ' + (100 - pct(best[1])) + '%');
+      readout((night ? tf.format(new Date(best[0] * 1000)) : df.format(new Date(best[0] * 1000)) + ' ' + tf.format(new Date(best[0] * 1000))) + ' · Dems ' + pct(best[1]) + '% · GOP ' + (100 - pct(best[1])) + '%');
     };
     svg.__leave = () => { hair.style.display = 'none'; hd.style.display = 'none'; };
     return svg;
@@ -188,7 +188,7 @@
     const rB = h('span', 'r'); rB.append(h('b', '', (100 - pct(now)) + '%'), h('small', '', 'GOP'));
     const mv = h('span', 'mv ' + (move > 0 ? 'up' : move < 0 ? 'dn' : ''), move === 0 ? 'No change' : (move > 0 ? '▲ Dems +' : '▼ Dems ') + move + ' pts ' + (night ? 'tonight' : 'in 2 weeks'));
     big.append(dB, rB, mv);
-    const wrap = h('div', 'od-chart'); const svg = chart(s, 600, 190, night); svg.setAttribute('aria-label', 'Chance Democrats win the ' + oddsMode + ', from ' + pct(first) + '% to ' + pct(now) + '%');
+    const wrap = h('div', 'od-chart'); const cw = Math.round(Math.max(260, Math.min(900, (box.clientWidth || 340) - 32))); const svg = chart(s, cw, 180, night); svg.setAttribute('height', '180'); svg.setAttribute('aria-label', 'Chance Democrats win the ' + oddsMode + ', from ' + pct(first) + '% to ' + pct(now) + '%');
     const read = h('p', 'od-read', 'Touch the chart to see any moment'); wrap.append(svg);
     const hover = (e) => { const pt = e.touches ? e.touches[0] : e; svg.__hover(pt.clientX, svg.getBoundingClientRect(), (t) => { read.textContent = t; }); };
     svg.addEventListener('pointermove', hover); svg.addEventListener('pointerdown', hover);
@@ -227,6 +227,7 @@
     document.querySelectorAll('.en-tab[data-tab="night"]').forEach(t => t.addEventListener('click', () => setTimeout(() => { if (!odds) loadOdds(); else paintOdds(); }, 0)));
     oddsLoop();
     document.addEventListener('visibilitychange', () => { if (!document.hidden) oddsLoop(); });
+    let lastW = innerWidth; window.addEventListener('resize', () => { if (Math.abs(innerWidth - lastW) > 40) { lastW = innerWidth; paintOdds(); } });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

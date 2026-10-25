@@ -329,7 +329,7 @@ button.wl-tip { cursor:pointer; }
 .od-big span { display:flex; align-items:baseline; gap:.3rem; } .od-big b { font-size:1.9rem; font-weight:800; font-variant-numeric: tabular-nums; } .od-big small { font-size:.78rem; color: var(--color-fg-muted); font-weight:600; }
 .od-big .d b { color: var(--en-blue, #2563eb); } .od-big .r b { color: var(--en-red, #dc2626); }
 .od-big .mv { font-size:.78rem; font-weight:700; color: var(--color-fg-muted); margin-left:auto; } .od-big .mv.up { color: var(--en-blue, #2563eb); } .od-big .mv.dn { color: var(--en-red, #dc2626); }
-.od-chart { touch-action: pan-y; }
+.od-chart, .od-chart * { touch-action: pan-y; }
 .od-svg { display:block; overflow:visible; }
 .od-grid { stroke: var(--color-border-line); stroke-width:1; } .od-mid { stroke: var(--color-fg-muted); stroke-width:1; stroke-dasharray: 3 4; }
 .od-ax { font-size:11px; fill: var(--color-fg-muted); font-family: var(--font-anthropic-sans, system-ui); }
@@ -337,7 +337,7 @@ button.wl-tip { cursor:pointer; }
 .od-ad { fill: rgba(59,130,246,.16); } .od-ar { fill: rgba(239,68,68,.16); }
 .od-dot { fill: var(--color-fg); stroke: var(--color-panel); stroke-width:2; }
 .od-hair { stroke: var(--color-fg-muted); stroke-width:1; }
-.od-read { margin:.3rem 0 0; font-size: var(--cds-font-size-caption, .78rem); color: var(--color-fg); min-height:1.2em; font-variant-numeric: tabular-nums; }
+.od-read { margin:.3rem 0 0; font-size: var(--cds-font-size-caption, .78rem); color: var(--color-fg); height:1.3em; line-height:1.3em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-variant-numeric: tabular-nums; }
 .od-src { margin:.35rem 0 0; font-size:.7rem; color: var(--color-fg-muted); } .od-src a { color: inherit; }
 
 /* ---------- TV mode extras ---------- */
