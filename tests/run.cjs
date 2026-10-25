@@ -86,10 +86,23 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await a.page.click('#house-chips .en-chip[data-f="all"]'); await a.page.waitForTimeout(150);
     ok(await on('#hou-map') === all && await dots() === allDots, 'All should restore the map');
     await a.page.click('.en-tab[data-tab="senate"]'); await a.page.waitForTimeout(250);
-    for (const f of ['R', 'D']) {
+    const sen = DATA('senate'), ratings = [...new Set(sen.map((r) => r.rating))];
+    ok(await a.page.evaluate(() => document.querySelectorAll('#sen-chips .en-chip').length) === ratings.length + 1, 'senate chips should match the ratings in the data');
+    for (const f of ratings) {
       await a.page.click('#sen-chips .en-chip[data-f="' + f + '"]'); await a.page.waitForTimeout(150);
-      ok(await on('#sen-map') === DATA('senate').filter((r) => r.held === f).length, 'senate ' + f + ' map');
+      const want = sen.filter((r) => r.rating === f).length;
+      ok(await on('#sen-map') === want, 'senate ' + f + ' map');
+      ok(await a.page.evaluate(() => document.querySelectorAll('#sen-grid .en-race').length) === want, 'senate ' + f + ' cards');
     }
+    await a.page.click('#sen-chips .en-chip[data-f="all"]'); await a.page.waitForTimeout(150);
+    await a.page.click('#sen-map .en-mapmode button:last-child'); await a.page.waitForTimeout(150);
+    await a.page.click('#sen-map .en-mapmode button:first-child'); await a.page.waitForTimeout(150);
+    ok(await on('#sen-map') === sen.length, 'senate map mode toggle');
+    await a.page.click('.en-tab[data-tab="governors"]'); await a.page.waitForTimeout(250);
+    await a.page.click('#gov-chips .en-chip[data-f="Toss-up"]'); await a.page.waitForTimeout(150);
+    const gt = DATA('governor').filter((r) => r.rating === 'Toss-up').length;
+    ok(await on('#gov-map') === gt && await a.page.evaluate(() => document.querySelectorAll('#gov-grid .en-race').length) === gt, 'governor toss-up filter');
+    await a.page.click('.en-tab[data-tab="senate"]'); await a.page.waitForTimeout(250);
     const n3 = await a.page.evaluate(() => [document.querySelectorAll('#sen-grid .en-lead3').length, document.querySelectorAll('#sen-grid .en-race').length]);
     ok(n3[0] === n3[1] && n3[0] > 0, 'every senate card needs an "Ours" chip ' + n3);
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();

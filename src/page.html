@@ -711,18 +711,14 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       </div>
       <div class="en-sec-h">
         <div><h2>Senate battlegrounds</h2><p>Big numbers = RealClearPolling average, latest poll underneath · Bar centre = 50/50 · Left stripe = party holding the seat · Dot chart = every poll found since late July</p></div>
-        <div class="en-chips" id="sen-chips">
-          <button class="en-chip" data-f="all" aria-pressed="true">All</button>
-          <button class="en-chip" data-f="R" aria-pressed="false">GOP-held</button>
-          <button class="en-chip" data-f="D" aria-pressed="false">Dem-held</button>
-        </div>
+        <div class="en-chips" id="sen-chips" role="group" aria-label="Filter by rating"></div>
       </div>
  <div class="en-map dash-skeleton" id="sen-map" data-source="usmap senate results"></div>
       <div class="en-grid dash-skeleton" id="sen-grid" data-source="senate senate_margins polls results pollclose"></div>
     </section>
 
     <section id="governors" class="en-panel" hidden>
-      <div class="en-sec-h"><div><h2>Governor races to watch</h2><p>36 governorships are up · RealClearPolling average, latest poll underneath</p></div></div>
+      <div class="en-sec-h"><div><h2>Governor races to watch</h2><p>36 governorships are up · RealClearPolling average, latest poll underneath</p></div><div class="en-chips" id="gov-chips" role="group" aria-label="Filter by rating"></div></div>
  <div class="en-map dash-skeleton" id="gov-map" data-source="usmap governor results"></div>
       <div class="en-grid dash-skeleton" id="gov-grid" data-source="governor governor_margins polls results pollclose"></div>
     </section>
@@ -994,7 +990,22 @@ dash.calc('senate_base', {
   const PFX = { senate: 'SEN-', governor: 'GOV-', house: 'HOU-' };
   const LBL = { senate: 'Senate', governor: 'Governor', house: '' };
   const animated = new Set();
-  let senFilter = 'all', houseFilter = 'all', houseShowLean = false;
+  let houseFilter = 'all', houseShowLean = false;
+  const raceFilter = { senate: 'all', governor: 'all' }, mapMode = { senate: 'rating', governor: 'rating' };
+  const RORDER = ['Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R', 'Solid D', 'Solid R'];
+  const rIdx = (k) => { const i = RORDER.indexOf(k); return i < 0 ? 99 : i; };
+  // Rating chips built from whatever ratings the data has today (Senate and governors), with counts like the House chips
+  function renderChips(sel, ds) {
+    const box = $(sel), rows = okRows(ds); if (!box || !rows) return;
+    const present = [...new Set(rows.map(r => r.rating).filter(Boolean))].sort((a, b) => rIdx(a) - rIdx(b));
+    if (raceFilter[ds] !== 'all' && !present.includes(raceFilter[ds])) raceFilter[ds] = 'all';
+    box.replaceChildren();
+    [['all', 'All', rows.length], ...present.map(k => [k, k, rows.filter(r => r.rating === k).length])].forEach(([f, t, n]) => {
+      const b = el('button', 'en-chip'); b.type = 'button'; b.dataset.f = f; b.setAttribute('aria-pressed', String(raceFilter[ds] === f));
+      b.append(document.createTextNode(t + ' '), el('span', '', '· ' + n));
+      b.addEventListener('click', () => { raceFilter[ds] = f; redraw(); }); box.append(b);
+    });
+  }
   let localWatch = null, localPicks = null;
   const getWatch = () => localWatch || (dash.params().watch || []);
   const getPicks = () => localPicks || (dash.params().picks || []);
@@ -1324,22 +1335,28 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     const isSen = ds === 'senate';
     const hd = el('div', 'en-map-h'); hd.append(el('h3', '', isSen ? 'Senate battleground map' : 'Governor battleground map'),
-      el('p', '', 'Shade = size of the lead · ✓ = called · tap a state'));
+      el('p', '', (mapMode[ds] === 'rating' ? 'Shade = race rating' : 'Shade = size of the lead') + ' · ✓ = called · tap a state'));
+    const mm = el('div', 'en-mapmode'); mm.setAttribute('role', 'group'); mm.setAttribute('aria-label', 'Color states by');
+    [['poll', 'Poll lead'], ['rating', 'Rating']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(mapMode[ds] === k)); b.addEventListener('click', () => { mapMode[ds] = k; renderMap(sel, ds); }); mm.append(b); });
+    hd.append(mm);
     box.append(hd);
     const byId = new Map(rows.map(r => [r.id, r]));
     drawUSMap(box, (st) => {
       const r = byId.get(st); if (!r) return null;
-      if (isSen && senFilter !== 'all' && r.held !== senFilter) return null;
+      if (raceFilter[ds] !== 'all' && r.rating !== raceFilter[ds]) return null;
       const key = PFX[ds] + st, inf = raceMargin(r, ctx.res.get(key));
-      const cls = inf.side === 'e' ? 'e' : inf.side + (inf.m >= 5 ? '3' : inf.m >= 2 ? '2' : '1');
-      return { fill: MAPC[cls], ink: MAPINK[cls], sub: inf.called ? '✓ ' + (inf.side === 'r' ? 'R' : inf.side === 'i' ? 'I' : 'D') : inf.label.split(' · ')[0].replace(' +', '+'),
-        tip: [r.state + (isSen ? ' Senate' : ' Governor'), r.cand_d + ' (' + r.party_d + ') vs ' + r.cand_r + ' (R)', inf.label],
+      const byRating = mapMode[ds] === 'rating' && !inf.called;
+      let cls = inf.side === 'e' ? 'e' : inf.side + (inf.m >= 5 ? '3' : inf.m >= 2 ? '2' : '1');
+      if (byRating) { const m = /^(Lean|Likely|Solid) ([DRI])$/.exec(r.rating || ''); cls = m ? m[2].toLowerCase() + ({ Lean: '1', Likely: '2', Solid: '3' })[m[1]] : 'e'; }
+      return { fill: MAPC[cls], ink: MAPINK[cls], sub: inf.called ? '✓ ' + (inf.side === 'r' ? 'R' : inf.side === 'i' ? 'I' : 'D') : byRating ? (r.rating || '') : inf.label.split(' · ')[0].replace(' +', '+'),
+        tip: [r.state + (isSen ? ' Senate' : ' Governor'), r.cand_d + ' (' + r.party_d + ') vs ' + r.cand_r + ' (R)', inf.label, 'Rating: ' + r.rating + (r.rater ? ' (' + r.rater + ')' : '')],
         onClick: () => jumpToCard(isSen ? '#sen-grid' : '#gov-grid', key) };
     }, isSen ? 'Senate battleground map' : 'Governor battleground map');
     const key = el('div', 'en-map-key');
     const sw = (cls, txt) => { const s = el('span'); const w = el('span', 'sw'); cls.forEach(c => { const i = el('i'); i.style.background = c; w.append(i); }); s.append(w, document.createTextNode(txt)); return s; };
-    key.append(sw(['#93c5fd', '#3b82f6', '#1d4ed8'], 'Dem lead <2 · 2–5 · 5+'), sw(['#fca5a5', '#ef4444', '#b91c1c'], 'GOP lead'));
-    if (isSen) key.append(sw(['#d8b4fe', '#a855f7'], 'Independent'));
+    if (mapMode[ds] === 'rating') key.append(sw(['#fbbf24'], 'Toss-up'), sw(['#93c5fd', '#3b82f6', '#1d4ed8'], 'Lean · Likely · Solid D'), sw(['#fca5a5', '#ef4444', '#b91c1c'], 'Lean · Likely · Solid R'));
+    else { key.append(sw(['#93c5fd', '#3b82f6', '#1d4ed8'], 'Dem lead <2 · 2–5 · 5+'), sw(['#fca5a5', '#ef4444', '#b91c1c'], 'GOP lead'));
+      if (isSen) key.append(sw(['#d8b4fe', '#a855f7'], 'Independent')); }
     key.append(sw(['var(--en-mapoff)'], 'Not a battleground'));
     box.append(key);
   }
@@ -2221,11 +2238,6 @@ dash.calc('senate_base', {
     renderHouseMap(); renderHouse();
   }));
 
-  document.querySelectorAll('#sen-chips .en-chip').forEach(c => c.addEventListener('click', () => {
-    senFilter = c.dataset.f;
-    document.querySelectorAll('#sen-chips .en-chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
-    redraw();
-  }));
 
 
   // After the votes: how the polling averages and Kalshi did against called races
@@ -2576,10 +2588,11 @@ dash.calc('senate_base', {
     buildCtx();
     renderBreaking(); renderScoreTop(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
     renderTimes(); tick(); renderScorecard(); renderChanges(); renderRecap();
-    if (!$('#senate').hidden) renderMap('#sen-map', 'senate');
-    if (!$('#governors').hidden) renderMap('#gov-map', 'governor');
-    if (!$('#senate').hidden) renderRaces('#sen-grid', 'senate', 'senate_margins', senFilter === 'all' ? null : (r) => r.held === senFilter);
-    if (!$('#governors').hidden) renderRaces('#gov-grid', 'governor', 'governor_margins');
+    if (!$('#senate').hidden) { renderChips('#sen-chips', 'senate'); renderMap('#sen-map', 'senate'); }
+    if (!$('#governors').hidden) { renderChips('#gov-chips', 'governor'); renderMap('#gov-map', 'governor'); }
+    const rf = (ds) => raceFilter[ds] === 'all' ? null : (r) => r.rating === raceFilter[ds];
+    if (!$('#senate').hidden) renderRaces('#sen-grid', 'senate', 'senate_margins', rf('senate'));
+    if (!$('#governors').hidden) renderRaces('#gov-grid', 'governor', 'governor_margins', rf('governor'));
     if (!$('#house').hidden) { renderHouseMap(); renderHouse(); }
     if (!$('#path').hidden) { if (pathMode === 'house') renderHousePath(); else renderPath(); }
     if (!$('#missouri').hidden) { renderMissouri(); renderLocal(); }
