@@ -25,8 +25,8 @@
   "avg2_thru": "Oct 22",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 96,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_d": 97,
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "OH",
@@ -44,9 +44,9 @@
   "rater": "Cook",
   "cnn_rank": 2,
   "note": "DDHQ gives Brown a 53% chance.",
-  "avg_d": 47.9,
-  "avg_r": 44.8,
-  "avg_dates": "Sep 21–Oct 22",
+  "avg_d": 48.2,
+  "avg_r": 44.9,
+  "avg_dates": "Sep 22–Oct 22",
   "avg_source": "RCP average",
   "avg2_d": 48.9,
   "avg2_r": 44.9,
@@ -54,8 +54,8 @@
   "avg2_thru": "Oct 23",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 68,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_d": 67,
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "AK",
@@ -84,7 +84,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "Includes minor candidates (D. J. Sullivan 3.5, Heikes 1.8).",
   "kalshi_d": 75,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "ME",
@@ -112,8 +112,8 @@
   "avg2_thru": "Oct 22",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 63,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_d": 62,
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "TX",
@@ -135,14 +135,14 @@
   "avg_r": 46.9,
   "avg_dates": "Oct 8–21",
   "avg_source": "RCP average",
-  "avg2_d": null,
-  "avg2_r": null,
-  "avg2_n": null,
-  "avg2_thru": "",
-  "avg2_source": "",
-  "avg2_note": "No current 270toWin average for this matchup.",
-  "kalshi_d": 64,
-  "kalshi_src": "Kalshi, Oct 24"
+  "avg2_d": 49.3,
+  "avg2_r": 47.3,
+  "avg2_n": 9,
+  "avg2_thru": "Oct 23",
+  "avg2_source": "270toWin",
+  "avg2_note": "",
+  "kalshi_d": 63,
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "IA",
@@ -171,7 +171,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 42,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "KS",
@@ -200,7 +200,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 40,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "NE",
@@ -228,8 +228,8 @@
   "avg2_thru": "Oct 20",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 24,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_d": 25,
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "MI",
@@ -251,14 +251,14 @@
   "avg_r": 46.0,
   "avg_dates": "Sep 24–Oct 22",
   "avg_source": "RCP average",
-  "avg2_d": null,
-  "avg2_r": null,
-  "avg2_n": null,
-  "avg2_thru": "",
-  "avg2_source": "",
-  "avg2_note": "No current 270toWin average for this matchup.",
+  "avg2_d": 48.4,
+  "avg2_r": 45.2,
+  "avg2_n": 5,
+  "avg2_thru": "Oct 23",
+  "avg2_source": "270toWin",
+  "avg2_note": "",
   "kalshi_d": 68,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "NH",
@@ -286,8 +286,8 @@
   "avg2_thru": "Oct 22",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 89,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_d": 90,
+  "kalshi_src": "Kalshi, Oct 25"
  },
  {
   "id": "GA",
@@ -309,13 +309,13 @@
   "avg_r": 43.0,
   "avg_dates": "Sep 21–Oct 17",
   "avg_source": "RCP average",
-  "avg2_d": null,
-  "avg2_r": null,
-  "avg2_n": null,
-  "avg2_thru": "",
-  "avg2_source": "",
-  "avg2_note": "No current 270toWin average for this matchup.",
+  "avg2_d": 52.0,
+  "avg2_r": 43.6,
+  "avg2_n": 5,
+  "avg2_thru": "Oct 20",
+  "avg2_source": "270toWin",
+  "avg2_note": "",
   "kalshi_d": 96,
-  "kalshi_src": "Kalshi, Oct 24"
+  "kalshi_src": "Kalshi, Oct 25"
  }
 ]

@@ -1366,5 +1366,23 @@
   "d": 49,
   "r": 36,
   "margin": 13
+ },
+ {
+  "pid": "HOU-MT-01-5",
+  "race": "HOU-MT-01",
+  "pollster": "Rutgers-Eagleton",
+  "date": "2026-09-14",
+  "d": 41,
+  "r": 42,
+  "margin": -1
+ },
+ {
+  "pid": "HOU-VA-01-3",
+  "race": "HOU-VA-01",
+  "pollster": "Ragnar Research (R)",
+  "date": "2026-03-12",
+  "d": 42,
+  "r": 46,
+  "margin": -4
  }
 ]

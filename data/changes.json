@@ -1,32 +1,50 @@
 [
  {
   "cid": "c1",
-  "date": "2026-10-24",
-  "tab": "missouri",
-  "text": "New: your Cooper County ballot is on the Missouri tab \u2014 every contest from the county's official ballot, with live results for the contested races on election night."
+  "date": "2026-10-25",
+  "tab": "governors",
+  "text": "Cook moved the Ohio governor race from Toss-up to Lean D."
  },
  {
   "cid": "c2",
-  "date": "2026-10-24",
-  "tab": "night",
-  "text": "New: an election-night viewing guide on the Election night tab \u2014 what to watch in each poll-closing wave and how fast each state counts."
+  "date": "2026-10-25",
+  "tab": "governors",
+  "text": "Michigan governor RCP average: Benson +5.8 → Benson +6.3."
  },
  {
   "cid": "c3",
-  "date": "2026-10-24",
-  "tab": "",
-  "text": "New: race calls now pop up live while the app is open, and the game shows a season finale once every race is called."
+  "date": "2026-10-25",
+  "tab": "governors",
+  "text": "Ohio governor RCP average: Acton +3.6 → Acton +4.4."
  },
  {
   "cid": "c4",
-  "date": "2026-10-24",
-  "tab": "night",
-  "text": "New: \ud83d\udcfa TV mode on the Election night tab \u2014 a big-screen view for watch parties that rotates seat counts, the latest calls, the next poll closing and your group's leaderboard."
+  "date": "2026-10-25",
+  "tab": "senate",
+  "text": "270toWin now has Senate averages for Texas (Talarico +2.0), Michigan (El-Sayed +3.2) and Georgia (Ossoff +8.4)."
  },
  {
   "cid": "c5",
-  "date": "2026-10-24",
+  "date": "2026-10-25",
+  "tab": "senate",
+  "text": "Ohio Senate RCP average: Brown +3.1 → Brown +3.3."
+ },
+ {
+  "cid": "c6",
+  "date": "2026-10-25",
+  "tab": "house",
+  "text": "Kalshi House odds updated from Oct 20 readings: TX-23 Dem 29% → 41%, OH-15 26% → 39%, SC-01 29% → 38%, NV-02 28% → 38%."
+ },
+ {
+  "cid": "c7",
+  "date": "2026-10-25",
   "tab": "",
-  "text": "New in the Prediction Game: QR-code and one-tap invite links for groups, report and block in chat, a chat filter, and Account \u2192 Delete my account."
+  "text": "DDHQ forecast for Democrats: Senate 57% → 56%, House 79% → 80%."
+ },
+ {
+  "cid": "c8",
+  "date": "2026-10-25",
+  "tab": "news",
+  "text": "Eight new election news items added."
  }
 ]
