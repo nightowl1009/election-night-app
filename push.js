@@ -9,6 +9,8 @@
   const supported = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   let last = {};   // latest picks we were handed, to personalize alerts
+  const closesOn = () => store.get('en-push-closes') !== '0';   // "polls just closed" alerts (on by default)
+  last.closes = closesOn();
 
   const toast = (t, ms) => { const s = document.createElement('div'); s.className = 'pl-toast'; s.textContent = t; document.body.append(s); setTimeout(() => s.remove(), ms || 3200); };
   const b64 = (s) => { const p = '='.repeat((4 - s.length % 4) % 4); const r = atob((s + p).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(r, c => c.charCodeAt(0)); };
@@ -45,7 +47,7 @@
   // the game hands us your picks so race-call alerts can say "you called it"
   let syncT = null;
   function sync(doc) {
-    last = { picks: (doc && doc.picks) || {}, lock: (doc && doc.lock) || null, name: (doc && doc.name) || '' };
+    last = { picks: (doc && doc.picks) || {}, lock: (doc && doc.lock) || null, name: (doc && doc.name) || '', closes: closesOn() };
     if (store.get(LS) !== '1') return;
     clearTimeout(syncT);
     syncT = setTimeout(async () => { try { const sub = await current(); if (sub) await post('push-subscribe', Object.assign({ subscription: sub.toJSON() }, last)); } catch (e) { console.error(e); } }, 1500);
@@ -59,13 +61,21 @@
   }
   function paint() {
     document.querySelectorAll('.en-alert-btn').forEach(b => { b.textContent = isOn() ? '🔔 Alerts on' : '🔕 Race alerts'; b.setAttribute('aria-pressed', String(isOn())); });
+    document.querySelectorAll('.en-closes-btn').forEach(b => { b.hidden = !isOn(); b.textContent = closesOn() ? '🗳️ Poll-closing alerts on' : '🗳️ Poll-closing alerts off'; b.setAttribute('aria-pressed', String(closesOn())); });
+  }
+  async function toggleCloses() {
+    store.set('en-push-closes', closesOn() ? '0' : '1'); last.closes = closesOn(); paint();
+    try { const sub = await current(); if (sub) await post('push-subscribe', Object.assign({ subscription: sub.toJSON() }, last)); toast(closesOn() ? 'You’ll get an alert as each wave of polls closes.' : 'Poll-closing alerts off — race calls still come through.'); }
+    catch (e) { toast('Couldn’t save that — try again.'); }
   }
   function addButton() {
     const tv = document.getElementById('tv-open');
     if (!tv || document.getElementById('alert-btn')) return;
     const b = document.createElement('button'); b.type = 'button'; b.id = 'alert-btn'; b.className = 'en-chip en-alert-btn';
     b.addEventListener('click', () => (isOn() ? disable() : enable()));
-    const wrap = document.createElement('div'); wrap.className = 'en-hbtns'; tv.replaceWith(wrap); wrap.append(b, tv);
+    let wrap = tv.closest('.en-hbtns'); if (!wrap) { wrap = document.createElement('div'); wrap.className = 'en-hbtns'; tv.replaceWith(wrap); wrap.append(tv); }
+    wrap.insertBefore(b, wrap.firstChild);
+    const c = document.createElement('button'); c.type = 'button'; c.id = 'closes-btn'; c.className = 'en-chip en-closes-btn'; c.addEventListener('click', toggleCloses); b.after(c);
     paint();
   }
   // keep the saved subscription in step with the phone (it can expire or be revoked)

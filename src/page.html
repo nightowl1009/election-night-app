@@ -367,6 +367,18 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 .en-rc.mile i { background: var(--en-gold); box-shadow: 0 0 0 3px rgba(251,191,36,.3); }
 /* TV / watch-party mode */
 .en-tv-open { flex:none; }
+.en-closed { position:fixed; left:50%; top: max(10px, env(safe-area-inset-top)); transform:translateX(-50%); z-index:150; width:min(30rem, calc(100% - 24px)); display:flex; align-items:center; gap:.6rem; padding:.7rem .8rem .7rem 1rem; border-radius:14px; background:#0b1020; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,.35); border:1px solid rgba(251,191,36,.55); animation: en-closedin .45s cubic-bezier(.2,.9,.3,1.2) both; }
+.en-closed.out { animation: en-closedout .25s ease both; }
+.en-closed .tx { flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; font-size:.82rem; }
+.en-closed .tx b { color:#fbbf24; font-size:.78rem; letter-spacing:.02em; }
+.en-closed .tx small { color: rgba(255,255,255,.72); }
+.en-closed .go { appearance:none; border:0; border-radius:999px; background:#fbbf24; color:#1a1300; font:inherit; font-size:.75rem; font-weight:700; padding:.45rem .7rem; cursor:pointer; white-space:nowrap; }
+.en-closed .x { appearance:none; border:0; background:transparent; color:rgba(255,255,255,.7); font-size:1rem; cursor:pointer; padding:.2rem .3rem; }
+@keyframes en-closedin { from { opacity:0; transform:translate(-50%, -20px) scale(.96); } to { opacity:1; transform:translate(-50%, 0); } }
+@keyframes en-closedout { to { opacity:0; transform:translate(-50%, -12px); } }
+.en-tv .tv-closed { text-align:center; } .en-tv .tv-closed .k { color: var(--en-gold); font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size: clamp(16px, 2.2vw, 30px); margin:0 0 .4em; }
+.en-tv .tv-closed .watch { font-size: clamp(16px, 2.2vw, 30px); color: rgba(255,255,255,.8); margin:.4em 0 0; }
+@media (prefers-reduced-motion: reduce) { .en-closed, .en-closed.out { animation:none; } }
 .en-tv { --en-gold:#fbbf24; --en-blue:#3b82f6; --en-red:#ef4444; --en-purple:#a855f7; position:fixed; inset:0; z-index:200; background: radial-gradient(100% 120% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(100% 120% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; color:#fff; display:flex; flex-direction:column; padding: max(2.5vh, 14px) max(3vw, 16px); font-family: var(--font-anthropic-sans, system-ui); cursor:pointer; }
 .en-tv-top { display:flex; justify-content:space-between; align-items:center; gap:1rem; font-size: clamp(12px, 1.6vw, 22px); letter-spacing:.12em; text-transform:uppercase; color: var(--en-gold); font-weight:700; }
 .en-tv-top .r { display:flex; align-items:center; gap:1rem; color: rgba(255,255,255,.75); letter-spacing:.04em; text-transform:none; font-weight:500; }
@@ -895,6 +907,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
           <li><b>Some races won’t finish tonight.</b> Maine and Alaska may need ranked-choice counts, Georgia may go to a Dec 1 runoff, and Arizona, Nevada and California count for days.</li>
         </ul>
       </div>
+      <div class="en-odds" id="en-odds" hidden></div>
       <div class="en-times dash-skeleton" id="en-times" data-source="pollclose results"></div>
       <p class="en-gsrc">Counting facts: <a href="https://votingrightslab.org/2026/10/21/verified-election-results-are-worth-the-wait/" target="_blank" rel="noopener">Voting Rights Lab (Oct 21, 2026)</a> · <a href="https://www.factcheck.org/2024/11/election-night-expectations/" target="_blank" rel="noopener">FactCheck.org (2024)</a> · <a href="https://www.votebeat.org/arizona/2026/07/21/primary-2026-election-results-timing-congress-governor/" target="_blank" rel="noopener">Votebeat Arizona</a> · <a href="https://www.kunr.org/local-stories/2026-06-29/mail-ballots-in-nevada-can-continue-to-be-counted-after-election-day" target="_blank" rel="noopener">KUNR (Nevada)</a> · <a href="https://www.newsfromthestates.com/article/outcome-maines-us-senate-race-may-not-be-known-weeks-heres-why" target="_blank" rel="noopener">Maine Morning Star</a> · <a href="https://alaskapublic.org/news/politics/elections/2026-10-05/what-to-know-about-alaskas-general-election" target="_blank" rel="noopener">Alaska Public Media</a> · <a href="https://en.wikipedia.org/wiki/2026_Georgia_state_elections" target="_blank" rel="noopener">Georgia runoff date</a></p>
       <div class="en-recap" id="en-recap" data-source="results senate house overview" hidden>
@@ -1504,7 +1517,7 @@ dash.calc('senate_base', {
     (okRows('missouri') || []).forEach(r => names.set('MO-' + r.id, 'MO ' + (r.kind === 'Amendment' ? 'Amend. ' + String(r.id).slice(1) : r.id === 'PA' ? 'Prop A' : 'Auditor')));
     Object.entries(LOCAL_CHIP).forEach(([k, v]) => names.set(k, v));
     closeRows.forEach((r, i) => {
-      const row = el('div', 'en-time');
+      const row = el('div', 'en-time'); row.dataset.o = String(r.order);
       row.id = 'wave-' + r.order;
       const closed = new Date(r.close_utc) <= now;
       if (closed) row.classList.add('done'); else if (i === nextIdx) row.classList.add('next');
@@ -1557,7 +1570,30 @@ dash.calc('senate_base', {
   }
   if (window.__enTick) clearInterval(window.__enTick);
   let secs = 0;
-  window.__enTick = setInterval(() => { tick(); if (++secs % 30 === 0 && !$('#night').hidden) renderTimes(); }, 1000);
+  window.__enTick = setInterval(() => { tick(); if (++secs % 30 === 0 && !$('#night').hidden) renderTimes(); if (secs % 5 === 0) closedBanner(); }, 1000);
+  // ---------- "Polls just closed" banner: shows for 15 minutes after each wave (once per wave per device) ----------
+  const closedSeen = (o) => { try { return (window.__simOn ? (window.__simClosed || (window.__simClosed = {}))[o] : localStorage.getItem('en-closed-' + o)) === '1'; } catch (e) { return false; } };
+  const closedMark = (o) => { try { if (window.__simOn) (window.__simClosed || (window.__simClosed = {}))[o] = '1'; else localStorage.setItem('en-closed-' + o, '1'); } catch (e) {} };
+  function closedBanner() {
+    if (!closeRows) return; if (!window.__simOn) window.__simClosed = null;
+    const now = window.__simNow ? window.__simNow() : Date.now(), win = window.__simOn ? 6 * 6e4 : 15 * 6e4;
+    const c = closeRows.slice().reverse().find(r => { const t = Date.parse(r.close_utc); return now >= t && now - t < win; });
+    const old = $('#en-closed');
+    if (!c || closedSeen(c.order)) { if (old && (!c || old.dataset.o !== String(c.order))) old.remove(); return; }
+    if (old && old.dataset.o === String(c.order)) return; if (old) old.remove();
+    closedMark(c.order);
+    if (window.enTvIsOpen && window.enTvIsOpen()) {   // TV mode gets a full slide instead
+      const w = el('div', 'tv-closed'); w.append(el('p', 'k', '🗳️ Polls just closed · ' + c.close_ct + ' CT'), el('h2', '', c.states)); if (c.watch) w.append(el('p', 'watch', 'Watch: ' + c.watch));
+      window.enTvInterrupt(w, 14000); if (window.enSound) window.enSound.chime(); return;
+    }
+    const b = el('div', 'en-closed'); b.id = 'en-closed'; b.dataset.o = String(c.order); b.setAttribute('role', 'status');
+    const tx = el('div', 'tx'); tx.append(el('b', '', '🗳️ Polls just closed · ' + c.close_ct + ' CT'), el('span', '', c.states)); if (c.watch) tx.append(el('small', '', 'Watch: ' + c.watch));
+    const go = el('button', 'go', 'What to watch'); go.type = 'button'; go.addEventListener('click', () => { b.remove(); show('night'); dash.setLink('night'); setTimeout(() => { const w = document.querySelector('#en-times [data-o="' + c.order + '"]') || $('#en-times'); if (w) w.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 120); });
+    const x = el('button', 'x', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'Dismiss'); x.addEventListener('click', () => { b.classList.add('out'); setTimeout(() => b.remove(), 250); });
+    b.append(tx, go, x); document.body.append(b);
+    if (window.enSound) window.enSound.chime();
+    setTimeout(() => { if (b.isConnected) { b.classList.add('out'); setTimeout(() => b.remove(), 250); } }, window.__simOn ? 9000 : 60000);
+  }
 
   // Seats tonight, counted once for the scoreboard and the seat charts: today's chambers, changing only as races are called
   function senateCounts() {
@@ -2443,15 +2479,30 @@ dash.calc('senate_base', {
     const stage = el('div', 'en-tv-stage'), dots = el('div', 'en-tv-dots'); o.append(top, stage, dots); document.body.append(o);
     tv = { o, stage, dots, clock, fresh, i: -1 };
     x.addEventListener('click', (e) => { e.stopPropagation(); tvClose(); });
-    o.addEventListener('click', () => { tvShow(); clearInterval(tv.rot); tv.rot = setInterval(tvShow, 12000); });
+    o.addEventListener('click', () => { tvShow(); clearInterval(tv.rot); clearTimeout(tv.rot); tv.rot = setInterval(tvShow, 12000); });
     tv.key = (e) => { if (e.key === 'Escape') tvClose(); if (e.key === 'ArrowRight' || e.key === ' ') tvShow(); };
     document.addEventListener('keydown', tv.key);
+    window.enTvOnOpen = window.enTvOnOpen || []; window.enTvOnOpen.forEach(f => { try { f(o); } catch (e) { console.error(e); } });
     tvShow(); tvClock(); tv.rot = setInterval(tvShow, 12000); tv.clk = setInterval(tvClock, 1000);
     try { if (o.requestFullscreen) await o.requestFullscreen(); } catch (e) {}
     try { if (navigator.wakeLock) tv.lock = await navigator.wakeLock.request('screen'); } catch (e) {}
   }
+  // hooks for the app's watch-party extras (leaderboard, race-call slides, chat, confetti)
+  window.enTvIsOpen = () => !!tv;
+  window.enTvLayer = () => tv && tv.o;
+  window.enTvInterrupt = (node, ms) => {
+    if (!tv || !node) return false;
+    clearInterval(tv.rot); clearTimeout(tv.rot);
+    tv.stage.replaceChildren(); tv.stage.style.animation = 'none'; void tv.stage.offsetWidth; tv.stage.style.animation = ''; tv.stage.append(node);
+    tv.rot = setTimeout(() => { if (!tv) return; tvShow(); tv.rot = setInterval(tvShow, 12000); }, ms || 12000);
+    return true;
+  };
+  window.enTvOnOpen = window.enTvOnOpen || []; window.enTvOnClose = window.enTvOnClose || [];
+  window.enChamberNow = () => chamberState(new Map(calledRows().map(x => [x.race, x])));
+  window.enStarred = () => getWatch().slice();
   function tvClose() {
-    if (!tv) return; clearInterval(tv.rot); clearInterval(tv.clk); document.removeEventListener('keydown', tv.key);
+    if (!tv) return; clearInterval(tv.rot); clearTimeout(tv.rot); clearInterval(tv.clk); document.removeEventListener('keydown', tv.key);
+    window.enTvOnClose.forEach(f => { try { f(); } catch (e) { console.error(e); } });
     try { if (tv.lock) tv.lock.release(); } catch (e) {}
     try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
     tv.o.remove(); tv = null;

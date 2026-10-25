@@ -23,6 +23,14 @@ WHAT'S HERE
   netlify/functions/latest.mjs + netlify/lib/latest.mjs
                         live data: data-only commits skip Netlify deploys (netlify.toml ignore rule);
                         phones read the newest data/ files from GitHub through this function
+  party.js              sound effects + Sound on/off, full-screen celebrations (your lock, starred races,
+                        a chamber clinched), floating emoji, and the betting-odds chart (Election night tab + TV)
+  netlify/functions/odds.mjs + netlify/lib/odds.mjs
+                        Kalshi odds that Democrats win each chamber (public market data): last 14 days hourly,
+                        then minute by minute from 4 PM CT Nov 3; one shared copy a minute via the CDN
+  Watch party           TV mode (Election night tab) shows your group's leaderboard, a join QR until picks lock,
+                        a slide for every race call naming who in the group called it, betting odds, and the
+                        group chat along the bottom. Poll closings get a banner (and an alert, unless turned off).
   tests/                automated checks — run before shipping code changes (see TESTS below)
 
 UPDATES

@@ -36,6 +36,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const page = await ctx.newPage(); const errors = []; page.on('pageerror', (e) => errors.push(e.message));
     await page.route(/gstatic|youtube|googleapis/, (r) => r.abort());
     if (opts.live) await page.route(/\.netlify\/functions\/latest/, opts.live); else await page.route(/\.netlify\/functions\//, (r) => r.fulfill({ status: 503, body: '{}' }));
+    if (opts.odds) await page.route(/\.netlify\/functions\/odds/, (r) => r.fulfill({ json: opts.odds }));
     if (opts.results) await page.route(/data\/results\.json/, async (r) => { const rows = DATA('results'); opts.results(rows); r.fulfill({ json: rows }); });
     await page.addInitScript((w) => { window.POOL_MOCK = true; if (!w) localStorage.setItem('en-welcome-v1', '1'); }, !!opts.welcome);
     if (opts.time) await page.clock.install({ time: new Date(opts.time) });
@@ -150,6 +151,75 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await a.page.evaluate(() => { window.__ytO.events.onStateChange({ data: 0 }); window.__ytO.events.onError({}); });
     const log = await a.page.evaluate(() => window.__yt); ok(log[0] === ads[1].id && log[1] === ads[2].id, 'advance/skip order ' + log);
     await a.page.click('.en-tab[data-tab="news"]'); await a.page.waitForTimeout(200); ok((await a.page.evaluate(() => window.__yt)).includes('pause'), 'did not pause when leaving the tab'); await a.close();
+  });
+  // ---------- election-night extras ----------
+  const ODDS = (() => { const t0 = Math.floor(Date.UTC(2026, 9, 11) / 1000), s = [], h = []; for (let i = 0; i < 200; i++) { s.push([t0 + i * 3600, 0.55 + 0.1 * Math.sin(i / 20)]); h.push([t0 + i * 3600, 0.85 + 0.05 * Math.cos(i / 25)]); } return { ok: true, range: 'weeks', series: { senate: s, house: h }, now: { senate: 0.65, house: 0.9 }, at: Date.UTC(2026, 9, 25, 19) }; })();
+  const inject = (page, mut) => page.evaluate((m) => { const rows = JSON.parse(JSON.stringify(window.dash.data('results').data)); new Function('rows', m)(rows); window.dash.simSet('results', rows); }, mut);
+  const callJS = (race, party, winner) => `{ const x = rows.find((y) => y.race === '${race}'); Object.assign(x, { status: 'Called', winner: '${winner}', winner_party: '${party}', d_pct: 51, r_pct: 47, reporting: 95, called_at: new Date().toISOString() }); }`;
+  await test('a starred race getting called fills the screen; a chamber clinch gets its own moment', async () => {
+    const a = await open('#senate');
+    await a.page.locator('#sen-grid [data-card="SEN-OH"] .en-star').click(); await a.page.waitForTimeout(300);
+    await inject(a.page, callJS('SEN-OH', 'D', 'Sherrod Brown')); await a.page.waitForTimeout(500);
+    const t = await a.page.evaluate(() => { const b = document.querySelector('.cb-back'); return b ? b.textContent : ''; });
+    ok(/watching/.test(t) && /Sherrod Brown/.test(t), 'celebration text: ' + t);
+    ok(await a.page.evaluate(() => !!document.querySelector('.cb-back .cb-confetti')), 'no confetti');
+    await a.page.click('.cb-back'); await a.page.waitForTimeout(600);
+    const sen = DATA('senate').map((r) => r.id);
+    await inject(a.page, sen.map((id) => callJS('SEN-' + id, 'D', 'X')).join(';')); await a.page.waitForTimeout(800);
+    const all = await a.page.evaluate(async () => { const seen = []; for (let i = 0; i < 4; i++) { const b = document.querySelector('.cb-back:not(.out)'); if (!b) break; seen.push(b.textContent); b.click(); await new Promise((r) => setTimeout(r, 450)); } return seen.join(' | '); });
+    ok(/Democrats clinch the Senate/.test(all), 'clinch moment missing: ' + all);
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('"Polls just closed" banner appears once per wave', async () => {
+    const a = await open('', { time: '2026-11-04T00:02:00Z' }); await a.page.clock.runFor(6000);
+    const t = await a.page.evaluate(() => { const b = document.getElementById('en-closed'); return b ? b.textContent : ''; });
+    ok(/Polls just closed/.test(t) && /Georgia/.test(t), 'banner: ' + t);
+    await a.page.click('#en-closed .go'); await a.page.waitForTimeout(300);
+    ok((await tabs(a.page)).sel === 'night', 'What to watch should open Election night');
+    await a.page.reload(); await a.page.clock.runFor(10000);
+    ok(!(await a.page.evaluate(() => !!document.getElementById('en-closed'))), 'banner came back after reload'); await a.close();
+  });
+  await test('betting-odds chart draws, toggles chamber, and hides when odds are unavailable', async () => {
+    const a = await open('#night', { odds: ODDS }); await a.page.waitForTimeout(800);
+    const s = await a.page.evaluate(() => { const b = document.getElementById('en-odds'); return { shown: !b.hidden, line: !!b.querySelector('.od-line'), big: b.querySelector('.od-big') && b.querySelector('.od-big').textContent }; });
+    ok(s.shown && s.line && /65%/.test(s.big) && /35%/.test(s.big), JSON.stringify(s));
+    await a.page.click('#en-odds .en-mapmode button:last-child'); await a.page.waitForTimeout(200);
+    ok(/90%/.test(await a.page.textContent('#en-odds .od-big')) && /House/.test(await a.page.textContent('#en-odds h3')), 'House toggle');
+    await a.page.locator('#en-odds .od-svg').scrollIntoViewIfNeeded(); const box = await a.page.locator('#en-odds .od-svg').boundingBox(); await a.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2); await a.page.waitForTimeout(100);
+    ok(/Dems \d+%/.test(await a.page.textContent('#en-odds .od-read')), 'hover readout');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+    const b = await open('#night'); await b.page.waitForTimeout(800); ok(await b.page.evaluate(() => document.getElementById('en-odds').hidden), 'odds box should hide when the server is down'); await b.close();
+  });
+  await test('TV mode: race-call slide, odds slide, and confetti', async () => {
+    const a = await open('#night', { odds: ODDS }); await a.page.waitForTimeout(600);
+    await a.page.click('#tv-open'); await a.page.waitForTimeout(600);
+    ok(await a.page.evaluate(() => !!document.querySelector('.en-tv')), 'TV did not open');
+    let saw = false; for (let i = 0; i < 8 && !saw; i++) { saw = await a.page.evaluate(() => !!document.querySelector('.en-tv .tv-odds svg')); if (!saw) { await a.page.click('.en-tv-stage'); await a.page.waitForTimeout(150); } }
+    ok(saw, 'odds slide never showed');
+    await inject(a.page, callJS('SEN-TX', 'R', 'Ken Paxton')); await a.page.waitForTimeout(700);
+    const t = await a.page.evaluate(() => { const c = document.querySelector('.en-tv .tv-call'); return c ? c.textContent : ''; });
+    ok(/Race called/i.test(t) && /Ken Paxton/.test(t), 'call slide: ' + t);
+    ok(await a.page.evaluate(() => !!document.querySelector('.en-tv .cb-confetti')), 'no confetti on TV');
+    ok(!(await a.page.evaluate(() => !!document.querySelector('body > .cb-back'))), 'phone celebration should not cover the TV');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('group chat: quick reactions send and float; race-call pop-ups offer reactions', async () => {
+    const a = await open('#game'); await a.page.waitForTimeout(500);
+    await a.page.click('text=Sign in with Google'); await a.page.waitForTimeout(500);
+    await a.page.click('.en-seg button:has-text("Groups")'); await a.page.waitForTimeout(300);
+    await a.page.fill('input[placeholder^="Group name"]', 'Boonville crew'); await a.page.click('text=Create group'); await a.page.waitForTimeout(600);
+    await a.page.click('.en-seg button:has-text("Chat")'); await a.page.waitForTimeout(300);
+    await a.page.click('text=I agree'); await a.page.waitForTimeout(400);
+    const grp = await a.page.evaluate(() => [...document.querySelectorAll('.pl-chips .en-chip')].map((b) => b.textContent));
+    await a.page.click('.pl-chips .en-chip:has-text("Boonville crew")'); await a.page.waitForTimeout(400);
+    await a.page.click('.pl-quick .pl-q >> nth=0'); await a.page.waitForTimeout(300);
+    ok(await a.page.evaluate(() => [...document.querySelectorAll('.pl-msgb p')].some((p) => p.textContent === '🔥')), 'reaction not in chat (rooms: ' + grp + ')');
+    ok(await a.page.evaluate(() => !!document.querySelector('.fe-layer .fe')), 'no floating emoji');
+    await inject(a.page, callJS('SEN-IA', 'R', 'Ashley Hinson')); await a.page.waitForTimeout(500);
+    ok(await a.page.evaluate(() => document.querySelectorAll('.pl-pop .pl-poprx .pl-q').length === 4), 'pop-up reactions missing');
+    await a.page.waitForTimeout(3600); await a.page.locator('.pl-pop .pl-poprx .pl-q').first().click(); await a.page.waitForTimeout(400);
+    ok(await a.page.evaluate(() => [...document.querySelectorAll('.pl-msgb p')].some((p) => /Iowa Senate/.test(p.textContent))), 'pop-up reaction not posted');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
   await test('top of the page is readable (text contrast, light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {

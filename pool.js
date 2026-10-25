@@ -585,6 +585,26 @@
   function alertish(t) { const s = el('div', 'pl-toast', t); document.body.append(s); setTimeout(() => s.remove(), 2600); }
 
   // ---- Group chat ----
+  const QUICK = ['🔥', '😂', '😭', '🎉', '👀', '💀', '🧂', '🫡'];
+  const LINES = ['Called it 😎', 'Not over yet 👀', 'Who had this?! 🤯', 'Check the scoreboard 📈'];
+  const EMO = /^(\p{Extended_Pictographic}(?:\uFE0F|\u200D\p{Extended_Pictographic}|[\u{1F3FB}-\u{1F3FF}])*)/u;
+  const leadEmoji = (t) => { const m = EMO.exec(String(t || '').trim()); return m && String(t).trim().length <= 48 ? m[1] : null; };
+  async function sendMsg(code, t) {
+    t = String(t || '').trim(); if (!t || !code || !be || !me || !profile) return false;
+    if (hasBlocked(t)) { alertish('That message has language that isn’t allowed here.'); return false; }
+    const now = Date.now(); if (now - lastSent < 3500) { alertish('Easy there — wait a couple seconds between messages.'); return false; }
+    lastSent = now;
+    try { await be.sendChat(code, { uid: me.uid, name: profile.name, text: t.slice(0, 500), at: now }); const e = leadEmoji(t); if (e && window.enFloat) window.enFloat(e, { n: 6 }); return true; }
+    catch (e) { lastSent = 0; alertish(errText(e)); return false; }
+  }
+  // emoji from other players float across your screen while you're in the chat (or watching on TV)
+  let chatSeen = null;
+  function floatNew(msgs, since) {
+    const blocked = blockedSet();
+    if (!chatSeen) { chatSeen = new Set(msgs.map(m => m.id)); return []; }
+    const fresh = msgs.filter(m => !chatSeen.has(m.id)); fresh.forEach(m => chatSeen.add(m.id));
+    return fresh.filter(m => (!me || m.uid !== me.uid) && !blocked.has(m.uid) && Number(m.at) >= (since || 0));
+  }
   function stopChat() { if (typeof chatUnsub === 'function') chatUnsub(); chatUnsub = null; chatCode = ''; chatMsgs = []; chatErr = ''; }
   async function renderChat(box) {
     const groups = (profile && profile.groups) || [];
@@ -605,7 +625,8 @@
     if (chatRoom === ALL) c.append(el('p', 'pl-chat-note', 'Everyone chat · open to every player' + (groups.length ? '' : ' · start or join a group under Groups for a private chat')));
     if (chatCode !== chatRoom) {
       stopChat(); chatCode = chatRoom;
-      chatUnsub = be.watchChat(chatRoom, (m) => { chatMsgs = m; chatErr = ''; paintChat(); }, (e) => { chatErr = errText(e); paintChat(); });
+      chatSeen = null;
+      chatUnsub = be.watchChat(chatRoom, (m) => { chatMsgs = m; chatErr = ''; floatNew(m).forEach(x => { const e = leadEmoji(x.text); if (e && window.enFloat) window.enFloat(e, { who: x.name || 'Player' }); }); paintChat(); }, (e) => { chatErr = errText(e); paintChat(); });
     }
     const log = el('div', 'pl-chat-log'); log.setAttribute('role', 'log'); log.setAttribute('aria-live', 'polite');
     const form = el('form', 'pl-chat-form');
@@ -614,14 +635,13 @@
     form.append(inp, send);
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault(); const t = inp.value.trim(); if (!t) return;
-      if (hasBlocked(t)) { alertish('That message has language that isn’t allowed here.'); return; }
-      const now = Date.now(); if (now - lastSent < 3500) { alertish('Easy there — wait a couple seconds between messages.'); return; }
-      lastSent = now;
       inp.value = ''; inp.focus();
-      try { await be.sendChat(chatCode, { uid: me.uid, name: profile.name, text: t.slice(0, 500), at: now }); }
-      catch (e) { inp.value = t; alertish(errText(e)); }
+      if (!(await sendMsg(chatCode, t))) inp.value = t;
     });
-    c.append(log, form);
+    const qr = el('div', 'pl-quick'); qr.setAttribute('aria-label', 'Quick reactions');
+    QUICK.forEach(e => { const b = btn('pl-q', e, () => sendMsg(chatCode, e)); b.setAttribute('aria-label', 'Send ' + e); qr.append(b); });
+    LINES.forEach(t => qr.append(btn('pl-q pl-ql', t, () => sendMsg(chatCode, t))));
+    c.append(log, qr, form);
     paintChat();
   }
   function paintChat() {
@@ -678,7 +698,7 @@
     }
     c.append(el('h3', '', done ? 'Final standings' : 'Leaderboard'), el('p', 'pl-note', lk ? called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') : 'Scores start once races are called. Picks stay hidden until they lock at 5:00 PM CT Nov 3.'));
     if (lk && called) { c.append(liveExtras(out, list, w)); const lb = leadBox(out, list); if (lb) c.append(lb); }
-    if (lk) { const g = await getGroupC(activeGroup); tvBoard = { title: (g ? g.name : 'Your group') + ' · leaderboard', out }; }
+    if (lk) { const g = await getGroupC(activeGroup); tvBoard = { title: (g ? g.name : 'Your group') + ' · leaderboard', out, code: activeGroup, gname: g ? g.name : 'your group', lk: true }; }
     const t = el('div', 'pl-board');
     const leader = out.length ? out[0].s.pts : 0;
     out.forEach((o, i) => {
@@ -955,12 +975,120 @@
   let tvBoard = null;
   window.enTvSlides = window.enTvSlides || [];
   window.enTvSlides.push(() => {
-    if (!tvBoard || !tvBoard.out.length) return null;
+    if (!tvBoard || !tvBoard.out.length || !(tvBoard.lk || tvBoard.practice)) return null;
     const d = document.createElement('div'); d.className = 'tv-board';
     const h = document.createElement('h2'); h.textContent = tvBoard.title; d.append(h);
-    tvBoard.out.slice(0, 6).forEach((o, i) => { const r = document.createElement('div'); r.className = 'tv-rank'; r.innerHTML = '<span></span><b></b><i></i>'; r.children[0].textContent = i + 1; r.children[1].textContent = isMe(o) ? 'You' : o.m.name || 'Player'; r.children[2].textContent = o.s.pts + ' pts'; d.append(r); });
+    tvBoard.out.slice(0, 8).forEach((o, i) => { const r = document.createElement('div'); r.className = 'tv-rank'; r.innerHTML = '<span></span><b></b><i></i>'; r.children[0].textContent = i + 1; r.children[1].textContent = isMe(o) ? 'You' : o.m.name || 'Player'; r.children[2].textContent = o.s.pts + ' pts'; d.append(r); });
     return d;
   });
+
+  // ---------- Big moments: full-screen celebrations (your lock, races you starred, a chamber clinched) ----------
+  let clinched = {};
+  const CLINCH = [['senD', 'Democrats clinch the Senate', 'd', 's'], ['senR', 'Republicans clinch the Senate', 'r', 's'], ['houD', 'Democrats clinch the House', 'd', 'h'], ['houR', 'Republicans clinch the House', 'r', 'h']];
+  function clinchFlags() { const st = window.enChamberNow ? window.enChamberNow() : null, f = {}; if (st) CLINCH.forEach(([k, , , c]) => { f[k] = !!st[k] && (c === 's' ? st.okS : st.okH); }); f.st = st; return f; }
+  const celebSide = (p) => p === 'R' || p === 'N' ? 'r' : p === 'I' ? 'i' : p === 'D' || p === 'Y' ? 'd' : 'g';
+  function bigMoments(fresh, list, w, sim) {
+    const tvOn = window.enTvIsOpen && window.enTvIsOpen();
+    if (tvOn) tvAnnounce(fresh).catch(e => console.error(e));
+    else if (window.enCelebrate) {
+      const starred = new Set(window.enStarred ? window.enStarred() : []);
+      const doc = sim ? (prac && prac.members[0].doc) : { picks: myPicks, lock: myLock };
+      const pk = (doc && doc.picks) || {}, lockKey = doc && doc.lock;
+      let n = 0;
+      fresh.forEach(x => {
+        if (n >= 2) return;
+        const r = list.find(g => g.key === x.race), side = /^(R|N)$/.test(x.winner_party) ? 'r' : 'd', mine = pk[x.race];
+        const margin = x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner)) ? (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in' : '';
+        if (r && lockKey === x.race && mine) {
+          const ok = mine === side; n++;
+          window.enCelebrate({ side: ok ? celebSide(x.winner_party) : 'g', miss: !ok, big: ok, kicker: ok ? '★ Your lock of the night hit!' : 'Your lock of the night missed', title: callText(x), sub: ok ? '+' + (worth(r, mine) * 2) + ' points' : 'You picked ' + (mine === 'd' ? r.a : r.b), note: margin });
+        } else if (starred.has(x.race)) {
+          n++;
+          window.enCelebrate({ side: celebSide(x.winner_party), kicker: '⭐ A race you’re watching was called', title: callText(x), sub: margin, note: r && mine ? (mine === side ? '✓ You called it · +' + worth(r, mine) : '✗ Your pick missed') : '' });
+        }
+      });
+    }
+    // a chamber clinched on this app's count
+    const f = clinchFlags();
+    CLINCH.forEach(([k, title, side, c]) => {
+      if (!f[k] || clinched[k]) return;
+      const st = f.st, sub = c === 's' ? st.sD + ' Dem/Ind – ' + st.sR + ' GOP seats' : st.hD + ' Dem – ' + st.hR + ' GOP seats';
+      if (tvOn) { const d = el('div', 'tv-call ' + side); d.append(el('p', 'k', '🏛️ Control decided'), el('h2', '', title), el('p', 'm', sub), el('p', 'more', 'On this app’s count of called races')); setTimeout(() => window.enTvInterrupt(d, 16000), 15000); setTimeout(() => window.enCelebrate && window.enCelebrate({ side, big: true, tvOnly: true }), 15000); }
+      else if (window.enCelebrate) window.enCelebrate({ side, big: true, kicker: '🏛️ Control decided', title, sub, note: 'On this app’s count of called races' });
+    });
+    clinched = f;
+  }
+
+  // ---------- Watch party: TV mode extras (group leaderboard, join QR, race-call slides with who called it, live chat) ----------
+  async function tvStandings() {
+    const list = races();
+    if (window.__simOn && prac) { tvBoard = { title: 'Practice group · leaderboard', out: pracOut(list, simWinners()), practice: true }; return tvBoard; }
+    if (!be || !me || !profile) return tvBoard;
+    const groups = profile.groups || []; if (!groups.length) return tvBoard;
+    const code = groups.includes(activeGroup) ? activeGroup : groups[0], w = winners();
+    const g = await getGroupC(code), members = await membersC(code), lk = locked(), out = [];
+    for (const m of members) { const p = lk || m.uid === me.uid ? await picksC(m.uid) : null; out.push({ m, p, s: p ? score(p, w, list) : { pts: 0, right: 0, wrong: 0, max: 0 } }); }
+    out.sort((a, b) => b.s.pts - a.s.pts || b.s.right - a.s.right || String(a.m.name).localeCompare(String(b.m.name)));
+    tvBoard = { title: (g ? g.name : 'Your group') + ' · leaderboard', out, code, gname: g ? g.name : 'your group', lk };
+    return tvBoard;
+  }
+  const leaderOf = (b) => { if (!b || !b.out.length) return ''; const top = b.out[0]; if (top.s.pts <= 0 || b.out.filter(o => o.s.pts === top.s.pts).length > 1) return ''; return isMe(top) ? 'You' : top.m.name || 'Player'; };
+  async function tvAnnounce(fresh) {
+    const before = leaderOf(tvBoard);
+    await tvStandings().catch(() => {});
+    const x = fresh[fresh.length - 1], list = races(), r = list.find(g => g.key === x.race), side = /^(R|N)$/.test(x.winner_party) ? 'r' : 'd';
+    const d = el('div', 'tv-call ' + partyCls(x.winner_party));
+    d.append(el('p', 'k', 'Race called'), el('h2', '', callText(x)));
+    if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) d.append(el('p', 'm', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
+    if (r && tvBoard && (tvBoard.lk || tvBoard.practice)) {
+      const got = [], missed = [];
+      tvBoard.out.forEach(o => { const p = o.p && o.p.picks && o.p.picks[x.race]; if (!p) return; const nm = (isMe(o) ? 'You' : o.m.name || 'Player') + (o.p.lock === x.race ? ' ★' : ''); (p === side ? got : missed).push(nm); });
+      if (got.length || missed.length) { const v = el('div', 'tv-verdict'); if (got.length) v.append(el('p', 'ok', '✓ Called it: ' + got.join(', ') + ' · +' + worth(r, side))); if (missed.length) v.append(el('p', 'no', '✗ Missed: ' + missed.join(', '))); d.append(v); }
+      const after = leaderOf(tvBoard); if (after && after !== before) d.append(el('p', 'lead', '👑 ' + after + (after === 'You' ? ' take' : ' takes') + ' the lead'));
+    }
+    if (fresh.length > 1) d.append(el('p', 'more', '+ ' + (fresh.length - 1) + ' more race' + (fresh.length > 2 ? 's' : '') + ' called'));
+    window.enTvInterrupt(d, 14000);
+    if (window.enCelebrate) window.enCelebrate({ side: celebSide(x.winner_party), tvOnly: true });
+  }
+  // QR slide to join your group (until picks lock)
+  window.enTvSlides = window.enTvSlides || [];
+  window.enTvSlides.push(() => {
+    if (!tvBoard || !tvBoard.code || tvBoard.lk || !window.qrcode) return null;
+    const d = el('div', 'tv-join'), q = el('div', 'tv-qr');
+    try { const qr = window.qrcode(0, 'M'); qr.addData(location.origin + location.pathname + '#join=' + tvBoard.code); qr.make(); q.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true }); } catch (e) { return null; }
+    const tx = el('div', 'tv-join-t'); const n = tvBoard.out.length;
+    tx.append(el('p', 'k', 'Join the Prediction Game'), el('h2', '', tvBoard.gname), el('p', '', 'Point your phone camera at the code, or enter group code'), el('b', 'code', tvBoard.code), el('p', 'sm', n + ' player' + (n === 1 ? '' : 's') + ' so far · picks lock 5:00 PM CT'));
+    d.append(q, tx); return d;
+  });
+  // group chat on the TV: messages slide in along the bottom, emoji float up
+  let tvChat = null;
+  function tvTicker(name, text) {
+    const L = window.enTvLayer && window.enTvLayer(); if (!L) return;
+    let t = L.querySelector('.tv-ticker'); if (!t) { t = el('div', 'tv-ticker'); L.append(t); }
+    const m = el('div', 'tv-msg'); m.append(el('b', '', name + ' '), el('span', '', cleanText(text)));
+    t.append(m); while (t.children.length > 3) t.firstElementChild.remove();
+    setTimeout(() => { m.classList.add('out'); setTimeout(() => m.remove(), 400); }, 9000);
+  }
+  function tvChatMsg(m) { const e = leadEmoji(m.text); if (e && String(m.text).trim() === e) { if (window.enFloat) window.enFloat(e, { who: m.name || 'Player' }); } else { tvTicker(m.name || 'Player', m.text || ''); if (e && window.enFloat) window.enFloat(e, { n: 5 }); } }
+  window.enTvOnOpen = window.enTvOnOpen || []; window.enTvOnClose = window.enTvOnClose || [];
+  window.enTvOnOpen.push(() => {
+    if (!window.qrcode) loadQR().catch(() => {});
+    tvStandings().catch(() => {});
+    const opened = Date.now();
+    const refresh = setInterval(() => tvStandings().catch(() => {}), 60000);
+    tvChat = { refresh, unsub: null, seen: null };
+    if (be && me && profile && (profile.groups || []).length && !window.__simOn) {
+      const code = profile.groups.includes(activeGroup) ? activeGroup : profile.groups[0];
+      try {
+        tvChat.unsub = be.watchChat(code, (msgs) => {
+          if (!tvChat) return; const blocked = blockedSet();
+          if (!tvChat.seen) { tvChat.seen = new Set(msgs.map(m => m.id)); return; }
+          msgs.filter(m => !tvChat.seen.has(m.id)).forEach(m => { tvChat.seen.add(m.id); if (!blocked.has(m.uid) && Number(m.at) >= opened - 5000) tvChatMsg(m); });
+        }, () => {});
+      } catch (e) { console.error(e); }
+    }
+  });
+  window.enTvOnClose.push(() => { if (!tvChat) return; clearInterval(tvChat.refresh); if (typeof tvChat.unsub === 'function') tvChat.unsub(); tvChat = null; });
 
   // ---------- "Since you last looked" — new race calls (app only) ----------
   function raceName(key) {
@@ -986,7 +1114,7 @@
     const res = rows('results'); if (!res.length) return;
     const sim = !!window.__simOn;
     const calledNow = res.filter(x => x.winner_party);
-    if (liveSeen === null || sim !== liveSim) { liveSeen = new Set(calledNow.map(x => x.race)); liveSim = sim; return; } // baseline: nothing pops on first load
+    if (liveSeen === null || sim !== liveSim) { liveSeen = new Set(calledNow.map(x => x.race)); liveSim = sim; clinched = clinchFlags(); return; } // baseline: nothing pops on first load
     const fresh = calledNow.filter(x => !liveSeen.has(x.race)).sort((a, b) => String(a.called_at).localeCompare(String(b.called_at)));
     if (!fresh.length) return;
     fresh.forEach(x => liveSeen.add(x.race));
@@ -1008,6 +1136,12 @@
       }
       if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) t.append(el('small', '', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
       const sh = el('button', 'pl-popshare', 'Share'); sh.type = 'button'; sh.addEventListener('click', (e) => { e.stopPropagation(); shareCall(x.race); drop(t); }); t.append(sh);
+      const rg = !sim && me && profile && profile.agreed && (profile.groups || []).length ? ((profile.groups.includes(activeGroup) ? activeGroup : profile.groups[0])) : '';
+      if (rg) {
+        const rr = el('div', 'pl-poprx');
+        ['🔥', '😭', '🎉', '💀'].forEach(em => { const b = btn('pl-q', em, async (e) => { e.stopPropagation(); if (await sendMsg(rg, em + ' ' + raceName(x.race))) { drop(t); alertish('Sent to your group'); } }); b.setAttribute('aria-label', 'React ' + em + ' in your group chat'); rr.append(b); });
+        t.append(rr);
+      }
       t.addEventListener('click', () => drop(t));
       stack.prepend(t);
       setTimeout(() => drop(t), sim ? 4500 : 9000);
@@ -1016,6 +1150,7 @@
     while (stack.children.length > (sim ? 2 : 4)) stack.lastElementChild.remove();
     try { if (!sim && navigator.vibrate) navigator.vibrate(30); } catch (e) {}
     if (sim) pracAlerts(fresh, list, w);
+    bigMoments(fresh, list, w, sim);
   }
   // Practice run alerts (only if you've turned alerts on): the first call, your lock's call, and the finale
   let pracSent = null;
@@ -1098,6 +1233,7 @@
     const t = setTimeout(() => {
       if (!prac || !window.__simOn) return;
       prac.chat.push({ uid: m.uid, name: m.name, text, at: pracNow() });
+      if (window.enTvIsOpen && window.enTvIsOpen()) tvChatMsg({ name: m.name, text });
       if (pracView === 'chat') pracPaint(); else pracBadge();
     }, delay || 0);
     prac.timers.push(t);
@@ -1159,7 +1295,7 @@
     if (done) c.append(finale(out, 'the practice group', list, w));
     c.append(el('h3', '', done ? 'Final standings' : 'Practice leaderboard'), el('p', 'pl-note', called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') + (prac.members[0].auto ? ' · You have auto picks (the favorite in every race) — sign in and make picks to play your own' : ' · You’re playing your real picks')));
     if (called) { c.append(liveExtras(out, list, w)); const lb = leadBox(out, list); if (lb) c.append(lb); }
-    tvBoard = { title: 'Practice group · leaderboard', out };
+    tvBoard = { title: 'Practice group · leaderboard', out, practice: true };
     const t = el('div', 'pl-board'), leader = out.length ? out[0].s.pts : 0;
     out.forEach((o, i) => {
       const r = el('div', 'pl-rank' + (o.m.uid === 'you' ? ' me' : ''));

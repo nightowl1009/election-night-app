@@ -1,5 +1,6 @@
 // Runs every minute. Compares the published results with what it saw last time and sends alerts for new
-// race calls (personalized with the player's picks), plus a one-time "picks lock in 1 hour" reminder.
+// race calls (personalized with the player's picks), a one-time "picks lock in 1 hour" reminder, and a
+// "polls just closed" alert for each wave of closings (phones can turn those off).
 // Quiet outside Nov 3 – Dec 3, 2026.
 import { vapid, blobs, send } from '../lib/push.mjs';
 import { dataFile } from '../lib/latest.mjs';
@@ -42,9 +43,13 @@ export default async () => {
   if (!state) { await blobs.set('state', { called: called.map(x => x.race), lockSoon: false }); if (!lockSoon) return; }
   const seen = new Set(state ? state.called : called.map(x => x.race));
   const fresh = called.filter(x => !seen.has(x.race)).sort((a, b) => String(a.called_at).localeCompare(String(b.called_at)));
-  if (!fresh.length && !lockSoon) return;
+  // a wave of poll closings in the last 10 minutes that hasn't been announced yet
+  const closedSent = (state && state.closed) || [];
+  const waves = now >= START - 3600e3 ? await get('pollclose') : [];
+  const wave = waves.filter(c => { const t = Date.parse(c.close_utc); return now >= t && now - t < 10 * 60e3 && !closedSent.includes(c.order); }).sort((a, b) => b.order - a.order)[0];
+  if (!fresh.length && !lockSoon && !wave) return;
   // save first so an overlapping run doesn't double-send
-  await blobs.set('state', { called: Array.from(new Set([...seen, ...called.map(x => x.race)])), lockSoon: (state && state.lockSoon) || lockSoon });
+  await blobs.set('state', { called: Array.from(new Set([...seen, ...called.map(x => x.race)])), lockSoon: (state && state.lockSoon) || lockSoon, closed: wave ? closedSent.concat(waves.filter(c => Date.parse(c.close_utc) <= now).map(c => c.order)) : closedSent });
   const k = await vapid();
   const [sen, gov, mo, local] = fresh.length ? await Promise.all([get('senate'), get('governor'), get('missouri'), get('local')]) : [[], [], [], []];
   const label = labeler(sen, gov, mo, local);
@@ -54,6 +59,7 @@ export default async () => {
     const rec = await blobs.get(key); if (!rec || !rec.sub) continue;
     const msgs = [];
     if (lockSoon) msgs.push({ title: '⏰ Picks lock in 1 hour', body: 'Prediction Game picks and your lock of the night lock at 5:00 PM CT.', tag: 'lock', url: '/#game' });
+    if (wave && rec.closes !== false) msgs.push({ title: '🗳️ Polls just closed · ' + wave.close_ct + ' CT', body: wave.states + (wave.watch ? ' · Watch: ' + wave.watch : ''), tag: 'closed-' + wave.order, url: '/#night' });
     if (fresh.length) {
       const mine = fresh.filter(x => rec.picks && rec.picks[x.race]);
       const right = mine.filter(x => rec.picks[x.race] === sideOf(x));

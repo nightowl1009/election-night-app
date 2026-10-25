@@ -22,11 +22,11 @@ if 'pool.css' not in head: head = head.replace('</head>', '<link rel="stylesheet
 extra = ('<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>\n'
          '<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>\n'
          '<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>\n'
-         '<script src="pool-config.js"></script>\n<script src="pool.js"></script>\n<script src="sim.js"></script>\n<script src="push.js"></script>\n<script src="ads.js"></script>\n<script src="welcome.js"></script>\n')
+         '<script src="pool-config.js"></script>\n<script src="pool.js"></script>\n<script src="sim.js"></script>\n<script src="push.js"></script>\n<script src="ads.js"></script>\n<script src="welcome.js"></script>\n<script src="party.js"></script>\n')
 if 'pool.js' not in tail: tail = tail.replace('</body>', extra + '</body>', 1)
 html = head + page + tail
 v = str(int(time.time()))
-for f in ['dash-lite.js', 'pool.js', 'sim.js', 'pool-config.js', 'pool.css', 'push.js', 'ads.js', 'welcome.js']:
+for f in ['dash-lite.js', 'pool.js', 'sim.js', 'pool-config.js', 'pool.css', 'push.js', 'ads.js', 'welcome.js', 'party.js']:
     html = html.replace('"' + f + '"', '"' + f + '?v=' + v + '"')
 open(os.path.join(ROOT, 'index.html'), 'w', encoding='utf8').write(html)
 print('built index.html', len(html), 'bytes, version', v)
