@@ -1,4 +1,4 @@
-/* Election Night 2026 — Election Night Game (prediction game) section.
+/* Election Night 2026 — Election Night Prediction Game (its own tab in the app).
    Sign in (Google or email), pick the 28 toss-ups, choose a lock of the night,
    answer the side questions, join groups with a code, chat with your group, and
    climb the leaderboard as races are called. Uses Firebase (Auth + Firestore)
@@ -168,7 +168,7 @@
     const box = root(); if (!box) return;
     box.replaceChildren();
     if (view !== 'chat') stopChat();
-    if (!be) { box.append(card('Election Night Game', window.POOL_CONFIG && !window.firebase ? 'The game needs an internet connection — reconnect and reopen the app.' : 'The game is being set up. Check back soon.')); return; }
+    if (!be) { box.append(card('Election Night Prediction Game', window.POOL_CONFIG && !window.firebase ? 'The game needs an internet connection — reconnect and reopen the app.' : 'The game is being set up. Check back soon.')); return; }
     if (!me) return renderSignedOut(box);
     if (!finaleJumped && locked() && (adminRes['Q-final'] === 'y' || (races().length && races().every(r => winners()[r.key]))) && profile && (profile.groups || []).length) { finaleJumped = true; if (view === 'picks') view = 'board'; }
     const top = el('div', 'pl-top');
@@ -222,7 +222,7 @@
   }
   function renderSignedOut(box) {
     const c = el('div', 'pl-card pl-hero');
-    c.append(el('h3', '', 'Play the Election Night Game'), el('p', '', 'Pick the winner of the 28 toss-up races: 7 for Senate, 4 for governor and 17 for the House. Choose a lock of the night for double points, answer 3 side questions, start a group with friends, chat, and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
+    c.append(el('h3', '', 'Play the Election Night Prediction Game'), el('p', '', 'Pick the winner of the 28 toss-up races: 7 for Senate, 4 for governor and 17 for the House. Choose a lock of the night for double points, answer 3 side questions, start a group with friends, chat, and climb the leaderboard as results come in. Picks lock at 5:00 PM CT on Nov 3.'));
     const msg = el('p', 'pl-msg');
     const g = btn('pl-btn primary', 'Sign in with Google', async () => { msg.textContent = ''; try { await be.signInGoogle(); } catch (e) { msg.textContent = errText(e); } });
     const or = el('div', 'pl-or', 'or use email');
@@ -400,7 +400,7 @@
     const x = c.getContext('2d');
     const g = x.createLinearGradient(0, 0, W, 0); g.addColorStop(0, '#1e3a8a'); g.addColorStop(.5, '#0b1020'); g.addColorStop(1, '#991b1b');
     x.fillStyle = '#0b1020'; x.fillRect(0, 0, W, H); x.fillStyle = g; x.fillRect(0, 0, W, 190);
-    x.fillStyle = '#fff'; x.font = '600 30px system-ui, sans-serif'; x.fillText('ELECTION NIGHT GAME · 2026', 60, 80);
+    x.fillStyle = '#fff'; x.font = '600 30px system-ui, sans-serif'; x.fillText('ELECTION NIGHT PREDICTION GAME · 2026', 60, 80);
     x.font = '700 60px system-ui, sans-serif'; x.fillText((profile && profile.name || 'My') + '’s picks', 60, 150);
     let y = 250;
     groups.forEach(grp => {
@@ -480,8 +480,8 @@
   }
   function share(code, g) {
     const url = location.origin + location.pathname + '#game';
-    const text = 'Join my Election Night Game group "' + (g ? g.name : '') + '" — open ' + url + ', scroll to Election Night Game at the bottom, sign in, then Groups → Join with code ' + code;
-    if (navigator.share) navigator.share({ title: 'Election Night Game', text }).catch(() => {});
+    const text = 'Join my Election Night Prediction Game group "' + (g ? g.name : '') + '" — open ' + url + ', sign in on the Prediction Game tab, then Groups → Join with code ' + code;
+    if (navigator.share) navigator.share({ title: 'Election Night Prediction Game', text }).catch(() => {});
     else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => alertish('Invite copied — paste it to your friends.'));
   }
   function alertish(t) { const s = el('div', 'pl-toast', t); document.body.append(s); setTimeout(() => s.remove(), 2600); }
@@ -615,7 +615,7 @@
     const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
     const g = x.createLinearGradient(0, 0, W, 0); g.addColorStop(0, '#1e3a8a'); g.addColorStop(.5, '#0b1020'); g.addColorStop(1, '#991b1b');
     x.fillStyle = '#0b1020'; x.fillRect(0, 0, W, H); x.fillStyle = g; x.fillRect(0, 0, W, 300);
-    x.fillStyle = '#fbbf24'; x.font = '700 30px system-ui, sans-serif'; x.fillText('🏆 SEASON FINALE · ELECTION NIGHT GAME 2026', 60, 80);
+    x.fillStyle = '#fbbf24'; x.font = '700 30px system-ui, sans-serif'; x.fillText('🏆 SEASON FINALE · ELECTION NIGHT PREDICTION GAME', 60, 80);
     x.fillStyle = '#fff'; x.font = '700 64px system-ui, sans-serif';
     const champ = (out[0].m.name || 'Player') + ' wins!'; x.fillText(champ.length > 26 ? champ.slice(0, 25) + '…' : champ, 60, 170);
     x.font = '500 32px system-ui, sans-serif'; x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText(gname + ' · final standings · ' + list.length + ' races', 60, 230);
@@ -632,7 +632,7 @@
     c.toBlob(async (blob) => {
       if (!blob) return;
       const file = new File([blob], 'election-game-final.png', { type: 'image/png' });
-      try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Election Night Game — final standings' }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+      try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Election Night Prediction Game — final standings' }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'election-game-final.png'; document.body.append(a); a.click(); a.remove();
       setTimeout(() => URL.revokeObjectURL(a.href), 4000); alertish('Picture saved — send it to your group.');
     }, 'image/png');
@@ -791,6 +791,7 @@
     if (window.dash) window.dash.onData(() => { if (me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
     setInterval(() => { const b = $('.pl-lock'); if (b) b.replaceWith(lockBanner()); }, 30000);
   }
-  const jump = () => { if (location.hash === '#game') setTimeout(() => { const g = document.getElementById('game'); if (g) g.scrollIntoView({ block: 'start' }); }, 600); };
+  // #game in the address opens the Prediction Game tab (the page's own hash handling does it; this is a fallback)
+  const jump = () => { if (location.hash === '#game') setTimeout(() => { const t = document.querySelector('.en-tab[data-tab="game"]'); const g = document.getElementById('game'); if (t && g && g.hidden) t.click(); }, 600); };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { boot(); jump(); }); else { boot(); jump(); }
 })();

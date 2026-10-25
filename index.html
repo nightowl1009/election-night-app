@@ -77,17 +77,29 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 #vote-splash .vs-arc, #vote-splash .vs-word, #vote-splash .vs-year, #vote-splash .vs-stripe, #vote-splash .vs-sub { position: relative; z-index: 1; }
 #vote-splash .vs-burst { z-index: 0; position: absolute; width: 8px; height: 8px; border-radius: 2px; opacity: 0; animation: vs-burst 1.4s cubic-bezier(.16,1,.3,1) forwards; }
 #vote-splash .vs-pals { position: absolute; left: 0; right: 0; bottom: max(5vh, 26px); display: flex; justify-content: space-between; padding: 0 5vw; pointer-events: none; z-index: 1; }
-#vote-splash .vs-pal { width: min(44vw, 230px, 21vh); height: auto; opacity: 0; overflow: visible; filter: drop-shadow(0 10px 22px rgba(0,0,0,.5)); }
-/* the donkey and elephant walk in from the edges toward each other, then fade out with the splash */
-#vote-splash .vs-pal.d { transform: translateX(-115%); animation: vs-walk-d 2.6s cubic-bezier(.3,.6,.35,1) .85s forwards; }
-#vote-splash .vs-pal.r { transform: translateX(115%); animation: vs-walk-r 2.6s cubic-bezier(.3,.6,.35,1) .95s forwards; }
-#vote-splash .vs-pal .bob { transform-box: fill-box; transform-origin: 50% 100%; animation: vs-step .32s ease-in-out .85s 8 alternate; }
-#vote-splash .vs-pal.r .bob { animation-delay: .95s; }
+#vote-splash .vs-pal { width: min(48vw, 250px, 23vh); height: auto; opacity: 0; overflow: visible; filter: drop-shadow(0 10px 22px rgba(0,0,0,.5)); }
+/* They walk in at a steady pace: legs swing from the hip, the body rises a touch on each step, the head nods and the tail swishes */
+#vote-splash .vs-pal.d { transform: translateX(-115%); animation: vs-walk-d 2.6s cubic-bezier(.2,.35,.45,1) .85s forwards; }
+#vote-splash .vs-pal.r { transform: translateX(115%); animation: vs-walk-r 2.6s cubic-bezier(.2,.35,.45,1) .95s forwards; }
+#vote-splash .vs-pal .leg, #vote-splash .vs-pal .head, #vote-splash .vs-pal .tail, #vote-splash .vs-pal .body { transform-box: fill-box; }
+#vote-splash .vs-pal .leg { transform-origin: 50% 6%; animation: vs-leg .62s ease-in-out .85s 4; }
+#vote-splash .vs-pal .leg.b { animation-name: vs-leg-b; }
+#vote-splash .vs-pal.r .leg { animation-delay: .95s; }
+#vote-splash .vs-pal .body { animation: vs-lift .31s ease-in-out .85s 8 alternate; }
+#vote-splash .vs-pal.r .body { animation-delay: .95s; }
+#vote-splash .vs-pal .head { transform-origin: 10% 90%; animation: vs-nod .62s ease-in-out .85s 4; }
+#vote-splash .vs-pal.r .head { animation-delay: .95s; transform-origin: 30% 70%; }
+#vote-splash .vs-pal .tail { transform-origin: 100% 0%; animation: vs-swish .62s ease-in-out .85s 4; }
+#vote-splash .vs-pal.r .tail { animation-delay: .95s; }
 #vote-splash .vs-pals { transition: opacity .55s ease-out; }
 #vote-splash.out .vs-pals { opacity: 0; }
-@keyframes vs-walk-d { 0% { opacity: 0; transform: translateX(-115%); } 14% { opacity: 1; } 100% { opacity: 1; transform: translateX(5%); } }
-@keyframes vs-walk-r { 0% { opacity: 0; transform: translateX(115%); } 14% { opacity: 1; } 100% { opacity: 1; transform: translateX(-5%); } }
-@keyframes vs-step { from { transform: translateY(0) rotate(-1.5deg); } to { transform: translateY(-6%) rotate(1.5deg); } }
+@keyframes vs-walk-d { 0% { opacity: 0; transform: translateX(-115%); } 12% { opacity: 1; } 100% { opacity: 1; transform: translateX(4%); } }
+@keyframes vs-walk-r { 0% { opacity: 0; transform: translateX(115%); } 12% { opacity: 1; } 100% { opacity: 1; transform: translateX(-4%); } }
+@keyframes vs-leg { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(22deg); } 75% { transform: rotate(-22deg); } }
+@keyframes vs-leg-b { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-22deg); } 75% { transform: rotate(22deg); } }
+@keyframes vs-lift { from { transform: translateY(0); } to { transform: translateY(-2.5%); } }
+@keyframes vs-nod { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-5deg); } 75% { transform: rotate(4deg); } }
+@keyframes vs-swish { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(14deg); } }
 @keyframes vs-pop { from { opacity: 0; transform: scale(0); } to { opacity: 1; transform: scale(1); } }
 @keyframes vs-drop { to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes vs-rise { to { opacity: 1; transform: none; } }
@@ -96,14 +108,14 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 @keyframes vs-shine { from { background-position: 100% 0; } to { background-position: 0% 0; } }
 @keyframes vs-burst { 0% { opacity: 1; transform: translate(0,0) rotate(0); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); } }
 @media (prefers-reduced-motion: reduce) {
-  #vote-splash *, #vote-splash .vs-arc circle { animation: none !important; opacity: 1 !important; transform: none !important; }
+  #vote-splash *:not([transform]), #vote-splash .vs-arc circle { animation: none !important; opacity: 1 !important; transform: none !important; }
   #vote-splash .vs-burst { display: none; }
   #vote-splash { animation: vs-in .5s ease-out backwards !important; }
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792898007"></script>
-<link rel="stylesheet" href="pool.css?v=1792898007">
+<script src="dash-lite.js?v=1792898732"></script>
+<link rel="stylesheet" href="pool.css?v=1792898732">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -113,30 +125,41 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
   <div class="vs-stripe"><i></i><i></i><i></i></div>
   <div class="vs-sub">Election Night</div>
   <div class="vs-pals">
-  <svg class="vs-pal d" viewBox="0 0 120 100" aria-hidden="true"><g class="bob">
-    <path d="M20 46 C12 52 10 62 8 70" stroke="#1d4ed8" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="8" cy="72" r="4.5" fill="#1d4ed8"/>
-    <rect x="27" y="58" width="7" height="32" rx="3" fill="#1d4ed8"/><rect x="59" y="58" width="7" height="32" rx="3" fill="#1d4ed8"/>
-    <ellipse cx="48" cy="52" rx="31" ry="16" fill="#3b82f6"/>
-    <rect x="35" y="58" width="7" height="33" rx="3" fill="#3b82f6"/><rect x="67" y="58" width="7" height="33" rx="3" fill="#3b82f6"/>
-    <rect x="34.5" y="87" width="8" height="5" rx="2" fill="#1e3a8a"/><rect x="66.5" y="87" width="8" height="5" rx="2" fill="#1e3a8a"/>
-    <path d="M64 44 L84 18 L98 26 L80 58 Z" fill="#3b82f6"/>
-    <path d="M70 40 L86 17" stroke="#1d4ed8" stroke-width="4" stroke-linecap="round"/>
-    <ellipse cx="87" cy="9" rx="3.6" ry="11" transform="rotate(-18 87 9)" fill="#1d4ed8"/><ellipse cx="93" cy="9" rx="3.6" ry="11.5" transform="rotate(12 93 9)" fill="#3b82f6"/>
-    <ellipse cx="99" cy="30" rx="15" ry="8.5" transform="rotate(32 99 30)" fill="#3b82f6"/>
-    <ellipse cx="108" cy="37" rx="5.5" ry="4.5" transform="rotate(32 108 37)" fill="#93c5fd"/>
-    <circle cx="95" cy="24" r="2" fill="#fff"/>
+  <svg class="vs-pal d" viewBox="0 0 120 100" aria-hidden="true">
+    <g class="leg b"><rect x="27" y="56" width="7" height="34" rx="3" fill="#1d4ed8"/></g>
+    <g class="leg"><rect x="59" y="56" width="7" height="34" rx="3" fill="#1d4ed8"/></g>
+    <g class="body">
+      <g class="tail"><path d="M20 46 C12 52 10 62 8 70" stroke="#1d4ed8" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="8" cy="72" r="4.5" fill="#1d4ed8"/></g>
+      <ellipse cx="48" cy="52" rx="31" ry="16" fill="#3b82f6"/>
+      <g class="head">
+        <path d="M64 44 L84 18 L98 26 L80 58 Z" fill="#3b82f6"/>
+        <path d="M70 40 L86 17" stroke="#1d4ed8" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="87" cy="9" rx="3.6" ry="11" transform="rotate(-18 87 9)" fill="#1d4ed8"/><ellipse cx="93" cy="9" rx="3.6" ry="11.5" transform="rotate(12 93 9)" fill="#3b82f6"/>
+        <ellipse cx="99" cy="30" rx="15" ry="8.5" transform="rotate(32 99 30)" fill="#3b82f6"/>
+        <ellipse cx="108" cy="37" rx="5.5" ry="4.5" transform="rotate(32 108 37)" fill="#93c5fd"/>
+        <circle cx="95" cy="24" r="2" fill="#fff"/>
+      </g>
+    </g>
+    <g class="leg"><rect x="35" y="56" width="7" height="35" rx="3" fill="#3b82f6"/><rect x="34.5" y="87" width="8" height="5" rx="2" fill="#1e3a8a"/></g>
+    <g class="leg b"><rect x="67" y="56" width="7" height="35" rx="3" fill="#3b82f6"/><rect x="66.5" y="87" width="8" height="5" rx="2" fill="#1e3a8a"/></g>
+  </svg>
+  <svg class="vs-pal r" viewBox="0 0 120 100" aria-hidden="true"><g transform="translate(120 0) scale(-1 1)">
+    <g class="leg b"><rect x="22" y="54" width="13" height="36" rx="4" fill="#b91c1c"/></g>
+    <g class="leg"><rect x="58" y="54" width="13" height="36" rx="4" fill="#b91c1c"/></g>
+    <g class="body">
+      <g class="tail"><path d="M16 40 C10 46 8 54 7 62" stroke="#b91c1c" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M5 60 l2 7 l3 -6 z" fill="#b91c1c"/></g>
+      <ellipse cx="50" cy="46" rx="37" ry="25" fill="#ef4444"/>
+      <g class="head">
+        <path d="M100 38 C110 46 111 60 106 72 C104 77 110 80 112 76" stroke="#ef4444" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <circle cx="90" cy="34" r="18" fill="#ef4444"/>
+        <ellipse cx="80" cy="36" rx="11" ry="16" fill="#b91c1c"/>
+        <path d="M99 47 C104 52 108 52 111 50" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="95" cy="28" r="2.1" fill="#fff"/>
+      </g>
+    </g>
+    <g class="leg"><rect x="36" y="56" width="13" height="35" rx="4" fill="#ef4444"/><rect x="35.5" y="87" width="14" height="5" rx="2.5" fill="#7f1d1d"/></g>
+    <g class="leg b"><rect x="72" y="56" width="13" height="35" rx="4" fill="#ef4444"/><rect x="71.5" y="87" width="14" height="5" rx="2.5" fill="#7f1d1d"/></g>
   </g></svg>
-  <svg class="vs-pal r" viewBox="0 0 120 100" aria-hidden="true"><g class="bob"><g transform="translate(120 0) scale(-1 1)">
-    <path d="M16 40 C10 46 8 54 7 62" stroke="#b91c1c" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M5 60 l2 7 l3 -6 z" fill="#b91c1c"/>
-    <rect x="22" y="56" width="13" height="34" rx="4" fill="#b91c1c"/><rect x="58" y="56" width="13" height="34" rx="4" fill="#b91c1c"/>
-    <ellipse cx="50" cy="46" rx="37" ry="25" fill="#ef4444"/>
-    <rect x="36" y="58" width="13" height="33" rx="4" fill="#ef4444"/><rect x="72" y="58" width="13" height="33" rx="4" fill="#ef4444"/>
-    <path d="M100 38 C110 46 111 60 106 72 C104 77 110 80 112 76" stroke="#ef4444" stroke-width="9" fill="none" stroke-linecap="round"/>
-    <circle cx="90" cy="34" r="18" fill="#ef4444"/>
-    <ellipse cx="80" cy="36" rx="11" ry="16" fill="#b91c1c"/>
-    <path d="M99 47 C104 52 108 52 111 50" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <circle cx="95" cy="28" r="2.1" fill="#fff"/>
-  </g></g></svg>
   </div>
 </div>
 <script>
@@ -566,7 +589,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 [data-dash-source-state=refreshing] { opacity:.5; transition: opacity var(--cds-dur-slow); }
 
 @media (prefers-reduced-motion: no-preference) {
-  .en-hero::after { animation: en-sheen 7s linear infinite; }
+  .en-hero::after { animation: en-sheen 9s ease-in-out infinite alternate; }
   .en-dot, .en-res-h .live::before, .en-rchip.live { animation: en-pulse 1.6s infinite; }
   .en-break-track.go { animation: en-scroll 30s linear infinite; }
   .en-race.in { animation: en-rise var(--cds-dur-slow) var(--cds-ease-out) both; }
@@ -760,6 +783,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 
     <div class="en-tabwrap"><div class="en-tabs" role="tablist">
       <button class="en-tab" role="tab" data-tab="news" aria-selected="true"><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>News</button>
+      <button class="en-tab en-tab-game" role="tab" data-tab="game" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Prediction Game</button>
       <button class="en-tab" role="tab" data-tab="mood" aria-selected="false">National mood</button>
       <button class="en-tab" role="tab" data-tab="governors" aria-selected="false">Governors</button>
       <button class="en-tab" role="tab" data-tab="house" aria-selected="false">House</button>
@@ -948,6 +972,11 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       </div>
     </section>
 
+    <section id="game" class="en-panel en-game" hidden>
+      <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Election Night Prediction Game</h2><p>Call the 28 toss-up races for Senate, governor and House, compete with friends in groups, and watch the leaderboard on election night</p></div></div>
+      <div id="pool-root"></div>
+    </section>
+
     <section id="news" class="en-panel">
       <div class="en-sec-h">
         <div><h2>Election news</h2><p>Swipe through short summaries with a link to the full story · Newest first</p></div>
@@ -961,11 +990,6 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
         </div>
       </div>
       <div class="en-news-list dash-skeleton" id="news-list" data-source="news"></div>
-    </section>
-
-    <section id="game" class="en-game">
-      <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Election Night Game</h2><p>Call the 28 toss-up races for Senate, governor and House, compete with friends in groups, and watch the leaderboard on election night</p></div></div>
-      <div id="pool-root"></div>
     </section>
 
     <p class="en-foot">Polls are snapshots, not predictions — most Senate leads here are inside the margin of error. Ratings: Cook Political Report, Decision Desk HQ (DDHQ) or RealClearPolitics (RCP) as labelled. Polls gathered Oct 22–23, 2026; results appear here on election night as they're updated. Your stars and Path to 51 picks are saved on this device.</p>
@@ -2344,7 +2368,7 @@ dash.calc('senate_base', {
   tabFade();
 
   const hash = location.hash.slice(1);
-  if (['senate', 'governors', 'house', 'mood', 'missouri', 'path', 'night', 'news', 'voting', 'watchlist'].includes(hash)) {
+  if (['senate', 'governors', 'house', 'mood', 'missouri', 'path', 'night', 'news', 'voting', 'game', 'watchlist'].includes(hash)) {
     if (hash !== 'watchlist') show(hash);
     const t = document.getElementById(hash); if (t) t.scrollIntoView();
   }
@@ -2372,8 +2396,8 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792898007"></script>
-<script src="pool.js?v=1792898007"></script>
-<script src="sim.js?v=1792898007"></script>
+<script src="pool-config.js?v=1792898732"></script>
+<script src="pool.js?v=1792898732"></script>
+<script src="sim.js?v=1792898732"></script>
 </body>
 </html>
