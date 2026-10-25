@@ -59,6 +59,8 @@
       dismissReport: (id) => fs.doc('reports/' + id).delete(),
       deletePath: (path) => fs.doc(path).delete(),
       banUser: (uid, data) => fs.doc('banned/' + uid).set(data),
+      getMods: async () => { try { const s = await fs.doc('admin/mods').get(); return s.exists ? (s.data().emails || []) : []; } catch (e) { return []; } },
+      saveMods: (emails) => fs.doc('admin/mods').set({ emails }),
       // delete your account: your chat messages, group memberships, picks, profile, then your sign-in
       deleteAccount: async (uid, groups) => {
         const wipe = async (col) => { const q = await fs.collection(col).where('uid', '==', uid).get(); for (const d of q.docs) await d.ref.delete(); };
@@ -104,6 +106,8 @@
       dismissReport: async (id) => { db.reports = (db.reports || []).filter(r => r.id !== id); },
       deletePath: async (path) => { const m = path.match(/^(lobby|groups\/(\w+)\/chat)\/(.+)$/); if (m) { const code = m[1] === 'lobby' ? 'ALL' : m[2]; db.chat[code] = (db.chat[code] || []).filter(x => x.id !== m[3]); pushChat(code); } },
       banUser: async (uid, data) => { (db.banned = db.banned || {})[uid] = data; },
+      getMods: async () => (db.mods || []).slice(),
+      saveMods: async (emails) => { db.mods = emails.slice(); },
       deleteAccount: async (uid, groups) => { Object.keys(db.chat).forEach(k => { db.chat[k] = db.chat[k].filter(m => m.uid !== uid); }); groups.forEach(g => { if (db.members[g]) delete db.members[g][uid]; }); delete db.picks[uid]; delete db.users[uid]; set(null); },
     };
   }
@@ -230,7 +234,8 @@
 
   // ---------- State ----------
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
-  let pickFilter = 'Senate', finaleJumped = false, pendingJoin = null, adminTab = 'races';
+  let pickFilter = 'Senate', finaleJumped = false, pendingJoin = null, adminTab = 'races', mods = [];
+  const isMod = () => !!me && (be.isAdmin(me) || (me.verified && !!me.email && mods.includes(String(me.email).toLowerCase())));
   let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL, lastSent = 0;
   const isMe = (o) => o.m.uid === 'you' || (!!me && o.m.uid === me.uid);
   const myDoc = () => ({ picks: myPicks, seats: mySeats, lock: myLock, side: mySide });
@@ -248,7 +253,7 @@
     const top = el('div', 'pl-top');
     const who = el('div', 'pl-who'); who.append(el('b', '', profile && profile.name || me.name || me.email), el('small', '', me.email));
     const nav = el('div', 'en-seg');
-    [['picks', 'My picks'], ['groups', 'Groups'], ['chat', 'Chat'], ['board', 'Leaderboard']].concat(be.isAdmin(me) ? [['admin', 'Admin']] : []).forEach(([k, t]) => {
+    [['picks', 'My picks'], ['groups', 'Groups'], ['chat', 'Chat'], ['board', 'Leaderboard']].concat(be.isAdmin(me) ? [['admin', 'Admin']] : isMod() ? [['admin', 'Moderate']] : []).forEach(([k, t]) => {
       const b = btn('', t, () => { view = k; render(); }); b.setAttribute('aria-pressed', String(view === k)); nav.append(b);
     });
     top.append(who, el('span', 'pl-topbtns'));
@@ -445,6 +450,7 @@
     queueSave(); render();
   }
   function queueSave() {
+    if (window.enPush) window.enPush.sync({ picks: myPicks, lock: myLock, name: profile && profile.name || '' });
     if (!me || locked()) return;
     saving = true; clearTimeout(saveT);
     saveT = setTimeout(async () => {
@@ -633,7 +639,7 @@
       const mine = m.uid === me.uid;
       const b = el('div', 'pl-msgb' + (mine ? ' mine' : ''));
       const h = el('div', 'h'); h.append(el('b', '', mine ? 'You' : (m.name || 'Player')), el('small', '', tf.format(d)));
-      if (mine || be.isAdmin(me)) { const x = btn('pl-del', '✕', async () => { try { await be.deleteChat(chatCode, m.id); } catch (e) { alertish(errText(e)); } }); x.setAttribute('aria-label', 'Delete message'); h.append(x); }
+      if (mine || isMod()) { const x = btn('pl-del', '✕', async () => { try { await be.deleteChat(chatCode, m.id); } catch (e) { alertish(errText(e)); } }); x.setAttribute('aria-label', 'Delete message'); h.append(x); }
       if (!mine) {
         const more = btn('pl-more', '⋯', () => { const open = b.querySelector('.pl-acts'); if (open) { open.remove(); return; } const a = el('div', 'pl-acts'); a.append(btn('', 'Report', () => reportMsg(m)), btn('', 'Block ' + (m.name || 'player'), () => blockUser(m.uid, m.name))); b.append(a); });
         more.setAttribute('aria-label', 'Report or block'); h.append(more);
@@ -763,14 +769,28 @@
 
   // ---- Admin: call races yourself ----
   function renderAdmin(box) {
-    if (window.__simOn) { box.append(card('Practice run in progress', 'Race calling is turned off during a practice run so nothing real changes. End the practice run to call races.')); return; }
-    const c = card('Call races', 'Tap the winner when a race is called. Everyone’s scores update right away. Calls Claude adds to the app’s results also count — yours override them.');
+    if (!be.isAdmin(me)) pickFilter = 'Reports';
+    if (window.__simOn && be.isAdmin(me)) { box.append(card('Practice run in progress', 'Race calling is turned off during a practice run so nothing real changes. End the practice run to call races.')); return; }
+    const c = be.isAdmin(me) ? card('Call races', 'Tap the winner when a race is called. Everyone’s scores update right away. Calls Claude adds to the app’s results also count — yours override them.') : card('Moderate chat', 'You’re a moderator: review reported messages, delete them, or ban a player from chat.');
     box.append(c);
     const chips = el('div', 'en-chips pl-chips');
-    ['Senate', 'Governors', 'House', 'Side', 'Reports'].forEach(g => { const b = btn('en-chip', g === 'Side' ? 'Side questions' : g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
+    (be.isAdmin(me) ? ['Senate', 'Governors', 'House', 'Side', 'Reports'] : ['Reports']).forEach(g => { const b = btn('en-chip', g === 'Side' ? 'Side questions' : g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
     box.append(chips);
     const wrap = el('div', 'pl-list');
     if (pickFilter === 'Reports') {
+      if (be.isAdmin(me)) {
+        const mc = el('div', 'pl-card'); box.append(mc);
+        mc.append(el('h3', '', 'Moderators'), el('p', 'pl-note', 'Moderators can review reports, delete messages and ban players from chat. Add them by the email they sign in with.'));
+        const ml = el('div', 'btns'); mods.forEach(em => ml.append(btn('en-chip', em + ' ✕', async () => { mods = mods.filter(x => x !== em); try { await be.saveMods(mods); } catch (e) { alertish(errText(e)); } render(); })));
+        if (!mods.length) ml.append(el('small', 'pl-note', 'No moderators yet.'));
+        const mi = el('input'); mi.type = 'email'; mi.placeholder = 'friend@example.com'; mi.autocomplete = 'off';
+        const mm = el('p', 'pl-msg');
+        mc.append(ml, mi, btn('pl-btn', 'Add moderator', async () => {
+          const em = mi.value.trim().toLowerCase(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { mm.textContent = 'Enter an email address.'; return; }
+          if (mods.includes(em)) return; const next = mods.concat(em).slice(0, 10);
+          try { await be.saveMods(next); mods = next; render(); } catch (e) { mm.textContent = errText(e); }
+        }), mm);
+      }
       wrap.append(el('p', 'pl-note', 'Loading reports…')); box.append(wrap);
       be.listReports().then(list => {
         wrap.replaceChildren();
@@ -822,6 +842,13 @@
     const links = el('div', 'btns'); links.append(btn('en-chip', 'Privacy & terms', () => showPrivacy()), btn('en-chip', 'Chat rules', () => showPrivacy('rules')));
     if (((profile && profile.blocked) || []).length) links.append(btn('en-chip', 'Unblock everyone (' + profile.blocked.length + ')', unblockAll));
     c.append(links);
+    if (window.enPush) {
+      const al = el('div', 'pl-card'); box.append(al);
+      const on = window.enPush.isOn(), w = window.enPush.why();
+      al.append(el('h3', '', 'Race-call alerts'), el('p', '', on ? 'On — this phone gets a buzz when races are called (with how your picks did), and a reminder an hour before picks lock.' : 'Get a notification when races are called — with how your picks did — and a reminder an hour before picks lock.'));
+      if (w && !on) al.append(el('p', 'pl-note', w));
+      al.append(btn('pl-btn' + (on ? '' : ' primary'), on ? 'Turn alerts off' : 'Turn on alerts', async () => { if (on) await window.enPush.disable(); else await window.enPush.enable(); render(); }));
+    }
     const ct = el('div', 'pl-card'); box.append(ct);
     ct.append(el('h3', '', 'Contact the organizer'), el('p', '', 'Questions, problems, or something in chat that needs attention? This goes straight to the organizer.'));
     const ta = el('textarea'); ta.maxLength = 500; ta.rows = 3; ta.placeholder = 'Your message';
@@ -855,6 +882,7 @@
       el('p', 'pl-note', 'Election Night 2026 · effective Oct 25, 2026'),
       sec('What this app stores', ['Your sign-in (Google or email) through Google Firebase Authentication.', 'The display name you choose, your picks, lock and side answers, the groups you join, and chat messages you post.', 'Reports and messages you send to the organizer.', 'On your phone only: your watchlist, Path to 51 picks, seen race calls and blocked players.']),
       sec('Who can see it', ['Your picks are private until they lock at 5:00 PM CT on Nov 3; after that, players can see them on leaderboards.', 'Chat messages are visible to everyone in that chat room.', 'Your email is never shown to other players. Only the organizer can see reports.']),
+      sec('Race-call alerts (optional)', ['If you turn alerts on, your phone’s push address — and your picks, so alerts can say how you did — are stored with Netlify, the app’s host. Turn alerts off any time and they’re deleted.']),
       sec('What it doesn’t do', ['No ads, no tracking, and your data isn’t sold or shared with anyone else.', 'Data is stored with Google Firebase and is used only to run the game and chat.']),
       sec('Your choices', ['Delete everything any time: Account → Delete my account.', 'Block a player or report a message from the ⋯ menu on any chat message.']),
       Object.assign(sec('Chat rules', RULES), { id: 'pl-pv-rules' }),
@@ -1168,6 +1196,8 @@
         const p = await be.getPicks(u.uid).catch(() => null);
         if (p) { myPicks = Object.assign({}, p.picks || {}); mySeats = p.seats == null ? null : p.seats; myLock = p.lock || null; mySide = Object.assign({}, p.side || {}); }
         if (profile && profile.blocked) store.set('en-blocked', JSON.stringify(profile.blocked));
+        mods = (await be.getMods().catch(() => [])).map(x => String(x).toLowerCase());
+        if (window.enPush) window.enPush.sync({ picks: myPicks, lock: myLock, name: profile && profile.name || '' });
       }
       render();
     });

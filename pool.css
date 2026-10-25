@@ -222,3 +222,7 @@ html.sim-on .en-tile, html.sim-on #en-count { outline: 1px dashed rgba(251,191,3
 #en-fresh { position:fixed; left: max(10px, env(safe-area-inset-left)); bottom: calc(env(safe-area-inset-bottom) + 10px); z-index:65; font-size:.72rem; font-weight:600; padding:.35rem .65rem; border-radius:999px; background: rgba(11,16,32,.88); color:#bbf7d0; border:1px solid rgba(255,255,255,.15); pointer-events:none; }
 #en-fresh.warn { color:#fde68a; border-color: rgba(251,191,36,.6); }
 #en-fresh.bad { color:#fecaca; border-color: rgba(239,68,68,.8); background: rgba(69,10,10,.92); }
+
+/* alerts button beside TV mode */
+.en-hbtns { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:flex-end; flex:none; }
+.en-alert-btn[aria-pressed="true"] { border-color: var(--en-gold, #fbbf24); }

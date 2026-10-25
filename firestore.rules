@@ -7,6 +7,9 @@ service cloud.firestore {
     // Only this account can call races in the pool
     function isAdmin() { return verified() && request.auth.token.email == 'brad.w.crook@gmail.com'; }
     // Picks lock at 5:00 PM CT, Nov 3, 2026 (23:00 UTC)
+    // Moderators (emails listed in admin/mods by the admin) can review reports, delete messages and ban
+    function isMod() { return isAdmin() || (verified() && exists(/databases/$(database)/documents/admin/mods)
+      && request.auth.token.email in get(/databases/$(database)/documents/admin/mods).data.emails); }
     function beforeLock() { return request.time < timestamp.value(1793746800000); }
     function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
     function cleanName(n) { return n is string && n.size() > 0 && n.size() <= 40; }
@@ -71,7 +74,7 @@ service cloud.firestore {
         function isMember() { return signedIn() && exists(/databases/$(database)/documents/groups/$(code)/members/$(request.auth.uid)); }
         allow read: if isMember();
         allow create: if verified() && isMember() && goodMessage();
-        allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+        allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isMod());
       }
     }
 
@@ -79,7 +82,7 @@ service cloud.firestore {
     match /lobby/{msg} {
       allow read: if signedIn();
       allow create: if verified() && goodMessage();
-      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isMod());
     }
 
     // Reports of chat messages and "contact the organizer" notes: anyone signed in can send one; only the admin reads them
@@ -89,13 +92,19 @@ service cloud.firestore {
         && request.resource.data.kind in ['message', 'contact']
         && request.resource.data.text is string && request.resource.data.text.size() <= 500
         && (!('note' in request.resource.data) || (request.resource.data.note is string && request.resource.data.note.size() <= 300));
-      allow read, delete: if isAdmin();
+      allow read, delete: if isMod();
     }
 
     // Players banned from posting in chat (set by the admin)
     match /banned/{uid} {
-      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
-      allow write: if isAdmin();
+      allow read: if signedIn() && (request.auth.uid == uid || isMod());
+      allow write: if isMod();
+    }
+
+    match /admin/mods {
+      allow read: if signedIn();
+      allow write: if isAdmin() && request.resource.data.keys().hasOnly(['emails'])
+        && request.resource.data.emails is list && request.resource.data.emails.size() <= 10;
     }
 
     match /admin/results {
