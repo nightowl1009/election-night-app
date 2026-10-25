@@ -72,6 +72,28 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
       ok(JSON.stringify(top) === JSON.stringify(ch), 'scoreboard ' + top + ' vs charts ' + ch); await a.close();
     }
   });
+  await test('filter chips also filter the maps; race cards show our own average', async () => {
+    const a = await open('#house');
+    const on = (sel) => a.page.evaluate((s) => document.querySelectorAll(s + ' .st.on').length, sel);
+    const dots = () => a.page.evaluate(() => document.querySelectorAll('#hou-map .dot').length);
+    const all = await on('#hou-map'), allDots = await dots();
+    for (const f of ['Toss-up', 'Lean D', 'Lean R']) {
+      await a.page.click('#house-chips .en-chip[data-f="' + f + '"]'); await a.page.waitForTimeout(150);
+      const want = DATA('house').filter((r) => r.rating === f);
+      ok(await dots() === want.length, f + ': ' + (await dots()) + ' dots, want ' + want.length);
+      ok(await on('#hou-map') === new Set(want.map((r) => r.id.split('-')[0])).size, f + ': wrong states lit');
+    }
+    await a.page.click('#house-chips .en-chip[data-f="all"]'); await a.page.waitForTimeout(150);
+    ok(await on('#hou-map') === all && await dots() === allDots, 'All should restore the map');
+    await a.page.click('.en-tab[data-tab="senate"]'); await a.page.waitForTimeout(250);
+    for (const f of ['R', 'D']) {
+      await a.page.click('#sen-chips .en-chip[data-f="' + f + '"]'); await a.page.waitForTimeout(150);
+      ok(await on('#sen-map') === DATA('senate').filter((r) => r.held === f).length, 'senate ' + f + ' map');
+    }
+    const n3 = await a.page.evaluate(() => [document.querySelectorAll('#sen-grid .en-lead3').length, document.querySelectorAll('#sen-grid .en-race').length]);
+    ok(n3[0] === n3[1] && n3[0] > 0, 'every senate card needs an "Ours" chip ' + n3);
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('live data: reads the newest version, skips repeats, falls back when the server is down', async () => {
     const files = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'earlyvote', 'local', 'changes', 'spending', 'meta'];
     let sha = 'a'.repeat(40), bundles = 0;
