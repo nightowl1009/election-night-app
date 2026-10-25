@@ -1,0 +1,21 @@
+
+<p class="app-updated" id="app-updated"></p>
+</div>
+<div class="app-install" id="app-install" hidden><span id="app-install-msg">Install Election Night as an app</span><button class="go" id="app-install-go">Install</button><button class="x" id="app-install-x" aria-label="Dismiss">✕</button></div>
+<script>
+(function () {
+  if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  const bar = document.getElementById('app-install'), go = document.getElementById('app-install-go'), msg = document.getElementById('app-install-msg');
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  let dismissed = false; try { dismissed = localStorage.getItem('en-install-x') === '1'; } catch (e) {}
+  if (standalone || dismissed) return;
+  let deferred = null;
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; bar.hidden = false; });
+  go.addEventListener('click', async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; bar.hidden = true; });
+  document.getElementById('app-install-x').addEventListener('click', () => { bar.hidden = true; try { localStorage.setItem('en-install-x', '1'); } catch (e) {} });
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (ios) { msg.textContent = 'Install: tap Share, then “Add to Home Screen”'; go.hidden = true; bar.hidden = false; }
+})();
+</script>
+</body>
+</html>

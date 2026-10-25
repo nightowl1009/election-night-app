@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792905092"></script>
-<link rel="stylesheet" href="pool.css?v=1792905092">
+<script src="dash-lite.js?v=1792905436"></script>
+<link rel="stylesheet" href="pool.css?v=1792905436">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -1890,7 +1890,7 @@ dash.calc('senate_base', {
   }
 
   // News
-  let newsFilter = 'all', newsAll = false;
+  let newsFilter = 'all';
   const ndate = d3.utcFormat('%b %-d');
   const safeUrl = (u) => /^https?:\/\//i.test(String(u || '')) ? u : null;
   function newsRows() {
@@ -1953,7 +1953,7 @@ dash.calc('senate_base', {
     swipe(box, cards, 'story');
   }
   document.querySelectorAll('#news-chips .en-chip').forEach(c => c.addEventListener('click', () => {
-    newsFilter = c.dataset.f; newsAll = false;
+    newsFilter = c.dataset.f;
     document.querySelectorAll('#news-chips .en-chip').forEach(x => x.setAttribute('aria-pressed', String(x === c)));
     renderNews();
   }));
@@ -2598,9 +2598,9 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792905092"></script>
-<script src="pool.js?v=1792905092"></script>
-<script src="sim.js?v=1792905092"></script>
-<script src="push.js?v=1792905092"></script>
+<script src="pool-config.js?v=1792905436"></script>
+<script src="pool.js?v=1792905436"></script>
+<script src="sim.js?v=1792905436"></script>
+<script src="push.js?v=1792905436"></script>
 </body>
 </html>

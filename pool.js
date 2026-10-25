@@ -234,7 +234,7 @@
 
   // ---------- State ----------
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
-  let pickFilter = 'Senate', finaleJumped = false, pendingJoin = null, adminTab = 'races', mods = [];
+  let pickFilter = 'Senate', finaleJumped = false, pendingJoin = null, mods = [];
   const isMod = () => !!me && (be.isAdmin(me) || (me.verified && !!me.email && mods.includes(String(me.email).toLowerCase())));
   let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL, lastSent = 0;
   const isMe = (o) => o.m.uid === 'you' || (!!me && o.m.uid === me.uid);
