@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792916338"></script>
-<link rel="stylesheet" href="pool.css?v=1792916338">
+<script src="dash-lite.js?v=1792917042"></script>
+<link rel="stylesheet" href="pool.css?v=1792917042">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -2418,7 +2418,9 @@ dash.calc('senate_base', {
       const row = el('div', 'en-rc' + (it.mile ? ' mile' : ''));
       const t = el('time', '', ctTime.format(new Date(it.at)) + ' CT'); const dot = el('i', it.mile ? '' : it.cls);
       const tx = el('span', ''); if (it.race) tx.append(mk('span', '', 'results', 'winner', 'race', it.race, it.text)); else tx.textContent = it.text;
-      row.append(t, dot, tx); list.append(row);
+      row.append(t, dot, tx);
+      if (it.race && window.enShareCall) { const sb = el('button', 'en-rc-share', 'Share'); sb.type = 'button'; sb.setAttribute('aria-label', 'Share ' + it.text); sb.addEventListener('click', () => window.enShareCall(it.race)); row.append(sb); }
+      list.append(row);
     });
   }
 
@@ -2613,10 +2615,11 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792916338"></script>
-<script src="pool.js?v=1792916338"></script>
-<script src="sim.js?v=1792916338"></script>
-<script src="push.js?v=1792916338"></script>
-<script src="ads.js?v=1792916338"></script>
+<script src="pool-config.js?v=1792917042"></script>
+<script src="pool.js?v=1792917042"></script>
+<script src="sim.js?v=1792917042"></script>
+<script src="push.js?v=1792917042"></script>
+<script src="ads.js?v=1792917042"></script>
+<script src="welcome.js?v=1792917042"></script>
 </body>
 </html>

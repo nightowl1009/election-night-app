@@ -2210,7 +2210,9 @@ dash.calc('senate_base', {
       const row = el('div', 'en-rc' + (it.mile ? ' mile' : ''));
       const t = el('time', '', ctTime.format(new Date(it.at)) + ' CT'); const dot = el('i', it.mile ? '' : it.cls);
       const tx = el('span', ''); if (it.race) tx.append(mk('span', '', 'results', 'winner', 'race', it.race, it.text)); else tx.textContent = it.text;
-      row.append(t, dot, tx); list.append(row);
+      row.append(t, dot, tx);
+      if (it.race && window.enShareCall) { const sb = el('button', 'en-rc-share', 'Share'); sb.type = 'button'; sb.setAttribute('aria-label', 'Share ' + it.text); sb.addEventListener('click', () => window.enShareCall(it.race)); row.append(sb); }
+      list.append(row);
     });
   }
 

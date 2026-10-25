@@ -255,3 +255,27 @@ html.sim-on .en-tile, html.sim-on #en-count { outline: 1px dashed rgba(251,191,3
 .ad-it { font-weight:600; font-size:.92rem; }
 .ad-iw { font-size:.8rem; color: var(--color-fg-muted); }
 .ad-note { margin:0; font-size:.8rem; color: var(--color-fg-muted); line-height:1.45; }
+
+/* Share buttons */
+.pl-popshare { align-self:flex-start; margin-top:.3rem; appearance:none; font:inherit; font-size:.75rem; font-weight:700; color:#0b1020; background:#fbbf24; border:0; border-radius:999px; padding:.3rem .75rem; cursor:pointer; min-height:32px; }
+.pl-sharerow { display:flex; justify-content:center; margin-top:.75rem; }
+.en-rc-share { appearance:none; font:inherit; font-size:.75rem; font-weight:600; color: var(--ink-link, var(--color-fg)); background:none; border:1px solid var(--color-border-line); border-radius:999px; padding:.2rem .65rem; cursor:pointer; flex:none; }
+.en-rc { grid-template-columns: 4.6rem 10px 1fr auto; }
+
+/* First-visit welcome */
+.wl-back { position:fixed; inset:0; z-index:9000; background:rgba(5,8,18,.6); display:flex; align-items:flex-end; justify-content:center; padding:16px; animation: wl-in .25s ease-out; }
+.wl-back.out { opacity:0; transition: opacity .25s; }
+.wl-card { width:100%; max-width:440px; background: var(--color-panel, #fff); color: var(--color-fg, #111); border:1px solid var(--color-border-line, #ddd); border-radius:18px; padding:20px; box-shadow:0 20px 60px rgba(0,0,0,.4); margin-bottom: env(safe-area-inset-bottom); }
+@media (min-width: 640px) { .wl-back { align-items:center; } }
+.wl-h { margin:0; font-size:1.3rem; }
+.wl-sub { margin:.25rem 0 .75rem; color: var(--color-fg-muted); font-size:.9rem; }
+.wl-list { list-style:none; margin:0 0 1rem; padding:0; display:flex; flex-direction:column; gap:.5rem; }
+.wl-tip { width:100%; box-sizing:border-box; display:flex; align-items:center; gap:.75rem; text-align:left; font:inherit; color:inherit; background: var(--color-bg, #f6f6f6); border:1px solid var(--color-border-line, #ddd); border-radius:12px; padding:.7rem .8rem; }
+button.wl-tip { cursor:pointer; }
+.wl-ic { font-size:1.35rem; width:1.8rem; text-align:center; flex:none; }
+.wl-tx { display:flex; flex-direction:column; gap:.1rem; flex:1; }
+.wl-tx b { font-size:.95rem; } .wl-tx small { font-size:.82rem; color: var(--color-fg-muted); line-height:1.35; }
+.wl-go { font-size:1.4rem; color: var(--color-fg-muted); }
+.wl-ok { width:100%; appearance:none; font:inherit; font-weight:700; font-size:1rem; padding:.8rem; border-radius:12px; border:0; background: var(--en-gold, #fbbf24); color:#111; cursor:pointer; min-height:48px; }
+@keyframes wl-in { from { opacity:0; } to { opacity:1; } }
+@media (prefers-reduced-motion: reduce) { .wl-back { animation:none; } }

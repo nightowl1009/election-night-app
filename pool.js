@@ -694,7 +694,39 @@
       r.append(nm, pts); t.append(r);
     });
     c.append(t);
+    if (lk && called && !done && out.length) { const gg = await getGroupC(activeGroup); const sb = el('div', 'pl-sharerow'); sb.append(btn('pl-btn', '📤 Share standings', () => shareStandings(out, gg ? gg.name : 'Your group', list, false))); c.append(sb); }
   }
+  // ---- Share pictures: phones get the share sheet; elsewhere the picture downloads ----
+  async function sendPic(blob, name, title) {
+    const file = new File([blob], name, { type: 'image/png' });
+    try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000); alertish('Picture saved — send it to your friends.');
+  }
+  const PCOL = { d: '#2563eb', r: '#dc2626', i: '#9333ea', y: '#0d9488' };
+  function wrapText(x, t, maxW) { const words = String(t).split(' '), out = []; let ln = ''; words.forEach(w => { const tr = ln ? ln + ' ' + w : w; if (x.measureText(tr).width > maxW && ln) { out.push(ln); ln = w; } else ln = tr; }); if (ln) out.push(ln); return out; }
+  function shareCall(race) {
+    const x0 = rows('results').find(r => r.race === race); if (!x0 || !x0.winner_party) return;
+    const W = 1080, c = document.createElement('canvas'); let x = c.getContext('2d');
+    x.font = '700 76px system-ui, sans-serif'; const tl = wrapText(x, callText(x0), W - 160).slice(0, 4);
+    const r = races().find(q => q.key === race), mine = myPicks[race], w = winners(), won = !!(r && mine && w[race] && mine === w[race]);
+    const H = 330 + tl.length * 92 + 140 + (won ? 110 : 0) + 120; c.width = W; c.height = H; x = c.getContext('2d');
+    const col = PCOL[partyCls(x0.winner_party)] || '#6b7280';
+    x.fillStyle = '#0b1020'; x.fillRect(0, 0, W, H); x.fillStyle = col; x.fillRect(0, 0, 24, H);
+    const g = x.createLinearGradient(0, 0, 0, 420); g.addColorStop(0, col + '55'); g.addColorStop(1, '#0b102000'); x.fillStyle = g; x.fillRect(24, 0, W - 24, 420);
+    x.fillStyle = '#fbbf24'; x.font = '800 34px system-ui, sans-serif'; x.fillText(window.__simOn ? 'PRACTICE RUN · RACE CALLED' : 'RACE CALLED · ELECTION NIGHT 2026', 80, 120);
+    x.fillStyle = '#fff'; x.font = '700 76px system-ui, sans-serif';
+    let y = 250; tl.forEach(l => { x.fillText(l, 80, y); y += 92; });
+    x.font = '500 40px system-ui, sans-serif'; x.fillStyle = 'rgba(255,255,255,.8)'; y += 20;
+    if (x0.d_pct != null && x0.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x0.winner))) { x.fillText((indRace(x0.race) ? 'Ind ' : 'Dem ') + fmtPct(x0.d_pct) + '  ·  GOP ' + fmtPct(x0.r_pct), 80, y); y += 60; }
+    else if (x0.d_pct != null && x0.r_pct != null) { x.fillText('Yes ' + fmtPct(x0.d_pct) + '  ·  No ' + fmtPct(x0.r_pct), 80, y); y += 60; }
+    if (x0.reporting != null) { x.fillText((x0.reporting || 0) + '% of the vote counted', 80, y); y += 60; }
+    if (won) { x.fillStyle = '#4ade80'; x.font = '800 48px system-ui, sans-serif'; x.fillText('✓ I called it' + (myLock === race ? ' — lock of the night ★' : ''), 80, y + 50); }
+    x.fillStyle = 'rgba(255,255,255,.5)'; x.font = '500 28px system-ui, sans-serif'; x.fillText('election-night.netlify.app', 80, H - 70);
+    c.toBlob((b) => { if (b) sendPic(b, 'race-called.png', callText(x0)); }, 'image/png');
+  }
+  window.enShareCall = shareCall;
+
   // ---- Season finale: winner banner, podium, your finish, shareable standings ----
   function finale(out, gname, list, w) {
     const top = out[0].s.pts, champs = out.filter(o => o.s.pts === top && (o === out[0] || sameRank(o, out[0])));
@@ -722,15 +754,15 @@
     return a.s.pts === b.s.pts && gap(a) === gap(b) && a.s.right === b.s.right;
   };
   const ordinal = (n) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th');
-  function shareStandings(out, gname, list) {
+  function shareStandings(out, gname, list, final = true) {
     const W = 1080, rowH = 74, rowsN = Math.min(out.length, 12), H = 350 + rowsN * rowH + 110;
     const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
     const g = x.createLinearGradient(0, 0, W, 0); g.addColorStop(0, '#1e3a8a'); g.addColorStop(.5, '#0b1020'); g.addColorStop(1, '#991b1b');
     x.fillStyle = '#0b1020'; x.fillRect(0, 0, W, H); x.fillStyle = g; x.fillRect(0, 0, W, 300);
-    x.fillStyle = '#fbbf24'; x.font = '700 30px system-ui, sans-serif'; x.fillText('🏆 SEASON FINALE · ELECTION NIGHT PREDICTION GAME', 60, 80);
+    x.fillStyle = '#fbbf24'; x.font = '700 30px system-ui, sans-serif'; x.fillText(final ? '🏆 SEASON FINALE · ELECTION NIGHT PREDICTION GAME' : '📊 LEADERBOARD · ELECTION NIGHT PREDICTION GAME', 60, 80);
     x.fillStyle = '#fff'; x.font = '700 64px system-ui, sans-serif';
-    const champ = (out[0].m.name || 'Player') + ' wins!'; x.fillText(champ.length > 26 ? champ.slice(0, 25) + '…' : champ, 60, 170);
-    x.font = '500 32px system-ui, sans-serif'; x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText(gname + ' · final standings · ' + list.length + ' races', 60, 230);
+    const champ = (out[0].m.name || 'Player') + (final ? ' wins!' : ' leads'); x.fillText(champ.length > 26 ? champ.slice(0, 25) + '…' : champ, 60, 170);
+    x.font = '500 32px system-ui, sans-serif'; x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText(gname + (final ? ' · final standings · ' + list.length + ' races' : ' · ' + list.filter(r => winners()[r.key]).length + ' of ' + list.length + ' races called'), 60, 230);
     let y = 380;
     out.slice(0, rowsN).forEach((o, i) => {
       if (i % 2 === 0) { x.fillStyle = 'rgba(255,255,255,.05)'; x.fillRect(40, y - 50, W - 80, rowH); }
@@ -743,10 +775,7 @@
     x.fillStyle = 'rgba(255,255,255,.5)'; x.font = '500 24px system-ui, sans-serif'; x.fillText('election-night.netlify.app', 60, H - 40);
     c.toBlob(async (blob) => {
       if (!blob) return;
-      const file = new File([blob], 'election-game-final.png', { type: 'image/png' });
-      try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: 'Election Night Prediction Game — final standings' }); return; } } catch (e) { if (e && e.name === 'AbortError') return; }
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'election-game-final.png'; document.body.append(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 4000); alertish('Picture saved — send it to your group.');
+      sendPic(blob, final ? 'election-game-final.png' : 'election-game-standings.png', 'Election Night Prediction Game — ' + (final ? 'final standings' : 'standings'));
     }, 'image/png');
   }
 
@@ -978,6 +1007,7 @@
         t.append(el('small', ok ? 'ok' : 'no', ok ? '✓ You got it · +' + v + (myLock === r.key ? ' (lock ★)' : '') : '✗ You picked ' + (mine === 'd' ? r.a : r.b)));
       }
       if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) t.append(el('small', '', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
+      const sh = el('button', 'pl-popshare', 'Share'); sh.type = 'button'; sh.addEventListener('click', (e) => { e.stopPropagation(); shareCall(x.race); drop(t); }); t.append(sh);
       t.addEventListener('click', () => drop(t));
       stack.prepend(t);
       setTimeout(() => drop(t), sim ? 4500 : 9000);
