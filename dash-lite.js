@@ -3,7 +3,7 @@
    watchlist and Path-to-51 picks on this device, and re-checks for new data
    every 2 minutes while the app is open. */
 (function () {
-  const DATASETS = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'usmap'];
+  const DATASETS = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'usmap', 'earlyvote'];
   const KEY = 'en-params-v1';
   const DEFAULTS = { watch: [], picks: [], hpicks: [] };
   const state = {};

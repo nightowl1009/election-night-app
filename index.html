@@ -399,6 +399,38 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-sc-row:first-child { border-top:0; background: transparent; color: var(--color-fg-muted); font-weight:600; font-size:.62rem; letter-spacing:.04em; text-transform:uppercase; }
 .en-sc-row .ok { color:#16a34a; font-weight:700; } .en-sc-row .bad { color: var(--en-red); font-weight:700; }
 .en-sc-row .d { color: var(--en-blue); font-weight:600; } .en-sc-row .r { color: var(--en-red); font-weight:600; }
+.en-ev-hero { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); margin-bottom: var(--cds-gap-md); }
+.en-ev-hero .big b { display:block; font-family: var(--font-anthropic-serif); font-weight:400; font-size: clamp(2rem, 9vw, 3rem); line-height:1; }
+.en-ev-hero .big span { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.en-ev-split { margin-top: var(--cds-gap-md); }
+.en-ev-split .bar, .en-ev-row .bar { display:flex; height:10px; border-radius:6px; overflow:hidden; background: var(--color-border-line); }
+.en-ev-row .bar.sm { height:6px; flex:1; }
+.en-ev-split .bar i, .en-ev-row .bar i { display:block; height:100%; }
+i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
+.en-ev-split .lg { display:flex; flex-wrap:wrap; gap:.3rem 1rem; margin-top:.45rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.en-ev-split .lg span { display:inline-flex; align-items:center; gap:.35rem; } .en-ev-split .lg i { width:.65rem; height:.65rem; border-radius:2px; display:inline-block; }
+.en-ev-split .lg b { color: var(--color-fg); }
+.en-ev-list { display:flex; flex-direction:column; border:1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow:hidden; }
+.en-ev-row { display:grid; grid-template-columns: minmax(0,1.3fr) minmax(0,1.2fr) minmax(0,1fr) minmax(0,1.1fr); gap:.5rem; align-items:center; padding:.5rem .75rem; background: var(--color-panel); border-top:1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); }
+.en-ev-row.h { background: transparent; border-top:0; color: var(--color-fg-muted); font-size:.66rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; }
+.en-ev-row.race { box-shadow: inset 3px 0 0 var(--en-gold); }
+.en-ev-row .nm b { display:block; font-weight:600; } .en-ev-row .nm .tag { color: #b45309; font-weight:600; font-size:.66rem; }
+.en-ev-row .tot { display:flex; flex-direction:column; gap:3px; } .en-ev-row .tot b { font-variant-numeric: tabular-nums; }
+.en-ev-row .tot .tb { display:block; height:4px; border-radius:3px; background: var(--en-blue); opacity:.55; }
+.en-ev-row .sp { display:flex; flex-direction:column; gap:3px; } .en-ev-row .sp small, .en-ev-row .pt small { color: var(--color-fg-muted); }
+.en-ev-row .pt b.d { color:#2563eb; } .en-ev-row .pt b.r { color:#dc2626; }
+@media (prefers-color-scheme: dark) { .en-ev-row .nm .tag { color:#fbbf24; } .en-ev-row .pt b.d { color:#93c5fd; } .en-ev-row .pt b.r { color:#fca5a5; } }
+@media (max-width: 30rem) { .en-ev-row { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr); } .en-ev-row > :nth-child(3) { display:none; } }
+.en-vote { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--cds-gap-md); }
+.en-vcard { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
+.en-vcard.mo { box-shadow: inset 0 3px 0 #0d9488; }
+.en-vcard h3 { margin:0 0 .5rem; font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); }
+.en-vcard ul { margin:0 0 .6rem; padding-left:1.1rem; display:flex; flex-direction:column; gap:.35rem; font-size: var(--cds-font-size-caption); line-height:1.45; }
+.en-vcard p { margin:0 0 .6rem; font-size: var(--cds-font-size-caption); line-height:1.45; color: var(--color-fg-muted); }
+.en-vlinks { display:flex; flex-wrap:wrap; gap:.4rem; margin-bottom:.5rem; }
+.en-vlinks a { display:inline-flex; align-items:center; padding:.45rem .8rem; border-radius:999px; background: var(--color-fg); color: var(--color-bg); text-decoration:none; font-weight:600; font-size: var(--cds-font-size-caption); }
+.en-vcard ul a { color:#2563eb; font-weight:600; }
+.en-vsrc { margin: .5rem 0 0 !important; font-size: .7rem !important; color: var(--color-fg-muted); }
 .en-times { display:flex; flex-direction:column; gap: var(--cds-gap-sm); min-height: 12rem; position: relative; }
 .en-time { display:grid; grid-template-columns: 7.5rem 1fr; gap: var(--cds-gap-md); background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); position:relative; }
 .en-time.done { opacity:.6; }
@@ -694,6 +726,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
       <button class="en-tab" role="tab" data-tab="senate" aria-selected="false">Senate</button>
       <button class="en-tab" role="tab" data-tab="path" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-target"/></svg>Path to control</button>
       <button class="en-tab" role="tab" data-tab="missouri" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-home"/></svg>Missouri</button>
+      <button class="en-tab" role="tab" data-tab="voting" aria-selected="false">Voting</button>
       <button class="en-tab" role="tab" data-tab="night" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-clock"/></svg>Election night</button>
     </div></div>
 
@@ -811,6 +844,37 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
           <p class="en-note" id="hpath-base" style="margin-top:.6rem"></p>
         </div>
         <div class="en-pick-list dash-skeleton" id="hpick-list" data-source="house house_lean overview"></div>
+      </div>
+    </section>
+
+    <section id="voting" class="en-panel" hidden>
+      <div class="en-sec-h"><div><h2>Early vote tracker</h2><p>Ballots already cast by mail and early in person · States with a Senate or governor race in this app are marked</p></div></div>
+      <div class="en-ev dash-skeleton" id="ev-box" data-source="earlyvote senate governor"></div>
+      <div class="en-sec-h" style="margin-top:var(--cds-gap-xl)"><div><h2>How to vote</h2><p>Official sources · Rules differ by state, so always check your own</p></div></div>
+      <div class="en-vote">
+        <div class="en-vcard mo">
+          <h3>Voting in Missouri</h3>
+          <ul>
+            <li><b>Election Day:</b> Tuesday, Nov 3 · polls open <b>6 a.m.–7 p.m.</b> Anyone in line at 7 p.m. can vote.</li>
+            <li><b>Photo ID:</b> required to vote in person, including early in-person absentee. <a href="https://www.sos.mo.gov/CMSImages/ElectionGoVoteMissouri/AcceptableFormsVoterID.pdf" target="_blank" rel="noopener">Accepted IDs</a></li>
+            <li><b>Vote early, no excuse needed:</b> in-person absentee voting runs <b>Oct 20 – Nov 2</b> at your local election office. Hours vary by county.</li>
+            <li><b>Mail absentee:</b> the request deadline (5 p.m. Oct 21) has passed. Ballots already requested must be <b>received by 7 p.m. Nov 3</b>.</li>
+            <li><b>Registration:</b> closed Oct 7 for this election.</li>
+          </ul>
+          <div class="en-vlinks">
+            <a href="https://s1.sos.mo.gov/elections/voterlookup/" target="_blank" rel="noopener">Find my polling place</a>
+            <a href="https://voteroutreach.sos.mo.gov/portal/" target="_blank" rel="noopener">Check my registration</a>
+            <a href="https://s1.sos.mo.gov/elections/goVoteMissouri/localelectionauthority" target="_blank" rel="noopener">My county election office</a>
+            <a href="https://www.sos.mo.gov/elections/goVoteMissouri/howtovote#absentee" target="_blank" rel="noopener">Absentee voting</a>
+          </div>
+          <p class="en-vsrc">Sources: Missouri Secretary of State; KSHB 41 voter guide.</p>
+        </div>
+        <div class="en-vcard us">
+          <h3>Voting in another state</h3>
+          <p>Vote.gov is the U.S. government's official site. Pick your state for its registration status check, polling-place lookup, ID rules and early-voting dates.</p>
+          <div class="en-vlinks"><a href="https://vote.gov" target="_blank" rel="noopener">Go to Vote.gov</a></div>
+          <p class="en-vsrc">Problems at the polls? Ask a poll worker first, or call your county election office.</p>
+        </div>
       </div>
     </section>
 
@@ -2092,6 +2156,45 @@ dash.calc('senate_base', {
       tbl.append(row);
     });
   }
+
+  // Early vote tracker
+  function renderEarlyVote() {
+    const box = $('#ev-box'), d = dash.data('earlyvote');
+    if (d.status !== 'ok') return fail(box, d.status);
+    box.classList.remove('dash-skeleton'); box.replaceChildren();
+    const nf = new Intl.NumberFormat('en-US'), short = (n) => n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 1 : 2) + 'M' : n >= 1e3 ? Math.round(n / 1e3) + 'K' : String(n);
+    const us = d.data.find(r => r.st === 'US'), states = d.data.filter(r => r.st !== 'US').sort((a, b) => b.total - a.total);
+    const races = new Map();
+    (okRows('senate') || []).forEach(r => races.set(r.id, (races.get(r.id) || []).concat('Senate')));
+    (okRows('governor') || []).forEach(r => races.set(r.id, (races.get(r.id) || []).concat('Gov')));
+    if (us) {
+      const hero = el('div', 'en-ev-hero');
+      const big = el('div', 'big'); big.append(mk('b', '', 'earlyvote', 'total', 'st', 'US', nf.format(us.total)), el('span', '', 'ballots cast nationwide'));
+      const split = el('div', 'en-ev-split'); const mp = us.mail / us.total * 100;
+      const bar = el('div', 'bar'); const a = el('i', 'mail'); a.style.width = mp.toFixed(1) + '%'; const b2 = el('i', 'ip'); b2.style.width = (100 - mp).toFixed(1) + '%'; bar.append(a, b2);
+      const lg = el('div', 'lg'); const l1 = el('span', ''); l1.append(el('i', 'mail'), document.createTextNode('By mail '), mk('b', '', 'earlyvote', 'mail', 'st', 'US', nf.format(us.mail)));
+      const l2 = el('span', ''); l2.append(el('i', 'ip'), document.createTextNode('Early in person '), mk('b', '', 'earlyvote', 'inperson', 'st', 'US', nf.format(us.inperson))); lg.append(l1, l2);
+      split.append(bar, lg);
+      hero.append(big, split, el('p', 'en-vsrc', 'As of ' + us.as_of + ' · ' + us.source + '.'));
+      box.append(hero);
+    }
+    const max = Math.max(...states.map(r => r.total));
+    const list = el('div', 'en-ev-list');
+    const hd = el('div', 'en-ev-row h'); ['State', 'Ballots cast', 'Mail / in person', 'Party of early voters'].forEach(t => hd.append(el('span', '', t))); list.append(hd);
+    states.forEach(r => {
+      const row = el('div', 'en-ev-row' + (races.has(r.st) ? ' race' : ''));
+      const nm = el('span', 'nm'); nm.append(el('b', '', r.state)); if (races.has(r.st)) nm.append(el('small', 'tag', races.get(r.st).join(' · ')));
+      const tot = el('span', 'tot'); const tb = el('i', 'tb'); tb.style.width = (r.total / max * 100).toFixed(1) + '%'; tot.append(mk('b', '', 'earlyvote', 'total', 'st', r.st, short(r.total)), tb);
+      const mp = r.total ? r.mail / r.total * 100 : 0;
+      const sp = el('span', 'sp'); const sb = el('span', 'bar sm'); const a = el('i', 'mail'); a.style.width = mp.toFixed(1) + '%'; const b2 = el('i', 'ip'); b2.style.width = (100 - mp).toFixed(1) + '%'; sb.append(a, b2); sp.append(sb, el('small', '', Math.round(mp) + '% mail'));
+      const pt = el('span', 'pt');
+      if (r.dem_pct != null && r.rep_pct != null) { pt.append(mk('b', 'd', 'earlyvote', 'dem_pct', 'st', r.st, 'D ' + fmt(r.dem_pct) + '%'), document.createTextNode(' · '), mk('b', 'r', 'earlyvote', 'rep_pct', 'st', r.st, 'R ' + fmt(r.rep_pct) + '%')); }
+      else pt.append(el('small', '', 'not published'));
+      row.append(nm, tot, sp, pt); list.append(row);
+    });
+    box.append(list);
+    box.append(el('p', 'en-vsrc', 'Top ' + states.length + ' states by ballots cast. Party = voters\u2019 party registration where the state publishes it, not how they voted. Early votes lean differently by state and year, so they don\u2019t predict the result.'));
+  }
   function redraw() {
     buildCtx();
     renderBreaking(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
@@ -2105,12 +2208,13 @@ dash.calc('senate_base', {
     if (!$('#missouri').hidden) renderMissouri();
     if (!$('#mood').hidden) renderMood();
     if (!$('#news').hidden) renderNews();
+    if (!$('#voting').hidden) renderEarlyVote();
   }
   dash.onData(redraw);
   tabFade();
 
   const hash = location.hash.slice(1);
-  if (['senate', 'governors', 'house', 'mood', 'missouri', 'path', 'night', 'news', 'watchlist'].includes(hash)) {
+  if (['senate', 'governors', 'house', 'mood', 'missouri', 'path', 'night', 'news', 'voting', 'watchlist'].includes(hash)) {
     if (hash !== 'watchlist') show(hash);
     const t = document.getElementById(hash); if (t) t.scrollIntoView();
   }
