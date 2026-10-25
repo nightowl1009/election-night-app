@@ -53,5 +53,16 @@
   "yes": 43,
   "no": 45,
   "undecided": 12
+ },
+ {
+  "pid": "A3-3",
+  "measure": "A3",
+  "pollster": "SLU/YouGov",
+  "dates": "Feb 9–22",
+  "date": "2026-02-22",
+  "sample": "900 LV",
+  "yes": 47,
+  "no": 40,
+  "undecided": 12
  }
 ]

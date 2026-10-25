@@ -1069,5 +1069,302 @@
   "d": 47,
   "r": 46,
   "margin": 1
+ },
+ {
+  "pid": "SEN-GA-4",
+  "race": "SEN-GA",
+  "pollster": "Atlanta Journal-Constitution",
+  "date": "2026-10-15",
+  "d": 48,
+  "r": 40,
+  "margin": 8
+ },
+ {
+  "pid": "SEN-GA-5",
+  "race": "SEN-GA",
+  "pollster": "Trafalgar Group",
+  "date": "2026-10-09",
+  "d": 51,
+  "r": 43,
+  "margin": 8
+ },
+ {
+  "pid": "GOV-FL-6",
+  "race": "GOV-FL",
+  "pollster": "Univ. of North Florida",
+  "date": "2026-10-19",
+  "d": 47,
+  "r": 49,
+  "margin": -2
+ },
+ {
+  "pid": "GOV-FL-7",
+  "race": "GOV-FL",
+  "pollster": "co/efficient",
+  "date": "2026-10-20",
+  "d": 40,
+  "r": 49,
+  "margin": -9
+ },
+ {
+  "pid": "GOV-FL-8",
+  "race": "GOV-FL",
+  "pollster": "St. Pete Polls",
+  "date": "2026-10-07",
+  "d": 45,
+  "r": 45,
+  "margin": 0
+ },
+ {
+  "pid": "GOV-IA-1",
+  "race": "GOV-IA",
+  "pollster": "co/efficient",
+  "date": "2026-10-19",
+  "d": 49,
+  "r": 45,
+  "margin": 4
+ },
+ {
+  "pid": "GOV-IA-2",
+  "race": "GOV-IA",
+  "pollster": "Cook Political Report",
+  "date": "2026-10-13",
+  "d": 53,
+  "r": 43,
+  "margin": 10
+ },
+ {
+  "pid": "GOV-IA-3",
+  "race": "GOV-IA",
+  "pollster": "YouGov",
+  "date": "2026-10-12",
+  "d": 50,
+  "r": 44,
+  "margin": 6
+ },
+ {
+  "pid": "GOV-IA-4",
+  "race": "GOV-IA",
+  "pollster": "Marist",
+  "date": "2026-10-11",
+  "d": 52,
+  "r": 45,
+  "margin": 7
+ },
+ {
+  "pid": "SEN-TX-4",
+  "race": "SEN-TX",
+  "pollster": "Rasmussen Reports",
+  "date": "2026-10-21",
+  "d": 45,
+  "r": 45,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-TX-5",
+  "race": "SEN-TX",
+  "pollster": "CBS News",
+  "date": "2026-10-16",
+  "d": 51,
+  "r": 49,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-TX-6",
+  "race": "SEN-TX",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-14",
+  "d": 48,
+  "r": 49,
+  "margin": -1
+ },
+ {
+  "pid": "SEN-OH-3",
+  "race": "SEN-OH",
+  "pollster": "Marist",
+  "date": "2026-10-18",
+  "d": 48,
+  "r": 44,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-OH-4",
+  "race": "SEN-OH",
+  "pollster": "Rasmussen Reports",
+  "date": "2026-10-14",
+  "d": 47,
+  "r": 49,
+  "margin": -2
+ },
+ {
+  "pid": "SEN-OH-5",
+  "race": "SEN-OH",
+  "pollster": "Cook Political Report",
+  "date": "2026-10-13",
+  "d": 49,
+  "r": 43,
+  "margin": 6
+ },
+ {
+  "pid": "SEN-OH-6",
+  "race": "SEN-OH",
+  "pollster": "Bowling Green/YouGov",
+  "date": "2026-10-09",
+  "d": 48,
+  "r": 42,
+  "margin": 6
+ },
+ {
+  "pid": "SEN-ME-6",
+  "race": "SEN-ME",
+  "pollster": "Rasmussen Reports",
+  "date": "2026-10-08",
+  "d": 49,
+  "r": 47,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-NC-3",
+  "race": "SEN-NC",
+  "pollster": "Trafalgar Group",
+  "date": "2026-10-10",
+  "d": 49,
+  "r": 41,
+  "margin": 8
+ },
+ {
+  "pid": "SEN-NC-4",
+  "race": "SEN-NC",
+  "pollster": "Elon University",
+  "date": "2026-10-08",
+  "d": 52,
+  "r": 39,
+  "margin": 13
+ },
+ {
+  "pid": "SEN-NC-5",
+  "race": "SEN-NC",
+  "pollster": "Carolina Forward/Change Research",
+  "date": "2026-10-07",
+  "d": 50,
+  "r": 40,
+  "margin": 10
+ },
+ {
+  "pid": "SEN-NH-5",
+  "race": "SEN-NH",
+  "pollster": "Rasmussen Reports",
+  "date": "2026-10-04",
+  "d": 49,
+  "r": 44,
+  "margin": 5
+ },
+ {
+  "pid": "GOV-OH-1",
+  "race": "GOV-OH",
+  "pollster": "Marist",
+  "date": "2026-10-18",
+  "d": 50,
+  "r": 43,
+  "margin": 7
+ },
+ {
+  "pid": "GOV-OH-2",
+  "race": "GOV-OH",
+  "pollster": "Cook Political Report",
+  "date": "2026-10-13",
+  "d": 49,
+  "r": 44,
+  "margin": 5
+ },
+ {
+  "pid": "GOV-OH-3",
+  "race": "GOV-OH",
+  "pollster": "co/efficient",
+  "date": "2026-10-06",
+  "d": 43,
+  "r": 45,
+  "margin": -2
+ },
+ {
+  "pid": "GOV-GA-2",
+  "race": "GOV-GA",
+  "pollster": "Quantus Insights",
+  "date": "2026-10-17",
+  "d": 47,
+  "r": 48,
+  "margin": -1
+ },
+ {
+  "pid": "GOV-GA-3",
+  "race": "GOV-GA",
+  "pollster": "Atlanta Journal-Constitution",
+  "date": "2026-10-15",
+  "d": 45,
+  "r": 46,
+  "margin": -1
+ },
+ {
+  "pid": "GOV-KS-4",
+  "race": "GOV-KS",
+  "pollster": "YouGov",
+  "date": "2026-10-04",
+  "d": 44,
+  "r": 47,
+  "margin": -3
+ },
+ {
+  "pid": "GOV-KS-5",
+  "race": "GOV-KS",
+  "pollster": "NY Times/Siena",
+  "date": "2026-10-01",
+  "d": 44,
+  "r": 49,
+  "margin": -5
+ },
+ {
+  "pid": "GOV-MI-2",
+  "race": "GOV-MI",
+  "pollster": "YouGov",
+  "date": "2026-10-05",
+  "d": 48,
+  "r": 45,
+  "margin": 3
+ },
+ {
+  "pid": "GOV-MI-3",
+  "race": "GOV-MI",
+  "pollster": "Mitchell Research",
+  "date": "2026-10-01",
+  "d": 46,
+  "r": 39,
+  "margin": 7
+ },
+ {
+  "pid": "GOV-AZ-3",
+  "race": "GOV-AZ",
+  "pollster": "HighGround",
+  "date": "2026-10-08",
+  "d": 51,
+  "r": 34,
+  "margin": 17
+ },
+ {
+  "pid": "GOV-NH-1",
+  "race": "GOV-NH",
+  "pollster": "YouGov",
+  "date": "2026-10-05",
+  "d": 40,
+  "r": 49,
+  "margin": -9
+ },
+ {
+  "pid": "GOV-ME-3",
+  "race": "GOV-ME",
+  "pollster": "Washington Post",
+  "date": "2026-10-05",
+  "d": 49,
+  "r": 36,
+  "margin": 13
  }
 ]

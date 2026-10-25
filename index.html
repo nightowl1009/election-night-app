@@ -206,6 +206,10 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-tile .v { font-family: var(--font-anthropic-serif); font-weight:400; font-size: clamp(1.35rem, 5vw, var(--cds-font-size-title)); line-height:1.1; display:block; }
 .en-tile .l { font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.72); }
 .en-tile.r .v { color:#fca5a5 } .en-tile.d .v { color:#93c5fd } .en-tile.g .v { color: var(--en-gold) }
+.en-tile.odds { display:flex; flex-direction:column; gap:.15rem; }
+.en-tile.odds .t { margin-bottom:.2rem; color: rgba(255,255,255,.85); font-weight:600; }
+.en-tile.odds .or { display:flex; justify-content:space-between; align-items:baseline; gap:.5rem; font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.72); }
+.en-tile.odds .or b { font-family: var(--font-anthropic-serif); font-weight:400; font-size: 1.35rem; line-height:1.15; color:#93c5fd; }
 .en-strip-wrap { margin-top: var(--cds-gap-lg); }
 .en-strip-h { display:flex; justify-content:space-between; font-size: var(--cds-font-size-caption); color: rgba(255,255,255,.75); margin-bottom:.4rem; gap: var(--cds-gap-sm); flex-wrap: wrap; }
 .en-chambers { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-lg); }
@@ -1393,9 +1397,17 @@ dash.calc('senate_base', {
     const box = $('#en-tiles'), d = dash.data('overview');
     if (d.status !== 'ok') return fail(box, d.status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const cls = { senate_r_now: 'r', senate_d_now: 'd', dems_need: 'g', ddhq_senate: 'd', kalshi_senate: 'd', kalshi_house: 'd', cook_house_tossups: 'g', vp_party: 'r' };
-    const TOP = ['dems_need', 'ddhq_senate', 'kalshi_senate', 'kalshi_house'];
-    d.data.filter(o => TOP.includes(o.key)).sort((a, b) => TOP.indexOf(a.key) - TOP.indexOf(b.key)).forEach(o => {
+    const get = (k) => d.data.find(o => o.key === k);
+    // Control odds side by side from each source (prediction markets + a forecast model)
+    [['Dem Senate odds', [['kalshi_senate', 'Kalshi'], ['polymarket_senate', 'Polymarket'], ['ddhq_senate', 'DDHQ']]],
+     ['Dem House odds', [['kalshi_house', 'Kalshi'], ['polymarket_house', 'Polymarket'], ['ddhq_house', 'DDHQ']]]].forEach(([title, srcs]) => {
+      const rows = srcs.filter(([k]) => get(k)); if (!rows.length) return;
+      const t = el('div', 'en-tile d odds'); t.append(el('span', 'l t', title));
+      rows.forEach(([k, nm]) => { const o = get(k); const r = el('span', 'or'); r.title = o.source || ''; r.append(el('span', 'on', nm), mk('b', '', 'overview', 'display', 'key', k, o.display)); t.append(r); });
+      box.append(t);
+    });
+    const cls = { dems_need: 'g', cook_house_tossups: 'g' };
+    ['dems_need', 'cook_house_tossups'].map(get).filter(Boolean).forEach(o => {
       const t = el('div', 'en-tile ' + (cls[o.key] || ''));
       t.append(mk('span', 'v', 'overview', 'display', 'key', o.key, o.display), mk('span', 'l', 'overview', 'label', 'key', o.key, o.label));
       box.append(t);

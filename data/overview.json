@@ -23,22 +23,22 @@
  {
   "key": "ddhq_senate",
   "label": "Dem Senate odds · DDHQ",
-  "value": 0.56,
-  "display": "56%",
-  "source": "Decision Desk HQ, Oct 21"
+  "value": 0.57,
+  "display": "57%",
+  "source": "DDHQ forecast, Oct 23"
  },
  {
   "key": "kalshi_senate",
   "label": "Dem Senate odds · Kalshi",
-  "value": 0.66,
-  "display": "66%",
+  "value": 0.65,
+  "display": "65%",
   "source": "Kalshi, Oct 24"
  },
  {
   "key": "kalshi_house",
   "label": "Dem House odds · Kalshi",
-  "value": 0.9,
-  "display": "90%",
+  "value": 0.91,
+  "display": "91%",
   "source": "Kalshi, Oct 24"
  },
  {
@@ -117,5 +117,26 @@
   "value": 2,
   "display": "2",
   "source": "House Press Gallery party breakdown (page updated Sep 2, 2026)"
+ },
+ {
+  "key": "ddhq_house",
+  "label": "Dem House odds · DDHQ",
+  "value": 0.79,
+  "display": "79%",
+  "source": "DDHQ forecast, Oct 23"
+ },
+ {
+  "key": "polymarket_senate",
+  "label": "Dem Senate odds · Polymarket",
+  "value": 0.675,
+  "display": "68%",
+  "source": "Polymarket, Oct 24"
+ },
+ {
+  "key": "polymarket_house",
+  "label": "Dem House odds · Polymarket",
+  "value": 0.915,
+  "display": "92%",
+  "source": "Polymarket, Oct 24"
  }
 ]
