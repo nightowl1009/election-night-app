@@ -16,5 +16,17 @@
   "date": "2026-10-24",
   "tab": "",
   "text": "New: race calls now pop up live while the app is open, and the game shows a season finale once every race is called."
+ },
+ {
+  "cid": "c4",
+  "date": "2026-10-24",
+  "tab": "night",
+  "text": "New: \ud83d\udcfa TV mode on the Election night tab \u2014 a big-screen view for watch parties that rotates seat counts, the latest calls, the next poll closing and your group's leaderboard."
+ },
+ {
+  "cid": "c5",
+  "date": "2026-10-24",
+  "tab": "",
+  "text": "New in the Prediction Game: QR-code and one-tap invite links for groups, report and block in chat, a chat filter, and Account \u2192 Delete my account."
  }
 ]

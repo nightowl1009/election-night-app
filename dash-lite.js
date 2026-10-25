@@ -47,6 +47,7 @@
       const m = await (await fetch('data/meta.json', { cache: 'no-cache' })).json();
       const el = document.getElementById('app-updated');
       if (el && m.updated) el.textContent = 'Data updated ' + new Date(m.updated).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+      if (m.updated) { window.__enMetaAt = Date.parse(m.updated); fresh(); }
     } catch (e) { /* optional */ }
   }
 
@@ -92,6 +93,20 @@
     simClear() { Object.keys(sim).forEach(k => delete sim[k]); notify(); },
     colors: ['#3b82f6', '#ef4444', '#fbbf24', '#a855f7', '#10b981', '#f97316', '#06b6d4', '#ec4899']
   };
+
+  // Election night: a small "results updated X min ago" badge that turns amber, then red, if updates stall
+  // (updates are scheduled every ~15 minutes from 5:45 PM to 2:15 AM CT).
+  function fresh() {
+    const now = Date.now(), on = now >= Date.UTC(2026, 10, 3, 23, 30) && now < Date.UTC(2026, 10, 4, 9, 0) && !window.__simOn;
+    let b = document.getElementById('en-fresh');
+    if (!on || !window.__enMetaAt) { if (b) b.remove(); return; }
+    if (!b) { b = document.createElement('div'); b.id = 'en-fresh'; b.setAttribute('role', 'status'); document.body.append(b); }
+    const mins = Math.max(0, Math.round((now - window.__enMetaAt) / 60000));
+    b.className = mins >= 45 ? 'bad' : mins >= 25 ? 'warn' : '';
+    b.textContent = (mins >= 25 ? '⚠ ' : '● ') + 'Results updated ' + (mins < 1 ? 'just now' : mins + ' min ago') + (mins >= 45 ? ' — updates may be stuck' : mins >= 25 ? ' — running behind' : '');
+  }
+  setInterval(fresh, 30000);
+  window.__enFresh = fresh;
 
   loadAll();
   // every 2 minutes; every minute on election night (Nov 3, 5 PM CT – Nov 4, 6 AM CT)

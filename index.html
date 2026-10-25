@@ -115,8 +115,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792899653"></script>
-<link rel="stylesheet" href="pool.css?v=1792899653">
+<script src="dash-lite.js?v=1792901270"></script>
+<link rel="stylesheet" href="pool.css?v=1792901270">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -494,6 +494,49 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 .en-local-links { display:flex; flex-wrap:wrap; gap:.4rem; margin-top: var(--cds-gap-md); }
 .en-local-links a { display:inline-flex; padding:.4rem .75rem; border-radius:999px; border:1px solid var(--color-border-line); color: var(--color-fg); text-decoration:none; font-weight:600; font-size: var(--cds-font-size-caption); }
 @media (max-width: 30rem) { .en-lrow { grid-template-columns: 1fr; } .en-lrow .rs { text-align:left; } }
+
+/* How the night unfolded */
+.en-recap { margin-top: var(--cds-gap-xl); }
+.en-recap[hidden] { display:none; }
+.en-recap-list { display:flex; flex-direction:column; border:1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-panel); max-height: 34rem; overflow-y:auto; }
+.en-rc { display:grid; grid-template-columns: 4.6rem 10px 1fr; gap:.6rem; align-items:center; padding:.55rem var(--cds-pad-lg); border-top:1px solid var(--color-border-line); font-size: var(--cds-font-size-body); }
+.en-rc:first-child { border-top:0; }
+.en-rc time { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); font-variant-numeric: tabular-nums; }
+.en-rc i { width:10px; height:10px; border-radius:50%; background:#9ca3af; }
+.en-rc i.d { background: var(--en-blue); } .en-rc i.r { background: var(--en-red); } .en-rc i.i { background: var(--en-purple); } .en-rc i.y { background:#0d9488; } .en-rc i.n { background:#ea580c; }
+.en-rc.mile { background: rgba(251,191,36,.12); font-weight: var(--cds-font-weight-medium); }
+.en-rc.mile i { background: var(--en-gold); box-shadow: 0 0 0 3px rgba(251,191,36,.3); }
+/* TV / watch-party mode */
+.en-tv-open { flex:none; }
+.en-tv { --en-gold:#fbbf24; --en-blue:#3b82f6; --en-red:#ef4444; --en-purple:#a855f7; position:fixed; inset:0; z-index:200; background: radial-gradient(100% 120% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(100% 120% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; color:#fff; display:flex; flex-direction:column; padding: max(2.5vh, 14px) max(3vw, 16px); font-family: var(--font-anthropic-sans, system-ui); cursor:pointer; }
+.en-tv-top { display:flex; justify-content:space-between; align-items:center; gap:1rem; font-size: clamp(12px, 1.6vw, 22px); letter-spacing:.12em; text-transform:uppercase; color: var(--en-gold); font-weight:700; }
+.en-tv-top .r { display:flex; align-items:center; gap:1rem; color: rgba(255,255,255,.75); letter-spacing:.04em; text-transform:none; font-weight:500; }
+.en-tv-x { appearance:none; border:1px solid rgba(255,255,255,.3); background: rgba(255,255,255,.08); color:#fff; border-radius:999px; padding:.35em .9em; font: inherit; cursor:pointer; }
+.en-tv-stage { flex:1; display:flex; align-items:center; justify-content:center; min-height:0; animation: en-tvin .6s ease both; }
+@keyframes en-tvin { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform:none; } }
+.en-tv-dots { display:flex; justify-content:center; gap:.5rem; } .en-tv-dots i { width:10px; height:10px; border-radius:50%; background: rgba(255,255,255,.25); } .en-tv-dots i.on { background: var(--en-gold); }
+.en-tv h2 { margin:0 0 .4em; font-family: var(--font-anthropic-serif, Georgia); font-weight:400; font-size: clamp(26px, 4.4vw, 64px); text-align:center; }
+.tv-ch { display:grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 4vw, 70px); width:100%; max-width: 1400px; }
+.tv-ch > div { text-align:center; }
+.tv-ch h3 { margin:0 0 .2em; font-size: clamp(18px, 2.6vw, 38px); letter-spacing:.1em; text-transform:uppercase; color: rgba(255,255,255,.8); }
+.tv-nums { display:flex; justify-content:center; align-items:baseline; gap: .4em; font-family: var(--font-anthropic-serif, Georgia); font-size: clamp(56px, 11vw, 190px); line-height:1; }
+.tv-nums .d { color:#60a5fa; } .tv-nums .r { color:#f87171; } .tv-nums small { font-size:.3em; color: rgba(255,255,255,.5); }
+.tv-bar { height: clamp(10px, 1.4vw, 20px); border-radius:999px; overflow:hidden; display:flex; margin: .6em 0 .4em; background: rgba(255,255,255,.12); position:relative; }
+.tv-bar b { background:#3b82f6; } .tv-bar u { background:#ef4444; margin-left:auto; } .tv-bar em { position:absolute; top:-4px; bottom:-4px; width:3px; background:#fff; }
+.tv-ch p { margin:0; font-size: clamp(14px, 1.8vw, 26px); color: rgba(255,255,255,.75); }
+.tv-ch p.win { color: var(--en-gold); font-weight:700; }
+.tv-list { width:100%; max-width: 1100px; display:flex; flex-direction:column; gap: clamp(6px, 1.2vh, 14px); }
+.tv-list div { display:flex; align-items:center; gap: .7em; font-size: clamp(18px, 2.8vw, 42px); background: rgba(255,255,255,.06); border-radius: 14px; padding: .35em .7em; border-left: 8px solid #9ca3af; }
+.tv-list div.d { border-color:#3b82f6; } .tv-list div.r { border-color:#ef4444; } .tv-list div.i { border-color:#a855f7; } .tv-list div.y { border-color:#0d9488; } .tv-list div.n { border-color:#ea580c; }
+.tv-list time { font-size:.6em; color: rgba(255,255,255,.6); min-width: 5.5em; }
+.tv-list small { margin-left:auto; font-size:.6em; color: rgba(255,255,255,.65); white-space:nowrap; }
+.tv-next { text-align:center; } .tv-next .big { font-family: var(--font-anthropic-serif, Georgia); font-size: clamp(60px, 12vw, 200px); line-height:1; color: var(--en-gold); font-variant-numeric: tabular-nums; }
+.tv-next p { font-size: clamp(16px, 2.4vw, 36px); margin:.3em auto 0; max-width: 1100px; color: rgba(255,255,255,.85); }
+.tv-next p.watch { font-size: clamp(14px, 1.8vw, 26px); color: rgba(255,255,255,.65); }
+.tv-board { width:100%; max-width: 900px; } .tv-rank { display:grid; grid-template-columns: 1.4em 1fr auto; gap:.6em; align-items:baseline; font-size: clamp(22px, 3.6vw, 54px); padding: .2em .4em; border-bottom:1px solid rgba(255,255,255,.12); }
+.tv-rank span { color: var(--en-gold); font-weight:700; } .tv-rank i { font-style:normal; color: rgba(255,255,255,.8); }
+.en-tv .tv-empty { font-size: clamp(18px, 2.6vw, 38px); color: rgba(255,255,255,.7); text-align:center; }
+@media (max-width: 40rem) and (orientation: portrait) { .tv-ch { grid-template-columns: 1fr; } }
 .en-times { display:flex; flex-direction:column; gap: var(--cds-gap-sm); min-height: 12rem; position: relative; }
 .en-time { display:grid; grid-template-columns: 7.5rem 1fr; gap: var(--cds-gap-md); background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); position:relative; }
 .en-time.done { opacity:.6; }
@@ -954,7 +997,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
     </section>
 
     <section id="night" class="en-panel" hidden>
-      <div class="en-sec-h"><div><h2>Election night game plan</h2><p>Typical closing time for most of each state · Chips light up red when counting starts and fill in when a race is called · Tap “What to watch” on any wave</p></div></div>
+      <div class="en-sec-h"><div><h2>Election night game plan</h2><p>Typical closing time for most of each state · Chips light up red when counting starts and fill in when a race is called · Tap “What to watch” on any wave</p></div><button class="en-chip en-tv-open" id="tv-open" type="button">📺 TV mode</button></div>
       <div class="en-gintro">
         <h3>Before you watch</h3>
         <ul>
@@ -966,6 +1009,10 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
       </div>
       <div class="en-times dash-skeleton" id="en-times" data-source="pollclose results"></div>
       <p class="en-gsrc">Counting facts: <a href="https://votingrightslab.org/2026/10/21/verified-election-results-are-worth-the-wait/" target="_blank" rel="noopener">Voting Rights Lab (Oct 21, 2026)</a> · <a href="https://www.factcheck.org/2024/11/election-night-expectations/" target="_blank" rel="noopener">FactCheck.org (2024)</a> · <a href="https://www.votebeat.org/arizona/2026/07/21/primary-2026-election-results-timing-congress-governor/" target="_blank" rel="noopener">Votebeat Arizona</a> · <a href="https://www.kunr.org/local-stories/2026-06-29/mail-ballots-in-nevada-can-continue-to-be-counted-after-election-day" target="_blank" rel="noopener">KUNR (Nevada)</a> · <a href="https://www.newsfromthestates.com/article/outcome-maines-us-senate-race-may-not-be-known-weeks-heres-why" target="_blank" rel="noopener">Maine Morning Star</a> · <a href="https://alaskapublic.org/news/politics/elections/2026-10-05/what-to-know-about-alaskas-general-election" target="_blank" rel="noopener">Alaska Public Media</a> · <a href="https://en.wikipedia.org/wiki/2026_Georgia_state_elections" target="_blank" rel="noopener">Georgia runoff date</a></p>
+      <div class="en-recap" id="en-recap" data-source="results senate house overview" hidden>
+        <div class="en-sec-h"><div><h2>How the night unfolded</h2><p>Every call in order, newest first · Gold rows mark when a chamber was clinched on this page’s count (seats not listed here assumed safe for the party holding them)</p></div></div>
+        <div class="en-recap-list" id="en-recap-list"></div>
+      </div>
       <div class="en-score" id="en-score" data-source="senate governor house results" hidden>
         <div class="en-sec-h"><div><h2>How did the polls do?</h2><p>Final polling average and Kalshi favorite vs. the called result · Fills in as races are called</p></div></div>
         <div class="en-score-sum" id="en-score-sum"></div>
@@ -2296,6 +2343,143 @@ dash.calc('senate_base', {
     box.append(el('p', 'en-vsrc', 'Top ' + states.length + ' states by ballots cast. Party = voters\u2019 party registration where the state publishes it, not how they voted. Early votes lean differently by state and year, so they don\u2019t predict the result.'));
   }
 
+
+  // ---------- shared: race names and chamber math ----------
+  function raceLabel(key) {
+    const id = key.replace(/^(SEN|GOV|HOU|MO)-/, '');
+    if (key.startsWith('SEN-')) { const r = (okRows('senate') || []).find(x => x.id === id); return (r ? r.state : id) + ' Senate'; }
+    if (key.startsWith('GOV-')) { const r = (okRows('governor') || []).find(x => x.id === id); return (r ? r.state : id) + ' governor'; }
+    if (key.startsWith('HOU-')) return id + ' (House)';
+    const lt = localTitle(key); if (lt) return lt.replace(/\?$/, '');
+    if (key === 'MO-AUD') return 'Missouri State Auditor';
+    const m = (okRows('missouri') || []).find(x => 'MO-' + x.id === key); return 'Missouri ' + (m ? m.title : id);
+  }
+  function callLine(x) {
+    const w = String(x.winner), p = x.winner_party;
+    if (/^(Passes|Fails)$/.test(w)) return raceLabel(x.race) + ' ' + w.toLowerCase();
+    if (/retain/i.test(w)) return raceLabel(x.race) + ': ' + w.toLowerCase();
+    return w + (p && 'DRI'.includes(p) ? ' (' + p + ')' : '') + ' wins ' + raceLabel(x.race);
+  }
+  const callCls = (p) => p === 'R' ? 'r' : p === 'I' ? 'i' : p === 'Y' ? 'y' : p === 'N' ? 'n' : 'd';
+  const ctTime = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
+  // Seat counts after a set of calls, plus whether a chamber is clinched: the leader keeps a majority
+  // even if every uncalled race on this page goes the other way (seats not listed stay with their party).
+  function chamberState(calls) {
+    const ov = okRows('overview') || [], val = (k) => Number((ov.find(o => o.key === k) || {}).value) || 0;
+    const sen = okRows('senate') || [], hs = okRows('house') || [];
+    let sD = val('senate_d_now'), sR = val('senate_r_now'), uD = 0, uR = 0;
+    sen.forEach(r => { const c = calls.get('SEN-' + r.id); if (c) { const to = c.winner_party === 'R' ? 'R' : 'D'; if (to !== r.held) { if (to === 'D') { sD++; sR--; } else { sR++; sD--; } } } else if (r.held === 'R') uR++; else uD++; });
+    let hD = val('house_d_now'), hR = val('house_r_now'), hD0 = 0, hR0 = 0;
+    hs.forEach(r => { const vac = /^vacant/i.test(r.incumbent || ''), c = calls.get('HOU-' + r.id);
+      if (c) { const to = c.winner_party === 'R' ? 'R' : 'D', from = vac ? 'V' : r.held; if (to !== from) { if (to === 'D') hD++; else hR++; if (from === 'D') hD--; else if (from === 'R') hR--; } }
+      else if (!vac) { if (r.held === 'R') hR0++; else hD0++; } });
+    return { sD, sR, hD, hR, okS: sD + sR > 0, okH: hD + hR > 0, senD: sD - uD >= 51, senR: sR - uR >= 50, houD: hD - hD0 >= 218, houR: hR - hR0 >= 218 };
+  }
+  const calledRows = () => (okRows('results') || []).filter(r => r.winner_party && r.called_at).sort((a, b) => String(a.called_at).localeCompare(String(b.called_at)));
+
+  // ---------- How the night unfolded ----------
+  function renderRecap() {
+    const wrap = $('#en-recap'), list = $('#en-recap-list'); if (!wrap || !list) return;
+    const rows = calledRows(); wrap.hidden = !rows.length; if (!rows.length) return;
+    const calls = new Map(); let prev = chamberState(calls); const items = [];
+    const MILES = [['senD', 'Democrats clinch the Senate on this page’s count', 'd'], ['senR', 'Republicans clinch the Senate on this page’s count', 'r'], ['houD', 'Democrats clinch the House on this page’s count', 'd'], ['houR', 'Republicans clinch the House on this page’s count', 'r']];
+    rows.forEach(x => {
+      calls.set(x.race, x); const st = chamberState(calls);
+      items.push({ at: x.called_at, cls: callCls(x.winner_party), text: callLine(x), race: x.race });
+      MILES.forEach(([k, t, c]) => { if (st[k] && !prev[k] && (k.startsWith('sen') ? st.okS : st.okH)) items.push({ at: x.called_at, cls: c, text: '★ ' + t + ' — ' + (k.startsWith('sen') ? st.sD + ' D/I · ' + st.sR + ' R' : st.hD + ' D · ' + st.hR + ' R'), mile: true }); });
+      prev = st;
+    });
+    list.replaceChildren();
+    items.reverse().forEach(it => {
+      const row = el('div', 'en-rc' + (it.mile ? ' mile' : ''));
+      const t = el('time', '', ctTime.format(new Date(it.at)) + ' CT'); const dot = el('i', it.mile ? '' : it.cls);
+      const tx = el('span', ''); if (it.race) tx.append(mk('span', '', 'results', 'winner', 'race', it.race, it.text)); else tx.textContent = it.text;
+      row.append(t, dot, tx); list.append(row);
+    });
+  }
+
+  // ---------- TV / watch-party mode ----------
+  let tv = null;
+  function tvSlides() {
+    const S = [];
+    S.push(() => {   // chambers
+      const st = chamberState(new Map(calledRows().map(x => [x.race, x])));
+      if (!st.okS && !st.okH) return null;
+      const box = el('div', 'tv-ch');
+      const side = (title, d, r, maj, total, dl, rl, wd, wr) => {
+        const c = el('div', ''); c.append(el('h3', '', title));
+        const n = el('div', 'tv-nums'); n.append(el('span', 'd', String(d)), el('small', '', '–'), el('span', 'r', String(r))); c.append(n);
+        const bar = el('div', 'tv-bar'); const b1 = el('b'), b2 = el('u'), m = el('em'); b1.style.width = (d / total * 100) + '%'; b2.style.width = (r / total * 100) + '%'; m.style.left = (maj / total * 100) + '%'; bar.append(b1, b2, m); c.append(bar);
+        c.append(wd ? el('p', 'win', dl + ' clinch control') : wr ? el('p', 'win', rl + ' clinch control') : el('p', '', maj + ' for control · ' + dl + ' left, ' + rl + ' right'));
+        return c;
+      };
+      if (st.okS) box.append(side('Senate', st.sD, st.sR, 51, 100, 'Dem + Ind', 'GOP', st.senD, st.senR));
+      if (st.okH) box.append(side('House', st.hD, st.hR, 218, 435, 'Dems', 'GOP', st.houD, st.houR));
+      const w = el('div', ''); w.style.width = '100%'; w.append(el('h2', '', 'Seats right now'), box); return w;
+    });
+    S.push(() => {   // latest calls
+      const rows = calledRows().slice(-6).reverse(); const w = el('div', ''); w.style.width = '100%'; w.style.display = 'flex'; w.style.flexDirection = 'column'; w.style.alignItems = 'center';
+      w.append(el('h2', '', 'Latest calls'));
+      if (!rows.length) { w.append(el('p', 'tv-empty', 'No races called yet — first polls close at 5 PM CT.')); return w; }
+      const l = el('div', 'tv-list'); rows.forEach(x => { const d = el('div', callCls(x.winner_party)); d.append(el('time', '', ctTime.format(new Date(x.called_at))), el('span', '', callLine(x))); if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) d.append(el('small', '', fmt(x.d_pct) + '–' + fmt(x.r_pct))); l.append(d); }); w.append(l); return w;
+    });
+    S.push(() => {   // next closing, or what's still counting
+      const now = window.__simNow ? new Date(window.__simNow()) : new Date();
+      const next = (closeRows || []).find(c => new Date(c.close_utc) > now);
+      const w = el('div', 'tv-next');
+      if (next) {
+        const ms = new Date(next.close_utc) - now, h = Math.floor(ms / 36e5), m = Math.floor(ms / 6e4) % 60, sec = Math.floor(ms / 1e3) % 60;
+        w.append(el('h2', '', 'Next polls close ' + next.close_ct + ' CT'), el('div', 'big', (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(sec).padStart(2, '0')), el('p', '', next.states));
+        if (next.guide) w.append(el('p', 'watch', next.guide));
+        w.dataset.tick = '1'; return w;
+      }
+      const live = (okRows('results') || []).filter(x => !x.winner_party && Number(x.reporting) > 0 && x.d_pct != null && x.r_pct != null).sort((a, b) => Math.abs(a.d_pct - a.r_pct) - Math.abs(b.d_pct - b.r_pct)).slice(0, 6);
+      w.append(el('h2', '', 'Closest races still counting'));
+      if (!live.length) { w.append(el('p', 'tv-empty', 'All polls have closed.')); return w; }
+      const l = el('div', 'tv-list'); live.forEach(x => { const lead = x.d_pct >= x.r_pct ? 'd' : 'r', d = el('div', lead); d.append(el('span', '', raceLabel(x.race)), el('small', '', fmt(x.d_pct) + '–' + fmt(x.r_pct) + ' · ' + fmt(x.reporting) + '% in')); l.append(d); }); w.append(l); return w;
+    });
+    (window.enTvSlides || []).forEach(f => S.push(f));
+    return S;
+  }
+  function tvShow() {
+    if (!tv) return;
+    const S = tvSlides(); let made = null, tries = 0;
+    while (!made && tries < S.length) { tv.i = (tv.i + 1) % S.length; try { made = S[tv.i](); } catch (e) { console.error(e); } tries++; }
+    tv.stage.replaceChildren(); tv.stage.style.animation = 'none'; void tv.stage.offsetWidth; tv.stage.style.animation = '';
+    if (made) tv.stage.append(made);
+    tv.dots.replaceChildren(); S.forEach((_, k) => tv.dots.append(el('i', k === tv.i ? 'on' : '')));
+  }
+  function tvClock() {
+    if (!tv) return;
+    const now = window.__simNow ? new Date(window.__simNow()) : new Date();
+    tv.clock.textContent = ctTime.format(now) + ' CT';
+    const u = window.__enMetaAt; if (window.__simOn) tv.fresh.textContent = 'Practice run'; else if (u) { const mins = Math.round((Date.now() - u) / 6e4); tv.fresh.textContent = 'Results updated ' + (mins < 1 ? 'just now' : mins + ' min ago'); }
+    const tick = tv.stage.querySelector('[data-tick]'); if (tick) { const S = tvSlides(); const made = S[tv.i] && S[tv.i](); if (made) tv.stage.replaceChildren(made); }
+  }
+  async function tvOpen() {
+    if (tv) return;
+    const o = el('div', 'en-tv'); o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', 'TV mode');
+    const top = el('div', 'en-tv-top'); const r = el('div', 'r'); const clock = el('span', ''), fresh = el('span', '');
+    const x = el('button', 'en-tv-x', 'Exit TV mode'); x.type = 'button'; r.append(fresh, clock, x); top.append(el('span', '', 'Election Night 2026'), r);
+    const stage = el('div', 'en-tv-stage'), dots = el('div', 'en-tv-dots'); o.append(top, stage, dots); document.body.append(o);
+    tv = { o, stage, dots, clock, fresh, i: -1 };
+    x.addEventListener('click', (e) => { e.stopPropagation(); tvClose(); });
+    o.addEventListener('click', () => { tvShow(); clearInterval(tv.rot); tv.rot = setInterval(tvShow, 12000); });
+    tv.key = (e) => { if (e.key === 'Escape') tvClose(); if (e.key === 'ArrowRight' || e.key === ' ') tvShow(); };
+    document.addEventListener('keydown', tv.key);
+    tvShow(); tvClock(); tv.rot = setInterval(tvShow, 12000); tv.clk = setInterval(tvClock, 1000);
+    try { if (o.requestFullscreen) await o.requestFullscreen(); } catch (e) {}
+    try { if (navigator.wakeLock) tv.lock = await navigator.wakeLock.request('screen'); } catch (e) {}
+  }
+  function tvClose() {
+    if (!tv) return; clearInterval(tv.rot); clearInterval(tv.clk); document.removeEventListener('keydown', tv.key);
+    try { if (tv.lock) tv.lock.release(); } catch (e) {}
+    try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
+    tv.o.remove(); tv = null;
+  }
+  document.addEventListener('fullscreenchange', () => { if (tv && !document.fullscreenElement && tv.wasFull) tvClose(); if (tv && document.fullscreenElement) tv.wasFull = true; });
+  { const b = document.getElementById('tv-open'); if (b) b.addEventListener('click', tvOpen); }
+
   // Cooper County ballot (Missouri tab)
   function renderLocal() {
     const box = $('#mo-local'), d = dash.data('local');
@@ -2353,7 +2537,7 @@ dash.calc('senate_base', {
   function redraw() {
     buildCtx();
     renderBreaking(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
-    renderTimes(); tick(); renderScorecard(); renderChanges();
+    renderTimes(); tick(); renderScorecard(); renderChanges(); renderRecap();
     if (!$('#senate').hidden) renderMap('#sen-map', 'senate');
     if (!$('#governors').hidden) renderMap('#gov-map', 'governor');
     if (!$('#senate').hidden) renderRaces('#sen-grid', 'senate', 'senate_margins', senFilter === 'all' ? null : (r) => r.held === senFilter);
@@ -2397,8 +2581,8 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792899653"></script>
-<script src="pool.js?v=1792899653"></script>
-<script src="sim.js?v=1792899653"></script>
+<script src="pool-config.js?v=1792901270"></script>
+<script src="pool.js?v=1792901270"></script>
+<script src="sim.js?v=1792901270"></script>
 </body>
 </html>

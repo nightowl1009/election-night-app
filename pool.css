@@ -193,3 +193,32 @@ html.sim-on .en-tile, html.sim-on #en-count { outline: 1px dashed rgba(251,191,3
 .pl-prow .pk.d { color:#2563eb; background: rgba(59,130,246,.10); } .pl-prow .pk.r { color:#dc2626; background: rgba(239,68,68,.10); } .pl-prow .pk.i { color:#9333ea; background: rgba(168,85,247,.10); }
 .pl-prow .pk.ok { outline: 2px solid #16a34a; font-weight:700; } .pl-prow .pk.no { text-decoration: line-through; opacity:.55; }
 .pl-pgrp { font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color: var(--en-gold, #b45309); margin-top:.5rem; }
+
+/* chat safety + account */
+.pl-topbtns { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:flex-end; }
+.pl-more { appearance:none; border:0; background:none; color:inherit; opacity:.55; cursor:pointer; padding:0 .2rem; margin-left:auto; font-size:.9rem; }
+.pl-acts { display:flex; gap:.4rem; margin-top:.35rem; }
+.pl-acts button { appearance:none; border:1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); border-radius:999px; padding:.2rem .6rem; font: inherit; font-size:.72rem; font-weight:600; cursor:pointer; }
+.pl-rules ul, .pl-pv ul { margin:.3rem 0 .8rem; padding-left:1.1rem; display:flex; flex-direction:column; gap:.3rem; font-size:.85rem; line-height:1.45; }
+.pl-link { appearance:none; border:0; background:none; color:#2563eb; font: inherit; font-weight:600; font-size:.82rem; cursor:pointer; padding:.4rem .2rem; text-decoration: underline; }
+#pl-privacy-link { display:block; margin: -1rem auto 1rem; }
+.pl-danger { border-color: rgba(239,68,68,.5) !important; }
+.pl-btn.danger { background:#dc2626; border-color:#dc2626; color:#fff; }
+.pl-card textarea { width:100%; box-sizing:border-box; font: inherit; padding:.55rem .7rem; border-radius:10px; border:1px solid var(--color-border-line); background: var(--color-bg); color: var(--color-fg); resize: vertical; }
+.pl-report p { margin:.3rem 0 !important; } .pl-report small { display:block; color: var(--color-fg-muted); font-size:.72rem; }
+.pl-invite { border: 1.5px solid var(--en-gold, #fbbf24) !important; }
+.pl-leads { display:flex; flex-direction:column; gap:.2rem; padding:.6rem .75rem; margin:.5rem 0; border-radius:10px; background: rgba(127,127,127,.08); }
+.pl-leads b { font-size:.82rem; } .pl-leads small { font-size:.74rem; color: var(--color-fg-muted); }
+.pl-modal { position:fixed; inset:0; z-index:120; background: rgba(5,8,20,.6); display:flex; align-items:flex-end; justify-content:center; padding: 0; }
+.pl-modal-in { position:relative; width:min(100%, 34rem); max-height: 88vh; overflow:auto; background: var(--color-bg, #fff); color: var(--color-fg); border-radius: 18px 18px 0 0; padding: 1.2rem 1.1rem calc(env(safe-area-inset-bottom) + 1.2rem); box-shadow: 0 -10px 40px rgba(0,0,0,.35); }
+@media (min-width: 40rem) { .pl-modal { align-items:center; } .pl-modal-in { border-radius:18px; } }
+.pl-modal-in h3 { margin:0 2rem .4rem 0; } .pl-pv h4 { margin:.6rem 0 0; font-size:.9rem; }
+.pl-modal-x { position:absolute; top:.6rem; right:.6rem; appearance:none; border:0; background: rgba(127,127,127,.15); color: inherit; width:2rem; height:2rem; border-radius:999px; cursor:pointer; font-size:.9rem; }
+.pl-qr { display:flex; justify-content:center; padding: .8rem; background:#fff; border-radius:14px; width: max-content; margin: .6rem auto; }
+.pl-qr svg, .pl-qr img { display:block; }
+.pl-qr-code { text-align:center; font-weight:800; letter-spacing:.3em; font-size:1.6rem; }
+
+/* election-night data freshness badge */
+#en-fresh { position:fixed; left: max(10px, env(safe-area-inset-left)); bottom: calc(env(safe-area-inset-bottom) + 10px); z-index:65; font-size:.72rem; font-weight:600; padding:.35rem .65rem; border-radius:999px; background: rgba(11,16,32,.88); color:#bbf7d0; border:1px solid rgba(255,255,255,.15); pointer-events:none; }
+#en-fresh.warn { color:#fde68a; border-color: rgba(251,191,36,.6); }
+#en-fresh.bad { color:#fecaca; border-color: rgba(239,68,68,.8); background: rgba(69,10,10,.92); }

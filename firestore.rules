@@ -10,12 +10,14 @@ service cloud.firestore {
     function beforeLock() { return request.time < timestamp.value(1793746800000); }
     function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
     function cleanName(n) { return n is string && n.size() > 0 && n.size() <= 40; }
-    // A chat message: right shape, your own uid, your saved name, 1–500 characters, stamped with the
-    // current time, at least 3 seconds after your last message (written in the same batch)
+    function banned() { return exists(/databases/$(database)/documents/banned/$(request.auth.uid)); }
+    // A chat message: you agreed to the chat rules and aren't banned; right shape, your own uid, your saved
+    // name, 1–500 characters, stamped with the current time, at least 3 seconds after your last message
     function goodMessage() {
       let m = request.resource.data;
       let before = me();
-      return m.keys().hasOnly(['uid', 'name', 'text', 'at'])
+      return ('agreed' in before) && !banned()
+        && m.keys().hasOnly(['uid', 'name', 'text', 'at'])
         && m.uid == request.auth.uid
         && m.name == before.name
         && m.text is string && m.text.size() > 0 && m.text.size() <= 500
@@ -25,11 +27,14 @@ service cloud.firestore {
         && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.lastChat == m.at;
     }
 
-    // Your profile is private to you (name, your group codes, pick count, last chat time)
+    // Your profile is private to you (name, group codes, pick count, last chat time, blocked players, when you agreed to the chat rules)
     match /users/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;
+      allow delete: if signedIn() && request.auth.uid == uid;
       allow create, update: if signedIn() && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['name', 'groups', 'pickCount', 'lastChat'])
+        && request.resource.data.keys().hasOnly(['name', 'groups', 'pickCount', 'lastChat', 'blocked', 'agreed'])
+        && (!('blocked' in request.resource.data) || (request.resource.data.blocked is list && request.resource.data.blocked.size() <= 300))
+        && (!('agreed' in request.resource.data) || request.resource.data.agreed is int)
         && (!('name' in request.resource.data) || cleanName(request.resource.data.name))
         && (!('groups' in request.resource.data) || (request.resource.data.groups is list && request.resource.data.groups.size() <= 20))
         && (!('pickCount' in request.resource.data) || request.resource.data.pickCount is int)
@@ -41,6 +46,7 @@ service cloud.firestore {
       allow read: if signedIn() && (request.auth.uid == uid || !beforeLock());
       allow create, update: if verified() && request.auth.uid == uid && beforeLock()
         && request.resource.data.keys().hasOnly(['picks', 'seats', 'updated', 'lock', 'side']);
+      allow delete: if signedIn() && request.auth.uid == uid;
     }
 
     // Groups: look one up by its code; nobody can list them all
@@ -74,6 +80,22 @@ service cloud.firestore {
       allow read: if signedIn();
       allow create: if verified() && goodMessage();
       allow delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // Reports of chat messages and "contact the organizer" notes: anyone signed in can send one; only the admin reads them
+    match /reports/{id} {
+      allow create: if verified() && request.resource.data.by == request.auth.uid
+        && request.resource.data.keys().hasOnly(['kind', 'path', 'room', 'msgId', 'text', 'name', 'uid', 'by', 'note', 'at'])
+        && request.resource.data.kind in ['message', 'contact']
+        && request.resource.data.text is string && request.resource.data.text.size() <= 500
+        && (!('note' in request.resource.data) || (request.resource.data.note is string && request.resource.data.note.size() <= 300));
+      allow read, delete: if isAdmin();
+    }
+
+    // Players banned from posting in chat (set by the admin)
+    match /banned/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
     }
 
     match /admin/results {

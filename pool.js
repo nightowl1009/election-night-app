@@ -48,11 +48,26 @@
       listMembers: async (code) => { const q = await fs.collection('groups/' + code + '/members').get(); return q.docs.map(d => Object.assign({ uid: d.id }, d.data())); },
       watchAdminResults: (cb) => fs.doc('admin/results').onSnapshot(s => cb(s.exists ? s.data() : {}), () => cb({})),
       saveAdminResult: (key, val) => fs.doc('admin/results').set({ [key]: (val == null || val === '') ? firebase.firestore.FieldValue.delete() : val }, { merge: true }),
-      watchChat: (code, cb, err) => fs.collection(chatPath(code)).orderBy('at', 'desc').limit(100)
+      watchChat: (code, cb, err) => fs.collection(chatPath(code)).orderBy('at', 'desc').limit(50)
         .onSnapshot(q => cb(q.docs.map(d => Object.assign({ id: d.id }, d.data())).reverse()), e => { console.error(e); if (err) err(e); }),
       // the message and your "last posted" time are written together; the rules enforce a short cooldown
       sendChat: (code, msg) => { const b = fs.batch(); b.set(fs.collection(chatPath(code)).doc(), msg); b.set(fs.doc('users/' + msg.uid), { lastChat: msg.at }, { merge: true }); return b.commit(); },
       deleteChat: (code, id) => fs.doc(chatPath(code) + '/' + id).delete(),
+      // reports and "contact the organizer" messages (only the admin can read them)
+      sendReport: (data) => fs.collection('reports').add(data),
+      listReports: async () => { const q = await fs.collection('reports').orderBy('at', 'desc').limit(50).get(); return q.docs.map(d => Object.assign({ id: d.id }, d.data())); },
+      dismissReport: (id) => fs.doc('reports/' + id).delete(),
+      deletePath: (path) => fs.doc(path).delete(),
+      banUser: (uid, data) => fs.doc('banned/' + uid).set(data),
+      // delete your account: your chat messages, group memberships, picks, profile, then your sign-in
+      deleteAccount: async (uid, groups) => {
+        const wipe = async (col) => { const q = await fs.collection(col).where('uid', '==', uid).get(); for (const d of q.docs) await d.ref.delete(); };
+        await wipe('lobby').catch(e => console.error(e));
+        for (const g of groups) { await wipe('groups/' + g + '/chat').catch(e => console.error(e)); await fs.doc('groups/' + g + '/members/' + uid).delete().catch(e => console.error(e)); }
+        await fs.doc('picks/' + uid).delete().catch(e => console.error(e));
+        await fs.doc('users/' + uid).delete().catch(e => console.error(e));
+        await auth.currentUser.delete();
+      },
     };
   }
   function mockBackend() {
@@ -84,6 +99,12 @@
       watchChat: (code, cb) => { (chatSubs[code] = chatSubs[code] || []).push(cb); setTimeout(() => pushChat(code), 0); return () => { chatSubs[code] = chatSubs[code].filter(f => f !== cb); }; },
       sendChat: async (code, msg) => { (db.chat[code] = db.chat[code] || []).push(Object.assign({ id: 'm' + Math.random().toString(36).slice(2) }, msg)); pushChat(code); },
       deleteChat: async (code, id) => { db.chat[code] = (db.chat[code] || []).filter(m => m.id !== id); pushChat(code); },
+      sendReport: async (data) => { (db.reports = db.reports || []).unshift(Object.assign({ id: 'r' + Math.random().toString(36).slice(2) }, data)); },
+      listReports: async () => (db.reports || []).slice(),
+      dismissReport: async (id) => { db.reports = (db.reports || []).filter(r => r.id !== id); },
+      deletePath: async (path) => { const m = path.match(/^(lobby|groups\/(\w+)\/chat)\/(.+)$/); if (m) { const code = m[1] === 'lobby' ? 'ALL' : m[2]; db.chat[code] = (db.chat[code] || []).filter(x => x.id !== m[3]); pushChat(code); } },
+      banUser: async (uid, data) => { (db.banned = db.banned || {})[uid] = data; },
+      deleteAccount: async (uid, groups) => { Object.keys(db.chat).forEach(k => { db.chat[k] = db.chat[k].filter(m => m.uid !== uid); }); groups.forEach(g => { if (db.members[g]) delete db.members[g][uid]; }); delete db.picks[uid]; delete db.users[uid]; set(null); },
     };
   }
 
@@ -156,9 +177,60 @@
     return { pts, right, wrong, best, max: pts + max, sidePts };
   }
 
+  // ---------- Read savers (the free Firebase plan allows ~50k reads a day) ----------
+  // Group names never change; member lists are reused for a minute (5 after the lock);
+  // other players' picks can't change after the lock, so each is downloaded once.
+  const grpCache = new Map(), pickCache = new Map(); let memCache = { code: '', at: 0, list: [] };
+  const realLocked = () => Date.now() >= LOCK;
+  async function getGroupC(code) { if (grpCache.has(code)) return grpCache.get(code); const g = await be.getGroup(code).catch(() => null); if (g) grpCache.set(code, g); return g; }
+  async function membersC(code) {
+    const ttl = realLocked() ? 300000 : 60000;
+    if (memCache.code === code && Date.now() - memCache.at < ttl) return memCache.list;
+    const list = await be.listMembers(code).catch(() => []); memCache = { code, at: Date.now(), list }; return list;
+  }
+  async function picksC(uid) {
+    if (me && uid === me.uid) return myDoc();
+    if (pickCache.has(uid)) return pickCache.get(uid);
+    const p = await be.getPicks(uid).catch(() => null); if (p && realLocked()) pickCache.set(uid, p); return p;
+  }
+  const gameVisible = () => { const g = document.getElementById('game'); return !!g && !g.hidden; };
+
+  // ---------- Chat safety: filter, block, report, community rules ----------
+  // Words are stored reversed so the list itself doesn't read as a wall of slurs.
+  const rev = (w) => w.split('').reverse().join('');
+  const MASK = ['kcuf', 'tihs', 'hctib', 'tnuc', 'elohssa', 'kcid', 'yssup', 'dratsab', 'erohw', 'tuls', 'kcoc', 'tnuc', 'ggaf', 'gnikcuf'].map(rev);
+  const BLOCK_PRE = ["reggin", "aggin", "toggaf", "ekik", "kcabtew", "ynnart", "koog"].map(rev);   // whole words starting with these
+  const BLOCK_EXACT = ["cips", "scips", "knihc", "sknihc", "gaf", "sgaf", "drater", "sdrater", "dedrater"].map(rev); // exact words only (so “suspicious” is fine)
+  const BLOCK_SPACED = ["reggin", "aggin", "toggaf", "kcabtew"].map(rev); // also caught when spelled out with spaces or dots
+  const norm = (t) => String(t).toLowerCase().replace(/[@4]/g, 'a').replace(/[3]/g, 'e').replace(/[1!|]/g, 'i').replace(/[0]/g, 'o').replace(/[5$]/g, 's').replace(/[7+]/g, 't');
+  const hasBlocked = (t) => { const n = norm(t), toks = n.split(/[^a-z]+/).filter(Boolean), flat = n.replace(/[^a-z]/g, '');
+    return toks.some(w => BLOCK_PRE.some(b => w.startsWith(b)) || BLOCK_EXACT.includes(w)) || BLOCK_SPACED.some(b => flat.includes(b)); };
+  function cleanText(t) {
+    let out = String(t);
+    MASK.forEach(w => { out = out.replace(new RegExp('\\b' + w.split('').map(c => '[' + c + (c === 'a' ? '@4' : c === 'e' ? '3' : c === 'i' ? '1!' : c === 'o' ? '0' : c === 's' ? '$5' : c === 't' ? '7' : '') + ']').join('') + '\\w*', 'gi'), (m) => m[0] + '*'.repeat(Math.max(2, m.length - 1))); });
+    return hasBlocked(out) ? '[message hidden by the filter]' : out;
+  }
+  const blockedSet = () => new Set([].concat((profile && profile.blocked) || [], (() => { try { return JSON.parse(store.get('en-blocked') || '[]'); } catch (e) { return []; } })()));
+  async function blockUser(uid, name) {
+    if (!me || uid === me.uid) return;
+    const list = Array.from(new Set(((profile && profile.blocked) || []).concat(uid))).slice(-300);
+    profile = Object.assign({}, profile, { blocked: list }); store.set('en-blocked', JSON.stringify(list));
+    try { await be.saveProfile(me.uid, { blocked: list }); } catch (e) { console.error(e); }
+    alertish('Blocked ' + (name || 'that player') + ' — you won’t see their messages.'); paintChat();
+  }
+  async function unblockAll() { profile = Object.assign({}, profile, { blocked: [] }); store.set('en-blocked', '[]'); try { await be.saveProfile(me.uid, { blocked: [] }); } catch (e) {} alertish('Unblocked everyone.'); render(); }
+  async function reportMsg(m) {
+    const why = window.prompt ? window.prompt('Report this message to the organizer? Add a reason (optional):', '') : '';
+    if (why === null) return;
+    try { await be.sendReport({ kind: 'message', path: chatPath(chatCode) + '/' + m.id, room: chatCode, msgId: m.id, text: String(m.text || '').slice(0, 500), name: String(m.name || '').slice(0, 40), uid: m.uid, by: me.uid, note: String(why || '').slice(0, 300), at: Date.now() }); hiddenMsgs.add(m.id); paintChat(); alertish('Reported — thanks. The organizer reviews reports.'); }
+    catch (e) { alertish(errText(e)); }
+  }
+  const hiddenMsgs = new Set();
+  const RULES = ['Be decent. Trash talk about picks is fine; attacks on people are not.', 'No slurs, harassment, threats, sexual content or spam.', 'Don’t post anyone’s personal info.', 'Messages that break these rules are removed and the player can be banned from chat.', 'Use “Report” on any message that crosses the line — the organizer reviews reports and aims to act within 24 hours.'];
+
   // ---------- State ----------
   let be = null, me = null, profile = null, myPicks = {}, mySeats = null, myLock = null, mySide = {}, view = 'picks', activeGroup = '', saveT = null, saving = false;
-  let pickFilter = 'Senate', finaleJumped = false;
+  let pickFilter = 'Senate', finaleJumped = false, pendingJoin = null, adminTab = 'races';
   let chatUnsub = null, chatCode = '', chatMsgs = [], chatErr = '', chatRoom = ALL, lastSent = 0;
   const isMe = (o) => o.m.uid === 'you' || (!!me && o.m.uid === me.uid);
   const myDoc = () => ({ picks: myPicks, seats: mySeats, lock: myLock, side: mySide });
@@ -179,15 +251,18 @@
     [['picks', 'My picks'], ['groups', 'Groups'], ['chat', 'Chat'], ['board', 'Leaderboard']].concat(be.isAdmin(me) ? [['admin', 'Admin']] : []).forEach(([k, t]) => {
       const b = btn('', t, () => { view = k; render(); }); b.setAttribute('aria-pressed', String(view === k)); nav.append(b);
     });
-    top.append(who, btn('en-chip', 'Sign out', () => be.signOut()));
+    top.append(who, el('span', 'pl-topbtns'));
+    top.lastChild.append(btn('en-chip', 'Account', () => { view = 'account'; render(); }), btn('en-chip', 'Sign out', () => be.signOut()));
     box.append(top, lockBanner(), nav);
     if (!me.verified) return renderVerify(box);
+    if (pendingJoin && profile && profile.name && view !== 'account') view = 'groups';
     if (!profile || !profile.name) return renderName(box);
     if (view === 'picks') renderPicks(box);
     else if (view === 'groups') renderGroups(box);
     else if (view === 'chat') renderChat(box);
     else if (view === 'board') renderBoard(box);
     else if (view === 'admin') renderAdmin(box);
+    else if (view === 'account') renderAccount(box);
   }
   function card(h, p) { const c = el('div', 'pl-card'); c.append(el('h3', '', h)); if (p) c.append(el('p', '', p)); return c; }
   function lockBanner() {
@@ -436,23 +511,37 @@
     const groups = (profile && profile.groups) || [];
     if (!groups.includes(activeGroup)) activeGroup = groups[0];
     const pick = el('div', 'en-chips pl-chips');
-    for (const code of groups) { const g = await be.getGroup(code).catch(() => null); const c = btn('en-chip', g ? g.name : code, () => { activeGroup = code; render(); }); c.setAttribute('aria-pressed', String(code === activeGroup)); pick.append(c); }
+    for (const code of groups) { const g = await getGroupC(code); const c = btn('en-chip', g ? g.name : code, () => { activeGroup = code; render(); }); c.setAttribute('aria-pressed', String(code === activeGroup)); pick.append(c); }
     box.insertBefore(pick, after || null);
   }
   async function renderGroups(box) {
     const groups = (profile && profile.groups) || [];
+    if (pendingJoin) {
+      const code = pendingJoin, inv = el('div', 'pl-card pl-invite'); box.append(inv);
+      if (groups.includes(code)) { pendingJoin = null; activeGroup = code; }
+      else {
+        const g = await getGroupC(code);
+        if (!g) { inv.append(el('h3', '', 'Invite link didn’t work'), el('p', '', 'No group has the code ' + code + '. Ask your friend to share it again.')); pendingJoin = null; }
+        else {
+          inv.append(el('h3', '', 'You’re invited to “' + g.name + '”'), el('p', '', 'Code ' + code));
+          const jm = el('p', 'pl-msg');
+          inv.append(btn('pl-btn primary', 'Join ' + g.name, async () => { try { await join(code); pendingJoin = null; activeGroup = code; view = 'board'; render(); } catch (e) { jm.textContent = errText(e); } }), btn('pl-link', 'Not now', () => { pendingJoin = null; render(); }), jm);
+        }
+      }
+    }
     const mine = el('div', 'pl-card');
     mine.append(el('h3', '', 'Your groups'));
     if (!groups.length) mine.append(el('p', '', 'You’re not in a group yet. Start one and share the code, or join a friend’s.'));
     const ul = el('div', 'pl-groups'); mine.append(ul); box.append(mine);
     for (const code of groups) {
-      const g = await be.getGroup(code).catch(() => null);
+      const g = await getGroupC(code);
       const li = el('div', 'pl-group');
       const t = el('div'); t.append(el('b', '', g ? g.name : 'Group'), el('small', '', 'Code ' + code));
       const acts = el('div', 'btns');
       acts.append(btn('en-chip', 'Chat', () => { activeGroup = code; chatRoom = code; view = 'chat'; render(); }),
         btn('en-chip', 'Leaderboard', () => { activeGroup = code; view = 'board'; render(); }),
         btn('en-chip', 'Share', () => share(code, g)),
+        btn('en-chip', 'QR code', () => showQR(code, g)),
         btn('en-chip', 'Leave', async () => { if (window.confirm && !window.confirm('Leave this group?')) return; await be.removeMember(code, me.uid); profile.groups = groups.filter(c => c !== code); await be.saveProfile(me.uid, { groups: profile.groups }); render(); }));
       li.append(t, acts); ul.append(li);
     }
@@ -470,19 +559,20 @@
     const jm = el('p', 'pl-msg');
     jn.append(jc, btn('pl-btn', 'Join', async () => {
       const code = jc.value.trim().toUpperCase(); if (code.length !== 6) { jm.textContent = 'Codes are 6 letters/numbers.'; return; }
-      const g = await be.getGroup(code).catch(() => null); if (!g) { jm.textContent = 'No group with that code.'; return; }
+      const g = await getGroupC(code); if (!g) { jm.textContent = 'No group with that code.'; return; }
       try { await join(code); activeGroup = code; view = 'board'; render(); } catch (e) { jm.textContent = errText(e); }
     }), jm);
     box.append(make, jn);
   }
   async function join(code) {
+    memCache = { code: '', at: 0, list: [] };
     await be.addMember(code, me.uid, { name: profile.name, joined: Date.now(), pickCount: races().filter(r => myPicks[r.key]).length });
     const groups = Array.from(new Set(((profile && profile.groups) || []).concat(code)));
     profile.groups = groups; await be.saveProfile(me.uid, { groups });
   }
   function share(code, g) {
-    const url = location.origin + location.pathname + '#game';
-    const text = 'Join my Election Night Prediction Game group "' + (g ? g.name : '') + '" — open ' + url + ', sign in on the Prediction Game tab, then Groups → Join with code ' + code;
+    const url = location.origin + location.pathname + '#join=' + code;
+    const text = 'Join my Election Night Prediction Game group "' + (g ? g.name : '') + '": ' + url + ' — sign in and tap Join (code ' + code + ')';
     if (navigator.share) navigator.share({ title: 'Election Night Prediction Game', text }).catch(() => {});
     else if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => alertish('Invite copied — paste it to your friends.'));
   }
@@ -496,8 +586,15 @@
     const chips = el('div', 'en-chips pl-chips');
     const chip = (code, label) => { const b = btn('en-chip', label, () => { chatRoom = code; render(); }); b.setAttribute('aria-pressed', String(chatRoom === code)); chips.append(b); };
     chip(ALL, 'Everyone');
-    for (const code of groups) { const g = await be.getGroup(code).catch(() => null); chip(code, g ? g.name : code); }
+    for (const code of groups) { const g = await getGroupC(code); chip(code, g ? g.name : code); }
     box.append(chips);
+    if (!profile.agreed) {
+      const t = el('div', 'pl-card pl-rules'); t.append(el('h3', '', 'Chat rules'));
+      const ul = el('ul', ''); RULES.forEach(r => ul.append(el('li', '', r))); t.append(ul);
+      const ok = btn('pl-btn primary', 'I agree', async () => { const at = Date.now(); profile = Object.assign({}, profile, { agreed: at }); try { await be.saveProfile(me.uid, { agreed: at }); } catch (e) { alertish(errText(e)); } render(); });
+      const pv = btn('pl-link', 'Privacy & terms', () => showPrivacy());
+      t.append(ok, pv); box.append(t); return;
+    }
     const c = el('div', 'pl-card pl-chat'); box.append(c);
     if (chatRoom === ALL) c.append(el('p', 'pl-chat-note', 'Everyone chat · open to every player' + (groups.length ? '' : ' · start or join a group under Groups for a private chat')));
     if (chatCode !== chatRoom) {
@@ -511,6 +608,7 @@
     form.append(inp, send);
     form.addEventListener('submit', async (ev) => {
       ev.preventDefault(); const t = inp.value.trim(); if (!t) return;
+      if (hasBlocked(t)) { alertish('That message has language that isn’t allowed here.'); return; }
       const now = Date.now(); if (now - lastSent < 3500) { alertish('Easy there — wait a couple seconds between messages.'); return; }
       lastSent = now;
       inp.value = ''; inp.focus();
@@ -528,14 +626,19 @@
     if (!chatMsgs.length) { log.append(el('p', 'pl-chat-empty', 'No messages yet — say hi and talk some trash.')); return; }
     const tf = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' }), df = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' });
     let lastDay = '';
-    chatMsgs.forEach(m => {
+    const blocked = blockedSet();
+    chatMsgs.filter(m => !blocked.has(m.uid) && !hiddenMsgs.has(m.id)).forEach(m => {
       const d = new Date(Number(m.at) || 0), day = df.format(d);
       if (day !== lastDay) { log.append(el('div', 'pl-chat-day', day)); lastDay = day; }
       const mine = m.uid === me.uid;
       const b = el('div', 'pl-msgb' + (mine ? ' mine' : ''));
       const h = el('div', 'h'); h.append(el('b', '', mine ? 'You' : (m.name || 'Player')), el('small', '', tf.format(d)));
       if (mine || be.isAdmin(me)) { const x = btn('pl-del', '✕', async () => { try { await be.deleteChat(chatCode, m.id); } catch (e) { alertish(errText(e)); } }); x.setAttribute('aria-label', 'Delete message'); h.append(x); }
-      b.append(h, el('p', '', String(m.text || '')));
+      if (!mine) {
+        const more = btn('pl-more', '⋯', () => { const open = b.querySelector('.pl-acts'); if (open) { open.remove(); return; } const a = el('div', 'pl-acts'); a.append(btn('', 'Report', () => reportMsg(m)), btn('', 'Block ' + (m.name || 'player'), () => blockUser(m.uid, m.name))); b.append(a); });
+        more.setAttribute('aria-label', 'Report or block'); h.append(more);
+      }
+      b.append(h, el('p', '', cleanText(m.text || '')));
       log.append(b);
     });
     if (atBottom || log.dataset.first !== '1') { log.scrollTop = log.scrollHeight; log.dataset.first = '1'; }
@@ -548,12 +651,12 @@
     const c = el('div', 'pl-card'); box.append(c);
     await groupChips(box, c);
     c.append(el('p', 'pl-note', 'Loading…'));
-    const members = await be.listMembers(activeGroup).catch(() => []);
+    const members = await membersC(activeGroup);
     const list = races(), w = winners(), called = list.filter(r => w[r.key]).length;
     const lk = locked();
     const out = [];
     for (const m of members) {
-      let p = null; if (lk || m.uid === me.uid) p = await be.getPicks(m.uid).catch(() => null);
+      let p = null; if (lk || m.uid === me.uid) p = await picksC(m.uid);
       const s = p ? score(p, w, list) : { pts: 0, right: 0, wrong: 0, best: null, max: 0 };
       out.push({ m, p, s, count: p ? list.filter(r => (p.picks || {})[r.key]).length : Math.min(Number(m.pickCount) || 0, list.length), seats: p ? p.seats : null });
     }
@@ -564,11 +667,12 @@
     c.replaceChildren();
     const done = lk && (called === list.length || adminRes['Q-final'] === 'y');
     if (done && out.length) {
-      const g = await be.getGroup(activeGroup).catch(() => null);
+      const g = await getGroupC(activeGroup);
       c.append(finale(out, g ? g.name : 'your group', list, w));
     }
     c.append(el('h3', '', done ? 'Final standings' : 'Leaderboard'), el('p', 'pl-note', lk ? called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') : 'Scores start once races are called. Picks stay hidden until they lock at 5:00 PM CT Nov 3.'));
-    if (lk && called) c.append(liveExtras(out, list, w));
+    if (lk && called) { c.append(liveExtras(out, list, w)); const lb = leadBox(out, list); if (lb) c.append(lb); }
+    if (lk) { const g = await getGroupC(activeGroup); tvBoard = { title: (g ? g.name : 'Your group') + ' · leaderboard', out }; }
     const t = el('div', 'pl-board');
     const leader = out.length ? out[0].s.pts : 0;
     out.forEach((o, i) => {
@@ -663,9 +767,29 @@
     const c = card('Call races', 'Tap the winner when a race is called. Everyone’s scores update right away. Calls Claude adds to the app’s results also count — yours override them.');
     box.append(c);
     const chips = el('div', 'en-chips pl-chips');
-    ['Senate', 'Governors', 'House', 'Side'].forEach(g => { const b = btn('en-chip', g === 'Side' ? 'Side questions' : g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
+    ['Senate', 'Governors', 'House', 'Side', 'Reports'].forEach(g => { const b = btn('en-chip', g === 'Side' ? 'Side questions' : g, () => { pickFilter = g; render(); }); b.setAttribute('aria-pressed', String(pickFilter === g)); chips.append(b); });
     box.append(chips);
     const wrap = el('div', 'pl-list');
+    if (pickFilter === 'Reports') {
+      wrap.append(el('p', 'pl-note', 'Loading reports…')); box.append(wrap);
+      be.listReports().then(list => {
+        wrap.replaceChildren();
+        if (!list.length) { wrap.append(card('No reports', 'Nothing has been reported, and no one has sent a message.')); return; }
+        list.forEach(r => {
+          const d = el('div', 'pl-card pl-report');
+          d.append(el('b', '', r.kind === 'contact' ? 'Message to the organizer' : 'Reported message from ' + (r.name || 'a player')), el('small', '', new Date(r.at).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) + (r.room ? ' · ' + (r.room === ALL ? 'Everyone chat' : 'group ' + r.room) : '')));
+          d.append(el('p', '', '“' + (r.text || '') + '”')); if (r.note) d.append(el('p', 'pl-note', (r.kind === 'contact' ? 'Reply to: ' : 'Reason: ') + r.note));
+          const a = el('div', 'btns');
+          if (r.kind === 'message') {
+            a.append(btn('en-chip', 'Delete message', async () => { try { await be.deletePath(r.path); alertish('Message deleted.'); } catch (e) { alertish(errText(e)); } }));
+            a.append(btn('en-chip', 'Ban from chat', async () => { if (window.confirm && !window.confirm('Ban ' + (r.name || 'this player') + ' from posting in chat?')) return; try { await be.banUser(r.uid, { name: r.name || '', at: Date.now() }); await be.deletePath(r.path).catch(() => {}); alertish('Banned and message removed.'); } catch (e) { alertish(errText(e)); } }));
+          }
+          a.append(btn('en-chip', 'Dismiss', async () => { await be.dismissReport(r.id).catch(() => {}); d.remove(); }));
+          d.append(a); wrap.append(d);
+        });
+      }).catch(e => { wrap.replaceChildren(card('Couldn’t load reports', errText(e) + ' — make sure the latest Firestore rules are published.')); });
+      return;
+    }
     if (pickFilter === 'Side') {
       const ans = answers();
       const row = (label, note, input) => { const d = el('div', 'pl-card pl-side'); d.append(el('b', '', label), el('p', '', note), input); wrap.append(d); };
@@ -690,6 +814,96 @@
     }
     box.append(wrap);
   }
+
+  // ---------- Account: privacy, contact, blocked players, delete account ----------
+  function renderAccount(box) {
+    const c = el('div', 'pl-card'); box.append(c);
+    c.append(el('h3', '', 'Your account'), el('p', '', (profile && profile.name || me.name || '') + ' · ' + me.email));
+    const links = el('div', 'btns'); links.append(btn('en-chip', 'Privacy & terms', () => showPrivacy()), btn('en-chip', 'Chat rules', () => showPrivacy('rules')));
+    if (((profile && profile.blocked) || []).length) links.append(btn('en-chip', 'Unblock everyone (' + profile.blocked.length + ')', unblockAll));
+    c.append(links);
+    const ct = el('div', 'pl-card'); box.append(ct);
+    ct.append(el('h3', '', 'Contact the organizer'), el('p', '', 'Questions, problems, or something in chat that needs attention? This goes straight to the organizer.'));
+    const ta = el('textarea'); ta.maxLength = 500; ta.rows = 3; ta.placeholder = 'Your message';
+    const cm = el('p', 'pl-msg');
+    ct.append(ta, btn('pl-btn primary', 'Send', async () => {
+      const t = ta.value.trim(); if (!t) return;
+      try { await be.sendReport({ kind: 'contact', text: t.slice(0, 500), name: String(profile && profile.name || '').slice(0, 40), uid: me.uid, by: me.uid, note: String(me.email || '').slice(0, 300), at: Date.now() }); ta.value = ''; cm.textContent = ''; alertish('Sent — thanks.'); }
+      catch (e) { cm.textContent = errText(e); }
+    }), cm);
+    const dz = el('div', 'pl-card pl-danger'); box.append(dz);
+    dz.append(el('h3', '', 'Delete my account'), el('p', '', 'Permanently deletes your profile, picks, group memberships, every chat message you posted, and your sign-in. Groups you started stay for the other players. This can’t be undone.'));
+    const ci = el('input'); ci.placeholder = 'Type DELETE to confirm'; ci.autocapitalize = 'characters';
+    const dm = el('p', 'pl-msg');
+    dz.append(ci, btn('pl-btn danger', 'Delete my account', async () => {
+      if (ci.value.trim().toUpperCase() !== 'DELETE') { dm.textContent = 'Type DELETE first.'; return; }
+      dm.textContent = 'Deleting…';
+      try { await be.deleteAccount(me.uid, (profile && profile.groups) || []); store.set('en-blocked', '[]'); alertish('Your account was deleted.'); view = 'picks'; }
+      catch (e) { dm.textContent = /recent-login/.test(e && e.code || '') ? 'For your security, sign out and sign back in, then delete again right away. (Your chat messages, picks and groups were already removed.)' : errText(e); }
+    }), dm);
+  }
+  function modal(title, bodyEls) {
+    const o = el('div', 'pl-modal'); o.setAttribute('role', 'dialog'); o.setAttribute('aria-modal', 'true');
+    const p = el('div', 'pl-modal-in'); const x = btn('pl-modal-x', '✕', () => o.remove()); x.setAttribute('aria-label', 'Close');
+    p.append(x, el('h3', '', title)); bodyEls.forEach(e => p.append(e)); o.append(p);
+    o.addEventListener('click', (e) => { if (e.target === o) o.remove(); });
+    document.body.append(o); return o;
+  }
+  function showPrivacy(focus) {
+    const sec = (h, items) => { const d = el('div', 'pl-pv'); d.append(el('h4', '', h)); const ul = el('ul', ''); items.forEach(t => ul.append(el('li', '', t))); d.append(ul); return d; };
+    const o = modal('Privacy & terms', [
+      el('p', 'pl-note', 'Election Night 2026 · effective Oct 25, 2026'),
+      sec('What this app stores', ['Your sign-in (Google or email) through Google Firebase Authentication.', 'The display name you choose, your picks, lock and side answers, the groups you join, and chat messages you post.', 'Reports and messages you send to the organizer.', 'On your phone only: your watchlist, Path to 51 picks, seen race calls and blocked players.']),
+      sec('Who can see it', ['Your picks are private until they lock at 5:00 PM CT on Nov 3; after that, players can see them on leaderboards.', 'Chat messages are visible to everyone in that chat room.', 'Your email is never shown to other players. Only the organizer can see reports.']),
+      sec('What it doesn’t do', ['No ads, no tracking, and your data isn’t sold or shared with anyone else.', 'Data is stored with Google Firebase and is used only to run the game and chat.']),
+      sec('Your choices', ['Delete everything any time: Account → Delete my account.', 'Block a player or report a message from the ⋯ menu on any chat message.']),
+      Object.assign(sec('Chat rules', RULES), { id: 'pl-pv-rules' }),
+      sec('Contact', ['Use Account → Contact the organizer. Reports are reviewed by the organizer, who aims to act within 24 hours.']),
+      el('p', 'pl-note', 'Election data on this app comes from the public sources named on each card. The Prediction Game is free and has no prizes.'),
+    ]);
+    if (focus === 'rules') setTimeout(() => { const r = o.querySelector('#pl-pv-rules'); if (r) r.scrollIntoView({ block: 'start' }); }, 50);
+  }
+  // QR code for a group invite (the QR library loads only when needed)
+  function loadQR() { return window.qrcode ? Promise.resolve() : new Promise((ok, no) => { const sc = document.createElement('script'); sc.src = 'qrcode.js'; sc.onload = ok; sc.onerror = no; document.head.append(sc); }); }
+  async function showQR(code, g) {
+    const url = location.origin + location.pathname + '#join=' + code;
+    const q = el('div', 'pl-qr'); const big = el('div', 'pl-qr-code', code);
+    modal('Join “' + (g ? g.name : 'my group') + '”', [q, big, el('p', 'pl-note', 'Scan with a phone camera. It opens the app with a one-tap Join button after signing in.')]);
+    try { await loadQR(); const qr = window.qrcode(0, 'M'); qr.addData(url); qr.make(); q.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 0, scalable: true }); const sv = q.querySelector('svg'); if (sv) { sv.style.width = '240px'; sv.style.height = '240px'; sv.setAttribute('role', 'img'); sv.setAttribute('aria-label', 'QR code to join'); } }
+    catch (e) { q.append(el('p', 'pl-msg', 'Couldn’t load the QR maker — share the code instead.')); }
+  }
+  // who led the group after each call, in the order races were called
+  function leadChanges(out, list) {
+    const at = {}, side = {}; rows('results').forEach(x => { if (x.winner_party && x.called_at) { at[x.race] = x.called_at; side[x.race] = /^(R|N)$/.test(x.winner_party) ? 'r' : 'd'; } });
+    const order = list.filter(r => at[r.key]).sort((a, b) => String(at[a.key]).localeCompare(String(at[b.key])));
+    const w = {}, changes = []; let prev = '';
+    order.forEach(r => {
+      w[r.key] = side[r.key];
+      const sc = out.filter(o => o.p).map(o => ({ o, pts: score(o.p, w, list).pts }));
+      if (!sc.length) return;
+      const top = Math.max(...sc.map(x => x.pts)); if (top <= 0) return;
+      const leaders = sc.filter(x => x.pts === top).map(x => isMe(x.o) ? 'You' : x.o.m.name || 'Player'), key = leaders.join(' & ');
+      if (key !== prev) { changes.push({ at: at[r.key], race: r.label, text: leaders.length > 1 ? key + ' tied for the lead' : key + (key === 'You' ? ' take' : ' takes') + ' the lead' }); prev = key; }
+    });
+    return changes;
+  }
+  function leadBox(out, list) {
+    const ch = leadChanges(out, list); if (!ch.length) return null;
+    const tf = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/Chicago' });
+    const d = el('div', 'pl-leads'); d.append(el('b', '', 'Lead changes (' + ch.length + ')'));
+    ch.slice(-5).reverse().forEach(c => d.append(el('small', '', tf.format(new Date(c.at)) + ' CT · ' + c.text + ' (' + c.race + ' called)')));
+    return d;
+  }
+  // a leaderboard slide for TV mode (top of your group, or the practice group)
+  let tvBoard = null;
+  window.enTvSlides = window.enTvSlides || [];
+  window.enTvSlides.push(() => {
+    if (!tvBoard || !tvBoard.out.length) return null;
+    const d = document.createElement('div'); d.className = 'tv-board';
+    const h = document.createElement('h2'); h.textContent = tvBoard.title; d.append(h);
+    tvBoard.out.slice(0, 6).forEach((o, i) => { const r = document.createElement('div'); r.className = 'tv-rank'; r.innerHTML = '<span></span><b></b><i></i>'; r.children[0].textContent = i + 1; r.children[1].textContent = isMe(o) ? 'You' : o.m.name || 'Player'; r.children[2].textContent = o.s.pts + ' pts'; d.append(r); });
+    return d;
+  });
 
   // ---------- "Since you last looked" — new race calls (app only) ----------
   function raceName(key) {
@@ -811,7 +1025,7 @@
     }, delay || 0);
     prac.timers.push(t);
   }
-  function pracStop() { if (prac) prac.timers.forEach(clearTimeout); prac = null; pracView = 'board'; }
+  function pracStop() { if (prac) prac.timers.forEach(clearTimeout); prac = null; pracView = 'board'; tvBoard = null; }
   // new practice calls → a couple of players react
   function pracCalls() {
     if (!prac) return;
@@ -866,7 +1080,8 @@
     const c = el('div', 'pl-card'); box.append(c);
     if (done) c.append(finale(out, 'the practice group', list, w));
     c.append(el('h3', '', done ? 'Final standings' : 'Practice leaderboard'), el('p', 'pl-note', called + ' of ' + list.length + ' races called' + (done ? ' — that’s a wrap!' : '') + (prac.members[0].auto ? ' · You have auto picks (the favorite in every race) — sign in and make picks to play your own' : ' · You’re playing your real picks')));
-    if (called) c.append(liveExtras(out, list, w));
+    if (called) { c.append(liveExtras(out, list, w)); const lb = leadBox(out, list); if (lb) c.append(lb); }
+    tvBoard = { title: 'Practice group · leaderboard', out };
     const t = el('div', 'pl-board'), leader = out.length ? out[0].s.pts : 0;
     out.forEach((o, i) => {
       const r = el('div', 'pl-rank' + (o.m.uid === 'you' ? ' me' : ''));
@@ -939,26 +1154,34 @@
       liveCalls(); checkNewCalls();
       const sim = !!window.__simOn;
       if (sim !== wasSim) { wasSim = sim; pracStop(); if (sim) pracInit(); render(); return; }
-      if (sim && prac) { pracCalls(); if (pracView === 'board' && !document.activeElement?.closest?.('#pool-root')) render(); }
+      if (sim && prac) { pracCalls(); if (pracView === 'board' && gameVisible() && !document.activeElement?.closest?.('#pool-root')) render(); }
     });
     if (!be) return;
     let unsubRes = null;
     be.onAuth(async (u) => {
       me = u; profile = null; myPicks = {}; mySeats = null; myLock = null; mySide = {}; stopChat();
       if (typeof unsubRes === 'function') unsubRes(); unsubRes = null; adminRes = {};
-      if (u) unsubRes = be.watchAdminResults((r) => { adminRes = r || {}; if (!window.__simOn && me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
+      if (u) unsubRes = be.watchAdminResults((r) => { adminRes = r || {}; if (!window.__simOn && me && view !== 'chat' && gameVisible() && !document.activeElement?.closest?.('#pool-root')) render(); });
       if (u) {
         profile = await be.getProfile(u.uid).catch(() => null);
         if (!profile && u.name) { profile = { name: u.name, groups: [] }; await be.saveProfile(u.uid, profile).catch(() => {}); }
         const p = await be.getPicks(u.uid).catch(() => null);
         if (p) { myPicks = Object.assign({}, p.picks || {}); mySeats = p.seats == null ? null : p.seats; myLock = p.lock || null; mySide = Object.assign({}, p.side || {}); }
+        if (profile && profile.blocked) store.set('en-blocked', JSON.stringify(profile.blocked));
       }
       render();
     });
-    if (window.dash) window.dash.onData(() => { if (!window.__simOn && me && view !== 'chat' && !document.activeElement?.closest?.('#pool-root')) render(); });
+    if (window.dash) window.dash.onData(() => { if (!window.__simOn && me && view !== 'chat' && gameVisible() && !document.activeElement?.closest?.('#pool-root')) render(); });
+    // the game tab redraws when you open it (no downloads while it's out of sight)
+    const gt = document.querySelector('.en-tab[data-tab="game"]'); if (gt) gt.addEventListener('click', () => setTimeout(render, 0));
     setInterval(() => { const b = $('.pl-lock'); if (b) b.replaceWith(lockBanner()); }, 30000);
   }
-  // #game in the address opens the Prediction Game tab (the page's own hash handling does it; this is a fallback)
-  const jump = () => { if (location.hash === '#game') setTimeout(() => { const t = document.querySelector('.en-tab[data-tab="game"]'); const g = document.getElementById('game'); if (t && g && g.hidden) t.click(); }, 600); };
+  // #game opens the Prediction Game tab; #join=CODE also offers a one-tap join after sign-in
+  const jump = () => {
+    const m = location.hash.match(/^#join=([A-Z0-9]{6})$/i); if (m) pendingJoin = m[1].toUpperCase();
+    if (location.hash === '#game' || m) setTimeout(() => { const t = document.querySelector('.en-tab[data-tab="game"]'); const g = document.getElementById('game'); if (t && g && g.hidden) t.click(); render(); }, 600);
+    const host = document.getElementById('app-updated');
+    if (host && !document.getElementById('pl-privacy-link')) { const a = btn('pl-link', 'Privacy & terms', () => showPrivacy()); a.id = 'pl-privacy-link'; host.after(a); }
+  };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => { boot(); jump(); }); else { boot(); jump(); }
 })();
