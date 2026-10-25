@@ -1,1 +1,782 @@
-[{"race": "SEN-NC", "status": "TEST \u2014 not real", "winner": "TEST \u00b7 Roy Cooper", "winner_party": "D", "d_pct": 53.1, "r_pct": 45.6, "reporting": 88, "called_at": "2026-10-25T00:10:00Z"}, {"race": "SEN-OH", "status": "TEST \u2014 not real", "winner": "TEST \u00b7 Sherrod Brown", "winner_party": "D", "d_pct": 50.8, "r_pct": 48.1, "reporting": 91, "called_at": "2026-10-25T00:12:00Z"}, {"race": "SEN-AK", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "SEN-ME", "status": "TEST \u2014 not real", "winner": "", "winner_party": "", "d_pct": 48.0, "r_pct": 47.1, "reporting": 44, "called_at": ""}, {"race": "SEN-TX", "status": "TEST \u2014 not real", "winner": "TEST \u00b7 Ken Paxton", "winner_party": "R", "d_pct": 47.6, "r_pct": 50.9, "reporting": 93, "called_at": "2026-10-25T00:14:00Z"}, {"race": "SEN-IA", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "SEN-KS", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "SEN-NE", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "SEN-MI", "status": "TEST \u2014 not real", "winner": "", "winner_party": "", "d_pct": 49.2, "r_pct": 49.6, "reporting": 61, "called_at": ""}, {"race": "SEN-NH", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "SEN-GA", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-OH", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-GA", "status": "TEST \u2014 not real", "winner": "", "winner_party": "", "d_pct": 48.8, "r_pct": 50.1, "reporting": 72, "called_at": ""}, {"race": "GOV-NV", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-KS", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-WI", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-IA", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-FL", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-MI", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-AZ", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-NH", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "GOV-ME", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NY-17", "status": "TEST \u2014 not real", "winner": "TEST \u00b7 Cait Conley", "winner_party": "D", "d_pct": 51.5, "r_pct": 48.5, "reporting": 90, "called_at": "2026-10-25T00:15:00Z"}, {"race": "HOU-VA-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-VA-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-PA-10", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-CO-08", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-AZ-06", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-MI-07", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-MI-04", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-CA-22", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-OH-07", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-OH-09", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-FL-14", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-FL-22", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "MO-A3", "status": "TEST \u2014 not real", "winner": "Passes", "winner_party": "Y", "d_pct": 54.0, "r_pct": 46.0, "reporting": 85, "called_at": "2026-10-25T00:16:00Z"}, {"race": "MO-A6", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "MO-A7", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "MO-A8", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "MO-PA", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "MO-AUD", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NC-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-TX-35", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-IA-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-KY-06", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-MI-10", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-MT-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-PA-08", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-TX-15", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-AZ-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-CA-48", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-FL-25", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-IA-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-IA-03", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NC-11", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NJ-07", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NM-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-PA-07", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-TX-34", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-WA-03", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-WI-03", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-AK-AL", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-AL-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-AZ-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-CO-04", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-CO-05", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-FL-13", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-FL-27", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-ME-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-MN-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NV-02", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-NY-21", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-OH-10", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-OH-15", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-PA-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-SC-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-TX-23", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}, {"race": "HOU-WI-01", "status": "Not yet reporting", "winner": "", "winner_party": "", "d_pct": null, "r_pct": null, "reporting": 0, "called_at": ""}]
+[
+ {
+  "race": "SEN-NC",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-OH",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-AK",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-ME",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-TX",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-IA",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-KS",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-NE",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-MI",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-NH",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "SEN-GA",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-OH",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-GA",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-NV",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-KS",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-WI",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-IA",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-FL",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-MI",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-AZ",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-NH",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "GOV-ME",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NY-17",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-VA-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-VA-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-PA-10",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-CO-08",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-AZ-06",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-MI-07",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-MI-04",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-CA-22",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-OH-07",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-OH-09",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-FL-14",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-FL-22",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-A3",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-A6",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-A7",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-A8",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-PA",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "MO-AUD",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NC-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-TX-35",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-IA-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-KY-06",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-MI-10",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-MT-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-PA-08",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-TX-15",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-AZ-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-CA-48",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-FL-25",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-IA-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-IA-03",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NC-11",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NJ-07",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NM-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-PA-07",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-TX-34",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-WA-03",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-WI-03",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-AK-AL",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-AL-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-AZ-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-CO-04",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-CO-05",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-FL-13",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-FL-27",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-ME-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-MN-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NV-02",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-NY-21",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-OH-10",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-OH-15",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-PA-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-SC-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-TX-23",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ },
+ {
+  "race": "HOU-WI-01",
+  "status": "Not yet reporting",
+  "winner": "",
+  "winner_party": "",
+  "d_pct": null,
+  "r_pct": null,
+  "reporting": 0,
+  "called_at": ""
+ }
+]
