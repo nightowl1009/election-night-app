@@ -113,7 +113,7 @@
   let lastLoad = Date.now();
   setInterval(() => {
     const now = Date.now(), night = now >= Date.UTC(2026, 10, 3, 23) && now < Date.UTC(2026, 10, 4, 12);
-    if (now - lastLoad < (night ? 60000 : 120000) - 500) return;
+    if (now - lastLoad < (night ? 30000 : 120000) - 500) return;
     if (navigator.onLine !== false && document.visibilityState === 'visible') { lastLoad = now; loadAll(); }
   }, 15000);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') loadAll(); });
