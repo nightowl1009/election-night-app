@@ -27,6 +27,9 @@ extra = ('<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-c
          '<script src="pool-config.js"></script>\n<script src="pool.js"></script>\n<script src="sim.js"></script>\n<script src="push.js"></script>\n<script src="ads.js"></script>\n<script src="welcome.js"></script>\n<script src="party.js"></script>\n')
 if 'pool.js' not in tail: tail = tail.replace('</body>', extra + '</body>', 1)
 html = head + page + tail
+# The app is always in dark mode (fewer bright white areas, matches the splash); the dashboard still follows the system.
+html = html.replace('@media (prefers-color-scheme: dark)', '@media all').replace('@media (prefers-color-scheme: light)', '@media not all')
+html = html.replace('<html lang="en" class="boot">', '<html lang="en" class="boot" data-theme="dark">', 1)
 v = str(int(time.time()))
 for f in ['dash-lite.js', 'pool.js', 'sim.js', 'pool-config.js', 'pool.css', 'push.js', 'ads.js', 'welcome.js', 'party.js']:
     html = html.replace('"' + f + '"', '"' + f + '?v=' + v + '"')

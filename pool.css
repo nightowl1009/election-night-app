@@ -59,7 +59,7 @@
 #pool-root .en-pb.d { border-color: rgba(59,130,246,.55); background: rgba(59,130,246,.10); color: #2563eb; }
 #pool-root .en-pb.r { border-color: rgba(239,68,68,.55); background: rgba(239,68,68,.10); color: #dc2626; }
 #pool-root .en-pb.i { border-color: rgba(168,85,247,.55); background: rgba(168,85,247,.10); color: #9333ea; }
-@media (prefers-color-scheme: dark) {
+@media all /* app is always dark */ {
   #pool-root .en-pb.d { color: #93c5fd; } #pool-root .en-pb.r { color: #fca5a5; } #pool-root .en-pb.i { color: #d8b4fe; }
 }
 #pool-root .en-pb.d[aria-pressed="true"] { background: #3b82f6; border-color: #3b82f6; color: #fff; box-shadow: 0 0 0 2px rgba(59,130,246,.35); }
@@ -74,7 +74,7 @@
 .pl-lock.urgent { background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.55); animation: pl-pulse 2s ease-in-out infinite; }
 .pl-lock.urgent .pl-todo { color: #dc2626; }
 @keyframes pl-pulse { 50% { box-shadow: 0 0 0 4px rgba(239,68,68,.15); } }
-@media (prefers-color-scheme: dark) { .pl-lock .pl-todo { color:#fbbf24; } .pl-lock .pl-done { color:#4ade80; } .pl-lock.urgent .pl-todo { color:#fca5a5; } }
+@media all /* app is always dark */ { .pl-lock .pl-todo { color:#fbbf24; } .pl-lock .pl-done { color:#4ade80; } .pl-lock.urgent .pl-todo { color:#fca5a5; } }
 
 /* Lock of the night */
 .pl-star { appearance:none; border:1px solid var(--color-border-line); background: var(--color-bg); color: var(--color-fg-muted); border-radius: 999px; width: 2.1rem; height: 2.1rem; font-size: 1.05rem; line-height:1; cursor:pointer; flex:none; }
