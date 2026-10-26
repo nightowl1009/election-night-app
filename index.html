@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en" class="boot" data-theme="dark">
+<html lang="en" class="boot">
 <head>
 <meta charset="utf-8">
 <meta name="color-scheme" content="dark" id="cs-meta">
 <style>html.boot, html.boot body { background:#000 !important; color-scheme: dark !important; }</style>
+<script>/* light (default) or dark, picked with the ☀️/🌙 button */ try { document.documentElement.dataset.theme = localStorage.getItem('en-theme') === 'dark' ? 'dark' : 'light'; } catch (e) { document.documentElement.dataset.theme = 'light'; }</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* The page never moves sideways: the viewport clips anything wider than the screen, and so does each tab's panel.
@@ -66,15 +67,14 @@ html, body, body * { touch-action: manipulation; }
   --cds-surface-popover: #ffffff; --cds-border: #e3e5ea; --cds-shadow-popover: 0 8px 24px rgba(0,0,0,.18); --cds-text-secondary: #6b7280;
   color-scheme: light;
 }
-@media all {
-  :root {
+html[data-theme="dark"] {
     --color-fg: #f3f4f6; --color-fg-muted: #9ca3af; --color-bg: #0d1117; --color-panel: #161b22; --color-border-line: #2a313c;
     --color-ok: #4ade80; --color-warn: #fbbf24; --color-bad: #f87171;
     --cds-chart-reference: #6b7280; --cds-chart-muted: #475569;
     --cds-surface-popover: #1f2630; --cds-border: #2a313c; --cds-text-secondary: #9ca3af;
     color-scheme: dark;
   }
-}
+
 html { -webkit-text-size-adjust: 100%; }
 body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); }
 .dash-skeleton { background: linear-gradient(90deg, rgba(127,127,127,.10), rgba(127,127,127,.22), rgba(127,127,127,.10)); background-size: 200% 100%; border-radius: var(--cds-radius); }
@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792979005"></script>
-<link rel="stylesheet" href="pool.css?v=1792979005" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1792979005"></noscript>
+<script src="dash-lite.js?v=1792979407"></script>
+<link rel="stylesheet" href="pool.css?v=1792979407" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1792979407"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -234,8 +234,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 </div>
 <script>
 (function () {
-  var sp = document.getElementById('vote-splash'); if (!sp) { document.documentElement.classList.remove('boot'); var cm0 = document.getElementById('cs-meta'); if (cm0) cm0.content = 'dark'; return; }
-  setTimeout(function () { document.documentElement.classList.remove('boot'); var cm = document.getElementById('cs-meta'); if (cm) cm.content = 'dark'; }, 6000); // failsafe
+  var sp = document.getElementById('vote-splash'); if (!sp) { document.documentElement.classList.remove('boot'); var cm0 = document.getElementById('cs-meta'); if (cm0) cm0.content = document.documentElement.dataset.theme || 'light'; return; }
+  setTimeout(function () { document.documentElement.classList.remove('boot'); var cm = document.getElementById('cs-meta'); if (cm) cm.content = document.documentElement.dataset.theme || 'light'; }, 6000); // failsafe
   document.documentElement.classList.add('vs-on');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   // chamber of dots: blue on the left, gold in the middle, red on the right
@@ -276,7 +276,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
     setTimeout(function () { pop(); boom('50%', '78%', 34, 170); }, 3000); // the pals meet
   }
   var done = false;
-  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); document.documentElement.classList.remove('boot'); var cm = document.getElementById('cs-meta'); if (cm) cm.content = 'dark'; setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
+  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); document.documentElement.classList.remove('boot'); var cm = document.getElementById('cs-meta'); if (cm) cm.content = document.documentElement.dataset.theme || 'light'; setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
   sp.addEventListener('click', close);
   setTimeout(close, reduce ? 1200 : 3900);
 })();
@@ -585,7 +585,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 .en-ev-row .tot .tb { display:block; height:4px; border-radius:3px; background: var(--en-blue); opacity:.55; }
 .en-ev-row .sp { display:flex; flex-direction:column; gap:3px; } .en-ev-row .sp small, .en-ev-row .pt small { color: var(--color-fg-muted); }
 .en-ev-row .pt b.d { color:#2563eb; } .en-ev-row .pt b.r { color:#dc2626; }
-@media all { .en-ev-row .nm .tag { color:#fbbf24; } .en-ev-row .pt b.d { color:#93c5fd; } .en-ev-row .pt b.r { color:#fca5a5; } }
+html[data-theme="dark"] .en-ev-row .nm .tag { color:#fbbf24; }html[data-theme="dark"] .en-ev-row .pt b.d { color:#93c5fd; }html[data-theme="dark"] .en-ev-row .pt b.r { color:#fca5a5; } 
 @media (max-width: 30rem) { .en-ev-row { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr); } .en-ev-row > :nth-child(3) { display:none; } }
 .en-vote { display:grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: var(--cds-gap-md); }
 .en-vcard { background: var(--color-panel); border:1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
@@ -919,7 +919,7 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 
 /* Real-shape US map */
 .en { --en-mapoff: #d7dde6; --en-mapon: #fbeec4; --en-maptoss: #f5b83d; --en-maptoss-ink: #3a2a00; --en-mapsel: #1f2430; }
-@media all { :root:not([data-theme="light"]) .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; } }
+html[data-theme="dark"]:not([data-theme="light"]) .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; } 
 :root[data-theme="dark"] .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; }
 .en-usmap .st.sel, .en-usmap .co.sel { stroke: var(--en-mapsel); stroke-width: 2.6; }
 .en-usmap { position:relative; max-width: 50rem; margin: 0 auto; }
@@ -947,9 +947,9 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 /* Accessibility: text set in party / yes-no colors uses darker (light theme) or lighter (dark theme) shades so it
    meets WCAG AA contrast (4.5:1). Bars, seats and fills keep the brand colors. */
 .en { --ink-d:#1d4ed8; --ink-r:#b91c1c; --ink-i:#7e22ce; --ink-y:#0f766e; --ink-n:#c2410c; --ink-gold:#92400e; --ink-link:#1d4ed8; }
-@media not all { :root:not([data-theme="dark"]) .en { --color-fg-muted: #565e6b; } }
+html[data-theme="light"]:not([data-theme="dark"]) .en { --color-fg-muted: #565e6b; } 
 :root[data-theme="light"] .en { --color-fg-muted: #565e6b; }
-@media all { :root:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r:#fca5a5; --ink-i:#d8b4fe; --ink-y:#5eead4; --ink-n:#fdba74; --ink-gold:#fbbf24; --ink-link:#93c5fd; } }
+html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r:#fca5a5; --ink-i:#d8b4fe; --ink-y:#5eead4; --ink-n:#fdba74; --ink-gold:#fbbf24; --ink-link:#93c5fd; } 
 :root[data-theme="dark"] .en { --ink-d:#93c5fd; --ink-r:#fca5a5; --ink-i:#d8b4fe; --ink-y:#5eead4; --ink-n:#fdba74; --ink-gold:#fbbf24; --ink-link:#93c5fd; }
 .en-pill.dem, .en-c.d .p, .en-latest .d, .en-vs .dd, .en-res-v .d, .en-path-nums .big.d, .en-verdict.d, .en-sc-row .d, .en-mo-card.race .en-mo-nums .y, .en-mo-card.race .en-mo-what .wy b, .en-nm-g.party .ab .a, .en-div .lead.d, .en-tr .l b, .en-ev-row .pt b.d, .en-kline .d, #pool-root .en-pb.d:not([aria-pressed="true"]), .pl-prow .pk.d { color: var(--ink-d); }
 .en-pill.rep, .en-c.r .p, .en-latest .r, .en-vs .rr, .en-res-v .r, .en-path-nums .big.r, .en-verdict.r, .en-sc-row .r, .en-sc-row .bad, .en-mo-card.race .en-mo-nums .n, .en-mo-card.race .en-mo-what .wn b, .en-nm-g.party .ab .b, .en-div .lead.r, .en-tr .r b, .en-ev-row .pt b.r, .en-kline .r, .en-res-h .live, .en-rchip.live, .pl-prow .pk.r, .en-ntag.house { color: var(--ink-r); }
@@ -3084,12 +3084,12 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792979005"></script>
-<script src="pool.js?v=1792979005"></script>
-<script src="sim.js?v=1792979005"></script>
-<script src="push.js?v=1792979005"></script>
-<script src="ads.js?v=1792979005"></script>
-<script src="welcome.js?v=1792979005"></script>
-<script src="party.js?v=1792979005"></script>
+<script src="pool-config.js?v=1792979407"></script>
+<script src="pool.js?v=1792979407"></script>
+<script src="sim.js?v=1792979407"></script>
+<script src="push.js?v=1792979407"></script>
+<script src="ads.js?v=1792979407"></script>
+<script src="welcome.js?v=1792979407"></script>
+<script src="party.js?v=1792979407"></script>
 </body>
 </html>

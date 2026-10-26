@@ -222,7 +222,22 @@
   });
   window.enTvOnOpen = window.enTvOnOpen || []; window.enTvOnOpen.push(() => { if (!odds) loadOdds(); });
 
+  // ---------- Light / dark switch (light by default) ----------
+  function addThemeButton() {
+    const hero = document.getElementById('top'); if (!hero || document.getElementById('theme-btn')) return;
+    const b = h('button', 'en-theme-btn'); b.type = 'button'; b.id = 'theme-btn';
+    const paint = () => { const dark = document.documentElement.dataset.theme === 'dark'; b.textContent = dark ? '☀️' : '🌙'; b.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode'); b.title = b.getAttribute('aria-label'); };
+    b.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = next; store.set('en-theme', next);
+      const cm = document.getElementById('cs-meta'); if (cm && !document.documentElement.classList.contains('boot')) cm.content = next;
+      paint(); if (typeof paintOdds === 'function') paintOdds();
+    });
+    paint(); hero.append(b);
+  }
+
   function boot() {
+    addThemeButton();
     addSoundButton(); setTimeout(addSoundButton, 2500);
     document.querySelectorAll('.en-tab[data-tab="night"]').forEach(t => t.addEventListener('click', () => setTimeout(() => { if (!odds) loadOdds(); else paintOdds(); }, 0)));
     oddsLoop();

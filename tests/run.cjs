@@ -39,6 +39,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     if (opts.odds) await page.route(/\.netlify\/functions\/odds/, (r) => r.fulfill({ json: opts.odds }));
     if (opts.results) await page.route(/data\/results\.json/, async (r) => { const rows = DATA('results'); opts.results(rows); r.fulfill({ json: rows }); });
     await page.addInitScript((w) => { window.POOL_MOCK = true; if (!w) localStorage.setItem('en-welcome-v1', '1'); }, !!opts.welcome);
+    await page.addInitScript((t) => { localStorage.setItem('en-theme', t); }, opts.scheme === 'dark' ? 'dark' : 'light');   // the app's own ☀️/🌙 setting
     if (opts.db) await page.addInitScript((db) => { window.__poolMockDb = db; }, opts.db);
     if (opts.time) await page.clock.install({ time: new Date(opts.time) });
     await page.goto(BASE + hash);
@@ -221,6 +222,13 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await a.page.waitForTimeout(3600); await a.page.locator('.pl-pop .pl-poprx .pl-q').first().click(); await a.page.waitForTimeout(400);
     ok(await a.page.evaluate(() => [...document.querySelectorAll('.pl-msgb p')].some((p) => /Iowa Senate/.test(p.textContent))), 'pop-up reaction not posted');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('light by default; the ☀️/🌙 button switches and remembers', async () => {
+    const a = await open(''); await a.page.evaluate(() => localStorage.removeItem('en-theme')); await a.page.reload(); await a.page.waitForTimeout(6000);
+    const bg = () => a.page.evaluate(() => [document.documentElement.dataset.theme, getComputedStyle(document.body).backgroundColor]);
+    let t = await bg(); ok(t[0] === 'light' && t[1] === 'rgb(245, 246, 248)', 'default ' + t);
+    await a.page.click('#theme-btn'); t = await bg(); ok(t[0] === 'dark' && t[1] === 'rgb(13, 17, 23)', 'dark ' + t);
+    ok(await a.page.evaluate(() => localStorage.getItem('en-theme')) === 'dark', 'not remembered'); await a.close();
   });
   await test('no pinch or double-tap zoom; sideways rows still scroll', async () => {
     const a = await open('', { touch: true });

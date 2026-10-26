@@ -26,10 +26,34 @@ extra = ('<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-c
          '<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>\n'
          '<script src="pool-config.js"></script>\n<script src="pool.js"></script>\n<script src="sim.js"></script>\n<script src="push.js"></script>\n<script src="ads.js"></script>\n<script src="welcome.js"></script>\n<script src="party.js"></script>\n')
 if 'pool.js' not in tail: tail = tail.replace('</body>', extra + '</body>', 1)
+def theme_scope(css):
+    import re
+    out, i = [], 0
+    pat = re.compile(r'@media \(prefers-color-scheme: (dark|light)\)\s*\{')
+    while True:
+        m = pat.search(css, i)
+        if not m: out.append(css[i:]); break
+        out.append(css[i:m.start()])
+        mode, j, depth = m.group(1), m.end(), 1
+        while depth:
+            c = css[j]
+            if c == '{': depth += 1
+            elif c == '}': depth -= 1
+            j += 1
+        inner = css[m.end():j - 1]
+        scope = 'html[data-theme="%s"]' % mode
+        def fix(rule_m):
+            sels = [x.strip() for x in rule_m.group(1).split(',')]
+            sels = [scope + x[5:] if x.startswith(':root') else scope + ' ' + x for x in sels]
+            return ', '.join(sels) + ' {' + rule_m.group(2) + '}'
+        out.append(re.sub(r'([^{}]+)\{([^{}]*)\}', fix, inner))
+        i = j
+    return ''.join(out)
+
 html = head + page + tail
-# The app is always in dark mode (fewer bright white areas, matches the splash); the dashboard still follows the system.
-html = html.replace('@media (prefers-color-scheme: dark)', '@media all').replace('@media (prefers-color-scheme: light)', '@media not all')
-html = html.replace('<html lang="en" class="boot">', '<html lang="en" class="boot" data-theme="dark">', 1)
+# Light or dark is the viewer's choice in the app (☀️/🌙 button; light by default), not the phone's setting:
+# every "if the phone is in dark/light mode" block becomes "if the app is in dark/light mode".
+html = theme_scope(html)
 v = str(int(time.time()))
 for f in ['dash-lite.js', 'pool.js', 'sim.js', 'pool-config.js', 'pool.css', 'push.js', 'ads.js', 'welcome.js', 'party.js']:
     html = html.replace('"' + f + '"', '"' + f + '?v=' + v + '"')
