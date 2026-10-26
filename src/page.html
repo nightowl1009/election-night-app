@@ -638,6 +638,19 @@ i.mail { background: #8b5cf6; } i.ip { background: #f59e0b; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; } }
 :root[data-theme="dark"] .en { --en-mapoff: #262d3a; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; }
 .en-usmap .st.sel, .en-usmap .co.sel { stroke: var(--en-mapsel); stroke-width: 2.6; }
+/* Battleground maps wear the same dark "gallery" card as the Senate and House seat charts, in light and dark mode */
+.en-map { color:#fff; border-color: rgba(255,255,255,.08);
+  background: radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020;
+  --color-panel: #0b1020; --color-fg: #ffffff; --color-fg-muted: rgba(255,255,255,.68); --color-border-line: rgba(255,255,255,.14);
+  --en-mapoff: #1f2737; --en-mapon: #4a4430; --en-maptoss: #b8841c; --en-maptoss-ink: #fff8e6; --en-mapsel: #ffffff; }
+.en-map .en-usmap .st, .en-map .en-usmap .co { stroke: #0b1020; }
+.en-map .en-map-h p, .en-map .en-map-key { color: rgba(255,255,255,.72); }
+.en-map .en-mapmode { background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16); padding:3px; }
+.en-map .en-mapmode button { color: rgba(255,255,255,.72); }
+.en-map .en-mapmode button[aria-pressed="true"] { background:#fff; color:#0b1020; box-shadow:none; }
+.en-map .en-usmap .lead { stroke: rgba(255,255,255,.45); }
+.en-map .en-usmap .dot { stroke: #0b1020; }
+.en-map .en-fail { color: rgba(255,255,255,.8); }
 .en-usmap { position:relative; max-width: 50rem; margin: 0 auto; }
 .en-usmap svg { display:block; overflow:visible; }
 .en-usmap .st { fill: var(--en-mapoff); stroke: var(--color-panel); stroke-width: 1.2; stroke-linejoin: round; }
