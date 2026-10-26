@@ -18,7 +18,9 @@ sub('<button class="en-tab" role="tab" data-tab="news" aria-selected="false"><sv
 sub("['senate', 'governors', 'house', 'mood', 'money', 'missouri', 'path', 'night', 'news', 'voting', 'watchlist']",
     "['senate', 'governors', 'house', 'mood', 'money', 'missouri', 'path', 'night', 'news', 'voting', 'game', 'ads', 'watchlist']")
 head, tail = rd('src/app-head.html'), rd('src/app-tail.html')
-if 'pool.css' not in head: head = head.replace('</head>', '<link rel="stylesheet" href="pool.css">\n</head>', 1)
+# pool.css loads without holding up the first paint (the splash covers the page while it arrives), so the
+# splash shows sooner at launch — on iPhone any wait before the first paint shows as a white flash.
+if 'pool.css' not in head: head = head.replace('</head>', '<link rel="stylesheet" href="pool.css" media="print" onload="this.media=\'all\'">\n<noscript><link rel="stylesheet" href="pool.css"></noscript>\n</head>', 1)
 extra = ('<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>\n'
          '<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>\n'
          '<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>\n'

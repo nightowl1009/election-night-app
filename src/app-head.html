@@ -2,7 +2,8 @@
 <html lang="en" class="boot">
 <head>
 <meta charset="utf-8">
-<style>html.boot, html.boot body { background:#000 !important; }</style>
+<meta name="color-scheme" content="dark" id="cs-meta">
+<style>html.boot, html.boot body { background:#000 !important; color-scheme: dark !important; }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* The page never moves sideways: the viewport clips anything wider than the screen, and so does each tab's panel.
@@ -231,8 +232,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 </div>
 <script>
 (function () {
-  var sp = document.getElementById('vote-splash'); if (!sp) { document.documentElement.classList.remove('boot'); return; }
-  setTimeout(function () { document.documentElement.classList.remove('boot'); }, 6000); // failsafe
+  var sp = document.getElementById('vote-splash'); if (!sp) { document.documentElement.classList.remove('boot'); var cm0 = document.getElementById('cs-meta'); if (cm0) cm0.content = 'light dark'; return; }
+  setTimeout(function () { document.documentElement.classList.remove('boot'); var cm = document.getElementById('cs-meta'); if (cm) cm.content = 'light dark'; }, 6000); // failsafe
   document.documentElement.classList.add('vs-on');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   // chamber of dots: blue on the left, gold in the middle, red on the right
@@ -273,7 +274,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
     setTimeout(function () { pop(); boom('50%', '78%', 34, 170); }, 3000); // the pals meet
   }
   var done = false;
-  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); document.documentElement.classList.remove('boot'); setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
+  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); document.documentElement.classList.remove('boot'); var cm = document.getElementById('cs-meta'); if (cm) cm.content = 'light dark'; setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
   sp.addEventListener('click', close);
   setTimeout(close, reduce ? 1200 : 3900);
 })();
