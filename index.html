@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792988183"></script>
-<link rel="stylesheet" href="pool.css?v=1792988183" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1792988183"></noscript>
+<script src="dash-lite.js?v=1792991659"></script>
+<link rel="stylesheet" href="pool.css?v=1792991659" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1792991659"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -936,6 +936,7 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --en-mapoff: #262d3a; --
 .en-map .en-usmap .lead { stroke: rgba(255,255,255,.45); }
 .en-map .en-usmap .dot { stroke: #0b1020; }
 .en-map .en-fail { color: rgba(255,255,255,.8); }
+.en-map-src { flex-basis:100%; justify-content:center; text-align:center; font-weight:700; color: rgba(255,255,255,.9); }
 .en-usmap { position:relative; max-width: 50rem; margin: 0 auto; }
 .en-usmap svg { display:block; overflow:visible; }
 .en-usmap .st { fill: var(--en-mapoff); stroke: var(--color-panel); stroke-width: 1.2; stroke-linejoin: round; }
@@ -1050,7 +1051,7 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
         <p class="en-take" id="en-take"></p>
       </div>
       <div class="en-sec-h">
-        <div><h2>Senate battlegrounds</h2><p>Big numbers = RealClearPolling average, latest poll underneath · Bar centre = 50/50 · Left stripe = party holding the seat · Dot chart = every poll found since late July</p></div>
+        <div><h2>Senate battlegrounds</h2><p>Ratings: Cook Political Report · Big numbers = RealClearPolling average, latest poll underneath · Bar centre = 50/50 · Left stripe = party holding the seat · Dot chart = every poll found since late July</p></div>
         <div class="en-chips" id="sen-chips" role="group" aria-label="Filter by rating"></div>
       </div>
  <div class="en-map dash-skeleton" id="sen-map" data-source="usmap senate results"></div>
@@ -1058,7 +1059,7 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
     </section>
 
     <section id="governors" class="en-panel" hidden>
-      <div class="en-sec-h"><div><h2>Governor races to watch</h2><p>36 governorships are up · RealClearPolling average, latest poll underneath</p></div><div class="en-chips" id="gov-chips" role="group" aria-label="Filter by rating"></div></div>
+      <div class="en-sec-h"><div><h2>Governor races to watch</h2><p>36 governorships are up · RealClearPolling average, latest poll underneath · Ratings come from Cook, Decision Desk HQ or RealClearPolling — each race names its source</p></div><div class="en-chips" id="gov-chips" role="group" aria-label="Filter by rating"></div></div>
  <div class="en-map dash-skeleton" id="gov-map" data-source="usmap governor results"></div>
       <div class="en-grid dash-skeleton" id="gov-grid" data-source="governor governor_margins polls results pollclose"></div>
     </section>
@@ -1348,11 +1349,18 @@ dash.calc('senate_base', {
   const RORDER = ['Toss-up', 'Lean D', 'Lean R', 'Likely D', 'Likely R', 'Solid D', 'Solid R'];
   const rIdx = (k) => { const i = RORDER.indexOf(k); return i < 0 ? 99 : i; };
   // Rating chips built from whatever ratings the data has today (Senate and governors), with counts like the House chips
+  const RATER = { Cook: 'Cook Political Report', DDHQ: 'Decision Desk HQ', RCP: 'RealClearPolling', Sabato: 'Sabato’s Crystal Ball', 'Inside Elections': 'Inside Elections' };
+  function raterLine(rows) {
+    const rs = [...new Set((rows || []).map(r => r.rater).filter(Boolean))];
+    if (!rs.length) return 'Ratings: Cook Political Report';
+    return rs.length === 1 ? 'Ratings: ' + (RATER[rs[0]] || rs[0]) : 'Ratings: ' + rs.map(x => RATER[x] || x).join(', ') + ' (each race shows its source)';
+  }
   function renderChips(sel, ds) {
     const box = $(sel), rows = okRows(ds); if (!box || !rows) return;
     const present = [...new Set(rows.map(r => r.rating).filter(Boolean))].sort((a, b) => rIdx(a) - rIdx(b));
     if (raceFilter[ds] !== 'all' && !present.includes(raceFilter[ds])) raceFilter[ds] = 'all';
     box.replaceChildren();
+    box.title = raterLine(rows);
     [['all', 'All', rows.length], ...present.map(k => [k, k, rows.filter(r => r.rating === k).length])].forEach(([f, t, n]) => {
       const b = el('button', 'en-chip'); b.type = 'button'; b.dataset.f = f; b.setAttribute('aria-pressed', String(raceFilter[ds] === f));
       b.append(document.createTextNode(t + ' '), el('span', '', '· ' + n));
@@ -1707,7 +1715,7 @@ dash.calc('senate_base', {
     }, isSen ? 'Senate battleground map' : 'Governor battleground map');
     const key = el('div', 'en-map-key');
     const sw = (cls, txt) => { const s = el('span'); const w = el('span', 'sw'); cls.forEach(c => { const i = el('i'); i.style.background = c; w.append(i); }); s.append(w, document.createTextNode(txt)); return s; };
-    if (mapMode[ds] === 'rating') key.append(sw(['#fbbf24'], 'Toss-up'), sw(['#93c5fd', '#3b82f6', '#1d4ed8'], 'Lean · Likely · Solid D'), sw(['#fca5a5', '#ef4444', '#b91c1c'], 'Lean · Likely · Solid R'));
+    if (mapMode[ds] === 'rating') key.append(el('span', 'en-map-src', raterLine(rows)), sw(['#fbbf24'], 'Toss-up'), sw(['#93c5fd', '#3b82f6', '#1d4ed8'], 'Lean · Likely · Solid D'), sw(['#fca5a5', '#ef4444', '#b91c1c'], 'Lean · Likely · Solid R'));
     else { key.append(sw(['#93c5fd', '#3b82f6', '#1d4ed8'], 'Dem lead <2 · 2–5 · 5+'), sw(['#fca5a5', '#ef4444', '#b91c1c'], 'GOP lead'));
       if (isSen) key.append(sw(['#d8b4fe', '#a855f7'], 'Independent')); }
     key.append(sw(['var(--en-mapoff)'], 'Not a battleground'));
@@ -1775,6 +1783,7 @@ dash.calc('senate_base', {
         .forEach(([c, t]) => { const s3 = el('span'); const i = el('i'); i.style.cssText = 'width:.75rem;height:.6rem;border-radius:3px;display:block;background:' + c; s3.append(i, document.createTextNode(t)); key2.append(s3); });
     }
     box.append(key, key2);
+    if (houseMapMode === 'cook') { const src = el('div', 'en-map-key'); src.append(el('span', 'en-map-src', 'Ratings: Cook Political Report')); box.append(src); }
   }
   function renderHouse() {
     const box = $('#house-grid'), d = dash.data('house');
@@ -1985,7 +1994,7 @@ dash.calc('senate_base', {
       !isNaN(pv('proj_other')) && pv('proj_other') + pv('proj_r') ? 'Polls point to ' + pv('proj_other') + '–' + pv('proj_r') : '',
       ks ? 'Dem odds ' + ks : '']);
     if (h.D + h.R) row('House', 'house', h.D, h.R, h.fD, h.fR, h.I + h.V, h.D + h.R + h.I + h.V, 218, [
-      h.called ? h.called + ' battlegrounds called' : (disp('cook_house_tossups') ? disp('cook_house_tossups') + ' toss-ups' : ''),
+      h.called ? h.called + ' battlegrounds called' : (disp('cook_house_tossups') ? disp('cook_house_tossups') + ' Cook toss-ups' : ''),
       kh ? 'Dem odds ' + kh : '']);
     const note = el('div', 'sb-note', 'Blue = Dem + Ind · Red = GOP · Gold = changed party · Odds from Kalshi'); box.append(note);
   }
@@ -3098,12 +3107,12 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792988183"></script>
-<script src="pool.js?v=1792988183"></script>
-<script src="sim.js?v=1792988183"></script>
-<script src="push.js?v=1792988183"></script>
-<script src="ads.js?v=1792988183"></script>
-<script src="welcome.js?v=1792988183"></script>
-<script src="party.js?v=1792988183"></script>
+<script src="pool-config.js?v=1792991659"></script>
+<script src="pool.js?v=1792991659"></script>
+<script src="sim.js?v=1792991659"></script>
+<script src="push.js?v=1792991659"></script>
+<script src="ads.js?v=1792991659"></script>
+<script src="welcome.js?v=1792991659"></script>
+<script src="party.js?v=1792991659"></script>
 </body>
 </html>
