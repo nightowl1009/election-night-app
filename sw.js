@@ -1,6 +1,6 @@
 /* Offline support: the app shell is cached; data files are fetched fresh
    when online and fall back to the last copy when offline. */
-const CACHE = 'election-night-v76';
+const CACHE = 'election-night-v77';
 const SHELL = ['./', 'index.html', 'd3.min.js', 'dash-lite.js', 'manifest.webmanifest', 'pool.js', 'pool.css', 'pool-config.js', 'sim.js', 'push.js', 'qrcode.js', 'ads.js', 'welcome.js', 'party.js',
   'icons/icon-192.png?v=2026', 'icons/icon-512.png?v=2026', 'icons/apple-touch-icon.png?v=2026',
   'fonts/InstrumentSans-Regular.ttf', 'fonts/InstrumentSans-Bold.ttf', 'fonts/InstrumentSerif-Regular.ttf'];
@@ -18,12 +18,21 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname.startsWith('/.netlify/')) return;
   if (url.pathname.includes('/data/') || /\.(js|css)$/.test(url.pathname) || e.request.mode === 'navigate') {
-    // network first, so new code, polls and results show up right away
-    e.respondWith(fetch(e.request).then((res) => {
-      const copy = res.clone();
-      caches.open(CACHE).then((c) => c.put(e.request, copy));
+    // Network first, so new code, polls and results show up right away — but the app shell (page, scripts, styles)
+    // never waits more than about a second on a slow connection: after that the saved copy opens the app instantly and the
+    // fresh copy is saved in the background for next time. (Waiting on the network was the white screen at launch.)
+    const net = fetch(e.request).then((res) => {
+      if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
       return res;
-    }).catch(() => caches.match(e.request, { ignoreSearch: true }).then((r) => r || caches.match('index.html'))));
+    });
+    const saved = () => caches.match(e.request, { ignoreSearch: e.request.mode === 'navigate' || url.pathname.includes('/data/') }).then((r) => r || (e.request.mode === 'navigate' ? caches.match('index.html') : null));
+    if (url.pathname.includes('/data/')) { e.respondWith(net.catch(() => saved())); return; }
+    e.respondWith(new Promise((resolve) => {
+      let done = false; const finish = (r) => { if (!done && r) { done = true; resolve(r); } };
+      const t = setTimeout(() => saved().then(finish), e.request.mode === 'navigate' ? 800 : 500);
+      net.then((r) => { clearTimeout(t); finish(r); }).catch(() => { clearTimeout(t); saved().then((r) => { if (r) finish(r); else { done = true; resolve(Response.error()); } }); });
+    }));
+    e.waitUntil(net.catch(() => {}));
     return;
   }
   e.respondWith(caches.match(e.request).then((r) => r || fetch(e.request)));
