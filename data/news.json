@@ -1,5 +1,95 @@
 [
  {
+  "nid": "n43",
+  "date": "2026-10-26",
+  "source": "ABC News",
+  "url": "https://abcnews.com/Politics/key-senate-races-determine-party-controls-body-year/story?id=137301095",
+  "tag": "Senate",
+  "headline": "ABC rates six Senate races toss-ups with control at stake",
+  "summary": "ABC News rates Texas, Alaska, Ohio, Kansas, Maine and Iowa as toss-ups and Michigan as Lean Democrat; Democrats need a net gain of four seats to win the chamber."
+ },
+ {
+  "nid": "n44",
+  "date": "2026-10-26",
+  "source": "Reuters",
+  "url": "https://kelo.com/2026/10/26/alaska-democratic-senate-candidate-peltola-asks-judge-to-toss-us-lawsuit-over-certification/",
+  "tag": "Senate",
+  "headline": "Peltola asks judge to dismiss DOJ certification suit",
+  "summary": "Mary Peltola and the DSCC asked U.S. District Judge Sharon Gleason to throw out the Justice Department suit that could block certification if Sen. Dan Sullivan narrowly loses. No ruling date has been set."
+ },
+ {
+  "nid": "n45",
+  "date": "2026-10-26",
+  "source": "St. Louis Public Radio",
+  "url": "https://www.stlpr.org/government-politics-issues/2026-10-26/proposition-a-missouris-trump-backed-congressional-map",
+  "tag": "Missouri",
+  "headline": "Prop A opponents dominate as voters weigh 2025 map",
+  "summary": "A yes vote on Proposition A would put Missouri's 2025 congressional map, which targets Rep. Emanuel Cleaver's district, into effect by 2028; a no vote keeps the 2022 lines. The no side is running ads statewide while organized support for the measure is scarce."
+ },
+ {
+  "nid": "n46",
+  "date": "2026-10-26",
+  "source": "WOSU",
+  "url": "https://www.wosu.org/2026-10-26/candidates-for-ohio-governor-focus-on-data-centers-in-last-week-of-campaign",
+  "tag": "Governors",
+  "headline": "Data centers become a closing issue in Ohio governor race",
+  "summary": "Amy Acton and Vivek Ramaswamy are trading ads over data centers in the final week, with Acton backing a conditional moratorium. AdImpact data show about $79 million more in ad spending for Ramaswamy than for Acton."
+ },
+ {
+  "nid": "n47",
+  "date": "2026-10-26",
+  "source": "Axios",
+  "url": "https://www.axios.com/2026/10/26/trump-tariffs-midterms-republicans",
+  "tag": "National",
+  "headline": "Tariffs weigh on Republicans in the final stretch",
+  "summary": "GOP candidates are defending Trump's tariffs while seeking relief from parts that hurt their states, and the White House exempted some Canadian goods after pressure from Sen. Susan Collins. Recent Pew and AP-NORC polling shows waning confidence in the tariffs."
+ },
+ {
+  "nid": "n48",
+  "date": "2026-10-26",
+  "source": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
+  "tag": "Governors",
+  "headline": "DGA adds $5 million for Bottoms in Georgia",
+  "summary": "The Democratic Governors Association put another $5 million into Keisha Lance Bottoms's campaign, on top of $11.5 million earlier. Republican Rick Jackson leads by single digits in polling averages in a race Cook rates a toss-up."
+ },
+ {
+  "nid": "n49",
+  "date": "2026-10-26",
+  "source": "CBS Austin",
+  "url": "https://cbsaustin.com/news/nation-world/fact-check-team-what-early-voting-numbers-tell-us-about-the-midterm-election-ballots",
+  "tag": "National",
+  "headline": "Early vote passes 30 million a week before Election Day",
+  "summary": "More than 30 million Americans had voted early as of Oct. 26, per the University of Florida Election Lab. Early turnout is running well above 2022 in Texas, Maine and Ohio but slightly below it in Iowa."
+ },
+ {
+  "nid": "n51",
+  "date": "2026-10-26",
+  "source": "Daily Caller",
+  "url": "https://dailycaller.com/2026/10/26/democrats-pour-over-2-million-deep-red-house-seats-brad-finstad-victoria-spartz/",
+  "tag": "House",
+  "headline": "Democratic super PAC spends in Trump-won House seats",
+  "summary": "House Majority PAC spent about $2.2 million against Rep. Brad Finstad in Minnesota's 1st District and about $380,000 against Rep. Victoria Spartz in Indiana's 5th. GOP groups have shifted money among other House districts."
+ },
+ {
+  "nid": "n52",
+  "date": "2026-10-26",
+  "source": "NPR",
+  "url": "https://www.npr.org/2026/10/26/nx-s1-6008167/republican-redistricting-midterms-competitive-map",
+  "tag": "House",
+  "headline": "Redrawn GOP districts turn into costly toss-ups",
+  "summary": "Several seats Republicans redrew to favor themselves, including North Carolina's 1st District with over $42 million in ads, are now competitive. Two redrawn Florida districts are nearing $90 million in combined ad spending."
+ },
+ {
+  "nid": "n50",
+  "date": "2026-10-25",
+  "source": "Spectrum News",
+  "url": "https://spectrumlocalnews.com/nys/central-ny/ny-state-of-politics/2026/10/25/hochul--blakeman-hit-the-campaign-trail-as-early-voting-begins",
+  "tag": "Governors",
+  "headline": "Hochul and Blakeman clash on costs as NY early voting opens",
+  "summary": "New York's early voting runs through Nov. 1, and Gov. Kathy Hochul and Republican Bruce Blakeman are focusing on affordability and utility bills. Blakeman is pitching an income tax exemption on the first $50,000 of income for single filers."
+ },
+ {
   "nid": "n42",
   "date": "2026-10-25",
   "source": "CBS News",
