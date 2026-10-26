@@ -89,7 +89,7 @@ body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-fami
 /* ---- "VOTE 2026" opening animation ---- */
 #vote-splash { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
   background: radial-gradient(120% 80% at 0% 0%, rgba(37,99,235,.55), transparent 60%), radial-gradient(120% 80% at 100% 0%, rgba(220,38,38,.5), transparent 60%), #0b1020;
-  color: #fff; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1); will-change: opacity, transform; animation: vs-in .7s cubic-bezier(.4,0,.2,1) backwards; }
+  color: #fff; overflow: hidden; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1); will-change: opacity, transform; animation: vs-in .35s ease-out backwards; }
 #vote-splash.out { opacity: 0; transform: scale(1.03); pointer-events: none; }
 /* the app eases in underneath as the splash fades */
 html.vs-on, html.vs-on body { background-color: #0b1020; }
@@ -157,6 +157,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 #vote-splash .vs-flash { position:absolute; inset:0; z-index:3; pointer-events:none; background: radial-gradient(circle at 50% 45%, #fff, rgba(255,255,255,.6) 40%, transparent 75%); opacity:0; }
 #vote-splash .vs-flash.go { animation: vs-flash .45s ease-out; }
 @keyframes vs-flash { 0% { opacity:.95; } 100% { opacity:0; } }
+/* the splash rises out of the black launch screen instead of popping on */
+@keyframes vs-in { from { opacity:0; } to { opacity:1; } }
 #vote-splash .vs-word span { animation: vs-drop .7s cubic-bezier(.22,1,.36,1) forwards, vs-glow 1.1s ease-in-out 1.1s 2 alternate; }
 #vote-splash .vs-word span:nth-child(1) { animation-delay: .30s, 1.1s; } #vote-splash .vs-word span:nth-child(2) { animation-delay: .42s, 1.2s; }
 #vote-splash .vs-word span:nth-child(3) { animation-delay: .54s, 1.3s; } #vote-splash .vs-word span:nth-child(4) { animation-delay: .66s, 1.4s; }
@@ -177,8 +179,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792977141"></script>
-<link rel="stylesheet" href="pool.css?v=1792977141">
+<script src="dash-lite.js?v=1792977946"></script>
+<link rel="stylesheet" href="pool.css?v=1792977946">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -3080,12 +3082,12 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792977141"></script>
-<script src="pool.js?v=1792977141"></script>
-<script src="sim.js?v=1792977141"></script>
-<script src="push.js?v=1792977141"></script>
-<script src="ads.js?v=1792977141"></script>
-<script src="welcome.js?v=1792977141"></script>
-<script src="party.js?v=1792977141"></script>
+<script src="pool-config.js?v=1792977946"></script>
+<script src="pool.js?v=1792977946"></script>
+<script src="sim.js?v=1792977946"></script>
+<script src="push.js?v=1792977946"></script>
+<script src="ads.js?v=1792977946"></script>
+<script src="welcome.js?v=1792977946"></script>
+<script src="party.js?v=1792977946"></script>
 </body>
 </html>
