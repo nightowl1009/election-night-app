@@ -223,6 +223,43 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(await a.page.evaluate(() => [...document.querySelectorAll('.pl-msgb p')].some((p) => /Iowa Senate/.test(p.textContent))), 'pop-up reaction not posted');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('map buttons: every state and seat gets the right color in each view', async () => {
+    const a = await open('#senate');
+    const MAPC = { d3: '#1d4ed8', d2: '#3b82f6', d1: '#93c5fd', r3: '#b91c1c', r2: '#ef4444', r1: '#fca5a5', i3: '#7e22ce', i2: '#a855f7', i1: '#d8b4fe', e: '#fbbf24' };
+    const hex = (c) => { const m = String(c).match(/\d+/g); return m ? '#' + m.slice(0, 3).map((x) => Number(x).toString(16).padStart(2, '0')).join('') : c; };
+    const r1 = (v) => Math.round(v * 10) / 10;
+    const ratingCls = (r) => { const m = /^(Lean|Likely|Solid) ([DRI])$/.exec(r.rating || ''); return m ? m[2].toLowerCase() + { Lean: '1', Likely: '2', Solid: '3' }[m[1]] : 'e'; };
+    const pollCls = (r) => { let d, rr; if (r.avg_d != null && r.avg_r != null) { d = +r.avg_d; rr = +r.avg_r; } else if (r.avg2_d != null && r.avg2_r != null) { d = +r.avg2_d; rr = +r.avg2_r; } else { d = +r.poll_d; rr = +r.poll_r; }
+      const m = r1(d - rr), side = m > 0 ? ((r.party_d || 'D') === 'I' ? 'i' : 'd') : m < 0 ? 'r' : 'e', a2 = Math.abs(m); return side === 'e' ? 'e' : side + (a2 >= 5 ? '3' : a2 >= 2 ? '2' : '1'); };
+    for (const [tab, sel, ds] of [['senate', '#sen-map', 'senate'], ['governors', '#gov-map', 'governor']]) {
+      await a.page.click('.en-tab[data-tab="' + tab + '"]'); await a.page.waitForTimeout(300);
+      const btns = await a.page.evaluate((s2) => [...document.querySelectorAll(s2 + ' .en-mapmode button')].map((b) => b.textContent + ':' + b.getAttribute('aria-pressed')), sel);
+      ok(JSON.stringify(btns) === JSON.stringify(['Rating:true', 'Poll lead:false']), tab + ' buttons ' + btns);
+      for (const [mode, fn] of [['Rating', ratingCls], ['Poll lead', pollCls]]) {
+        await a.page.click(sel + ' .en-mapmode button:has-text("' + mode + '")'); await a.page.waitForTimeout(150);
+        const fills = await a.page.evaluate((s2) => Object.fromEntries([...document.querySelectorAll(s2 + ' [data-st].on')].map((e) => [e.dataset.st, e.style.fill])), sel);
+        const bad = DATA(ds).filter((r) => hex(fills[r.id]) !== MAPC[fn(r)]).map((r) => r.id + ' ' + hex(fills[r.id]) + '≠' + MAPC[fn(r)] + ' (' + r.rating + ')');
+        ok(!bad.length && Object.keys(fills).length === DATA(ds).length, tab + ' ' + mode + ': ' + bad.join(', '));
+      }
+      await a.page.click(sel + ' .en-mapmode button:has-text("Rating")');
+    }
+    await a.page.click('.en-tab[data-tab="house"]'); await a.page.waitForTimeout(300);
+    const hb = await a.page.evaluate(() => [...document.querySelectorAll('#hou-map .en-mapmode button')].map((b) => b.textContent + ':' + b.getAttribute('aria-pressed')));
+    ok(JSON.stringify(hb) === JSON.stringify(['Rating:true', 'Betting odds:false']), 'house buttons ' + hb);
+    const house = DATA('house'), byState = {}; house.forEach((r) => { const st = r.id.split('-')[0]; (byState[st] = byState[st] || []).push(r); });
+    const cook = (r) => /toss/i.test(r.rating) ? 't' : r.rating === 'Lean D' ? 'ld' : 'lr';
+    const kal = (r) => { if (r.kalshi_d == null) return 'kn'; const k = Number(r.kalshi_d); return k >= 65 ? 'kd' : k > 50 ? 'ld' : k === 50 ? 't' : k > 35 ? 'lr' : 'kr'; };
+    for (const [mode, fn] of [['Rating', cook], ['Betting odds', kal]]) {
+      await a.page.click('#hou-map .en-mapmode button:has-text("' + mode + '")'); await a.page.waitForTimeout(150);
+      const dots = await a.page.evaluate(() => { const o = {}; document.querySelectorAll('#hou-map circle.dot').forEach((d) => { (o[d.dataset.st] = o[d.dataset.st] || []).push(d.getAttribute('class').split(' ')[1]); }); return o; });
+      const bad = Object.entries(byState).filter(([st, rows]) => JSON.stringify(dots[st]) !== JSON.stringify(rows.map(fn))).map(([st, rows]) => st + ' ' + dots[st] + '≠' + rows.map(fn));
+      ok(!bad.length, 'house ' + mode + ': ' + bad.join(' | '));
+    }
+    // legend colors match the dot colors
+    const leg = await a.page.evaluate(() => [...document.querySelectorAll('#hou-map .en-map-key')[0].querySelectorAll('span')].map((s2) => s2.textContent));
+    ok(leg.includes('50/50') && leg.includes('No odds yet'), 'betting-odds legend ' + leg);
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('light by default; the ☀️/🌙 button switches and remembers', async () => {
     const a = await open(''); await a.page.evaluate(() => localStorage.removeItem('en-theme')); await a.page.reload(); await a.page.waitForTimeout(6000);
     const bg = () => a.page.evaluate(() => [document.documentElement.dataset.theme, getComputedStyle(document.body).backgroundColor]);

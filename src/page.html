@@ -1336,7 +1336,7 @@ dash.calc('senate_base', {
     const mk2 = (tag, attrs) => { const n = document.createElementNS(NS, tag); Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v)); return n; };
     shapes.forEach(sh => {
       const it = info(sh.id);
-      const p = mk2('path', { d: sh.d, class: 'st' + (it ? ' on' : '') });
+      const p = mk2('path', { d: sh.d, class: 'st' + (it ? ' on' : ''), 'data-st': sh.id });
       if (it) { p.style.fill = it.fill; if (it.sel) { p.classList.add('sel'); queueMicrotask(() => gS.append(p)); } }
       gS.append(p);
       const bind = (node) => {
@@ -1352,9 +1352,9 @@ dash.calc('senate_base', {
         // small northeastern states: a labelled box off the coast with a leader line
         const bx = 942, by = sh.callout;
         gC.append(mk2('line', { x1: sh.cx, y1: sh.cy, x2: bx - 2, y2: by, class: 'lead' }));
-        const r = mk2('rect', { x: bx, y: by - 9, width: 40, height: 18, rx: 4, class: 'co' + (it ? ' on' : '') }); if (it) { r.style.fill = it.fill; if (it.sel) r.classList.add('sel'); } gC.append(r); bind(r);
+        const r = mk2('rect', { x: bx, y: by - 9, width: 40, height: 18, rx: 4, class: 'co' + (it ? ' on' : ''), 'data-st': sh.id }); if (it) { r.style.fill = it.fill; if (it.sel) r.classList.add('sel'); } gC.append(r); bind(r);
         const t = mk2('text', { x: bx + 20, y: by + 4, class: 'cl' + (it ? ' on' : '') }); t.textContent = sh.id; if (it) t.style.fill = it.ink || '#fff'; gC.append(t);
-        if (it && it.dots) { /* house dots for small states sit beside the box */ it.dots.forEach((c, k) => gC.append(mk2('circle', { cx: bx - 10 - k * 9, cy: by, r: 3.6, class: 'dot ' + c }))); }
+        if (it && it.dots) { /* house dots for small states sit beside the box */ it.dots.forEach((c, k) => gC.append(mk2('circle', { cx: bx - 10 - k * 9, cy: by, r: 3.6, class: 'dot ' + c, 'data-st': sh.id }))); }
         return;
       }
       if (it) {
@@ -1363,7 +1363,7 @@ dash.calc('senate_base', {
         if (it.dots) {
           const n = it.dots.length, per = Math.min(n, 4), rows = Math.ceil(n / per);
           it.dots.forEach((c, k) => { const row = Math.floor(k / per), col = k % per, inRow = Math.min(per, n - row * per);
-            gL.append(mk2('circle', { cx: sh.lx + (col - (inRow - 1) / 2) * 13, cy: sh.ly + 12 + row * 13, r: 5.2, class: 'dot ' + c })); });
+            gL.append(mk2('circle', { cx: sh.lx + (col - (inRow - 1) / 2) * 13, cy: sh.ly + 12 + row * 13, r: 5.2, class: 'dot ' + c, 'data-st': sh.id })); });
           t.setAttribute('y', sh.ly - 2);
         }
         [t].forEach(bind);
@@ -1380,7 +1380,7 @@ dash.calc('senate_base', {
     const hd = el('div', 'en-map-h'); hd.append(el('h3', '', isSen ? 'Senate battleground map' : 'Governor battleground map'),
       el('p', '', (mapMode[ds] === 'rating' ? 'Shade = race rating' : 'Shade = size of the lead') + ' · ✓ = called · tap a state'));
     const mm = el('div', 'en-mapmode'); mm.setAttribute('role', 'group'); mm.setAttribute('aria-label', 'Color states by');
-    [['poll', 'Poll lead'], ['rating', 'Rating']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(mapMode[ds] === k)); b.addEventListener('click', () => { mapMode[ds] = k; renderMap(sel, ds); }); mm.append(b); });
+    [['rating', 'Rating'], ['poll', 'Poll lead']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(mapMode[ds] === k)); b.addEventListener('click', () => { mapMode[ds] = k; renderMap(sel, ds); }); mm.append(b); });
     hd.append(mm);
     box.append(hd);
     const byId = new Map(rows.map(r => [r.id, r]));
@@ -1412,7 +1412,7 @@ dash.calc('senate_base', {
   }
 
 
-  let houseState = '', houseMapMode = 'kalshi', chamberMode = 'now';
+  let houseState = '', houseMapMode = 'cook', chamberMode = 'now';
   document.querySelectorAll('.en-chmode button').forEach(b => b.addEventListener('click', () => {
     chamberMode = b.dataset.m;
     document.querySelectorAll('.en-chmode button').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.m === b.dataset.m)));
@@ -1424,7 +1424,7 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     const hd = el('div', 'en-map-h'); hd.append(el('h3', '', 'House battleground map'), el('p', '', 'One dot per competitive seat · states fill in as seats are called · tap a state to see its races'));
     const mm = el('div', 'en-mapmode'); mm.setAttribute('role', 'group'); mm.setAttribute('aria-label', 'Color dots by');
-    [['kalshi', 'Kalshi odds'], ['cook', 'Cook rating']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(houseMapMode === k)); b.addEventListener('click', () => { houseMapMode = k; renderHouseMap(); }); mm.append(b); });
+    [['cook', 'Rating'], ['kalshi', 'Betting odds']].forEach(([k, t]) => { const b = el('button', '', t); b.type = 'button'; b.setAttribute('aria-pressed', String(houseMapMode === k)); b.addEventListener('click', () => { houseMapMode = k; renderHouseMap(); }); mm.append(b); });
     hd.append(mm);
     box.append(hd);
     const kCls = (r) => { if (r.kalshi_d == null) return 'kn'; const k = Number(r.kalshi_d); return k >= 65 ? 'kd' : k > 50 ? 'ld' : k === 50 ? 't' : k > 35 ? 'lr' : 'kr'; };
@@ -1456,7 +1456,7 @@ dash.calc('senate_base', {
     }, 'House battleground map');
     const key = el('div', 'en-map-key');
     (houseMapMode === 'kalshi'
-      ? [['#2563eb', 'Dem 65%+'], ['#60a5fa', 'Dem 51–64%'], ['#f87171', 'GOP 51–64%'], ['#dc2626', 'GOP 65%+'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]
+      ? [['#2563eb', 'Dem 65%+'], ['#60a5fa', 'Dem 51–64%'], ['var(--en-gold)', '50/50'], ['#f87171', 'GOP 51–64%'], ['#dc2626', 'GOP 65%+'], ['var(--color-fg-muted)', 'No odds yet'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]
       : [['var(--en-gold)', 'Toss-up'], ['#60a5fa', 'Lean D'], ['#f87171', 'Lean R'], ['#1d4ed8', 'Won by Dem'], ['#b91c1c', 'Won by GOP']]).forEach(([c, t]) => { const s = el('span'); const i = el('i'); i.style.cssText = 'width:.6rem;height:.6rem;border-radius:50%;display:block;background:' + c; s.append(i, document.createTextNode(t)); key.append(s); });
     const key2 = el('div', 'en-map-key');
     [['var(--en-maptoss)', 'State with a toss-up seat'], ['var(--en-mapon)', 'Lean seats only']].forEach(([c, t]) => { const s2 = el('span'); const i = el('i'); i.style.cssText = 'width:.75rem;height:.6rem;border-radius:3px;display:block;background:' + c; s2.append(i, document.createTextNode(t)); key2.append(s2); });
