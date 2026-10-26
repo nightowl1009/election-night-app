@@ -224,7 +224,11 @@ html.sim-on .en-tile, html.sim-on #en-count { outline: 1px dashed rgba(251,191,3
 #en-fresh.bad { color:#fecaca; border-color: rgba(239,68,68,.8); background: rgba(69,10,10,.92); }
 
 /* alerts button beside TV mode */
-.en-hbtns { display:flex; gap:.4rem; flex-wrap:wrap; justify-content:flex-end; flex:none; }
+/* Alerts · Poll-closing alerts · Sound · TV mode: one row that swipes sideways when it's wider than the screen */
+.en-hbtns { display:flex; gap:.4rem; flex-wrap:nowrap; flex: 1 1 100%; min-width:0; max-width:100%; overflow-x:auto; scrollbar-width:none; overscroll-behavior-x: contain; touch-action: pan-x pan-y; padding:2px 0; }
+.en-hbtns::-webkit-scrollbar { display:none; }
+.en-hbtns > * { flex:none; white-space:nowrap; touch-action: pan-x pan-y; }
+@media (min-width: 48rem) { .en-hbtns { flex:0 1 auto; justify-content:flex-end; } }
 .en-alert-btn[aria-pressed="true"] { border-color: var(--en-gold, #fbbf24); }
 
 /* accessibility: muted text outside the dashboard area */

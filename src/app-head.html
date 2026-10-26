@@ -12,7 +12,7 @@ html { overflow-x: hidden; }
 /* No double-tap zoom: 'manipulation' keeps scrolling and taps but drops double-tap zoom (iPhone honors it per element).
    Rows that scroll sideways (tabs, swipe cards, chips) are told outright they may pan both ways. */
 html, body, body * { touch-action: manipulation; }
-.en-tabs, .en-tabs *, .en-swipe-track, .en-swipe-track *, #pool-root .en-seg, #pool-root .en-seg *, .pl-pgrid, .pl-pgrid *, .pl-quick, .pl-quick * { touch-action: pan-x pan-y; }</style>
+.en-tabs, .en-tabs *, .en-hbtns, .en-hbtns *, .en-swipe-track, .en-swipe-track *, #pool-root .en-seg, #pool-root .en-seg *, .pl-pgrid, .pl-pgrid *, .pl-quick, .pl-quick * { touch-action: pan-x pan-y; }</style>
 <script>
 /* No pinch zoom: it's an app, not a web page. iPhone Safari ignores user-scalable=no, so block its pinch gestures too.
    Double-tap zoom is off through touch-action (CSS above), which keeps quick double taps on buttons working. */

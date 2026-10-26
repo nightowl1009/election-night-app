@@ -236,6 +236,15 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     for (let i = 0; i < 12; i++) { x -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] }); await a.page.waitForTimeout(16); }
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     await a.page.waitForTimeout(400); ok(await a.page.evaluate(() => document.querySelector('.en-tabs').scrollLeft) > 20, 'tab bar did not scroll on swipe');
+    // the Election night button row (alerts, poll-closing alerts, sound, TV) fits or swipes — it never pushes the page wider
+    await a.page.click('.en-tab[data-tab="night"]'); await a.page.waitForTimeout(300);
+    await a.page.evaluate(() => { const w = document.querySelector('.en-hbtns'); ['🔕 Race alerts', '🗳️ Poll-closing alerts on'].forEach((t) => { const b = document.createElement('button'); b.className = 'en-chip'; b.textContent = t; w.prepend(b); }); });
+    const hb = await a.page.evaluate(() => { const w = document.querySelector('.en-hbtns'), r = w.getBoundingClientRect(); return { right: r.right, W: document.documentElement.clientWidth, sw: w.scrollWidth, cw: w.clientWidth, x: getComputedStyle(w).overflowX }; });
+    ok(hb.right <= hb.W + 0.5 && hb.x === 'auto', 'button row ' + JSON.stringify(hb));
+    if (hb.sw > hb.cw) { await a.page.evaluate(() => document.querySelector('.en-hbtns').scrollIntoView({ block: 'center' })); await a.page.waitForTimeout(400); const bb = await a.page.locator('.en-hbtns').boundingBox(); const y2 = Math.round(bb.y + bb.height / 2); let x2 = Math.round(bb.x + bb.width * 0.85);
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: x2, y: y2 }] }); for (let i = 0; i < 10; i++) { x2 -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x2, y: y2 }] }); await a.page.waitForTimeout(16); }
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await a.page.waitForTimeout(300);
+      ok(await a.page.evaluate(() => document.querySelector('.en-hbtns').scrollLeft) > 10, 'button row did not swipe'); }
     // a sideways swipe across the page itself doesn't move it
     { let px = 300; const py = 600; await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: px, y: py }] });
       for (let i = 0; i < 12; i++) { px -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: px, y: py }] }); await a.page.waitForTimeout(16); }
