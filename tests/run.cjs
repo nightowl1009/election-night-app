@@ -235,7 +235,12 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
     for (let i = 0; i < 12; i++) { x -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] }); await a.page.waitForTimeout(16); }
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-    await a.page.waitForTimeout(400); ok(await a.page.evaluate(() => document.querySelector('.en-tabs').scrollLeft) > 20, 'tab bar did not scroll on swipe'); ok(z.ev, 'iPhone pinch gesture not blocked'); await a.close();
+    await a.page.waitForTimeout(400); ok(await a.page.evaluate(() => document.querySelector('.en-tabs').scrollLeft) > 20, 'tab bar did not scroll on swipe');
+    // a sideways swipe across the page itself doesn't move it
+    { let px = 300; const py = 600; await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: px, y: py }] });
+      for (let i = 0; i < 12; i++) { px -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: px, y: py }] }); await a.page.waitForTimeout(16); }
+      await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] }); await a.page.waitForTimeout(300);
+      ok(await a.page.evaluate(() => window.scrollX === 0 && document.documentElement.scrollLeft === 0 && visualViewport.offsetLeft === 0), 'page moved sideways'); } ok(z.ev, 'iPhone pinch gesture not blocked'); await a.close();
   });
   await test('polling-miss slider moves seats; rundown lists the night', async () => {
     const a = await open('#path');

@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* The page never moves sideways: the viewport clips anything wider than the screen, and so does each tab's panel.
+   (Only the root gets 'hidden' — on the viewport it doesn't stop the tab bar or swipe rows from scrolling.) */
+html { overflow-x: hidden; }
+.en-panel { overflow-x: clip; max-width: 100%; }
+.en-panel svg, .en-panel img, .en-panel canvas { max-width: 100%; }
 /* No double-tap zoom: 'manipulation' keeps scrolling and taps but drops double-tap zoom (iPhone honors it per element).
    Rows that scroll sideways (tabs, swipe cards, chips) are told outright they may pan both ways. */
 html, body, body * { touch-action: manipulation; }
@@ -157,8 +162,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792971577"></script>
-<link rel="stylesheet" href="pool.css?v=1792971577">
+<script src="dash-lite.js?v=1792972753"></script>
+<link rel="stylesheet" href="pool.css?v=1792972753">
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -3059,12 +3064,12 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792971577"></script>
-<script src="pool.js?v=1792971577"></script>
-<script src="sim.js?v=1792971577"></script>
-<script src="push.js?v=1792971577"></script>
-<script src="ads.js?v=1792971577"></script>
-<script src="welcome.js?v=1792971577"></script>
-<script src="party.js?v=1792971577"></script>
+<script src="pool-config.js?v=1792972753"></script>
+<script src="pool.js?v=1792972753"></script>
+<script src="sim.js?v=1792972753"></script>
+<script src="push.js?v=1792972753"></script>
+<script src="ads.js?v=1792972753"></script>
+<script src="welcome.js?v=1792972753"></script>
+<script src="party.js?v=1792972753"></script>
 </body>
 </html>

@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+/* The page never moves sideways: the viewport clips anything wider than the screen, and so does each tab's panel.
+   (Only the root gets 'hidden' — on the viewport it doesn't stop the tab bar or swipe rows from scrolling.) */
+html { overflow-x: hidden; }
+.en-panel { overflow-x: clip; max-width: 100%; }
+.en-panel svg, .en-panel img, .en-panel canvas { max-width: 100%; }
 /* No double-tap zoom: 'manipulation' keeps scrolling and taps but drops double-tap zoom (iPhone honors it per element).
    Rows that scroll sideways (tabs, swipe cards, chips) are told outright they may pan both ways. */
 html, body, body * { touch-action: manipulation; }
