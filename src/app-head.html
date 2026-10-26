@@ -1,7 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="boot">
 <head>
 <meta charset="utf-8">
+<style>html.boot, html.boot body { background:#000 !important; }</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 /* The page never moves sideways: the viewport clips anything wider than the screen, and so does each tab's panel.
@@ -32,6 +33,20 @@ html, body, body * { touch-action: manipulation; }
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="Election Night">
+<!-- iPhone launch screens: solid black instead of white while the app starts (read when added to the Home Screen) -->
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1320x2868.png" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1260x2736.png" media="(device-width: 420px) and (device-height: 912px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1206x2622.png" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="icons/launch/launch-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 <style>
 @font-face { font-family: "Instrument Sans"; src: url("fonts/InstrumentSans-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
 @font-face { font-family: "Instrument Sans"; src: url("fonts/InstrumentSans-Bold.ttf") format("truetype"); font-weight: 600 800; font-display: swap; }
@@ -214,7 +229,8 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 </div>
 <script>
 (function () {
-  var sp = document.getElementById('vote-splash'); if (!sp) return;
+  var sp = document.getElementById('vote-splash'); if (!sp) { document.documentElement.classList.remove('boot'); return; }
+  setTimeout(function () { document.documentElement.classList.remove('boot'); }, 6000); // failsafe
   document.documentElement.classList.add('vs-on');
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   // chamber of dots: blue on the left, gold in the middle, red on the right
@@ -255,7 +271,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
     setTimeout(function () { pop(); boom('50%', '78%', 34, 170); }, 3000); // the pals meet
   }
   var done = false;
-  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
+  function close() { if (done) return; done = true; sp.classList.add('out'); document.documentElement.classList.add('vs-reveal'); document.documentElement.classList.remove('boot'); setTimeout(function () { sp.remove(); document.documentElement.classList.remove('vs-on', 'vs-reveal'); }, 1000); }
   sp.addEventListener('click', close);
   setTimeout(close, reduce ? 1200 : 3900);
 })();
