@@ -36,6 +36,8 @@ WHAT'S HERE
                         messages ending in {bet:…}, {ql:…} or {qa:…}, so no Firestore rule changes were needed.
                         The TV reads calls aloud (🗣️ Voice on/off). Path tab: "What if the polls are off?" slider.
                         Election night tab: "Tonight's rundown" (opens itself at 4 PM CT Nov 3).
+  trivia.js             Election Trivia tab: Quick 10 (fixed facts + live questions built from the app's own data)
+                        and Daily 5 (same set for everyone each day); best score kept on the phone
   tests/                automated checks — run before shipping code changes (see TESTS below)
 
 UPDATES

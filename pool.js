@@ -1260,6 +1260,14 @@
     return d;
   });
 
+  // ---------- For other games (Trivia): post a line to your group chat ----------
+  window.enGroup = {
+    ready: () => !!(be && me && profile && profile.agreed && (profile.groups || []).length),
+    name: async () => { const c = lrCode(); if (!c) return ''; const g = await getGroupC(c).catch(() => null); return g ? g.name : ''; },
+    post: (text) => sendMsg(lrCode(), text),
+    me: () => (profile && profile.name) || '',
+  };
+
   // ---------- Tonight's rundown: your group at a glance ----------
   window.enRundownExtra = () => {
     const c = el('div', 'en-rd-c'); c.append(el('h4', '', 'Your Prediction Game'));

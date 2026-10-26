@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1792991659"></script>
-<link rel="stylesheet" href="pool.css?v=1792991659" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1792991659"></noscript>
+<script src="dash-lite.js?v=1792993773"></script>
+<link rel="stylesheet" href="pool.css?v=1792993773" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1792993773"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -1034,6 +1034,7 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
       <button class="en-tab" role="tab" data-tab="voting" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-ballot"/></svg>Voting</button>
       <button class="en-tab" role="tab" data-tab="news" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-news"/></svg>News</button>
       <button class="en-tab en-tab-game" role="tab" data-tab="game" aria-selected="false"><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Prediction Game</button>
+      <button class="en-tab en-tab-trivia" role="tab" data-tab="trivia" aria-selected="false"><svg class="en-ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3.5a6.5 6.5 0 0 0-3.9 11.7c.6.5.9 1.1.9 1.8v.5h6v-.5c0-.7.3-1.3.9-1.8A6.5 6.5 0 0 0 12 3.5zM9.5 20h5M10.3 9.2a1.9 1.9 0 1 1 2.6 1.8c-.6.3-.9.8-.9 1.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Trivia</button>
       <button class="en-tab" role="tab" data-tab="ads" aria-selected="false"><svg class="en-ic" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h13A1.5 1.5 0 0 1 20 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 17.5zM10 9.2v5.6l4.6-2.8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Ad Wars</button>
     </div></div>
 
@@ -1249,6 +1250,10 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
     <section id="game" class="en-panel en-game" hidden>
       <div class="en-sec-h"><div><h2><svg class="en-ic" aria-hidden="true"><use href="#i-star"/></svg>Election Night Prediction Game</h2><p>Call the 28 toss-up races for Senate, governor and House, compete with friends in groups, and watch the leaderboard on election night</p></div></div>
       <div id="pool-root"></div>
+    </section>
+
+    <section id="trivia" class="en-panel en-trivia" hidden>
+      <div id="trivia-root"></div>
     </section>
 
     <section id="ads" class="en-panel en-ads" hidden>
@@ -3079,7 +3084,7 @@ dash.calc('senate_base', {
   const votingOff = nowMs >= POLLS_DONE;
   if (votingOff && tabBtn('voting')) tabBtn('voting').style.display = 'none';
   const hash = location.hash.slice(1);
-  if (['senate', 'governors', 'house', 'mood', 'money', 'missouri', 'path', 'night', 'news', 'voting', 'game', 'ads', 'watchlist'].includes(hash) && !(hash === 'voting' && votingOff)) {
+  if (['senate', 'governors', 'house', 'mood', 'money', 'missouri', 'path', 'night', 'news', 'voting', 'game', 'trivia', 'ads', 'watchlist'].includes(hash) && !(hash === 'voting' && votingOff)) {
     if (hash !== 'watchlist') show(hash);
     const t = document.getElementById(hash); if (t) t.scrollIntoView();
   } else if (nowMs >= FIRST_CLOSE) show('night');
@@ -3107,12 +3112,13 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1792991659"></script>
-<script src="pool.js?v=1792991659"></script>
-<script src="sim.js?v=1792991659"></script>
-<script src="push.js?v=1792991659"></script>
-<script src="ads.js?v=1792991659"></script>
-<script src="welcome.js?v=1792991659"></script>
-<script src="party.js?v=1792991659"></script>
+<script src="pool-config.js?v=1792993773"></script>
+<script src="pool.js?v=1792993773"></script>
+<script src="sim.js?v=1792993773"></script>
+<script src="push.js?v=1792993773"></script>
+<script src="ads.js?v=1792993773"></script>
+<script src="welcome.js?v=1792993773"></script>
+<script src="party.js?v=1792993773"></script>
+<script src="trivia.js?v=1792993773"></script>
 </body>
 </html>

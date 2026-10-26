@@ -86,6 +86,7 @@
     setTimeout(close, o.big ? 7000 : 5200);
   }
   window.enCelebrate = celebrate;
+  window.enConfetti = confetti;
 
   // ---------- TV announcer voice (the TV reads calls out loud) ----------
   const voiceOn = () => store.get('en-voice') !== '0';

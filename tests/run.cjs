@@ -260,6 +260,31 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(leg.includes('50/50') && leg.includes('No odds yet'), 'betting-odds legend ' + leg);
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('Election Trivia: plays, scores, streaks, remembers best, Daily 5 is the same for everyone', async () => {
+    const a = await open('#trivia');
+    const bank = await a.page.evaluate(() => window.enTrivia.bank.map((q) => ({ q: q.q, a: q.a })));
+    ok(bank.length >= 30 && bank.every((q) => q.a.length >= 2 && q.a.length <= 4 && new Set(q.a).size === q.a.length), 'question bank: ' + bank.length);
+    const live = await a.page.evaluate(() => window.enTrivia.live());
+    const sen = DATA('senate'); const lead = live.filter((q) => q.kind === 'lead');
+    ok(lead.length && lead.every((q) => { const r = sen.find((x) => q.q.includes(' ' + x.state + ' ')); if (!r) return false; const d = r.avg_d != null ? r.avg_d : r.avg2_d != null ? r.avg2_d : r.poll_d, rr = r.avg_r != null ? r.avg_r : r.avg2_r != null ? r.avg2_r : r.poll_r; return q.a[0] === (d > rr ? r.cand_d : r.cand_r); }), 'live "who leads" answers match the data');
+    const answers = Object.fromEntries(bank.map((q) => [q.q, q.a[0]]).concat(live.map((q) => [q.q, q.a[0]])));
+    await a.page.click('.tq-mode >> nth=0'); await a.page.waitForTimeout(500);
+    for (let i = 0; i < 10; i++) {
+      const q = await a.page.textContent('.tq-q'); const right = answers[q]; ok(!!right, 'unknown question ' + q);
+      await a.page.locator('.tq-a').filter({ hasText: right }).first().click(); await a.page.waitForTimeout(250);
+      if (i === 2) ok(/2×/.test(await a.page.textContent('.tq-streak')), 'streak should reach 2× after 3 right');
+      await a.page.click('.tq-next'); await a.page.waitForTimeout(250);
+    }
+    await a.page.waitForTimeout(900);
+    const end = await a.page.evaluate(() => ({ score: Number(document.querySelector('.tq-big').textContent.replace(/,/g, '')), best: Number(localStorage.getItem('en-trivia-best')), txt: document.querySelector('.tq-end').textContent }));
+    ok(end.score > 2000 && end.best === end.score && /10\/10/.test(end.txt), 'end ' + JSON.stringify(end).slice(0, 200));
+    await a.page.evaluate(() => document.querySelectorAll('.cb-back').forEach((x) => x.click()));
+    await a.page.click('.tq-btn.ghost'); await a.page.waitForTimeout(200);
+    const d1 = await a.page.evaluate(() => { window.enTrivia.start('daily'); return document.querySelector('.tq-q').textContent; });
+    const d2 = await a.page.evaluate(() => { window.enTrivia.home(); window.enTrivia.start('daily'); return document.querySelector('.tq-q').textContent; });
+    ok(d1 === d2, 'Daily 5 should be the same set');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('light by default; the ☀️/🌙 button switches and remembers', async () => {
     const a = await open(''); await a.page.evaluate(() => localStorage.removeItem('en-theme')); await a.page.reload(); await a.page.waitForTimeout(6000);
     const bg = () => a.page.evaluate(() => [document.documentElement.dataset.theme, getComputedStyle(document.body).backgroundColor]);
