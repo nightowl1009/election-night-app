@@ -1384,5 +1384,284 @@
   "d": 42,
   "r": 46,
   "margin": -4
+ },
+ {
+  "pid": "SEN-NC-69",
+  "race": "SEN-NC",
+  "pollster": "Quantus Insights",
+  "date": "2026-10-25",
+  "d": 51,
+  "r": 43,
+  "margin": 8
+ },
+ {
+  "pid": "SEN-OH-84",
+  "race": "SEN-OH",
+  "pollster": "co/efficient",
+  "date": "2026-10-06",
+  "d": 45,
+  "r": 46,
+  "margin": -1
+ },
+ {
+  "pid": "SEN-OH-85",
+  "race": "SEN-OH",
+  "pollster": "CNN",
+  "date": "2026-10-05",
+  "d": 49,
+  "r": 43,
+  "margin": 6
+ },
+ {
+  "pid": "SEN-OH-86",
+  "race": "SEN-OH",
+  "pollster": "NY Times/Siena",
+  "date": "2026-10-01",
+  "d": 49,
+  "r": 46,
+  "margin": 3
+ },
+ {
+  "pid": "SEN-ME-65",
+  "race": "SEN-ME",
+  "pollster": "Marist",
+  "date": "2026-10-25",
+  "d": 49,
+  "r": 47,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-ME-66",
+  "race": "SEN-ME",
+  "pollster": "Trafalgar Group",
+  "date": "2026-10-23",
+  "d": 47,
+  "r": 47,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-ME-67",
+  "race": "SEN-ME",
+  "pollster": "Trafalgar Group",
+  "date": "2026-10-01",
+  "d": 46,
+  "r": 46,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-ME-68",
+  "race": "SEN-ME",
+  "pollster": "CBS News",
+  "date": "2026-10-01",
+  "d": 50,
+  "r": 50,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-TX-68",
+  "race": "SEN-TX",
+  "pollster": "Univision/YouGov",
+  "date": "2026-10-21",
+  "d": 50,
+  "r": 45,
+  "margin": 5
+ },
+ {
+  "pid": "SEN-TX-69",
+  "race": "SEN-TX",
+  "pollster": "University of Houston",
+  "date": "2026-10-14",
+  "d": 48,
+  "r": 46,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-TX-70",
+  "race": "SEN-TX",
+  "pollster": "Cook Political Report",
+  "date": "2026-10-13",
+  "d": 49,
+  "r": 44,
+  "margin": 5
+ },
+ {
+  "pid": "SEN-TX-71",
+  "race": "SEN-TX",
+  "pollster": "Quantus Insights",
+  "date": "2026-10-11",
+  "d": 47,
+  "r": 47,
+  "margin": 0
+ },
+ {
+  "pid": "SEN-TX-72",
+  "race": "SEN-TX",
+  "pollster": "Marist",
+  "date": "2026-10-11",
+  "d": 47,
+  "r": 45,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-TX-73",
+  "race": "SEN-TX",
+  "pollster": "Trafalgar Group",
+  "date": "2026-10-08",
+  "d": 47,
+  "r": 44,
+  "margin": 3
+ },
+ {
+  "pid": "SEN-TX-74",
+  "race": "SEN-TX",
+  "pollster": "ReconMR/Siena",
+  "date": "2026-10-08",
+  "d": 48,
+  "r": 44,
+  "margin": 4
+ },
+ {
+  "pid": "SEN-TX-75",
+  "race": "SEN-TX",
+  "pollster": "YouGov",
+  "date": "2026-10-05",
+  "d": 50,
+  "r": 44,
+  "margin": 6
+ },
+ {
+  "pid": "SEN-TX-76",
+  "race": "SEN-TX",
+  "pollster": "University of Texas",
+  "date": "2026-10-05",
+  "d": 50,
+  "r": 47,
+  "margin": 3
+ },
+ {
+  "pid": "SEN-KS-23",
+  "race": "SEN-KS",
+  "pollster": "InsiderAdvantage",
+  "date": "2026-10-14",
+  "d": 47,
+  "r": 48,
+  "margin": -1
+ },
+ {
+  "pid": "SEN-MI-83",
+  "race": "SEN-MI",
+  "pollster": "Michigan State/YouGov",
+  "date": "2026-10-19",
+  "d": 48,
+  "r": 46,
+  "margin": 2
+ },
+ {
+  "pid": "SEN-NH-70",
+  "race": "SEN-NH",
+  "pollster": "Rasmussen Reports",
+  "date": "2026-10-23",
+  "d": 50,
+  "r": 44,
+  "margin": 6
+ },
+ {
+  "pid": "GOV-OH-41",
+  "race": "GOV-OH",
+  "pollster": "Bowling Green/YouGov",
+  "date": "2026-10-09",
+  "d": 50,
+  "r": 44,
+  "margin": 6
+ },
+ {
+  "pid": "GOV-OH-42",
+  "race": "GOV-OH",
+  "pollster": "CNN",
+  "date": "2026-10-05",
+  "d": 50,
+  "r": 42,
+  "margin": 8
+ },
+ {
+  "pid": "GOV-OH-43",
+  "race": "GOV-OH",
+  "pollster": "NY Times/Siena",
+  "date": "2026-10-01",
+  "d": 49,
+  "r": 45,
+  "margin": 4
+ },
+ {
+  "pid": "GOV-IA-51",
+  "race": "GOV-IA",
+  "pollster": "Emerson",
+  "date": "2026-10-06",
+  "d": 49,
+  "r": 45,
+  "margin": 4
+ },
+ {
+  "pid": "GOV-IA-52",
+  "race": "GOV-IA",
+  "pollster": "CNN",
+  "date": "2026-10-05",
+  "d": 51,
+  "r": 42,
+  "margin": 9
+ },
+ {
+  "pid": "GOV-IA-53",
+  "race": "GOV-IA",
+  "pollster": "Suffolk University",
+  "date": "2026-10-04",
+  "d": 55,
+  "r": 43,
+  "margin": 12
+ },
+ {
+  "pid": "GOV-IA-54",
+  "race": "GOV-IA",
+  "pollster": "NY Times/Siena",
+  "date": "2026-10-01",
+  "d": 52,
+  "r": 41,
+  "margin": 11
+ },
+ {
+  "pid": "GOV-FL-57",
+  "race": "GOV-FL",
+  "pollster": "Univision/YouGov",
+  "date": "2026-10-15",
+  "d": 42,
+  "r": 50,
+  "margin": -8
+ },
+ {
+  "pid": "GOV-MI-59",
+  "race": "GOV-MI",
+  "pollster": "Michigan State/YouGov",
+  "date": "2026-10-19",
+  "d": 53,
+  "r": 41,
+  "margin": 12
+ },
+ {
+  "pid": "GOV-ME-71",
+  "race": "GOV-ME",
+  "pollster": "Marist",
+  "date": "2026-10-25",
+  "d": 44,
+  "r": 44,
+  "margin": 0
+ },
+ {
+  "pid": "GOV-ME-72",
+  "race": "GOV-ME",
+  "pollster": "CBS News",
+  "date": "2026-10-01",
+  "d": 56,
+  "r": 44,
+  "margin": 12
  }
 ]

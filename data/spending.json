@@ -648,28 +648,28 @@
   "kind": "donor",
   "group": "",
   "label": "Elon Musk",
-  "value": 369000000.0,
-  "display": "$369M",
+  "value": 446000000,
+  "display": "$446M",
   "lean": "R",
   "share_d": null,
-  "note": "Largest individual federal donor this cycle; $158M to Senate Leadership Fund last month alone.",
-  "source": "TIME (FEC data)",
-  "url": "https://time.com/article/2026/10/19/midterm-ad-spending-has-surpassed-10b-where-is-the-money-coming-from-/",
-  "as_of": "Oct 19"
+  "note": "Largest donor this cycle by far; includes $158M to Senate Leadership Fund and roughly $77M more to America PAC in early October.",
+  "source": "Al Jazeera (FEC data)",
+  "url": "https://aljazeera.com/news/2026/10/27/tracking-the-money-the-biggest-donors-in-the-2026-us-midterm-elections",
+  "as_of": "Oct 27"
  },
  {
   "id": "d1",
   "kind": "donor",
   "group": "",
   "label": "Elizabeth & Richard Uihlein",
-  "value": 138000000.0,
-  "display": "$138M",
+  "value": 150000000,
+  "display": "$150M",
   "lean": "R",
   "share_d": null,
   "note": "To Republican super PACs.",
-  "source": "TIME (FEC data)",
-  "url": "https://time.com/article/2026/10/19/midterm-ad-spending-has-surpassed-10b-where-is-the-money-coming-from-/",
-  "as_of": "Oct 19"
+  "source": "Al Jazeera (FEC data)",
+  "url": "https://aljazeera.com/news/2026/10/27/tracking-the-money-the-biggest-donors-in-the-2026-us-midterm-elections",
+  "as_of": "Oct 27"
  },
  {
   "id": "d2",
@@ -681,9 +681,9 @@
   "lean": "R",
   "share_d": null,
   "note": "To Republican super PACs.",
-  "source": "TIME (FEC data)",
-  "url": "https://time.com/article/2026/10/19/midterm-ad-spending-has-surpassed-10b-where-is-the-money-coming-from-/",
-  "as_of": "Oct 19"
+  "source": "Al Jazeera (FEC data)",
+  "url": "https://aljazeera.com/news/2026/10/27/tracking-the-money-the-biggest-donors-in-the-2026-us-midterm-elections",
+  "as_of": "Oct 27"
  },
  {
   "id": "d3",
@@ -695,9 +695,9 @@
   "lean": "D",
   "share_d": null,
   "note": "To Democracy PAC, which Soros founded in 2019.",
-  "source": "TIME (FEC data)",
-  "url": "https://time.com/article/2026/10/19/midterm-ad-spending-has-surpassed-10b-where-is-the-money-coming-from-/",
-  "as_of": "Oct 19"
+  "source": "Al Jazeera (FEC data)",
+  "url": "https://aljazeera.com/news/2026/10/27/tracking-the-money-the-biggest-donors-in-the-2026-us-midterm-elections",
+  "as_of": "Oct 27"
  },
  {
   "id": "m0",
@@ -922,5 +922,61 @@
   "source": "KOMU 8",
   "url": "https://www.komu.com/news/elections/who-s-bankrolling-missouri-s-final-election-push-ahead-of-the-midterms/article_cd3bcfb4-0dc8-463d-ae64-5b49fd73286d.html",
   "as_of": ""
+ },
+ {
+  "id": "d4",
+  "kind": "donor",
+  "group": "",
+  "label": "Mike Bloomberg",
+  "value": 84000000,
+  "display": "$84M",
+  "lean": "D",
+  "share_d": null,
+  "note": "Largest Democratic-aligned individual donor after Soros.",
+  "source": "Al Jazeera (FEC data)",
+  "url": "https://aljazeera.com/news/2026/10/27/tracking-the-money-the-biggest-donors-in-the-2026-us-midterm-elections",
+  "as_of": "Oct 27"
+ },
+ {
+  "id": "rc-cagov",
+  "kind": "race",
+  "group": "cycle",
+  "label": "California governor",
+  "value": 351000000,
+  "display": "$351M",
+  "lean": "",
+  "share_d": null,
+  "note": "AdImpact projection; would be the most expensive governor's race ever (old record $215M, Illinois 2022).",
+  "source": "AdImpact via Newsmax",
+  "url": "https://www.yahoo.com/news/politics/articles/texas-senate-race-tops-2026-182545675.html",
+  "as_of": "Oct 26"
+ },
+ {
+  "id": "f6",
+  "kind": "fact",
+  "group": "",
+  "label": "Just five super PACs had spent more than $1 billion by Oct. 25 — nearly a third of all non-party outside spending, about two-thirds of it helping Republicans.",
+  "value": null,
+  "display": "",
+  "lean": "",
+  "share_d": null,
+  "note": "",
+  "source": "AFP analysis of federal data",
+  "url": "https://www.yahoo.com/news/politics/articles/mystery-money-floods-us-midterm-173229451.html",
+  "as_of": "Oct 25"
+ },
+ {
+  "id": "f7",
+  "kind": "fact",
+  "group": "",
+  "label": "The 50 biggest donors and organizations have given $2.77 billion this cycle: about 60% to Republican-aligned groups, 30% Democratic-aligned, 10% bipartisan or special interest.",
+  "value": null,
+  "display": "",
+  "lean": "",
+  "share_d": null,
+  "note": "",
+  "source": "Al Jazeera (FEC data)",
+  "url": "https://aljazeera.com/news/2026/10/27/tracking-the-money-the-biggest-donors-in-the-2026-us-midterm-elections",
+  "as_of": "Oct 27"
  }
 ]

@@ -1,66 +1,102 @@
 [
  {
-  "nid": "n43",
+  "nid": "n62",
+  "date": "2026-10-27",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/redistricting-or-gerrymandering-how-proposition-a-map-splits-voters/article_35039a5e-5d07-4c02-923b-34bdc5675205.html",
+  "tag": "Missouri",
+  "headline": "How Prop A's map would redraw mid-Missouri",
+  "summary": "A yes vote on Proposition A approves the 2025 congressional map, likely 7 Republican seats to 1 Democratic, while a no vote keeps the 2022 map. The 2025 map would stretch Kansas City's 5th District east to Jefferson City, Sedalia and Moberly and put all of Columbia in the 3rd District."
+ },
+ {
+  "nid": "n61",
+  "date": "2026-10-27",
+  "source": "St. Louis Public Radio",
+  "url": "https://www.stlpr.org/government-politics-issues/2026-10-27/ann-wagner-defends-trump-iran-war-missouri-congress-race",
+  "tag": "Missouri",
+  "headline": "Wagner makes her case in tightening 2nd District race",
+  "summary": "Republican Rep. Ann Wagner, seeking an eighth term, faces Democrat Fred Wellman in Missouri's 2nd District as polls show a tightening race amid national Democratic momentum. Wagner has run ads attacking Wellman's past podcast remarks and finances; his campaign says he is current on his taxes."
+ },
+ {
+  "nid": "n59",
+  "date": "2026-10-27",
+  "source": "WDIV ClickOnDetroit",
+  "url": "https://www.clickondetroit.com/decision-2026/2026/10/27/heres-where-michigan-voters-stand-on-the-2026-governors-race-per-new-poll/",
+  "tag": "Governors",
+  "headline": "Benson leads James by about 7 in Michigan governor poll",
+  "summary": "A Glengariff Group poll for WDIV and The Detroit News (Oct. 19–22, 600 likely voters) found Democrat Jocelyn Benson at 51.4% and Republican John James at 44.5%. About 4% were undecided."
+ },
+ {
+  "nid": "n58",
+  "date": "2026-10-27",
+  "source": "WABI",
+  "url": "https://www.wabi.tv/2026/10/27/maine-senate-race-is-close-while-pingree-charles-are-tied-governors-race-poll-finds/",
+  "tag": "Senate",
+  "headline": "Marist: Jackson edges Collins; Maine governor race tied",
+  "summary": "A Marist poll taken Oct. 22–25 found Democrat Troy Jackson at 49% and Sen. Susan Collins at 47% among likely Maine voters. In the governor's race, Democrat Hannah Pingree and Republican Bobby Charles were tied at 44%, with independent Rick Bennett at 6%."
+ },
+ {
+  "nid": "n55",
+  "date": "2026-10-27",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/trump-won-reliably-red-state-double-digits-deadlocked-race-bringing-him-back",
+  "tag": "Senate",
+  "headline": "Trump returns to Texas as Paxton–Talarico race stays tied",
+  "summary": "A new Fox News poll shows Republican Ken Paxton and Democrat James Talarico tied at 49% among likely Texas voters, after Talarico led 51%-49% last month. Trump is holding rallies Tuesday in Corpus Christi and Lubbock, his fourth Texas visit since Labor Day."
+ },
+ {
+  "nid": "n53",
+  "date": "2026-10-27",
+  "source": "PBS News",
+  "url": "https://www.pbs.org/newshour/politics/poll-likely-voters-favor-democrats-as-trump-disapproval-drives-early-turnout",
+  "tag": "National",
+  "headline": "Final PBS/NPR/Marist poll: Democrats lead generic ballot by 8",
+  "summary": "The last PBS News/NPR/Marist poll before Election Day (Oct. 19–20) found likely voters favoring Democrats for Congress 52% to 44%, slightly narrower than last month among registered voters. Trump's approval stood at 40% among likely voters, and those who have already voted favored Democrats 68% to 31%."
+ },
+ {
+  "nid": "n60",
+  "date": "2026-10-26",
+  "source": "AFP",
+  "url": "https://www.yahoo.com/news/politics/articles/mystery-money-floods-us-midterm-173229451.html",
+  "tag": "National",
+  "headline": "Five super PACs top $1 billion in midterm spending",
+  "summary": "An AFP analysis of federal data found five outside groups had spent more than $1 billion as of Oct. 25, nearly a third of all non-party spending this cycle, with about two-thirds benefiting Republicans. Elon Musk has put almost $450 million into GOP groups."
+ },
+ {
+  "nid": "n57",
+  "date": "2026-10-26",
+  "source": "Action News 5",
+  "url": "https://www.actionnews5.com/2026/10/26/trump-rally-hyde-smith-kelly-corinth-ahead-midterms/",
+  "tag": "Senate",
+  "headline": "Trump rallies in Mississippi for Hyde-Smith",
+  "summary": "Trump held a rally at Corinth's Crossroads Arena to boost Sen. Cindy Hyde-Smith and Rep. Trent Kelly, the first visit by a sitting president to the city since FDR. Democratic Senate nominee Scott Colom held a news conference in Corinth beforehand criticizing both Republicans."
+ },
+ {
+  "nid": "n56",
+  "date": "2026-10-26",
+  "source": "Newsmax",
+  "url": "https://www.yahoo.com/news/politics/articles/texas-senate-race-tops-2026-182545675.html",
+  "tag": "Senate",
+  "headline": "Texas Senate is the costliest race of the midterms",
+  "summary": "Citing AdImpact, Newsmax reported the Texas Senate race has drawn about $500 million in ads and reservations, the most of any 2026 contest. AdImpact moved Ohio and Maine's Senate races to toss-up and projects California's governor race at a record $351 million."
+ },
+ {
+  "nid": "n54",
   "date": "2026-10-26",
   "source": "ABC News",
-  "url": "https://abcnews.com/Politics/key-senate-races-determine-party-controls-body-year/story?id=137301095",
-  "tag": "Senate",
-  "headline": "ABC rates six Senate races toss-ups with control at stake",
-  "summary": "ABC News rates Texas, Alaska, Ohio, Kansas, Maine and Iowa as toss-ups and Michigan as Lean Democrat; Democrats need a net gain of four seats to win the chamber."
- },
- {
-  "nid": "n44",
-  "date": "2026-10-26",
-  "source": "Reuters",
-  "url": "https://kelo.com/2026/10/26/alaska-democratic-senate-candidate-peltola-asks-judge-to-toss-us-lawsuit-over-certification/",
-  "tag": "Senate",
-  "headline": "Peltola asks judge to dismiss DOJ certification suit",
-  "summary": "Mary Peltola and the DSCC asked U.S. District Judge Sharon Gleason to throw out the Justice Department suit that could block certification if Sen. Dan Sullivan narrowly loses. No ruling date has been set."
- },
- {
-  "nid": "n45",
-  "date": "2026-10-26",
-  "source": "St. Louis Public Radio",
-  "url": "https://www.stlpr.org/government-politics-issues/2026-10-26/proposition-a-missouris-trump-backed-congressional-map",
-  "tag": "Missouri",
-  "headline": "Prop A opponents dominate as voters weigh 2025 map",
-  "summary": "A yes vote on Proposition A would put Missouri's 2025 congressional map, which targets Rep. Emanuel Cleaver's district, into effect by 2028; a no vote keeps the 2022 lines. The no side is running ads statewide while organized support for the measure is scarce."
- },
- {
-  "nid": "n46",
-  "date": "2026-10-26",
-  "source": "WOSU",
-  "url": "https://www.wosu.org/2026-10-26/candidates-for-ohio-governor-focus-on-data-centers-in-last-week-of-campaign",
-  "tag": "Governors",
-  "headline": "Data centers become a closing issue in Ohio governor race",
-  "summary": "Amy Acton and Vivek Ramaswamy are trading ads over data centers in the final week, with Acton backing a conditional moratorium. AdImpact data show about $79 million more in ad spending for Ramaswamy than for Acton."
- },
- {
-  "nid": "n47",
-  "date": "2026-10-26",
-  "source": "Axios",
-  "url": "https://www.axios.com/2026/10/26/trump-tariffs-midterms-republicans",
+  "url": "https://abcnews.com/Politics/appeals-court-rejects-trump-admins-voting-lawsuit-california/story?id=137586284",
   "tag": "National",
-  "headline": "Tariffs weigh on Republicans in the final stretch",
-  "summary": "GOP candidates are defending Trump's tariffs while seeking relief from parts that hurt their states, and the White House exempted some Canadian goods after pressure from Sen. Susan Collins. Recent Pew and AP-NORC polling shows waning confidence in the tariffs."
+  "headline": "Appeals court won't order California to set aside 20,000 ballots",
+  "summary": "A divided 9th Circuit panel declined the Justice Department's request to make California segregate about 20,000 mail ballots from people the administration suspects are noncitizens, saying it lacked jurisdiction at this stage. The case returns to a district court, which scheduled a hearing for Tuesday afternoon."
  },
  {
-  "nid": "n48",
+  "nid": "n52",
   "date": "2026-10-26",
-  "source": "Washington Examiner",
-  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
-  "tag": "Governors",
-  "headline": "DGA adds $5 million for Bottoms in Georgia",
-  "summary": "The Democratic Governors Association put another $5 million into Keisha Lance Bottoms's campaign, on top of $11.5 million earlier. Republican Rick Jackson leads by single digits in polling averages in a race Cook rates a toss-up."
- },
- {
-  "nid": "n49",
-  "date": "2026-10-26",
-  "source": "CBS Austin",
-  "url": "https://cbsaustin.com/news/nation-world/fact-check-team-what-early-voting-numbers-tell-us-about-the-midterm-election-ballots",
-  "tag": "National",
-  "headline": "Early vote passes 30 million a week before Election Day",
-  "summary": "More than 30 million Americans had voted early as of Oct. 26, per the University of Florida Election Lab. Early turnout is running well above 2022 in Texas, Maine and Ohio but slightly below it in Iowa."
+  "source": "NPR",
+  "url": "https://www.npr.org/2026/10/26/nx-s1-6008167/republican-redistricting-midterms-competitive-map",
+  "tag": "House",
+  "headline": "Redrawn GOP districts turn into costly toss-ups",
+  "summary": "Several seats Republicans redrew to favor themselves, including North Carolina's 1st District with over $42 million in ads, are now competitive. Two redrawn Florida districts are nearing $90 million in combined ad spending."
  },
  {
   "nid": "n51",
@@ -72,13 +108,67 @@
   "summary": "House Majority PAC spent about $2.2 million against Rep. Brad Finstad in Minnesota's 1st District and about $380,000 against Rep. Victoria Spartz in Indiana's 5th. GOP groups have shifted money among other House districts."
  },
  {
-  "nid": "n52",
+  "nid": "n49",
   "date": "2026-10-26",
-  "source": "NPR",
-  "url": "https://www.npr.org/2026/10/26/nx-s1-6008167/republican-redistricting-midterms-competitive-map",
-  "tag": "House",
-  "headline": "Redrawn GOP districts turn into costly toss-ups",
-  "summary": "Several seats Republicans redrew to favor themselves, including North Carolina's 1st District with over $42 million in ads, are now competitive. Two redrawn Florida districts are nearing $90 million in combined ad spending."
+  "source": "CBS Austin",
+  "url": "https://cbsaustin.com/news/nation-world/fact-check-team-what-early-voting-numbers-tell-us-about-the-midterm-election-ballots",
+  "tag": "National",
+  "headline": "Early vote passes 30 million a week before Election Day",
+  "summary": "More than 30 million Americans had voted early as of Oct. 26, per the University of Florida Election Lab. Early turnout is running well above 2022 in Texas, Maine and Ohio but slightly below it in Iowa."
+ },
+ {
+  "nid": "n48",
+  "date": "2026-10-26",
+  "source": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
+  "tag": "Governors",
+  "headline": "DGA adds $5 million for Bottoms in Georgia",
+  "summary": "The Democratic Governors Association put another $5 million into Keisha Lance Bottoms's campaign, on top of $11.5 million earlier. Republican Rick Jackson leads by single digits in polling averages in a race Cook rates a toss-up."
+ },
+ {
+  "nid": "n47",
+  "date": "2026-10-26",
+  "source": "Axios",
+  "url": "https://www.axios.com/2026/10/26/trump-tariffs-midterms-republicans",
+  "tag": "National",
+  "headline": "Tariffs weigh on Republicans in the final stretch",
+  "summary": "GOP candidates are defending Trump's tariffs while seeking relief from parts that hurt their states, and the White House exempted some Canadian goods after pressure from Sen. Susan Collins. Recent Pew and AP-NORC polling shows waning confidence in the tariffs."
+ },
+ {
+  "nid": "n46",
+  "date": "2026-10-26",
+  "source": "WOSU",
+  "url": "https://www.wosu.org/2026-10-26/candidates-for-ohio-governor-focus-on-data-centers-in-last-week-of-campaign",
+  "tag": "Governors",
+  "headline": "Data centers become a closing issue in Ohio governor race",
+  "summary": "Amy Acton and Vivek Ramaswamy are trading ads over data centers in the final week, with Acton backing a conditional moratorium. AdImpact data show about $79 million more in ad spending for Ramaswamy than for Acton."
+ },
+ {
+  "nid": "n45",
+  "date": "2026-10-26",
+  "source": "St. Louis Public Radio",
+  "url": "https://www.stlpr.org/government-politics-issues/2026-10-26/proposition-a-missouris-trump-backed-congressional-map",
+  "tag": "Missouri",
+  "headline": "Prop A opponents dominate as voters weigh 2025 map",
+  "summary": "A yes vote on Proposition A would put Missouri's 2025 congressional map, which targets Rep. Emanuel Cleaver's district, into effect by 2028; a no vote keeps the 2022 lines. The no side is running ads statewide while organized support for the measure is scarce."
+ },
+ {
+  "nid": "n44",
+  "date": "2026-10-26",
+  "source": "Reuters",
+  "url": "https://kelo.com/2026/10/26/alaska-democratic-senate-candidate-peltola-asks-judge-to-toss-us-lawsuit-over-certification/",
+  "tag": "Senate",
+  "headline": "Peltola asks judge to dismiss DOJ certification suit",
+  "summary": "Mary Peltola and the DSCC asked U.S. District Judge Sharon Gleason to throw out the Justice Department suit that could block certification if Sen. Dan Sullivan narrowly loses. No ruling date has been set."
+ },
+ {
+  "nid": "n43",
+  "date": "2026-10-26",
+  "source": "ABC News",
+  "url": "https://abcnews.com/Politics/key-senate-races-determine-party-controls-body-year/story?id=137301095",
+  "tag": "Senate",
+  "headline": "ABC rates six Senate races toss-ups with control at stake",
+  "summary": "ABC News rates Texas, Alaska, Ohio, Kansas, Maine and Iowa as toss-ups and Michigan as Lean Democrat; Democrats need a net gain of four seats to win the chamber."
  },
  {
   "nid": "n50",
@@ -216,15 +306,6 @@
   "summary": "At a rally in Perry, Trump backed Senate nominee Mike Collins and governor nominee Rick Jackson and announced a planned Audi plant in Macon."
  },
  {
-  "nid": "n17",
-  "date": "2026-10-24",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/trump-weekend-rallies-georgia-michigan-2026-midterm-elections",
-  "tag": "Senate",
-  "headline": "Obama campaigns in Cleveland and Detroit",
-  "summary": "Barack Obama rallied for Ohio Democrats Sherrod Brown and Amy Acton, then for Michigan Democrats Abdul El-Sayed and Jocelyn Benson."
- },
- {
   "nid": "n01",
   "date": "2026-10-24",
   "source": "RealClearPolling",
@@ -277,68 +358,5 @@
   "tag": "Senate",
   "headline": "Democrats outraise GOP Senate candidates in early October",
   "summary": "Talarico raised $17.6M to Paxton's $2.8M in Oct 1–14, and El-Sayed raised $8.7M to Rogers's $2.5M. The GOP-aligned Senate Leadership Fund still has $88M in the bank, the most of any Senate group."
- },
- {
-  "nid": "n37",
-  "date": "2026-10-22",
-  "source": "NC Newsline",
-  "url": "https://ncnewsline.com/2026/10/22/cooper-rallies-support-one-week-into-north-carolinas-early-voting/",
-  "tag": "Senate",
-  "headline": "North Carolina early vote tops 1.1 million as Cooper rallies",
-  "summary": "After one week of early voting, about 1.1 million North Carolinians had voted, 38% more than at the same point in 2022, with unaffiliated turnout up 72%. Democrat Roy Cooper, who has led Republican Michael Whatley in polls for the open Senate seat, rallied supporters in Raleigh."
- },
- {
-  "nid": "n34",
-  "date": "2026-10-22",
-  "source": "Bangor Daily News",
-  "url": "https://www.bangordailynews.com/2026/10/22/politics/elections/fox-news-poll-susan-collins-troy-jackson-tied/",
-  "tag": "Senate",
-  "headline": "Maine poll: Collins and Jackson tied at 49%",
-  "summary": "A Fox News poll of 1,514 likely voters (Oct. 16-20) found Sen. Susan Collins and Democrat Troy Jackson tied, with Collins leading independents by 13 points. Democrat Hannah Pingree led the governor's race by 10 points."
- },
- {
-  "nid": "n40",
-  "date": "2026-10-20",
-  "source": "WSB-TV",
-  "url": "https://www.wsbtv.com/news/local/ajcuga-poll-bottoms-jackson-dead-heat-georgia-governor-race/76TN3NROXRG4HDILVYDUMJS4RQ/",
-  "tag": "Governors",
-  "headline": "Georgia governor's race a dead heat in AJC/UGA poll",
-  "summary": "Republican Rick Jackson had 46% and Democrat Keisha Lance Bottoms 45% among 1,000 likely voters surveyed Oct. 7-15, within the 3.1-point margin of error. Bottoms led independents 43% to 38%."
- },
- {
-  "nid": "n39",
-  "date": "2026-10-20",
-  "source": "Votebeat",
-  "url": "https://www.votebeat.org/pennsylvania/2026/10/20/mail-ballot-requests-data-2026-election-democrats-trump/",
-  "tag": "National",
-  "headline": "Pennsylvania Democrats requesting fewer mail ballots",
-  "summary": "About 1.2 million Pennsylvanians had been approved for mail ballots as of Oct. 19, with Democratic requests down 14% from 2022 while Republican requests rose 11%. Experts said the data can't show whether Trump's blocked mail-voting order caused the drop."
- },
- {
-  "nid": "n38",
-  "date": "2026-10-20",
-  "source": "Punchbowl News",
-  "url": "https://punchbowl.news/article/campaigns/house-sleeper-races/",
-  "tag": "House",
-  "headline": "Under-the-radar House races shift toward Democrats",
-  "summary": "Most of the lesser-watched House races Punchbowl flagged in September have moved toward Democrats, with GOP groups cutting ad spending in seats such as New York's 3rd and Nevada's 3rd. Democrats are now competing in redder seats including Florida's 22nd, Wisconsin's 1st and Kentucky's 6th."
- },
- {
-  "nid": "n36",
-  "date": "2026-10-19",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/martin-brewer-make-final-push-to-voters-in-house-district-44-race/article_f8b48f67-e968-4e71-9828-5ee0d3688c50.html",
-  "tag": "Missouri",
-  "headline": "Martin and Brewer make final push in House District 44",
-  "summary": "Republican Rep. John Martin faces Democrat Bekki Brewer in Boone County's only contested Missouri House race, covering parts of Columbia, Centralia, Hallsville and Ashland. Martin is running on public safety and limited government; Brewer is focused on affordability."
- },
- {
-  "nid": "n41",
-  "date": "2026-10-15",
-  "source": "Marist Poll",
-  "url": "https://maristpoll.marist.edu/polls/2026-midterm-elections-in-iowa-october-2026/",
-  "tag": "Governors",
-  "headline": "Marist: Sand leads Iowa governor race, Turek edges Hinson",
-  "summary": "Among Iowa likely voters, Democrat Rob Sand led Republican Zach Lahn 52% to 45% for governor, and Democrat Josh Turek led Republican Ashley Hinson 48% to 45% for Senate. The poll was taken Oct. 8-11."
  }
 ]

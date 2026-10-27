@@ -2,13 +2,13 @@
  {
   "key": "trump",
   "label": "Trump job approval",
-  "a": 38.8,
-  "b": 60.4,
+  "a": 38.2,
+  "b": 60.3,
   "a_label": "Approve",
   "b_label": "Disapprove",
   "kind": "approval",
   "source": "RCP average",
-  "dates": "Sep 28 – Oct 22",
+  "dates": "Oct 9 – Oct 25",
   "note": "Latest polls range from 34% to 42%."
  },
  {
@@ -62,13 +62,13 @@
  {
   "key": "generic",
   "label": "Generic ballot for Congress",
-  "a": 50.5,
-  "b": 42.4,
+  "a": 51.5,
+  "b": 43.4,
   "a_label": "Democrats",
   "b_label": "Republicans",
   "kind": "party",
   "source": "RCP average",
-  "dates": "Sep 28 – Oct 20",
-  "note": "Latest six polls: D+5 to D+12."
+  "dates": "Oct 9 – Oct 26",
+  "note": "Latest polls: D+5 to D+11."
  }
 ]

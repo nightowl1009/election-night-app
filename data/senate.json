@@ -7,26 +7,26 @@
   "cand_d": "Roy Cooper",
   "party_d": "D",
   "cand_r": "Michael Whatley",
-  "poll_d": 49,
-  "poll_r": 39,
-  "pollster": "Carolina Journal/Harper",
-  "poll_dates": "released Oct 22",
+  "poll_d": 51,
+  "poll_r": 43,
+  "pollster": "Quantus Insights",
+  "poll_dates": "Oct 24–25",
   "rating": "Likely D",
   "rater": "Cook",
   "cnn_rank": 1,
   "note": "Open seat — Thom Tillis is retiring.",
-  "avg_d": 50.7,
-  "avg_r": 40.1,
-  "avg_dates": "Sep 27–Oct 20",
+  "avg_d": 50.8,
+  "avg_r": 40.5,
+  "avg_dates": "Sep 27–Oct 25",
   "avg_source": "RCP average",
-  "avg2_d": 52.8,
-  "avg2_r": 41.0,
-  "avg2_n": 5,
-  "avg2_thru": "Oct 22",
+  "avg2_d": 52.7,
+  "avg2_r": 41.3,
+  "avg2_n": 6,
+  "avg2_thru": "Oct 26",
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 97,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "OH",
@@ -55,7 +55,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 67,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "AK",
@@ -84,7 +84,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "Includes minor candidates (D. J. Sullivan 3.5, Heikes 1.8).",
   "kalshi_d": 75,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "ME",
@@ -95,25 +95,25 @@
   "party_d": "D",
   "cand_r": "Susan Collins",
   "poll_d": 49,
-  "poll_r": 49,
-  "pollster": "Fox News",
-  "poll_dates": "Oct 16–20",
+  "poll_r": 47,
+  "pollster": "Marist",
+  "poll_dates": "Oct 22–25",
   "rating": "Toss-up",
   "rater": "Cook",
   "cnn_rank": null,
-  "note": "Fox's Oct 16–20 poll is the first to show a tie after weeks of small Jackson leads.",
-  "avg_d": 48.8,
-  "avg_r": 47.4,
-  "avg_dates": "Sep 23–Oct 20",
+  "note": "Marist (Oct 22–25) has Jackson +2; Trafalgar (Oct 21–23) has a 47–47 tie.",
+  "avg_d": 48.7,
+  "avg_r": 47.5,
+  "avg_dates": "Sep 23–Oct 25",
   "avg_source": "RCP average",
-  "avg2_d": 49.6,
+  "avg2_d": 48.8,
   "avg2_r": 47.2,
   "avg2_n": 5,
-  "avg2_thru": "Oct 22",
+  "avg2_thru": "Oct 25",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 62,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_d": 59,
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "TX",
@@ -123,16 +123,16 @@
   "cand_d": "James Talarico",
   "party_d": "D",
   "cand_r": "Ken Paxton",
-  "poll_d": 51,
-  "poll_r": 47,
-  "pollster": "Texas Public Opinion Research",
-  "poll_dates": "Oct 15–18",
+  "poll_d": 50,
+  "poll_r": 45,
+  "pollster": "Univision/YouGov",
+  "poll_dates": "Oct 13–21",
   "rating": "Toss-up",
   "rater": "Cook",
   "cnn_rank": null,
   "note": "Other new polls: Emerson Talarico +1, VoteHub Talarico +3, Fox News tied.",
-  "avg_d": 48.4,
-  "avg_r": 46.9,
+  "avg_d": 48.5,
+  "avg_r": 46.7,
   "avg_dates": "Oct 8–21",
   "avg_source": "RCP average",
   "avg2_d": 49.3,
@@ -141,8 +141,8 @@
   "avg2_thru": "Oct 23",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 63,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_d": 64,
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "IA",
@@ -170,8 +170,8 @@
   "avg2_thru": "Oct 23",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 42,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_d": 41,
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "KS",
@@ -200,7 +200,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 40,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "NE",
@@ -228,8 +228,8 @@
   "avg2_thru": "Oct 20",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 25,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_d": 26,
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "MI",
@@ -251,14 +251,14 @@
   "avg_r": 46.0,
   "avg_dates": "Sep 24–Oct 22",
   "avg_source": "RCP average",
-  "avg2_d": 48.4,
-  "avg2_r": 45.2,
-  "avg2_n": 5,
-  "avg2_thru": "Oct 23",
+  "avg2_d": 48.3,
+  "avg2_r": 45.3,
+  "avg2_n": 6,
+  "avg2_thru": "Oct 26",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 68,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_d": 66,
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "NH",
@@ -269,16 +269,16 @@
   "party_d": "D",
   "cand_r": "John E. Sununu",
   "poll_d": 50,
-  "poll_r": 43,
-  "pollster": "St. Anselm",
-  "poll_dates": "released Oct 22",
+  "poll_r": 44,
+  "pollster": "Rasmussen Reports",
+  "poll_dates": "Oct 20–23",
   "rating": "Lean D",
   "rater": "Cook",
   "cnn_rank": null,
   "note": "Jeanne Shaheen is retiring.",
-  "avg_d": 49.5,
+  "avg_d": 49.7,
   "avg_r": 43.0,
-  "avg_dates": "Sep 15–Oct 20",
+  "avg_dates": "Sep 15–Oct 23",
   "avg_source": "RCP average",
   "avg2_d": 49.7,
   "avg2_r": 42.8,
@@ -287,7 +287,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 90,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_src": "Kalshi, Oct 27"
  },
  {
   "id": "GA",
@@ -315,7 +315,7 @@
   "avg2_thru": "Oct 20",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 96,
-  "kalshi_src": "Kalshi, Oct 25"
+  "kalshi_d": 94,
+  "kalshi_src": "Kalshi, Oct 27"
  }
 ]
