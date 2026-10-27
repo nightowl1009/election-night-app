@@ -1,5 +1,41 @@
 [
  {
+  "nid": "n69",
+  "date": "2026-10-27",
+  "source": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
+  "tag": "House",
+  "headline": "Speaker Johnson to campaign for Nunn in Iowa",
+  "summary": "House Speaker Mike Johnson plans to appear Wednesday in Urbandale for Rep. Zach Nunn, who faces Democrat Sarah Trone Garriott in a race Cook rates Lean Democrat."
+ },
+ {
+  "nid": "n66",
+  "date": "2026-10-27",
+  "source": "KCUR",
+  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-27/missouri-amendment-3-abortion-ban-exceptions-transgender-care",
+  "tag": "Missouri",
+  "headline": "Amendment 3 backers pitch it as a middle path",
+  "summary": "The measure would repeal the 2024 abortion-rights amendment with exceptions for rape and incest up to 12 weeks and for emergencies, and write the ban on gender-transition care for minors into the constitution. Sponsor Rep. Ed Lewis calls it moderate; opponents say it overturns voters' 2024 decision."
+ },
+ {
+  "nid": "n64",
+  "date": "2026-10-27",
+  "source": "ABC News",
+  "url": "https://abcnews.com/Politics/live-updates/midterm-elections-2026-1-week-high-stakes-elections/?id=137578278",
+  "tag": "National",
+  "headline": "Midterm ad spending sets an all-time record",
+  "summary": "AdImpact counted $11.21 billion in ad spending and reservations for the 2025-26 cycle as of Monday night, edging past the $11.20 billion spent in the entire 2023-24 presidential cycle."
+ },
+ {
+  "nid": "n63",
+  "date": "2026-10-27",
+  "source": "AFP",
+  "url": "https://www.yahoo.com/news/politics/articles/trump-says-respect-us-midterm-165944298.html",
+  "tag": "National",
+  "headline": "Trump ties accepting results to 'honest' elections",
+  "summary": "Asked on his way to Texas whether he would respect the midterm outcome, Trump said he would if the elections are honest. He also signaled he could work with Democrats if Republicans lose Congress, pointing to his veto power."
+ },
+ {
   "nid": "n62",
   "date": "2026-10-27",
   "source": "KOMU 8",
@@ -52,6 +88,24 @@
   "tag": "National",
   "headline": "Final PBS/NPR/Marist poll: Democrats lead generic ballot by 8",
   "summary": "The last PBS News/NPR/Marist poll before Election Day (Oct. 19–20) found likely voters favoring Democrats for Congress 52% to 44%, slightly narrower than last month among registered voters. Trump's approval stood at 40% among likely voters, and those who have already voted favored Democrats 68% to 31%."
+ },
+ {
+  "nid": "n67",
+  "date": "2026-10-26",
+  "source": "PBS News",
+  "url": "https://www.pbs.org/newshour/politics/trump-administration-asks-washington-state-to-set-aside-ballots-from-400-voters-it-says-may-be-noncitizens",
+  "tag": "National",
+  "headline": "DOJ asks Washington to hold ballots of 400 voters",
+  "summary": "The Justice Department asked Washington state to set aside any ballots cast by more than 400 people it suspects may not be citizens until their eligibility is confirmed. Secretary of State Steve Hobbs said he would respond only to requests that follow due process."
+ },
+ {
+  "nid": "n65",
+  "date": "2026-10-26",
+  "source": "The Nevada Independent",
+  "url": "https://thenevadaindependent.com/article/the-early-voting-blog-2026-general",
+  "tag": "National",
+  "headline": "Democrats lead Nevada early vote by about 24,000",
+  "summary": "About 439,000 Nevadans, roughly 21% of active voters, had voted by Monday night. Democrats led by 24,395 ballots (5.5 points), powered by a 12-point edge in Clark County."
  },
  {
   "nid": "n60",
@@ -243,6 +297,15 @@
   "summary": "Amendment 3 would repeal the 2024 abortion-rights amendment and restore a ban with exceptions for medical emergencies, certain fetal anomalies, and rape or incest up to 12 weeks. Physicians and attorneys say the language may be hard to apply, and it is unclear whether clinics could provide even the exempted abortions given pending court rulings."
  },
  {
+  "nid": "n68",
+  "date": "2026-10-24",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/groups-rally-in-columbia-against-missouris-amendment-3-and-proposition-a/article_f1b958da-dd9a-4618-9f6c-5d1f0d6cc595.html",
+  "tag": "Missouri",
+  "headline": "Columbia rally targets Amendment 3 and Prop A",
+  "summary": "Labor and abortion-rights groups rallied in Columbia on Saturday before canvassing against both measures. Organizers said more than 600 people turned out statewide and knocked on over 14,000 doors."
+ },
+ {
   "nid": "n32",
   "date": "2026-10-24",
   "source": "Washington Examiner",
@@ -295,68 +358,5 @@
   "tag": "Senate",
   "headline": "Cruz joins Paxton as Texas race stays tied",
   "summary": "Sen. Ted Cruz rallied with Ken Paxton against James Talarico; a Fox News poll this week had them tied at 49%."
- },
- {
-  "nid": "n18",
-  "date": "2026-10-24",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/trump-weekend-rallies-georgia-michigan-2026-midterm-elections",
-  "tag": "Senate",
-  "headline": "Trump rallies in Georgia for Collins and Jackson",
-  "summary": "At a rally in Perry, Trump backed Senate nominee Mike Collins and governor nominee Rick Jackson and announced a planned Audi plant in Macon."
- },
- {
-  "nid": "n01",
-  "date": "2026-10-24",
-  "source": "RealClearPolling",
-  "url": "https://www.realclearpolling.com/polls/senate/general/2026/iowa/turek-vs-hinson",
-  "tag": "Senate",
-  "headline": "Iowa Senate average tips to Hinson",
-  "summary": "Two straight polls show Republican Ashley Hinson ahead, moving the RealClearPolling average to Hinson +0.6 over Democrat Josh Turek. Kansas's average also sits at Marshall +0.3."
- },
- {
-  "nid": "n35",
-  "date": "2026-10-23",
-  "source": "Missouri Independent",
-  "url": "https://missouriindependent.com/2026/10/23/follow-the-money-whos-bankrolling-missouris-final-election-push/",
-  "tag": "Missouri",
-  "headline": "Nearly $60 million flows into Missouri ballot measure fights",
-  "summary": "Missouri ballot measure campaigns have raised about $59.6 million since 2025, led by almost $26 million for the opponents of Amendment 3. The report also tracks spending in the 2nd Congressional District, competitive state Senate seats and the state auditor's race, where Republican Scott Fitzpatrick far outraised Democrat Quentin Wilson."
- },
- {
-  "nid": "n26",
-  "date": "2026-10-23",
-  "source": "Forbes",
-  "url": "https://www.forbes.com/sites/saradorn/2026/10/23/republicans-chances-of-maintaining-house-majority-have-all-but-evaporated-cook-political-report-says/",
-  "tag": "House",
-  "headline": "Cook shifts 19 House races toward Democrats",
-  "summary": "The Cook Political Report moved 19 House races toward Democrats and now projects a Democratic gain of 12 to 22 seats. It rates 220 seats as at least leaning Democratic, above the 218 needed for a majority."
- },
- {
-  "nid": "n25",
-  "date": "2026-10-23",
-  "source": "Mediaite",
-  "url": "https://www.mediaite.com/politics/ohio-gov-race-moves-from-toss-up-to-lean-d-after-ramaswamy-ad-backlash-cook-political-report/",
-  "tag": "Governors",
-  "headline": "Cook moves Ohio governor's race to Lean Democrat",
-  "summary": "The Cook Political Report shifted Ohio's governor race from Toss Up to Lean Democrat for Amy Acton after backlash to Vivek Ramaswamy's ad featuring Acton's estranged mother. Sabato's Crystal Ball had made a similar move a day earlier."
- },
- {
-  "nid": "n20",
-  "date": "2026-10-23",
-  "source": "Decision Desk HQ",
-  "url": "https://votes.decisiondeskhq.com/forecast/2026",
-  "tag": "National",
-  "headline": "DDHQ forecast: Democrats favored for House, edge in Senate",
-  "summary": "Decision Desk HQ's model gives Democrats a 79% chance to win the House and 57% for the Senate."
- },
- {
-  "nid": "n04",
-  "date": "2026-10-23",
-  "source": "Roll Call",
-  "url": "https://rollcall.com/2026/10/23/senate-democrats-fundraising-october-midterm-elections/",
-  "tag": "Senate",
-  "headline": "Democrats outraise GOP Senate candidates in early October",
-  "summary": "Talarico raised $17.6M to Paxton's $2.8M in Oct 1–14, and El-Sayed raised $8.7M to Rogers's $2.5M. The GOP-aligned Senate Leadership Fund still has $88M in the bank, the most of any Senate group."
  }
 ]
