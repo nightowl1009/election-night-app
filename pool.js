@@ -62,7 +62,16 @@
       getMods: async () => { try { const s = await fs.doc('admin/mods').get(); return s.exists ? (s.data().emails || []) : []; } catch (e) { return []; } },
       saveMods: (emails) => fs.doc('admin/mods').set({ emails }),
       // delete your account: your chat messages, group memberships, picks, profile, then your sign-in
+      // Election Trivia: one best score per player (trivia/{uid}) and one Daily 5 score per player per day
+      triviaGet: async (uid) => { const s = await fs.doc('trivia/' + uid).get(); return s.exists ? s.data() : null; },
+      triviaSave: (uid, d) => fs.doc('trivia/' + uid).set(d),
+      triviaTop: async (n) => { const q = await fs.collection('trivia').orderBy('best', 'desc').limit(n).get(); return q.docs.map(d => Object.assign({ uid: d.id }, d.data())); },
+      triviaDailyGet: async (day, uid) => { const s = await fs.doc('triviaDaily/' + day + '/scores/' + uid).get(); return s.exists ? s.data() : null; },
+      triviaDailySave: (day, uid, d) => fs.doc('triviaDaily/' + day + '/scores/' + uid).set(d),
+      triviaDailyTop: async (day, n) => { const q = await fs.collection('triviaDaily/' + day + '/scores').orderBy('score', 'desc').limit(n).get(); return q.docs.map(d => Object.assign({ uid: d.id }, d.data())); },
       deleteAccount: async (uid, groups) => {
+        await fs.doc('trivia/' + uid).delete().catch(e => console.error(e));
+        for (let t = Date.UTC(2026, 9, 26); t <= Date.now() + 864e5; t += 864e5) await fs.doc('triviaDaily/' + new Date(t).toISOString().slice(0, 10) + '/scores/' + uid).delete().catch(() => {});
         const wipe = async (col) => { const q = await fs.collection(col).where('uid', '==', uid).get(); for (const d of q.docs) await d.ref.delete(); };
         await wipe('lobby').catch(e => console.error(e));
         for (const g of groups) { await wipe('groups/' + g + '/chat').catch(e => console.error(e)); await fs.doc('groups/' + g + '/members/' + uid).delete().catch(e => console.error(e)); }
@@ -110,7 +119,13 @@
       banUser: async (uid, data) => { (db.banned = db.banned || {})[uid] = data; },
       getMods: async () => (db.mods || []).slice(),
       saveMods: async (emails) => { db.mods = emails.slice(); },
-      deleteAccount: async (uid, groups) => { Object.keys(db.chat).forEach(k => { db.chat[k] = db.chat[k].filter(m => m.uid !== uid); }); groups.forEach(g => { if (db.members[g]) delete db.members[g][uid]; }); delete db.picks[uid]; delete db.users[uid]; set(null); },
+      triviaGet: async (uid) => (db.trivia || {})[uid] || null,
+      triviaSave: async (uid, d) => { (db.trivia = db.trivia || {})[uid] = Object.assign({}, d); },
+      triviaTop: async (n) => Object.entries(db.trivia || {}).map(([uid, v]) => Object.assign({ uid }, v)).sort((a, b) => b.best - a.best).slice(0, n),
+      triviaDailyGet: async (day, uid) => ((db.triviaDaily || {})[day] || {})[uid] || null,
+      triviaDailySave: async (day, uid, d) => { const t = (db.triviaDaily = db.triviaDaily || {}); (t[day] = t[day] || {})[uid] = Object.assign({}, d); },
+      triviaDailyTop: async (day, n) => Object.entries(((db.triviaDaily || {})[day]) || {}).map(([uid, v]) => Object.assign({ uid }, v)).sort((a, b) => b.score - a.score).slice(0, n),
+      deleteAccount: async (uid, groups) => { if (db.trivia) delete db.trivia[uid]; Object.keys(db.chat).forEach(k => { db.chat[k] = db.chat[k].filter(m => m.uid !== uid); }); groups.forEach(g => { if (db.members[g]) delete db.members[g][uid]; }); delete db.picks[uid]; delete db.users[uid]; set(null); },
     };
   }
 
@@ -346,7 +361,7 @@
   function renderName(box) {
     const c = card('What should we call you?', 'This name shows on leaderboards and in group chat.');
     const i = el('input'); i.maxLength = 30; i.value = me.name || ''; i.placeholder = 'Name';
-    const s = btn('pl-btn primary', 'Save', async () => { const n = i.value.trim(); if (!n) return; profile = Object.assign({}, profile, { name: n, groups: (profile && profile.groups) || [] }); await be.saveProfile(me.uid, profile); render(); });
+    const s = btn('pl-btn primary', 'Save', async () => { const n = i.value.trim(); if (!n) return; profile = Object.assign({}, profile, { name: n, groups: (profile && profile.groups) || [] }); await be.saveProfile(me.uid, profile); render(); acctChanged(); });
     c.append(i, s); box.append(c);
   }
 
@@ -1260,6 +1275,22 @@
     return d;
   });
 
+  // ---------- For other games (Trivia): who's signed in, their saved scores, and a change signal ----------
+  const acctSubs = [];
+  window.enAccount = {
+    ready: () => !!(be && me && profile && profile.name),
+    verified: () => !!(me && me.verified !== false),
+    uid: () => me && me.uid,
+    name: () => (profile && profile.name) || '',
+    onChange: (fn) => { acctSubs.push(fn); },
+    trivia: {
+      get: () => be.triviaGet(me.uid), save: (d) => be.triviaSave(me.uid, d), top: (n) => be.triviaTop(n),
+      dailyGet: (day) => be.triviaDailyGet(day, me.uid), dailySave: (day, d) => be.triviaDailySave(day, me.uid, d), dailyTop: (day, n) => be.triviaDailyTop(day, n),
+    },
+    signIn: () => { const t = document.querySelector('.en-tab[data-tab="game"]'); if (t) t.click(); },
+  };
+  const acctChanged = () => acctSubs.forEach(f => { try { f(); } catch (e) { console.error(e); } });
+
   // ---------- For other games (Trivia): post a line to your group chat ----------
   window.enGroup = {
     ready: () => !!(be && me && profile && profile.agreed && (profile.groups || []).length),
@@ -1698,7 +1729,7 @@
         mods = (await be.getMods().catch(() => [])).map(x => String(x).toLowerCase());
         if (window.enPush) window.enPush.sync({ picks: myPicks, lock: myLock, name: profile && profile.name || '' });
       }
-      render();
+      render(); acctChanged();
     });
     if (window.dash) window.dash.onData(() => { if (!window.__simOn && me && view !== 'chat' && gameVisible() && !document.activeElement?.closest?.('#pool-root')) render(); });
     // the game tab redraws when you open it (no downloads while it's out of sight)
