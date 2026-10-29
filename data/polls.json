@@ -29,7 +29,7 @@
  {
   "pid": "SEN-AK-3",
   "race": "SEN-AK",
-  "pollster": "Trafalgar",
+  "pollster": "Trafalgar Group",
   "date": "2026-09-24",
   "d": 46,
   "r": 47,
@@ -47,7 +47,7 @@
  {
   "pid": "SEN-AK-5",
   "race": "SEN-AK",
-  "pollster": "Quantus",
+  "pollster": "Quantus Insights",
   "date": "2026-10-02",
   "d": 46,
   "r": 46,
@@ -74,7 +74,7 @@
  {
   "pid": "SEN-AK-8",
   "race": "SEN-AK",
-  "pollster": "Rasmussen",
+  "pollster": "Rasmussen Reports",
   "date": "2026-10-15",
   "d": 44,
   "r": 42,
@@ -83,7 +83,7 @@
  {
   "pid": "SEN-AK-9",
   "race": "SEN-AK",
-  "pollster": "PPP",
+  "pollster": "Public Policy Polling",
   "date": "2026-10-15",
   "d": 48,
   "r": 47,
@@ -101,7 +101,7 @@
  {
   "pid": "SEN-ME-11",
   "race": "SEN-ME",
-  "pollster": "Marist (RV)",
+  "pollster": "Marist",
   "date": "2026-10-04",
   "d": 51,
   "r": 47,
@@ -110,7 +110,7 @@
  {
   "pid": "SEN-ME-12",
   "race": "SEN-ME",
-  "pollster": "WaPo/George Mason",
+  "pollster": "Washington Post/George Mason",
   "date": "2026-10-05",
   "d": 50,
   "r": 46,
@@ -119,7 +119,7 @@
  {
   "pid": "SEN-ME-13",
   "race": "SEN-ME",
-  "pollster": "Suffolk",
+  "pollster": "Suffolk University",
   "date": "2026-10-11",
   "d": 49,
   "r": 47,
@@ -164,7 +164,7 @@
  {
   "pid": "SEN-KS-18",
   "race": "SEN-KS",
-  "pollster": "Trafalgar",
+  "pollster": "Trafalgar Group",
   "date": "2026-10-01",
   "d": 44.4,
   "r": 43.5,
@@ -245,7 +245,7 @@
  {
   "pid": "SEN-MI-27",
   "race": "SEN-MI",
-  "pollster": "Quantus",
+  "pollster": "Quantus Insights",
   "date": "2026-10-07",
   "d": 48,
   "r": 47,
@@ -272,7 +272,7 @@
  {
   "pid": "SEN-MI-30",
   "race": "SEN-MI",
-  "pollster": "Rasmussen",
+  "pollster": "Rasmussen Reports",
   "date": "2026-10-14",
   "d": 46,
   "r": 44,
@@ -326,7 +326,7 @@
  {
   "pid": "SEN-GA-36",
   "race": "SEN-GA",
-  "pollster": "Quantus",
+  "pollster": "Quantus Insights",
   "date": "2026-09-16",
   "d": 48.2,
   "r": 44.4,
@@ -353,7 +353,7 @@
  {
   "pid": "SEN-GA-39",
   "race": "SEN-GA",
-  "pollster": "Quantus",
+  "pollster": "Quantus Insights",
   "date": "2026-10-17",
   "d": 51.8,
   "r": 44.9,
@@ -371,7 +371,7 @@
  {
   "pid": "GOV-GA-41",
   "race": "GOV-GA",
-  "pollster": "Rasmussen",
+  "pollster": "Rasmussen Reports",
   "date": "2026-09-20",
   "d": 45,
   "r": 48,
@@ -389,7 +389,7 @@
  {
   "pid": "GOV-NV-43",
   "race": "GOV-NV",
-  "pollster": "Emerson",
+  "pollster": "Emerson College",
   "date": "2026-09-08",
   "d": 44,
   "r": 42,
@@ -416,7 +416,7 @@
  {
   "pid": "GOV-KS-46",
   "race": "GOV-KS",
-  "pollster": "Emerson",
+  "pollster": "Emerson College",
   "date": "2026-09-18",
   "d": 44,
   "r": 51,
@@ -486,15 +486,6 @@
   "margin": -2
  },
  {
-  "pid": "GOV-FL-54",
-  "race": "GOV-FL",
-  "pollster": "Pete Polls",
-  "date": "2026-10-07",
-  "d": 45,
-  "r": 45,
-  "margin": 0
- },
- {
   "pid": "GOV-FL-55",
   "race": "GOV-FL",
   "pollster": "Stetson",
@@ -560,7 +551,7 @@
  {
   "pid": "GOV-ME-62",
   "race": "GOV-ME",
-  "pollster": "Marist (RV)",
+  "pollster": "Marist",
   "date": "2026-10-04",
   "d": 52,
   "r": 40,
@@ -569,7 +560,7 @@
  {
   "pid": "GOV-ME-63",
   "race": "GOV-ME",
-  "pollster": "Suffolk",
+  "pollster": "Suffolk University",
   "date": "2026-10-11",
   "d": 49,
   "r": 38,
@@ -596,7 +587,7 @@
  {
   "pid": "SEN-TX-66",
   "race": "SEN-TX",
-  "pollster": "Emerson",
+  "pollster": "Emerson College",
   "date": "2026-10-22",
   "d": 49,
   "r": 48,
@@ -668,7 +659,7 @@
  {
   "pid": "SEN-IA-74",
   "race": "SEN-IA",
-  "pollster": "Suffolk",
+  "pollster": "Suffolk University",
   "date": "2026-10-04",
   "d": 48,
   "r": 44,
@@ -677,7 +668,7 @@
  {
   "pid": "SEN-IA-75",
   "race": "SEN-IA",
-  "pollster": "Emerson",
+  "pollster": "Emerson College",
   "date": "2026-10-06",
   "d": 45,
   "r": 47,
@@ -713,7 +704,7 @@
  {
   "pid": "SEN-IA-79",
   "race": "SEN-IA",
-  "pollster": "Trafalgar",
+  "pollster": "Trafalgar Group",
   "date": "2026-10-15",
   "d": 44,
   "r": 46,
@@ -1055,7 +1046,7 @@
  {
   "pid": "HOU-VA-01-0",
   "race": "HOU-VA-01",
-  "pollster": "Washington Post-Schar",
+  "pollster": "Washington Post/George Mason",
   "date": "2026-09-28",
   "d": 50,
   "r": 46,
@@ -1314,15 +1305,6 @@
   "margin": -3
  },
  {
-  "pid": "GOV-KS-5",
-  "race": "GOV-KS",
-  "pollster": "NY Times/Siena",
-  "date": "2026-10-01",
-  "d": 44,
-  "r": 49,
-  "margin": -5
- },
- {
   "pid": "GOV-MI-2",
   "race": "GOV-MI",
   "pollster": "YouGov",
@@ -1361,7 +1343,7 @@
  {
   "pid": "GOV-ME-3",
   "race": "GOV-ME",
-  "pollster": "Washington Post",
+  "pollster": "Washington Post/George Mason",
   "date": "2026-10-05",
   "d": 49,
   "r": 36,
@@ -1415,7 +1397,7 @@
  {
   "pid": "SEN-OH-86",
   "race": "SEN-OH",
-  "pollster": "NY Times/Siena",
+  "pollster": "NYT/Siena",
   "date": "2026-10-01",
   "d": 49,
   "r": 46,
@@ -1586,7 +1568,7 @@
  {
   "pid": "GOV-OH-43",
   "race": "GOV-OH",
-  "pollster": "NY Times/Siena",
+  "pollster": "NYT/Siena",
   "date": "2026-10-01",
   "d": 49,
   "r": 45,
@@ -1595,7 +1577,7 @@
  {
   "pid": "GOV-IA-51",
   "race": "GOV-IA",
-  "pollster": "Emerson",
+  "pollster": "Emerson College",
   "date": "2026-10-06",
   "d": 49,
   "r": 45,
@@ -1622,7 +1604,7 @@
  {
   "pid": "GOV-IA-54",
   "race": "GOV-IA",
-  "pollster": "NY Times/Siena",
+  "pollster": "NYT/Siena",
   "date": "2026-10-01",
   "d": 52,
   "r": 41,

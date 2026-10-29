@@ -38,6 +38,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await page.route(/gstatic|youtube|googleapis/, (r) => r.abort());
     if (opts.live) await page.route(/\.netlify\/functions\/latest/, opts.live); else await page.route(/\.netlify\/functions\//, (r) => r.fulfill({ status: 503, body: '{}' }));
     if (opts.odds) await page.route(/\.netlify\/functions\/odds/, (r) => r.fulfill({ json: opts.odds }));
+    if (opts.polls) await page.route(/data\/polls\.json/, async (r) => { const rows = DATA('polls'); opts.polls(rows); r.fulfill({ json: rows }); });
     if (opts.results) await page.route(/data\/results\.json/, async (r) => { const rows = DATA('results'); opts.results(rows); r.fulfill({ json: rows }); });
     await page.addInitScript((w) => { window.POOL_MOCK = true; if (!w) localStorage.setItem('en-welcome-v1', '1'); }, !!opts.welcome);
     await page.addInitScript((t) => { localStorage.setItem('en-theme', t); }, opts.scheme === 'dark' ? 'dark' : 'light');   // the app's own ☀️/🌙 setting
@@ -259,6 +260,19 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     // legend colors match the dot colors
     const leg = await a.page.evaluate(() => [...document.querySelectorAll('#hou-map .en-map-key')[0].querySelectorAll('span')].map((s2) => s2.textContent));
     ok(leg.includes('50/50') && leg.includes('No odds yet'), 'betting-odds legend ' + leg);
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('newest poll wins: a newer poll in the list replaces a card\'s latest poll everywhere; one name per pollster', async () => {
+    const a = await open('#senate', { polls: (rows) => rows.push({ pid: 'SEN-NC-999', race: 'SEN-NC', pollster: 'Test Poll Co', date: '2026-10-28', d: 40, r: 50, margin: -10 }) });
+    const r = await a.page.evaluate(() => { const s = dash.data('senate').data.find((x) => x.id === 'NC'); return [s.pollster, s.poll_d, s.poll_r, s.poll_dates, !!s.poll_auto]; });
+    ok(JSON.stringify(r) === JSON.stringify(['Test Poll Co', 40, 50, 'Oct 28', true]), 'senate row ' + r);
+    const card = await a.page.evaluate(() => { const c = document.querySelector('[data-card="SEN-NC"] .en-latest'); return c ? c.textContent : ''; });
+    ok(/Test Poll Co/.test(card) && /Oct 28/.test(card), 'card latest poll: ' + card);
+    // an older row poll from the same end date stays; the date parser reads ranges and month-only text
+    ok(await a.page.evaluate(() => enEndMD('Sep 24–Oct 4') === '10-04' && enEndMD('Oct 14–15') === '10-15' && enEndMD('Oct 2026') === '' && enEndMD('') === ''), 'date parsing');
+    const names = new Set(DATA('polls').map((p) => p.pollster.toLowerCase()));
+    ok(!['emerson', 'ppp', 'rasmussen', 'quantus', 'trafalgar', 'suffolk', 'pete polls', 'ny times/siena'].some((n) => names.has(n)), 'old pollster names still in polls.json');
+    const dup = DATA('polls').map((p) => p.race + p.date + p.pollster); ok(dup.length === new Set(dup).size, 'duplicate polls');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
   await test('Election Trivia: plays, scores, streaks, remembers best, Daily 5 is the same for everyone', async () => {

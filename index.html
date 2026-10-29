@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793299615"></script>
-<link rel="stylesheet" href="pool.css?v=1793299615" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793299615"></noscript>
+<script src="dash-lite.js?v=1793308877"></script>
+<link rel="stylesheet" href="pool.css?v=1793308877" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793308877"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -1281,13 +1281,57 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
 </div>
 
 <script>
-dash.calc('senate_margins', { inputs: ['senate'], title: 'Senate poll leads', description: 'Who leads each Senate race\'s RCP polling average (or latest poll where there is no average), and by how many points.', fn: (senate) => senate.map(r => { const hasAvg = r.avg_d != null && r.avg_r != null; const dv = Number(hasAvg ? r.avg_d : r.poll_d), rv = Number(hasAvg ? r.avg_r : r.poll_r); const m = dv - rv; const a = Math.round(Math.abs(m) * 10) / 10; return { id: r.id, lead_label: m === 0 ? 'Tied' : (m > 0 ? r.party_d : 'R') + ' +' + a }; }) });
-dash.calc('governor_margins', { inputs: ['governor'], title: 'Governor poll leads', description: 'Who leads each governor race\'s RCP polling average (or latest poll where there is no average), and by how many points.', fn: (governor) => governor.map(r => { const hasAvg = r.avg_d != null && r.avg_r != null; const dv = Number(hasAvg ? r.avg_d : r.poll_d), rv = Number(hasAvg ? r.avg_r : r.poll_r); const m = dv - rv; const a = Math.round(Math.abs(m) * 10) / 10; return { id: r.id, lead_label: m === 0 ? 'Tied' : (m > 0 ? r.party_d : 'R') + ' +' + a }; }) });
+// ---- Newest poll wins: each race row's "latest poll" fields are filled from one source, while the poll list gathers
+// several, so whenever the list has a newer poll for a race, every card, map and count uses that one instead. ----
+const EN_PFX = { senate: 'SEN-', governor: 'GOV-', house: 'HOU-' };
+const EN_MON = { Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6, Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12 };
+// Pollster names written two ways count as one pollster
+const EN_ALIAS = { 'emerson': 'Emerson College', 'ppp': 'Public Policy Polling', 'ny times/siena': 'NYT/Siena', 'rasmussen': 'Rasmussen Reports', 'quantus': 'Quantus Insights',
+  'trafalgar': 'Trafalgar Group', 'suffolk': 'Suffolk University', 'pete polls': 'St. Pete Polls', 'marist (rv)': 'Marist', 'washington post': 'Washington Post/George Mason',
+  'wapo/george mason': 'Washington Post/George Mason', 'washington post-schar': 'Washington Post/George Mason' };
+const enPollster = (n) => { const t = String(n || '').trim(); return EN_ALIAS[t.toLowerCase()] || t; };
+function enEndMD(s) {   // "Oct 14–15" → "10-15", "Sep 24–Oct 4" → "10-04", "" → ""
+  const t = String(s || ''), m = [...t.matchAll(/([A-Z][a-z]{2})[a-z]*\.?\s+(\d{1,2})(?!\d)/g)]; if (!m.length) return '';
+  const last = m[m.length - 1], mon = EN_MON[last[1]]; let day = +last[2];
+  const tail = t.slice(last.index + last[0].length).match(/^\s*[–-]\s*(\d{1,2})\b/); if (tail) day = +tail[1];
+  return mon ? String(mon).padStart(2, '0') + '-' + String(day).padStart(2, '0') : '';
+}
+const enFreshMemo = new WeakMap();
+function enFreshen(id, rows, polls) {
+  const pfx = EN_PFX[id]; if (!pfx || !Array.isArray(rows) || !Array.isArray(polls) || !polls.length) return rows;
+  const memo = enFreshMemo.get(rows); if (memo && memo.polls === polls) return memo.out;
+  const newest = new Map();
+  polls.forEach(p => { if (!p || !p.race || !p.date || p.d == null || p.r == null) return; const o = newest.get(p.race); if (!o || p.date > o.date) newest.set(p.race, p); });
+  const out = rows.map(r => {
+    const p = newest.get(pfx + r.id); if (!p) return r;
+    const have = r.poll_d != null && r.poll_r != null, end = enEndMD(r.poll_dates);
+    if (have && (!end || p.date.slice(5) <= end)) return r;
+    const [, mo, dy] = p.date.split('-');
+    return Object.assign({}, r, { poll_d: +p.d, poll_r: +p.r, pollster: enPollster(p.pollster), poll_dates: Object.keys(EN_MON)[+mo - 1] + ' ' + (+dy), poll_auto: true });
+  });
+  enFreshMemo.set(rows, { polls, out }); return out;
+}
+(function () {   // dash.data('senate' | 'governor' | 'house') hands every reader the freshened rows
+  try {
+    const raw = dash.data.bind(dash), wrap = new WeakMap();
+    const fresh = function (id) {
+      const d = raw(id); if (!EN_PFX[id] || !d || d.status !== 'ok') return d;
+      const p = raw('polls'); if (!p || p.status !== 'ok') return d;
+      const rows = enFreshen(id, d.data, p.data); if (rows === d.data) return d;
+      const w = wrap.get(d); if (w && w.data === rows) return w;
+      const o = Object.assign({}, d, { data: rows }); wrap.set(d, o); return o;
+    };
+    dash.data = fresh;
+  } catch (e) { console.error(e); }
+})();
+dash.calc('senate_margins', { inputs: ['senate', 'polls'], title: 'Senate poll leads', description: 'Who leads each Senate race\'s RCP polling average (or latest poll where there is no average), and by how many points.', fn: (senate, polls) => enFreshen('senate', senate, polls).map(r => { const hasAvg = r.avg_d != null && r.avg_r != null; const dv = Number(hasAvg ? r.avg_d : r.poll_d), rv = Number(hasAvg ? r.avg_r : r.poll_r); const m = dv - rv; const a = Math.round(Math.abs(m) * 10) / 10; return { id: r.id, lead_label: m === 0 ? 'Tied' : (m > 0 ? r.party_d : 'R') + ' +' + a }; }) });
+dash.calc('governor_margins', { inputs: ['governor', 'polls'], title: 'Governor poll leads', description: 'Who leads each governor race\'s RCP polling average (or latest poll where there is no average), and by how many points.', fn: (governor, polls) => enFreshen('governor', governor, polls).map(r => { const hasAvg = r.avg_d != null && r.avg_r != null; const dv = Number(hasAvg ? r.avg_d : r.poll_d), rv = Number(hasAvg ? r.avg_r : r.poll_r); const m = dv - rv; const a = Math.round(Math.abs(m) * 10) / 10; return { id: r.id, lead_label: m === 0 ? 'Tied' : (m > 0 ? r.party_d : 'R') + ' +' + a }; }) });
 dash.calc('senate_projection', {
-  inputs: ['senate', 'overview', 'results'],
+  inputs: ['senate', 'overview', 'results', 'polls'],
   title: 'Senate: called races + polling averages',
   description: 'Starts from today\'s 53–47 Senate; a called race goes to its winner, any other race to the leader of its RCP polling average (latest poll where there is no average).',
-  fn: (senate, overview, results) => {
+  fn: (senate0, overview, results, polls) => {
+    const senate = enFreshen('senate', senate0, polls);
     const now = (k) => Number(overview.find(o => o.key === k).value);
     const res = new Map(results.map(x => [x.race, x]));
     let fromR = 0, fromD = 0, called = 0;
@@ -1311,12 +1355,12 @@ dash.calc('senate_projection', {
   }
 });
 dash.calc('senate_seats', {
-  inputs: ['senate', 'results'],
+  inputs: ['senate', 'results', 'polls'],
   title: 'Senate battleground seats, projected',
   description: 'Which side each battleground seat lands on: the called winner if called, otherwise the leader of its RCP polling average, or latest poll where there is none (a tie stays with the party holding it).',
-  fn: (senate, results) => {
+  fn: (senate, results, polls) => {
     const res = new Map(results.map(x => [x.race, x]));
-    return senate.map(r => {
+    return enFreshen('senate', senate, polls).map(r => {
       const c = res.get('SEN-' + r.id), called = !!(c && c.winner_party);
       const hasAvg = r.avg_d != null && r.avg_r != null;
       const margin = Math.round((Number(hasAvg ? r.avg_d : r.poll_d) - Number(hasAvg ? r.avg_r : r.poll_r)) * 10) / 10;
@@ -1478,9 +1522,10 @@ dash.calc('senate_base', {
     const rt = el('span', ''); rt.append(document.createTextNode('· rating: '), mk('span', '', ds, 'rater', 'id', r.id, r.rater)); m.append(rt);
     more.append(m);
     const lpRow = el('div', 'en-latest');
-    lpRow.append(el('b', '', 'Latest poll '), mk('span', '', ds, 'pollster', 'id', r.id, r.pollster), document.createTextNode(' '),
-      mk('span', pc, ds, 'poll_d', 'id', r.id, fmt(r.poll_d)), document.createTextNode('–'), mk('span', 'r', ds, 'poll_r', 'id', r.id, fmt(r.poll_r)),
-      document.createTextNode(' · '), mk('span', '', ds, 'poll_dates', 'id', r.id, r.poll_dates));
+    const pf = (cls, f, v) => r.poll_auto ? el('span', cls, v) : mk('span', cls, ds, f, 'id', r.id, v);
+    lpRow.append(el('b', '', 'Latest poll '), pf('', 'pollster', r.pollster), document.createTextNode(' '),
+      pf(pc, 'poll_d', fmt(r.poll_d)), document.createTextNode('–'), pf('r', 'poll_r', fmt(r.poll_r)),
+      document.createTextNode(' · '), pf('', 'poll_dates', r.poll_dates));
     more.append(lpRow);
     const a2 = el('div', 'en-avg2');
     if (r.avg2_d != null && r.avg2_r != null) {
@@ -1550,9 +1595,10 @@ dash.calc('senate_base', {
     more.append(mm);
     if (hasPoll) {
       const lpRow = el('div', 'en-latest');
-      lpRow.append(el('b', '', 'Latest poll '), mk('span', '', 'house', 'pollster', 'id', r.id, r.pollster), document.createTextNode(' '),
-        mk('span', pc, 'house', 'poll_d', 'id', r.id, fmt(r.poll_d)), document.createTextNode('–'), mk('span', 'r', 'house', 'poll_r', 'id', r.id, fmt(r.poll_r)),
-        document.createTextNode(' · '), mk('span', '', 'house', 'poll_dates', 'id', r.id, r.poll_dates));
+      const pf = (cls, f, v) => r.poll_auto ? el('span', cls, v) : mk('span', cls, 'house', f, 'id', r.id, v);
+      lpRow.append(el('b', '', 'Latest poll '), pf('', 'pollster', r.pollster), document.createTextNode(' '),
+        pf(pc, 'poll_d', fmt(r.poll_d)), document.createTextNode('–'), pf('r', 'poll_r', fmt(r.poll_r)),
+        document.createTextNode(' · '), pf('', 'poll_dates', r.poll_dates));
       more.append(lpRow);
     }
     if (r.kalshi_d != null) {
@@ -1622,7 +1668,7 @@ dash.calc('senate_base', {
     ps.forEach(p => {
       if (!p.date || p.date < cut || p.d == null || p.r == null) return;
       if (/\((D|R)\)\s*$/.test(p.pollster || '')) return;
-      const k = String(p.pollster || '').trim().toLowerCase(), o = by.get(k);
+      const k = enPollster(p.pollster).toLowerCase(), o = by.get(k);
       if (!o || p.date > o.date) by.set(k, p);
     });
     const L = [...by.values()]; if (L.length < 3) return null;
@@ -3112,13 +3158,13 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793299615"></script>
-<script src="pool.js?v=1793299615"></script>
-<script src="sim.js?v=1793299615"></script>
-<script src="push.js?v=1793299615"></script>
-<script src="ads.js?v=1793299615"></script>
-<script src="welcome.js?v=1793299615"></script>
-<script src="party.js?v=1793299615"></script>
-<script src="trivia.js?v=1793299615"></script>
+<script src="pool-config.js?v=1793308877"></script>
+<script src="pool.js?v=1793308877"></script>
+<script src="sim.js?v=1793308877"></script>
+<script src="push.js?v=1793308877"></script>
+<script src="ads.js?v=1793308877"></script>
+<script src="welcome.js?v=1793308877"></script>
+<script src="party.js?v=1793308877"></script>
+<script src="trivia.js?v=1793308877"></script>
 </body>
 </html>
