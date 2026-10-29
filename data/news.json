@@ -1,5 +1,86 @@
 [
  {
+  "nid": "n82",
+  "date": "2026-10-29",
+  "source": "AP",
+  "url": "https://www.news4jax.com/news/politics/2026/10/29/alaskas-governor-orders-a-probe-into-peltolas-senate-campaign-over-spoiler-candidate-controversy/",
+  "tag": "Senate",
+  "headline": "Alaska governor orders probe of Peltola campaign",
+  "summary": "Gov. Mike Dunleavy ordered an investigation into whether Mary Peltola's Senate campaign helped recruit a second candidate named Dan Sullivan. Peltola called the reporting a distraction from the issues in the race."
+ },
+ {
+  "nid": "n81",
+  "date": "2026-10-29",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/maine-kansas-senate-races-neck-and-neck-democrats-lead-texas-michigan-poll-shows",
+  "tag": "Senate",
+  "headline": "CNN polls: Democrats ahead in Texas and Michigan, close in Maine and Kansas",
+  "summary": "New CNN polls of likely voters show Talarico leading Paxton 49%-43% in Texas and El-Sayed ahead of Rogers 49%-42% in Michigan. Jackson leads Collins 49%-45% in Maine and Hamilton leads Marshall 49%-45% in Kansas, both within the margin of error."
+ },
+ {
+  "nid": "n80",
+  "date": "2026-10-29",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/fox-news-power-rankings-south-carolina-moves-toss-up",
+  "tag": "Senate",
+  "headline": "Fox Power Rankings: South Carolina to toss-up, Ohio leans D",
+  "summary": "Fox News moved South Carolina's Senate race to toss-up and shifted the Ohio Senate and governor races to Lean Democrat. It also moved 19 House races toward Democrats and projects them winning at least 223 seats, with Senate control still unresolved."
+ },
+ {
+  "nid": "n88",
+  "date": "2026-10-28",
+  "source": "KCUR",
+  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-28/missouri-proposition-a-opposition-redistricting-map-election-2026",
+  "tag": "Missouri",
+  "headline": "No organized campaign backs Prop A map",
+  "summary": "Prop A opponents have reported $5.4 million in large contributions since mid-September, while the main pro-map group says there is no organized effort to pass it. A yes vote keeps the 2025 congressional map for 2028 and later."
+ },
+ {
+  "nid": "n87",
+  "date": "2026-10-28",
+  "source": "KRCG 13",
+  "url": "https://krcgtv.com/news/local/missouri-pastors-take-opposing-sides-in-fight-over-abortion-amendment",
+  "tag": "Missouri",
+  "headline": "Missouri clergy split over Amendment 3",
+  "summary": "The state's Catholic bishops and the Missouri Baptist Convention back Amendment 3, which would repeal the 2024 abortion-rights amendment. About 90 clergy members signed a letter opposing it."
+ },
+ {
+  "nid": "n86",
+  "date": "2026-10-28",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/2026-elections-midtems-house-senate-trump/",
+  "tag": "Governors",
+  "headline": "Murkowski endorses Democrat for Alaska governor",
+  "summary": "Republican Sen. Lisa Murkowski endorsed Democrat Jonathan Kreiss-Tomkins in Alaska's race for governor."
+ },
+ {
+  "nid": "n85",
+  "date": "2026-10-28",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/2026-elections-midtems-house-senate-trump/",
+  "tag": "Senate",
+  "headline": "Pappas and Sununu clash in New Hampshire Senate debate",
+  "summary": "Democratic Rep. Chris Pappas and Republican John E. Sununu sparred over the Iran war, tariffs and Social Security. Sununu, who has Trump's endorsement, has distanced himself from some of Trump's policies."
+ },
+ {
+  "nid": "n84",
+  "date": "2026-10-28",
+  "source": "Marist Poll",
+  "url": "https://maristpoll.marist.edu/polls/the-midterm-elections-in-new-york-october-2026/",
+  "tag": "Governors",
+  "headline": "Marist: Hochul leads Blakeman by 11 in New York",
+  "summary": "Gov. Kathy Hochul leads Republican Bruce Blakeman 53%-42% among likely voters. Democrats lead the generic congressional ballot in New York 56%-42%."
+ },
+ {
+  "nid": "n83",
+  "date": "2026-10-28",
+  "source": "Suffolk University",
+  "url": "https://www.suffolk.edu/-/media/suffolk/documents/academics/research-at-suffolk/suprc/polls/other-states/2026/10_28_2026_ohio_press_release.pdf",
+  "tag": "Governors",
+  "headline": "Suffolk/USA Today poll: Acton and Brown lead narrowly in Ohio",
+  "summary": "Democrat Amy Acton leads Vivek Ramaswamy 48%-44% for governor, down from a 9-point lead in September. Sherrod Brown leads Sen. Jon Husted 47%-44% in the Senate race (500 likely voters, ±4.4 points)."
+ },
+ {
   "nid": "n78",
   "date": "2026-10-28",
   "source": "KOMU 8",
@@ -277,86 +358,5 @@
   "tag": "National",
   "headline": "Tariffs weigh on Republicans in the final stretch",
   "summary": "GOP candidates are defending Trump's tariffs while seeking relief from parts that hurt their states, and the White House exempted some Canadian goods after pressure from Sen. Susan Collins. Recent Pew and AP-NORC polling shows waning confidence in the tariffs."
- },
- {
-  "nid": "n46",
-  "date": "2026-10-26",
-  "source": "WOSU",
-  "url": "https://www.wosu.org/2026-10-26/candidates-for-ohio-governor-focus-on-data-centers-in-last-week-of-campaign",
-  "tag": "Governors",
-  "headline": "Data centers become a closing issue in Ohio governor race",
-  "summary": "Amy Acton and Vivek Ramaswamy are trading ads over data centers in the final week, with Acton backing a conditional moratorium. AdImpact data show about $79 million more in ad spending for Ramaswamy than for Acton."
- },
- {
-  "nid": "n45",
-  "date": "2026-10-26",
-  "source": "St. Louis Public Radio",
-  "url": "https://www.stlpr.org/government-politics-issues/2026-10-26/proposition-a-missouris-trump-backed-congressional-map",
-  "tag": "Missouri",
-  "headline": "Prop A opponents dominate as voters weigh 2025 map",
-  "summary": "A yes vote on Proposition A would put Missouri's 2025 congressional map, which targets Rep. Emanuel Cleaver's district, into effect by 2028; a no vote keeps the 2022 lines. The no side is running ads statewide while organized support for the measure is scarce."
- },
- {
-  "nid": "n44",
-  "date": "2026-10-26",
-  "source": "Reuters",
-  "url": "https://kelo.com/2026/10/26/alaska-democratic-senate-candidate-peltola-asks-judge-to-toss-us-lawsuit-over-certification/",
-  "tag": "Senate",
-  "headline": "Peltola asks judge to dismiss DOJ certification suit",
-  "summary": "Mary Peltola and the DSCC asked U.S. District Judge Sharon Gleason to throw out the Justice Department suit that could block certification if Sen. Dan Sullivan narrowly loses. No ruling date has been set."
- },
- {
-  "nid": "n43",
-  "date": "2026-10-26",
-  "source": "ABC News",
-  "url": "https://abcnews.com/Politics/key-senate-races-determine-party-controls-body-year/story?id=137301095",
-  "tag": "Senate",
-  "headline": "ABC rates six Senate races toss-ups with control at stake",
-  "summary": "ABC News rates Texas, Alaska, Ohio, Kansas, Maine and Iowa as toss-ups and Michigan as Lean Democrat; Democrats need a net gain of four seats to win the chamber."
- },
- {
-  "nid": "n50",
-  "date": "2026-10-25",
-  "source": "Spectrum News",
-  "url": "https://spectrumlocalnews.com/nys/central-ny/ny-state-of-politics/2026/10/25/hochul--blakeman-hit-the-campaign-trail-as-early-voting-begins",
-  "tag": "Governors",
-  "headline": "Hochul and Blakeman clash on costs as NY early voting opens",
-  "summary": "New York's early voting runs through Nov. 1, and Gov. Kathy Hochul and Republican Bruce Blakeman are focusing on affordability and utility bills. Blakeman is pitching an income tax exemption on the first $50,000 of income for single filers."
- },
- {
-  "nid": "n42",
-  "date": "2026-10-25",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/news/todd-blanche-attroney-general-face-the-nation-transcript-10-25-2026/",
-  "tag": "National",
-  "headline": "Blanche: DOJ could step in on certification if law requires",
-  "summary": "On Face the Nation, Attorney General Todd Blanche said counting and certification should proceed normally but the Justice Department could intervene if the facts and law require it. He declined to describe his conversations with Trump about the Alaska case."
- },
- {
-  "nid": "n33",
-  "date": "2026-10-25",
-  "source": "Washington Examiner",
-  "url": "https://www.washingtonexaminer.com/live-blog-posts/trump-campaign-iowa-gop-struggles-in-polls",
-  "tag": "Senate",
-  "headline": "Rogers says he never called El-Sayed a terrorist",
-  "summary": "Michigan Republican Senate nominee Mike Rogers said he has never called Democrat Abdul El-Sayed a terrorist, distancing himself from Trump's rhetoric about his opponent. Obama rallied for El-Sayed in Detroit on Saturday as Michigan's early voting began."
- },
- {
-  "nid": "n31",
-  "date": "2026-10-25",
-  "source": "Reuters",
-  "url": "https://www.investing.com/news/economic-indicators/the-midterm-election-outcomes-that-could-shape-trumps-final-two-years-4971100",
-  "tag": "National",
-  "headline": "What each midterm outcome would mean for Trump's last two years",
-  "summary": "Republicans hold the House 218-214 and the Senate 53-47; polls favor Democrats for the House while the Senate is seen as too close to call. A Democratic House would gain subpoena power, while Senate control mainly decides judicial and cabinet confirmations."
- },
- {
-  "nid": "n30",
-  "date": "2026-10-25",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/news/mary-peltola-car-accident-alaska-senate-race/",
-  "tag": "Senate",
-  "headline": "Peltola hurt in car crash, reschedules Alaska events",
-  "summary": "Democratic Senate candidate Mary Peltola and her family suffered minor injuries when another driver struck their vehicle on the way to the Alaska Federation of Natives banquet. On medical advice she is rescheduling Sunday and Monday events and delaying the start of a statewide tour."
  }
 ]
