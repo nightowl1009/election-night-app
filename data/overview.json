@@ -23,23 +23,23 @@
  {
   "key": "ddhq_senate",
   "label": "Dem Senate odds · DDHQ",
-  "value": 0.57,
-  "display": "57%",
-  "source": "DDHQ forecast, Oct 27"
+  "value": 0.58,
+  "display": "58%",
+  "source": "DDHQ forecast, Oct 28"
  },
  {
   "key": "kalshi_senate",
   "label": "Dem Senate odds · Kalshi",
-  "value": 0.65,
-  "display": "65%",
-  "source": "Kalshi, Oct 27"
+  "value": 0.67,
+  "display": "67%",
+  "source": "Kalshi, Oct 29"
  },
  {
   "key": "kalshi_house",
   "label": "Dem House odds · Kalshi",
-  "value": 0.91,
+  "value": 0.912,
   "display": "91%",
-  "source": "Kalshi, Oct 27"
+  "source": "Kalshi, Oct 29"
  },
  {
   "key": "cook_house_tossups",
@@ -121,22 +121,22 @@
  {
   "key": "ddhq_house",
   "label": "Dem House odds · DDHQ",
-  "value": 0.79,
-  "display": "79%",
-  "source": "DDHQ forecast, Oct 27"
+  "value": 0.8,
+  "display": "80%",
+  "source": "DDHQ forecast, Oct 28"
  },
  {
   "key": "polymarket_senate",
   "label": "Dem Senate odds · Polymarket",
-  "value": 0.655,
+  "value": 0.665,
   "display": "66%",
-  "source": "Polymarket, Oct 27"
+  "source": "Polymarket, Oct 29"
  },
  {
   "key": "polymarket_house",
   "label": "Dem House odds · Polymarket",
-  "value": 0.915,
-  "display": "92%",
-  "source": "Polymarket, Oct 27"
+  "value": 0.93,
+  "display": "93%",
+  "source": "Polymarket, Oct 29"
  }
 ]

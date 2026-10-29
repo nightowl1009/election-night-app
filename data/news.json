@@ -1,5 +1,95 @@
 [
  {
+  "nid": "n78",
+  "date": "2026-10-28",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/healthcare-provider-group-supports-amendment-3-despite-most-doctors-opposing-abortion-bans/article_d02917c7-430a-43ef-875f-82e794507327.html",
+  "tag": "Missouri",
+  "headline": "Clinicians group backs Amendment 3, but opponents count more signers",
+  "summary": "The Missouri Clinicians Coalition held a news conference with physicians supporting Amendment 3 and says 75 providers have signed its pledge. A Stop the Ban Missouri letter urging a no vote had about 470 health care provider signers."
+ },
+ {
+  "nid": "n75",
+  "date": "2026-10-28",
+  "source": "Philadelphia Inquirer",
+  "url": "https://www.inquirer.com/politics/nation/pennsylvania-swing-districts-midterms-final-push-20261028.html",
+  "tag": "House",
+  "headline": "Four GOP-held Pennsylvania House seats in play",
+  "summary": "Inquirer/NYT/Siena polling shows Democrats narrowly ahead of Rep. Brian Fitzpatrick in PA-1 and Rep. Rob Bresnahan in PA-8, and tied with Rep. Scott Perry in PA-10. Democrat Bob Brooks has led Rep. Ryan Mackenzie for months in PA-7, the state's second-costliest House race."
+ },
+ {
+  "nid": "n74",
+  "date": "2026-10-28",
+  "source": "Axios",
+  "url": "https://www.axios.com/2026/10/28/gop-poll-ramaswamy-ad-damage",
+  "tag": "Governors",
+  "headline": "GOP poll: Ramaswamy's ad about Acton's mother is backfiring",
+  "summary": "A private poll for a Republican group (800 likely Ohio voters, Oct. 23-26) found Democrat Amy Acton leading Vivek Ramaswamy 50%-42%, up from 2 points earlier in the month. Among voters aware of the $4 million ad featuring Acton's estranged mother, twice as many said it made them more likely to back Acton than less likely."
+ },
+ {
+  "nid": "n73",
+  "date": "2026-10-28",
+  "source": "CBS Detroit",
+  "url": "https://www.cbsnews.com/detroit/news/el-sayed-widens-lead-rogers-michigan-senate-poll/",
+  "tag": "Senate",
+  "headline": "El-Sayed's Michigan Senate lead grows to 7",
+  "summary": "A Mitchell Research poll of 636 likely voters (Oct. 26-27) found Democrat Abdul El-Sayed at 51% and Republican Mike Rogers at 44%, up from a 4-point lead on Oct. 1. El-Sayed led independents 52%-38%, and 28% of respondents said they had already voted or were voting absentee."
+ },
+ {
+  "nid": "n72",
+  "date": "2026-10-28",
+  "source": "Siena College Research Institute",
+  "url": "https://sri.siena.edu/2026/10/28/nytimes-siena-poll-of-likely-voters-florida-minnesota-and-south-carolina/",
+  "tag": "Senate",
+  "headline": "NYT/Siena: South Carolina Senate race tied at 48%",
+  "summary": "A New York Times/Siena poll of likely voters found Democrat Annie Andrews and Republican Sen. Graham tied at 48% in South Carolina. In Florida, Sen. Ashley Moody led Democrat Angie Nixon 50%-44%, and in Minnesota, Democrat Peggy Flanagan led Republican Michele Tafoya 54%-40%."
+ },
+ {
+  "nid": "n71",
+  "date": "2026-10-28",
+  "source": "NPR",
+  "url": "https://www.npr.org/2026/10/28/nx-s1-6021478/doj-california-ballots-denied",
+  "tag": "National",
+  "headline": "Judge rejects DOJ bid to set aside 20,000 California ballots",
+  "summary": "U.S. District Judge David Carter denied the Justice Department's emergency request to make California segregate about 20,000 mail ballots from voters the administration labeled likely noncitizens. Carter wrote that the federal government had never before tried on the eve of an election to force a state to abandon its own election procedures."
+ },
+ {
+  "nid": "n70",
+  "date": "2026-10-28",
+  "source": "AP",
+  "url": "https://www.pbs.org/newshour/politics/trump-calls-for-prosecution-of-alaska-senate-candidate-peltola-over-sullivan-name-controversy",
+  "tag": "Senate",
+  "headline": "Report ties Peltola campaign to second Dan Sullivan; Trump urges prosecution",
+  "summary": "A New York Times report, based partly on interviews with a fired former campaign manager and texts, said Mary Peltola's campaign appeared to help recruit the namesake candidate on Alaska's Senate ballot; Peltola's campaign and the DSCC deny involvement. Trump called for Peltola to be prosecuted, while legal experts said the report is unlikely to affect the DOJ certification lawsuit."
+ },
+ {
+  "nid": "n79",
+  "date": "2026-10-27",
+  "source": "Columbia Missourian",
+  "url": "https://www.columbiamissourian.com/news/elections/ballot-initiatives/amendment-7-would-create-show-me-prosperity-fund/article_e27b78ff-ae23-4157-b8e6-cfd57d868f92.html",
+  "tag": "Missouri",
+  "headline": "Amendment 7 would create fund aimed at ending state taxes",
+  "summary": "Amendment 7 would set up a 'Show-Me Prosperity Fund,' invested in S&P 500 index funds, with the goal of eventually replacing Missouri's income and sales taxes. The Missouri Budget Project estimates the fund would need about $609 billion in principal, and critics point to a projected $1.7 billion state deficit."
+ },
+ {
+  "nid": "n77",
+  "date": "2026-10-27",
+  "source": "The Nevada Independent",
+  "url": "https://thenevadaindependent.com/article/despite-trump-admin-request-nevada-wont-use-voter-citizenship-system-amid-fear-of-errors",
+  "tag": "National",
+  "headline": "Nevada refuses federal request to check voters with SAVE",
+  "summary": "Secretary of State Cisco Aguilar said Nevada will not run its voter rolls through the federal SAVE citizenship database, citing too many false positives. The system has wrongly flagged hundreds of citizens in Missouri and dozens in Texas."
+ },
+ {
+  "nid": "n76",
+  "date": "2026-10-27",
+  "source": "Texas Tribune",
+  "url": "https://www.texastribune.org/2026/10/27/texas-early-voting-2026-election/",
+  "tag": "National",
+  "headline": "Nearly 4.5 million Texans vote in first week of early voting",
+  "summary": "About 23.4% of a record 19 million registered Texas voters had cast ballots through Sunday, slightly behind 2018's pace. Voters with a Democratic primary history made up 35% of early voters versus 33% for Republican primary voters; early voting ends Friday."
+ },
+ {
   "nid": "n69",
   "date": "2026-10-27",
   "source": "Washington Examiner",
@@ -268,95 +358,5 @@
   "tag": "Senate",
   "headline": "Peltola hurt in car crash, reschedules Alaska events",
   "summary": "Democratic Senate candidate Mary Peltola and her family suffered minor injuries when another driver struck their vehicle on the way to the Alaska Federation of Natives banquet. On medical advice she is rescheduling Sunday and Monday events and delaying the start of a statewide tour."
- },
- {
-  "nid": "n29",
-  "date": "2026-10-25",
-  "source": "AP",
-  "url": "https://www.boston25news.com/news/politics/blanche-says-trump/5CVSUD23BM5S5FIXEFM4LRSRYA/",
-  "tag": "Senate",
-  "headline": "Blanche defends DOJ suit over Alaska Senate certification",
-  "summary": "On CNN's State of the Union, Attorney General Todd Blanche said the Justice Department's suit, which seeks to block certification if Sen. Dan Sullivan loses, is meant to prevent voter confusion over a second Sullivan on the ballot, not to overturn results. Peltola called the suit corrupt and Sen. Lisa Murkowski criticized it."
- },
- {
-  "nid": "n22",
-  "date": "2026-10-25",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/midterm-elections-2026-trump-obama-michigan-alaska-october-25",
-  "tag": "Senate",
-  "headline": "Trump heads to Port Huron for Rogers as Obama backs Nixon in Florida",
-  "summary": "Trump was scheduled to rally Sunday in Port Huron, Michigan, for Senate nominee Mike Rogers, an event expected to touch on the U.S.-Canada tariff dispute that has hit the auto industry. Separately, Obama endorsed Democrat Angie Nixon in Florida's Senate race against GOP Sen. Ashley Moody."
- },
- {
-  "nid": "n21",
-  "date": "2026-10-25",
-  "source": "Missouri Independent / KCUR",
-  "url": "https://www.kcur.org/health/2026-10-25/missouri-amendment-3-abortion-election",
-  "tag": "Missouri",
-  "headline": "Amendment 3's exceptions draw scrutiny from doctors and lawyers",
-  "summary": "Amendment 3 would repeal the 2024 abortion-rights amendment and restore a ban with exceptions for medical emergencies, certain fetal anomalies, and rape or incest up to 12 weeks. Physicians and attorneys say the language may be hard to apply, and it is unclear whether clinics could provide even the exempted abortions given pending court rulings."
- },
- {
-  "nid": "n68",
-  "date": "2026-10-24",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/groups-rally-in-columbia-against-missouris-amendment-3-and-proposition-a/article_f1b958da-dd9a-4618-9f6c-5d1f0d6cc595.html",
-  "tag": "Missouri",
-  "headline": "Columbia rally targets Amendment 3 and Prop A",
-  "summary": "Labor and abortion-rights groups rallied in Columbia on Saturday before canvassing against both measures. Organizers said more than 600 people turned out statewide and knocked on over 14,000 doors."
- },
- {
-  "nid": "n32",
-  "date": "2026-10-24",
-  "source": "Washington Examiner",
-  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
-  "tag": "National",
-  "headline": "DOJ to send poll monitors to six Georgia counties",
-  "summary": "The Justice Department plans to monitor voting in Bibb, Chatham, Cobb, DeKalb, Fulton and Gwinnett counties, all Democratic-leaning. It follows the department's announcement of about 1,000 observers nationwide."
- },
- {
-  "nid": "n28",
-  "date": "2026-10-24",
-  "source": "KJZZ",
-  "url": "https://www.kjzz.org/elections/2026-10-24/arizona-ag-maricopa-county-recorder-resolve-lawsuit-to-restore-voting-access-for-24-u-s-citizens",
-  "tag": "National",
-  "headline": "Maricopa County restores 24 citizens' voter registrations",
-  "summary": "Arizona AG Kris Mayes and Maricopa County Recorder Justin Heap settled a lawsuit through mediation, restoring active status for 24 voters who had been flagged as possible noncitizens but were found to be citizens. Mayes dropped the suit but maintains Heap lacked authority to inactivate them."
- },
- {
-  "nid": "n27",
-  "date": "2026-10-24",
-  "source": "Jurist",
-  "url": "https://www.jurist.org/news/2026/10/doj-appeals-to-ninth-circuit-as-california-says-judge-has-not-ruled-on-request-to-segregate-20000-mail-ballots/",
-  "tag": "National",
-  "headline": "DOJ goes to Ninth Circuit over 20,000 California mail ballots",
-  "summary": "The Justice Department appealed to the Ninth Circuit before a federal judge had ruled on its request to set aside mail ballots from more than 20,000 California voters it says are likely noncitizens. California disputes the claim and calls the appeal premature; arguments on the restraining order are set for Oct. 27."
- },
- {
-  "nid": "n24",
-  "date": "2026-10-24",
-  "source": "Atlanta Journal-Constitution",
-  "url": "https://www.ajc.com/politics/2026/10/trump-republican-georgia-rally/",
-  "tag": "Governors",
-  "headline": "Trump touts Audi plant in Georgia; Kemp extends gas-tax suspension",
-  "summary": "At a rally in Perry, Trump announced a $4.2 billion Audi plant in Middle Georgia alongside GOP governor nominee Rick Jackson, who faces Democrat Keisha Lance Bottoms in a close race. Gov. Brian Kemp skipped the rally and extended the state gas-tax suspension through Nov. 30."
- },
- {
-  "nid": "n23",
-  "date": "2026-10-24",
-  "source": "CBS Austin",
-  "url": "https://cbsaustin.com/news/local/paxton-talarico-rally-central-texas-supporters-as-early-voting-continues",
-  "tag": "Senate",
-  "headline": "Paxton and Talarico rally Central Texas during early voting",
-  "summary": "Republican Ken Paxton held a rally in Georgetown while Democrat James Talarico campaigned at UT Austin, as record spending continues in Texas's open Senate race. Early voting runs through Oct. 30."
- },
- {
-  "nid": "n19",
-  "date": "2026-10-24",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/trump-weekend-rallies-georgia-michigan-2026-midterm-elections",
-  "tag": "Senate",
-  "headline": "Cruz joins Paxton as Texas race stays tied",
-  "summary": "Sen. Ted Cruz rallied with Ken Paxton against James Talarico; a Fox News poll this week had them tied at 49%."
  }
 ]

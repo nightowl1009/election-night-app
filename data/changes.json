@@ -1,50 +1,44 @@
 [
  {
   "cid": "c1",
-  "date": "2026-10-27",
+  "date": "2026-10-29",
   "tab": "senate",
-  "text": "Maine Senate: new Marist poll has Jackson 49–47; RCP average Jackson +1.4 → +1.2; Kalshi odds for Jackson 62% → 59%."
+  "text": "Michigan Senate: new Mitchell/CBS Detroit poll (Oct 26–27) has El-Sayed 51–44; Kalshi odds for El-Sayed 66% → 68%."
  },
  {
   "cid": "c2",
-  "date": "2026-10-27",
-  "tab": "governors",
-  "text": "Maine governor: Marist poll shows a 44–44 tie; RCP average Pingree +11.2 → Pingree +9.5."
+  "date": "2026-10-29",
+  "tab": "",
+  "text": "Kalshi Senate control odds for Democrats: 65% → 67%. Polymarket House: 92% → 93%; DDHQ Senate 57% → 58%, House 79% → 80%."
  },
  {
   "cid": "c3",
-  "date": "2026-10-27",
-  "tab": "governors",
-  "text": "Michigan governor RCP average: Benson +6.3 → Benson +7.4."
+  "date": "2026-10-29",
+  "tab": "house",
+  "text": "Kalshi House odds for Democrats: AL-02 32% → 43%, MI-04 58% → 52%, CO-04 32% → 37%, PA-08 83% → 86%."
  },
  {
   "cid": "c4",
-  "date": "2026-10-27",
-  "tab": "governors",
-  "text": "Governor ratings now all from Cook (Oct 23): Kansas Toss-up → Lean R, Wisconsin Lean D → Toss-up, New Hampshire Lean R → Likely R, Maine Likely D → Solid D."
+  "date": "2026-10-29",
+  "tab": "senate",
+  "text": "13 more Senate polls added from 270toWin, including Ohio (Verasight Brown +4, New River/GSG Brown +6) and Iowa (New River/GSG Turek +2, NPA Hinson +3)."
  },
  {
   "cid": "c5",
-  "date": "2026-10-27",
-  "tab": "house",
-  "text": "Kalshi House odds for Democrats: PA-08 73% → 83%, MT-01 37% → 45%, AZ-02 38% → 34%."
+  "date": "2026-10-29",
+  "tab": "voting",
+  "text": "Early vote passes 33.9 million ballots nationwide (Oct 28), up from 29.5 million on Oct 26."
  },
  {
   "cid": "c6",
-  "date": "2026-10-27",
-  "tab": "",
-  "text": "Polymarket Senate control odds for Democrats: 68% → 66%. DDHQ: Senate 56% → 57%, House 80% → 79%."
+  "date": "2026-10-29",
+  "tab": "mood",
+  "text": "Generic ballot RCP average: Democrats 51.5–43.4 → 51.6–43.4 (D+8.2)."
  },
  {
   "cid": "c7",
-  "date": "2026-10-27",
-  "tab": "mood",
-  "text": "Generic ballot RCP average: Democrats 50.5–42.4 → 51.5–43.4 (still D+8.1). Trump approval 38.8% → 38.2%."
- },
- {
-  "cid": "c8",
-  "date": "2026-10-27",
-  "tab": "voting",
-  "text": "Early vote passes 29.5 million ballots nationwide (Oct 26), up from 25.8 million on Oct 24."
+  "date": "2026-10-29",
+  "tab": "news",
+  "text": "10 new news items, including the Alaska ‘second Dan Sullivan’ report and a judge rejecting DOJ's bid to set aside 20,000 California ballots."
  }
 ]

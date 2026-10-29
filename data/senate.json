@@ -26,7 +26,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 97,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "OH",
@@ -55,7 +55,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 67,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "AK",
@@ -83,8 +83,8 @@
   "avg2_thru": "Oct 20",
   "avg2_source": "270toWin",
   "avg2_note": "Includes minor candidates (D. J. Sullivan 3.5, Heikes 1.8).",
-  "kalshi_d": 75,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 73,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "ME",
@@ -112,8 +112,8 @@
   "avg2_thru": "Oct 25",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 59,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 60,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "TX",
@@ -141,8 +141,8 @@
   "avg2_thru": "Oct 23",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 64,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 65,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "IA",
@@ -171,7 +171,7 @@
   "avg2_source": "270toWin",
   "avg2_note": "",
   "kalshi_d": 41,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "KS",
@@ -199,8 +199,8 @@
   "avg2_thru": "Oct 16",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 40,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 41,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "NE",
@@ -228,8 +228,8 @@
   "avg2_thru": "Oct 20",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 26,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 28,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "MI",
@@ -239,10 +239,10 @@
   "cand_d": "Abdul El-Sayed",
   "party_d": "D",
   "cand_r": "Mike Rogers",
-  "poll_d": 47,
-  "poll_r": 46,
-  "pollster": "InsiderAdvantage",
-  "poll_dates": "released Oct 23",
+  "poll_d": 51,
+  "poll_r": 44,
+  "pollster": "Mitchell/CBS Detroit",
+  "poll_dates": "Oct 26–27",
   "rating": "Toss-up",
   "rater": "Cook",
   "cnn_rank": null,
@@ -257,8 +257,8 @@
   "avg2_thru": "Oct 26",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 66,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 68,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "NH",
@@ -286,8 +286,8 @@
   "avg2_thru": "Oct 22",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 90,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 89,
+  "kalshi_src": "Kalshi, Oct 29"
  },
  {
   "id": "GA",
@@ -315,7 +315,7 @@
   "avg2_thru": "Oct 20",
   "avg2_source": "270toWin",
   "avg2_note": "",
-  "kalshi_d": 94,
-  "kalshi_src": "Kalshi, Oct 27"
+  "kalshi_d": 95,
+  "kalshi_src": "Kalshi, Oct 29"
  }
 ]
