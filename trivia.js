@@ -1,7 +1,8 @@
 /* Election Trivia — a fast, flashy quiz game (app only).
    Quick 10: 10 questions (history, civics, Missouri, plus live questions built from this app's own polls and ratings).
    Daily 5: the same 5 questions for everyone today, so friends can compare. 15 seconds a question; faster = more points;
-   streaks multiply the score. Best scores stay on this phone. */
+   streaks multiply the score. Best scores stay on this phone, and — once you sign in on the Game tab — on the global
+   leaderboard (all-time best, plus today's Daily 5), kept in Firebase so they survive a new phone. */
 (function () {
   'use strict';
   const SECS = 15, BASE = 100, SPEED = 100;
@@ -93,7 +94,7 @@
   // ---------- Game ----------
   const TITLES = [[0, 'Rookie Voter'], [400, 'Poll Watcher'], [900, 'Campaign Staffer'], [1500, 'Political Junkie'], [2200, 'Pundit'], [3000, 'Election Night Legend']];
   const titleFor = (s, max) => { const f = s / max * 3600; let t = TITLES[0][1]; TITLES.forEach(([m, n]) => { if (f >= m) t = n; }); return t; };
-  let G = null, root = null;
+  let G = null, root = null, onHome = false;
   const best = () => Number(store.get('en-trivia-best')) || 0;
 
   function home() {
@@ -111,12 +112,15 @@
     modes.append(modeBtn('▶', 'Quick 10', '10 questions · history, civics, Missouri and this year’s races', () => start('quick')),
       modeBtn('📅', dd ? 'Daily 5 — played' : 'Daily 5', dd ? 'Come back tomorrow for a new set · you can replay for fun' : 'Same 5 questions for everyone today — challenge your friends', () => start('daily')));
     top.append(modes, h('p', 'tq-rules', SECS + ' seconds a question · answer fast for bonus points · 3 in a row = 2× · 5 in a row = 3×'));
-    arena.append(top);
+    const lb = h('div', 'tq-lb'); top.append(lb);
+    arena.append(top); onHome = true;
+    drawBoard(lb);
   }
   function stat(i, v, l) { const d = h('div', 'tq-stat'); d.append(h('span', 'i', i), h('b', '', v), h('small', '', l)); return d; }
   function modeBtn(i, t, s, fn) { const b = btn('tq-mode', null, fn); b.append(h('span', 'i', i), h('b', '', t), h('small', '', s)); return b; }
 
   function start(mode) {
+    onHome = false;
     const qs = pick(mode); if (!qs.length) return;
     G = { mode, qs, i: -1, score: 0, streak: 0, best: 0, right: 0, timer: null, t0: 0, locked: false };
     sfx('chime'); next();
@@ -183,13 +187,14 @@
 
   function finish() {
     stop(); const max = G.qs.length * (BASE + SPEED) * 3, s = G.score, prevBest = best(), newBest = s > prevBest;
-    if (newBest) store.set('en-trivia-best', String(s));
+    if (newBest) { store.set('en-trivia-best', String(s)); store.set('en-trivia-best-right', String(G.right)); }
     if (G.mode === 'daily' && !store.get('en-trivia-daily-' + today())) store.set('en-trivia-daily-' + today(), String(s));
     root.replaceChildren(); const arena = h('div', 'tq-arena tq-end'); root.append(arena); arena.append(h('div', 'tq-glow'));
     const ttl = titleFor(s, max);
     arena.append(h('p', 'tq-kick', G.mode === 'daily' ? '📅 DAILY 5 · ' + today() : '⚡ QUICK 10 COMPLETE'), h('div', 'tq-big', '0'), h('p', 'tq-rank', ttl));
     const facts = h('div', 'tq-stats'); facts.append(stat('✅', G.right + '/' + G.qs.length, 'Right'), stat('🔥', String(G.best), 'Best streak'), stat('🏆', Math.max(s, prevBest).toLocaleString(), newBest ? 'NEW BEST!' : 'Your best'));
     arena.append(facts);
+    const glob = h('div', 'tq-glob'); arena.append(glob); recordCloud(G.mode, s, G.right, glob);
     const acts = h('div', 'tq-acts');
     acts.append(btn('tq-btn primary', '▶ Play again', () => start(G.mode === 'daily' ? 'quick' : 'quick')), btn('tq-btn', '📤 Share score', () => share(s, ttl)));
     if (window.enGroup && window.enGroup.ready()) acts.append(btn('tq-btn', '💬 Post to my group', async (e) => { const b = e.currentTarget; b.disabled = true; const ok = await window.enGroup.post('🧠 Election Trivia' + (G.mode === 'daily' ? ' Daily 5' : '') + ': ' + s.toLocaleString() + ' pts (' + G.right + '/' + G.qs.length + ') — ' + ttl + '. Beat that!'); b.textContent = ok ? '✓ Posted' : '💬 Post to my group'; b.disabled = !!ok; }));
@@ -198,6 +203,95 @@
     countUp(arena.querySelector('.tq-big'), 0, s);
     if (newBest || G.right === G.qs.length) { if (window.enCelebrate) window.enCelebrate({ side: 'g', big: true, kicker: newBest ? '🏆 New high score' : '💯 Perfect round', title: s.toLocaleString() + ' points', sub: ttl }); }
     else { if (window.enConfetti && !calm()) window.enConfetti(arena, 'g', 140); sfx('fanfare'); }
+  }
+
+  // ---------- Global leaderboard ----------
+  // Scores live in Firebase (trivia/{uid}: your best ever; triviaDaily/{day}/scores/{uid}: your first Daily 5 of the day).
+  // The rules only let a best go up, never past a perfect game, and only under your own game name.
+  const acct = () => (window.enAccount && window.enAccount.ready() ? window.enAccount : null);
+  const TOP = 50, SHOW = 10;
+  let cloud = { best: null, daily: null, day: '' }, boardTab = 'all', boardOpen = false, cache = {};
+  const fresh = (k) => cache[k] && Date.now() - cache[k].t < 60000 ? cache[k].rows : null;
+  async function topRows(tab, force) {
+    const A = acct(); if (!A) return [];
+    const k = tab === 'all' ? 'all' : 'd' + today(); const hit = !force && fresh(k); if (hit) return hit;
+    const rows = tab === 'all' ? await A.trivia.top(TOP) : await A.trivia.dailyTop(today(), TOP);
+    const key = tab === 'all' ? 'best' : 'score';
+    rows.sort((a, b) => (b[key] - a[key]) || ((a.at || 0) - (b.at || 0)));   // ties: whoever got there first
+    cache[k] = { t: Date.now(), rows }; return rows;
+  }
+  // when you sign in (or change your name): load your saved scores, carry this phone's best up, fix an old name
+  async function syncCloud() {
+    const A = acct(); if (!A) { cloud = { best: null, daily: null, day: '' }; return; }
+    try {
+      const day = today(); const [c, d] = await Promise.all([A.trivia.get(), A.trivia.dailyGet(day)]);
+      cloud = { best: c, daily: d, day };
+      const local = best(), lr = Number(store.get('en-trivia-best-right')) || 0;
+      if (A.verified()) {
+        if (local > (c ? c.best : -1)) { await saveBest(local, lr); }
+        else if (c && c.name !== A.name()) { const n = { name: A.name(), best: c.best, right: c.right, at: Date.now() }; await A.trivia.save(n); cloud.best = n; }
+      }
+      if (cloud.best && cloud.best.best > local) { store.set('en-trivia-best', String(cloud.best.best)); store.set('en-trivia-best-right', String(cloud.best.right)); }
+      if (d && !store.get('en-trivia-daily-' + day)) store.set('en-trivia-daily-' + day, String(d.score));
+      cache = {};
+    } catch (e) { console.error(e); }
+  }
+  async function saveBest(s, right) {
+    const A = acct(); const n = { name: A.name(), best: s, right: Math.min(10, right), at: Date.now() };
+    await A.trivia.save(n); cloud.best = n; cache = {};
+  }
+  async function recordCloud(mode, s, right, box) {
+    const A = acct();
+    if (!A) { box.append(btn('tq-btn tq-join', '🌎 Sign in to put your scores on the global leaderboard', () => A0signIn())); return; }
+    if (!A.verified()) { box.append(h('p', 'tq-note', 'Verify your email (Game tab) to post scores to the global leaderboard.')); return; }
+    box.append(h('p', 'tq-note', 'Saving to the global leaderboard…'));
+    try {
+      if (cloud.day !== today()) { cloud.daily = await A.trivia.dailyGet(today()); cloud.day = today(); }
+      let dailyNew = false;
+      if (mode === 'daily' && !cloud.daily) { const n = { name: A.name(), score: s, right, at: Date.now() }; await A.trivia.dailySave(today(), n); cloud.daily = n; dailyNew = true; cache = {}; }
+      const cb = cloud.best ? cloud.best.best : -1; const bestNew = s > cb;
+      if (bestNew) await saveBest(s, right);
+      const rows = await topRows('all', true); const at = rows.findIndex(r => r.uid === A.uid());
+      box.replaceChildren();
+      const chip = h('div', 'tq-rankchip' + (bestNew ? ' new' : ''));
+      chip.append(h('span', '', '🌎'), h('b', '', at >= 0 ? 'Global rank #' + (at + 1) : 'Outside the top ' + TOP), h('small', '', bestNew ? 'New personal best saved' : 'Your best: ' + cb.toLocaleString()));
+      box.append(chip);
+      if (dailyNew) {
+        const dr = await topRows('daily', true); const di = dr.findIndex(r => r.uid === A.uid());
+        if (di >= 0) box.append(h('p', 'tq-note', '📅 Today’s Daily 5: #' + (di + 1) + ' of ' + dr.length));
+      } else if (mode === 'daily' && cloud.daily) box.append(h('p', 'tq-note', '📅 Only your first Daily 5 of the day counts (' + Number(cloud.daily.score).toLocaleString() + ').'));
+    } catch (e) { console.error(e); box.replaceChildren(h('p', 'tq-note', 'Couldn’t reach the leaderboard — your best is saved on this phone and will post next time.')); }
+  }
+  const A0signIn = () => { if (window.enAccount) window.enAccount.signIn(); };
+  async function drawBoard(box) {
+    box.replaceChildren();
+    const head = h('div', 'tq-lb-head'); head.append(h('b', '', '🌎 Global leaderboard'));
+    const seg = h('div', 'tq-seg');
+    [['all', 'All-time'], ['daily', 'Today’s Daily 5']].forEach(([k, t]) => { const b = btn(boardTab === k ? 'on' : '', t, () => { boardTab = k; boardOpen = false; drawBoard(box); }); b.setAttribute('aria-pressed', boardTab === k); seg.append(b); });
+    head.append(seg); box.append(head);
+    const A = acct();
+    if (!A) {
+      const c = h('div', 'tq-lb-empty'); c.append(h('p', '', 'Sign in on the Game tab to see where you rank — your best score is saved to your account for good.'), btn('tq-btn tq-join', 'Sign in →', A0signIn));
+      box.append(c); return;
+    }
+    const list = h('ol', 'tq-lb-list'); list.append(h('li', 'tq-lb-load', 'Loading…')); box.append(list);
+    let rows; try { rows = await topRows(boardTab); } catch (e) { console.error(e); list.replaceChildren(h('li', 'tq-lb-load', 'Couldn’t load the leaderboard right now.')); return; }
+    if (!box.isConnected) return;
+    list.replaceChildren();
+    const key = boardTab === 'all' ? 'best' : 'score', of = boardTab === 'all' ? null : 5, mine = rows.findIndex(r => r.uid === A.uid());
+    if (!rows.length) list.append(h('li', 'tq-lb-load', boardTab === 'all' ? 'No scores yet — play a round and claim #1!' : 'No Daily 5 scores yet today — be the first!'));
+    rows.slice(0, boardOpen ? TOP : SHOW).forEach((r, i) => {
+      const li = h('li', 'tq-lb-row' + (i < 3 ? ' top' + (i + 1) : '') + (r.uid === A.uid() ? ' me' : ''));
+      li.append(h('span', 'rk', i < 3 ? ['🥇', '🥈', '🥉'][i] : String(i + 1)), h('span', 'nm', r.name + (r.uid === A.uid() ? ' (you)' : '')), h('small', 'rt', of ? r.right + '/' + of : ''), h('b', 'sc', Number(r[key]).toLocaleString()));
+      list.append(li);
+    });
+    if (rows.length > SHOW && !boardOpen) box.append(btn('tq-btn ghost tq-more', 'Show top ' + Math.min(TOP, rows.length) + ' ↓', () => { boardOpen = true; drawBoard(box); }));
+    const you = h('p', 'tq-note');
+    if (mine >= 0) you.textContent = 'You’re #' + (mine + 1) + (boardTab === 'all' ? ' all-time' : ' today') + '.';
+    else if (boardTab === 'all') you.textContent = cloud.best ? 'Your best (' + cloud.best.best.toLocaleString() + ') is outside the top ' + TOP + ' — keep going!' : 'Play a round to get on the board.';
+    else you.textContent = cloud.daily ? 'Your Daily 5 (' + Number(cloud.daily.score).toLocaleString() + ') is outside the top ' + TOP + '.' : 'Play today’s Daily 5 to get on today’s board — only your first try counts.';
+    if (!A.verified()) you.textContent += ' Verify your email (Game tab) to post scores.';
+    box.append(you);
   }
 
   // shareable picture
@@ -221,6 +315,7 @@
   function boot() {
     root = document.getElementById('trivia-root'); if (!root) return;
     home();
+    if (window.enAccount) window.enAccount.onChange(async () => { await syncCloud(); if (onHome && root.isConnected) home(); });
     const tab = document.querySelector('.en-tab[data-tab="trivia"]'); if (tab) tab.addEventListener('click', () => { if (!G || G.i < 0 || G.i >= G.qs.length) home(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden && G && G.timer) { /* paused questions end as time's up when you come back */ } });
   }

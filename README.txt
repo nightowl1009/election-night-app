@@ -37,7 +37,9 @@ WHAT'S HERE
                         The TV reads calls aloud (🗣️ Voice on/off). Path tab: "What if the polls are off?" slider.
                         Election night tab: "Tonight's rundown" (opens itself at 4 PM CT Nov 3).
   trivia.js             Election Trivia tab: Quick 10 (fixed facts + live questions built from the app's own data)
-                        and Daily 5 (same set for everyone each day); best score kept on the phone
+                        and Daily 5 (same set for everyone each day). Global leaderboard (All-time + Today's Daily 5) for
+                        players signed in on the Game tab: Firebase trivia/{uid} keeps each player's best for good (it can
+                        only go up, capped at a perfect 4,800); triviaDaily/{day}/scores/{uid} keeps the first Daily 5 of the day
   tests/                automated checks — run before shipping code changes (see TESTS below)
 
 UPDATES
@@ -50,9 +52,10 @@ INSTALL ON A PHONE
 
 TESTS
   node tests/run.cjs      (Node 18+ and Playwright: npm i -g playwright && npx playwright install chromium)
-  Runs about 20 checks in a few minutes, with Firebase/YouTube/Netlify stubbed so nothing real is touched:
+  Runs about 25 checks in a few minutes, with Firebase/YouTube/Netlify stubbed so nothing real is touched:
   data files are valid and sourced · the live-data function (caching, partial bundles, alert sender) ·
   every tab opens with no errors in light and dark · tab order by date · scoreboard matches the seat charts ·
   phones pick up new data versions and fall back when the server is down · share pictures · welcome card ·
   watchlist · Money tab · Ad Wars loop/skip · text contrast on the top of the page.
+  ONLY="some words" node tests/run.cjs runs just the app tests whose names include those words.
   Exit code 0 = all passed. News outlets over the 4-story limit show as warnings, not failures.

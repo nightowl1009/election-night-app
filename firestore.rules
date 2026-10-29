@@ -111,5 +111,35 @@ service cloud.firestore {
       allow read: if signedIn();
       allow write: if isAdmin();
     }
+
+    // Election Trivia — global leaderboard. One best score per player; it can only go up, and only as high as a
+    // perfect game can score (Quick 10: 4,800). The name must match the player's saved game name.
+    function goodTrivia(d) {
+      return d.keys().hasOnly(['name', 'best', 'right', 'at'])
+        && d.name == me().name
+        && d.best is int && d.best >= 0 && d.best <= 4800
+        && d.right is int && d.right >= 0 && d.right <= 10
+        && d.at is int && d.at > request.time.toMillis() - 300000 && d.at < request.time.toMillis() + 300000;
+    }
+    match /trivia/{uid} {
+      allow read: if signedIn();
+      allow create: if verified() && request.auth.uid == uid && !banned() && goodTrivia(request.resource.data);
+      allow update: if verified() && request.auth.uid == uid && !banned() && goodTrivia(request.resource.data)
+        && (request.resource.data.best > resource.data.best
+            || (request.resource.data.best == resource.data.best && request.resource.data.right == resource.data.right));
+      allow delete: if (signedIn() && request.auth.uid == uid) || isMod();
+    }
+    // Daily 5 — the first finished Daily 5 of the day counts; one score per player per day, never changed
+    match /triviaDaily/{day}/scores/{uid} {
+      allow read: if signedIn();
+      allow create: if verified() && request.auth.uid == uid && !banned()
+        && day.matches('^20[0-9]{2}-[0-9]{2}-[0-9]{2}$')
+        && request.resource.data.keys().hasOnly(['name', 'score', 'right', 'at'])
+        && request.resource.data.name == me().name
+        && request.resource.data.score is int && request.resource.data.score >= 0 && request.resource.data.score <= 1800
+        && request.resource.data.right is int && request.resource.data.right >= 0 && request.resource.data.right <= 5
+        && request.resource.data.at is int && request.resource.data.at > request.time.toMillis() - 300000 && request.resource.data.at < request.time.toMillis() + 300000;
+      allow delete: if (signedIn() && request.auth.uid == uid) || isMod();
+    }
   }
 }

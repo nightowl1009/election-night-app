@@ -16,6 +16,7 @@ const server = http.createServer((req, res) => {
 
 const results = [];
 async function test(name, fn) {
+  if (process.env.ONLY && !name.includes(process.env.ONLY)) return;
   const t0 = Date.now();
   try { await fn(); results.push([true, name, Date.now() - t0]); console.log('  ✓ ' + name); }
   catch (e) { results.push([false, name, Date.now() - t0, e]); console.log('  ✗ ' + name + '\n      ' + String(e && e.message || e).split('\n')[0]); }
@@ -283,6 +284,39 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const d1 = await a.page.evaluate(() => { window.enTrivia.start('daily'); return document.querySelector('.tq-q').textContent; });
     const d2 = await a.page.evaluate(() => { window.enTrivia.home(); window.enTrivia.start('daily'); return document.querySelector('.tq-q').textContent; });
     ok(d1 === d2, 'Daily 5 should be the same set');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('Trivia global leaderboard: sign-in prompt, carries your best up, ranks you, Daily 5 counts once', async () => {
+    const db = { users: {}, picks: {}, groups: {}, members: {}, admin: {}, chat: {}, trivia: { u_amy: { name: 'Amy', best: 3000, right: 9, at: 1 }, u_joe: { name: 'Joe', best: 1200, right: 6, at: 2 } } };
+    const a = await open('#trivia', { db });
+    ok(await a.page.evaluate(() => !!document.querySelector('.tq-lb .tq-lb-empty')), 'signed-out prompt missing');
+    await a.page.evaluate(() => { localStorage.setItem('en-trivia-best', '2500'); localStorage.setItem('en-trivia-best-right', '8'); });
+    await a.page.click('.en-tab[data-tab="game"]'); await a.page.waitForTimeout(300);
+    await a.page.click('text=Sign in with Google'); await a.page.waitForTimeout(600);
+    if (await a.page.$('input[placeholder="Name"]')) { await a.page.fill('input[placeholder="Name"]', 'Brad'); await a.page.click('#pool-root button:has-text("Save")'); await a.page.waitForTimeout(500); }
+    await a.page.click('.en-tab[data-tab="trivia"]'); await a.page.waitForTimeout(800);
+    const rows = await a.page.evaluate(() => [...document.querySelectorAll('.tq-lb-row')].map((r) => r.querySelector('.nm').textContent + '=' + r.querySelector('.sc').textContent));
+    ok(JSON.stringify(rows) === JSON.stringify(['Amy=3,000', 'Brad (you)=2,500', 'Joe=1,200']), 'board ' + rows);
+    ok(await a.page.evaluate(() => window.__poolMockDb.trivia.u_brad.best === 2500 && window.__poolMockDb.trivia.u_brad.name === 'Brad'), 'phone best not carried up');
+    ok(/#2/.test(await a.page.textContent('.tq-lb .tq-note')), 'your rank line');
+    // Daily 5, all right
+    const bank = await a.page.evaluate(() => Object.fromEntries(window.enTrivia.bank.map((q) => [q.q, q.a[0]])));
+    const play = async () => { await a.page.evaluate(() => window.enTrivia.start('daily')); for (let i = 0; i < 5; i++) { const q = await a.page.textContent('.tq-q'); await a.page.locator('.tq-a').filter({ hasText: bank[q] }).first().click(); await a.page.waitForTimeout(200); await a.page.click('.tq-next'); await a.page.waitForTimeout(200); } await a.page.waitForTimeout(900); };
+    await play();
+    const day = await a.page.evaluate(() => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago' }).format(new Date()));
+    const first = await a.page.evaluate((d) => window.__poolMockDb.triviaDaily && window.__poolMockDb.triviaDaily[d] && window.__poolMockDb.triviaDaily[d].u_brad, day);
+    ok(first && first.right === 5 && first.score > 1000, 'daily not saved ' + JSON.stringify(first));
+    ok(/Global rank #2/.test(await a.page.textContent('.tq-rankchip')), 'rank chip ' + await a.page.textContent('.tq-glob'));
+    await a.page.evaluate(() => document.querySelectorAll('.cb-back').forEach((x) => x.click()));
+    await a.page.evaluate(() => { window.__poolMockDb.triviaDaily[Object.keys(window.__poolMockDb.triviaDaily)[0]].u_brad.score = 777; });
+    await play();
+    ok(await a.page.evaluate((d) => window.__poolMockDb.triviaDaily[d].u_brad.score === 777, day), 'second Daily 5 must not replace the first');
+    ok(/first Daily 5/.test(await a.page.textContent('.tq-glob')), 'second-try note');
+    await a.page.evaluate(() => document.querySelectorAll('.cb-back').forEach((x) => x.click()));
+    await a.page.click('.tq-btn.ghost'); await a.page.waitForTimeout(400);
+    await a.page.click('.tq-seg button:has-text("Daily")'); await a.page.waitForTimeout(400);
+    ok(/Brad \(you\)/.test(await a.page.textContent('.tq-lb-list')), 'today board');
+    ok(await a.page.evaluate(() => document.documentElement.scrollWidth <= 391), 'page scrolls sideways');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
   await test('light by default; the ☀️/🌙 button switches and remembers', async () => {
