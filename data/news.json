@@ -27,6 +27,15 @@
   "summary": "Fox News moved South Carolina's Senate race to toss-up and shifted the Ohio Senate and governor races to Lean Democrat. It also moved 19 House races toward Democrats and projects them winning at least 223 seats, with Senate control still unresolved."
  },
  {
+  "nid": "n94",
+  "date": "2026-10-28",
+  "source": "Washington Examiner",
+  "url": "https://www.washingtonexaminer.com/live-blog-posts/over-35-million-mail-in-early-votes-cast-before-midterm-elections/",
+  "tag": "National",
+  "headline": "Over 35 million early votes counted before Election Day",
+  "summary": "About 35.4 million ballots had been cast by roughly Oct. 28, including 16.8 million by mail and 18.5 million in person. Citing NBC News data, Democrats made up 47% of counted votes and Republicans 35%."
+ },
+ {
   "nid": "n88",
   "date": "2026-10-28",
   "source": "KCUR",
@@ -142,6 +151,24 @@
   "tag": "Senate",
   "headline": "Report ties Peltola campaign to second Dan Sullivan; Trump urges prosecution",
   "summary": "A New York Times report, based partly on interviews with a fired former campaign manager and texts, said Mary Peltola's campaign appeared to help recruit the namesake candidate on Alaska's Senate ballot; Peltola's campaign and the DSCC deny involvement. Trump called for Peltola to be prosecuted, while legal experts said the report is unlikely to affect the DOJ certification lawsuit."
+ },
+ {
+  "nid": "n93",
+  "date": "2026-10-27",
+  "source": "KCUR",
+  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-27/missouri-election-amendment-proposition-guide-november-2026",
+  "tag": "Missouri",
+  "headline": "KCUR guide to Missouri's five statewide ballot questions",
+  "summary": "Missouri voters will decide Amendment 3 (repealing the 2024 abortion-rights amendment), Amendment 6 (initiative-petition protections), Amendment 7 (a state endowment fund), Amendment 8 (sheriff elections) and Proposition A on the 2025 congressional map. A yes on Prop A would keep the GOP-drawn map that reshapes Rep. Emanuel Cleaver's 5th District."
+ },
+ {
+  "nid": "n90",
+  "date": "2026-10-27",
+  "source": "Newsweek",
+  "url": "https://newsweek.com/james-talarico-vs-ken-paxton-what-texas-polls-show-one-week-before-midterm-12621879",
+  "tag": "Senate",
+  "headline": "Texas Senate polls: Talarico narrowly ahead in most",
+  "summary": "Newsweek tallies seven recent polls in which Democrat James Talarico leads or ties Republican Ken Paxton, all within error margins. More than 4.5 million Texans had voted early by Monday midday, with about 10 million total turnout projected versus 8.1 million in 2022."
  },
  {
   "nid": "n79",
@@ -261,6 +288,33 @@
   "summary": "The last PBS News/NPR/Marist poll before Election Day (Oct. 19–20) found likely voters favoring Democrats for Congress 52% to 44%, slightly narrower than last month among registered voters. Trump's approval stood at 40% among likely voters, and those who have already voted favored Democrats 68% to 31%."
  },
  {
+  "nid": "n92",
+  "date": "2026-10-26",
+  "source": "FOX 5 Atlanta",
+  "url": "https://www.fox5atlanta.com/news/why-georgia-candidates-making-frantic-final-push-before-early-voting-ends",
+  "tag": "Senate",
+  "headline": "Ossoff and Collins make final early-voting push in Georgia",
+  "summary": "Democratic Sen. Jon Ossoff, who leads in recent polling, urged supporters to vote while Republican Rep. Mike Collins said he sees momentum since the first debate. Fulton County officials also finalized security preparations ahead of Election Day."
+ },
+ {
+  "nid": "n91",
+  "date": "2026-10-26",
+  "source": "Atlanta News First",
+  "url": "https://www.wtoc.com/2026/10/27/early-voting-counts-down-candidates-are-hot-campaign-trail/",
+  "tag": "Governors",
+  "headline": "Nearly 2 million Georgians have voted early",
+  "summary": "The Georgia Secretary of State reported close to two million ballots cast, over a quarter of registered voters, as of Oct. 26. Early voting ends Oct. 30, and Bottoms and Jackson were both campaigning on cost-of-living themes in the governor's race."
+ },
+ {
+  "nid": "n89",
+  "date": "2026-10-26",
+  "source": "Reuters",
+  "url": "https://whtc.com/2026/10/26/trump-approval-rises-from-record-low-to-32-ahead-of-midterm-election-reuters-ipsos-poll-finds/",
+  "tag": "National",
+  "headline": "Reuters/Ipsos: Democrats up 11 on generic ballot",
+  "summary": "A Reuters/Ipsos poll finished Oct. 26 has registered voters favoring Democrats 47% to 36% for Congress and Trump's approval at 32%, one point above the prior week's low. Among likely voters Democrats lead 53% to 44%, and 46% of Democrats call themselves very enthusiastic versus 30% of Republicans."
+ },
+ {
   "nid": "n67",
   "date": "2026-10-26",
   "source": "PBS News",
@@ -304,59 +358,5 @@
   "tag": "Senate",
   "headline": "Texas Senate is the costliest race of the midterms",
   "summary": "Citing AdImpact, Newsmax reported the Texas Senate race has drawn about $500 million in ads and reservations, the most of any 2026 contest. AdImpact moved Ohio and Maine's Senate races to toss-up and projects California's governor race at a record $351 million."
- },
- {
-  "nid": "n54",
-  "date": "2026-10-26",
-  "source": "ABC News",
-  "url": "https://abcnews.com/Politics/appeals-court-rejects-trump-admins-voting-lawsuit-california/story?id=137586284",
-  "tag": "National",
-  "headline": "Appeals court won't order California to set aside 20,000 ballots",
-  "summary": "A divided 9th Circuit panel declined the Justice Department's request to make California segregate about 20,000 mail ballots from people the administration suspects are noncitizens, saying it lacked jurisdiction at this stage. The case returns to a district court, which scheduled a hearing for Tuesday afternoon."
- },
- {
-  "nid": "n52",
-  "date": "2026-10-26",
-  "source": "NPR",
-  "url": "https://www.npr.org/2026/10/26/nx-s1-6008167/republican-redistricting-midterms-competitive-map",
-  "tag": "House",
-  "headline": "Redrawn GOP districts turn into costly toss-ups",
-  "summary": "Several seats Republicans redrew to favor themselves, including North Carolina's 1st District with over $42 million in ads, are now competitive. Two redrawn Florida districts are nearing $90 million in combined ad spending."
- },
- {
-  "nid": "n51",
-  "date": "2026-10-26",
-  "source": "Daily Caller",
-  "url": "https://dailycaller.com/2026/10/26/democrats-pour-over-2-million-deep-red-house-seats-brad-finstad-victoria-spartz/",
-  "tag": "House",
-  "headline": "Democratic super PAC spends in Trump-won House seats",
-  "summary": "House Majority PAC spent about $2.2 million against Rep. Brad Finstad in Minnesota's 1st District and about $380,000 against Rep. Victoria Spartz in Indiana's 5th. GOP groups have shifted money among other House districts."
- },
- {
-  "nid": "n49",
-  "date": "2026-10-26",
-  "source": "CBS Austin",
-  "url": "https://cbsaustin.com/news/nation-world/fact-check-team-what-early-voting-numbers-tell-us-about-the-midterm-election-ballots",
-  "tag": "National",
-  "headline": "Early vote passes 30 million a week before Election Day",
-  "summary": "More than 30 million Americans had voted early as of Oct. 26, per the University of Florida Election Lab. Early turnout is running well above 2022 in Texas, Maine and Ohio but slightly below it in Iowa."
- },
- {
-  "nid": "n48",
-  "date": "2026-10-26",
-  "source": "Washington Examiner",
-  "url": "https://www.washingtonexaminer.com/live-blog/2026-midterm-elections-live-updates/",
-  "tag": "Governors",
-  "headline": "DGA adds $5 million for Bottoms in Georgia",
-  "summary": "The Democratic Governors Association put another $5 million into Keisha Lance Bottoms's campaign, on top of $11.5 million earlier. Republican Rick Jackson leads by single digits in polling averages in a race Cook rates a toss-up."
- },
- {
-  "nid": "n47",
-  "date": "2026-10-26",
-  "source": "Axios",
-  "url": "https://www.axios.com/2026/10/26/trump-tariffs-midterms-republicans",
-  "tag": "National",
-  "headline": "Tariffs weigh on Republicans in the final stretch",
-  "summary": "GOP candidates are defending Trump's tariffs while seeking relief from parts that hurt their states, and the White House exempted some Canadian goods after pressure from Sen. Susan Collins. Recent Pew and AP-NORC polling shows waning confidence in the tariffs."
  }
 ]
