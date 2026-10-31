@@ -1,5 +1,32 @@
 [
  {
+  "nid": "n95",
+  "date": "2026-10-31",
+  "source": "Al Jazeera",
+  "url": "https://www.aljazeera.com/news/2026/10/31/us-midterms-3-days-to-go-what-latest-polls-say-as-early-voting-surges",
+  "tag": "National",
+  "headline": "Early vote tops 43 million as Democrats lead generic polls",
+  "summary": "An AP analysis cited by Al Jazeera finds over 43 million ballots cast early, about 10 million more than at this point in 2022. RealClearPolling's national average has Democrats ahead by about 8 points."
+ },
+ {
+  "nid": "n97",
+  "date": "2026-10-30",
+  "source": "MEAWW",
+  "url": "https://news.meaww.com/interfering-with-election-administration-judge-limits-doj-dhs-pressure-on-election-officials",
+  "tag": "National",
+  "headline": "Judge limits DOJ pressure on California election officials",
+  "summary": "U.S. District Judge Trina Thompson ordered the administration to stop pressuring election officials over ballots it says belong to ineligible voters, in effect until Nov. 16. The order followed DOJ letters to 57 of California's 58 counties."
+ },
+ {
+  "nid": "n96",
+  "date": "2026-10-30",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/california-justice-department-ballots-appeals-court/",
+  "tag": "National",
+  "headline": "Appeals court refuses to set aside 20,000 California ballots",
+  "summary": "The 9th Circuit ruled 2-1 against a Justice Department request that California set aside ballots tied to about 20,000 people it says may be noncitizens. The panel agreed there is no feasible way to identify those ballots without risking harm to the whole system."
+ },
+ {
   "nid": "n82",
   "date": "2026-10-29",
   "source": "AP",
@@ -25,6 +52,15 @@
   "tag": "Senate",
   "headline": "Fox Power Rankings: South Carolina to toss-up, Ohio leans D",
   "summary": "Fox News moved South Carolina's Senate race to toss-up and shifted the Ohio Senate and governor races to Lean Democrat. It also moved 19 House races toward Democrats and projects them winning at least 223 seats, with Senate control still unresolved."
+ },
+ {
+  "nid": "n98",
+  "date": "2026-10-28",
+  "source": "Jefferson City News Tribune",
+  "url": "https://www.newstribune.com/news/2026/oct/28/missouri-congressional-map-fight-reaches-voters/",
+  "tag": "Missouri",
+  "headline": "Prop A map vote won't affect this year's House races",
+  "summary": "Missouri voters decide Proposition A on the 2025 Republican-drawn congressional map, which would apply starting in 2028; the 2022 map is used this year. The opposition campaign has reported $5.4 million in large contributions while the organized GOP effort has gone quiet."
  },
  {
   "nid": "n94",
@@ -288,6 +324,24 @@
   "summary": "The last PBS News/NPR/Marist poll before Election Day (Oct. 19–20) found likely voters favoring Democrats for Congress 52% to 44%, slightly narrower than last month among registered voters. Trump's approval stood at 40% among likely voters, and those who have already voted favored Democrats 68% to 31%."
  },
  {
+  "nid": "n100",
+  "date": "2026-10-26",
+  "source": "Newsweek",
+  "url": "https://newsweek.com/map-states-early-voters-midterms-12619134",
+  "tag": "National",
+  "headline": "28 million have already voted, ahead of 2022 pace",
+  "summary": "University of Florida Election Lab data show over 28 million Americans had voted by Oct. 26. An AP analysis put Texas early voting up 74 percent over the same point in 2022."
+ },
+ {
+  "nid": "n99",
+  "date": "2026-10-26",
+  "source": "ABC13 Houston",
+  "url": "https://abc13.com/live-updates/2026-midterm-election-early-voting-starts-monday-runs-oct-30-texas/19850056/entry/19980607/",
+  "tag": "National",
+  "headline": "Harris County early voting beats every prior midterm start",
+  "summary": "More than half a million Harris County voters cast ballots in the first week, roughly one in five registered voters. Day one saw over 104,000 in-person votes, a midterm first-day record."
+ },
+ {
   "nid": "n92",
   "date": "2026-10-26",
   "source": "FOX 5 Atlanta",
@@ -304,59 +358,5 @@
   "tag": "Governors",
   "headline": "Nearly 2 million Georgians have voted early",
   "summary": "The Georgia Secretary of State reported close to two million ballots cast, over a quarter of registered voters, as of Oct. 26. Early voting ends Oct. 30, and Bottoms and Jackson were both campaigning on cost-of-living themes in the governor's race."
- },
- {
-  "nid": "n89",
-  "date": "2026-10-26",
-  "source": "Reuters",
-  "url": "https://whtc.com/2026/10/26/trump-approval-rises-from-record-low-to-32-ahead-of-midterm-election-reuters-ipsos-poll-finds/",
-  "tag": "National",
-  "headline": "Reuters/Ipsos: Democrats up 11 on generic ballot",
-  "summary": "A Reuters/Ipsos poll finished Oct. 26 has registered voters favoring Democrats 47% to 36% for Congress and Trump's approval at 32%, one point above the prior week's low. Among likely voters Democrats lead 53% to 44%, and 46% of Democrats call themselves very enthusiastic versus 30% of Republicans."
- },
- {
-  "nid": "n67",
-  "date": "2026-10-26",
-  "source": "PBS News",
-  "url": "https://www.pbs.org/newshour/politics/trump-administration-asks-washington-state-to-set-aside-ballots-from-400-voters-it-says-may-be-noncitizens",
-  "tag": "National",
-  "headline": "DOJ asks Washington to hold ballots of 400 voters",
-  "summary": "The Justice Department asked Washington state to set aside any ballots cast by more than 400 people it suspects may not be citizens until their eligibility is confirmed. Secretary of State Steve Hobbs said he would respond only to requests that follow due process."
- },
- {
-  "nid": "n65",
-  "date": "2026-10-26",
-  "source": "The Nevada Independent",
-  "url": "https://thenevadaindependent.com/article/the-early-voting-blog-2026-general",
-  "tag": "National",
-  "headline": "Democrats lead Nevada early vote by about 24,000",
-  "summary": "About 439,000 Nevadans, roughly 21% of active voters, had voted by Monday night. Democrats led by 24,395 ballots (5.5 points), powered by a 12-point edge in Clark County."
- },
- {
-  "nid": "n60",
-  "date": "2026-10-26",
-  "source": "AFP",
-  "url": "https://www.yahoo.com/news/politics/articles/mystery-money-floods-us-midterm-173229451.html",
-  "tag": "National",
-  "headline": "Five super PACs top $1 billion in midterm spending",
-  "summary": "An AFP analysis of federal data found five outside groups had spent more than $1 billion as of Oct. 25, nearly a third of all non-party spending this cycle, with about two-thirds benefiting Republicans. Elon Musk has put almost $450 million into GOP groups."
- },
- {
-  "nid": "n57",
-  "date": "2026-10-26",
-  "source": "Action News 5",
-  "url": "https://www.actionnews5.com/2026/10/26/trump-rally-hyde-smith-kelly-corinth-ahead-midterms/",
-  "tag": "Senate",
-  "headline": "Trump rallies in Mississippi for Hyde-Smith",
-  "summary": "Trump held a rally at Corinth's Crossroads Arena to boost Sen. Cindy Hyde-Smith and Rep. Trent Kelly, the first visit by a sitting president to the city since FDR. Democratic Senate nominee Scott Colom held a news conference in Corinth beforehand criticizing both Republicans."
- },
- {
-  "nid": "n56",
-  "date": "2026-10-26",
-  "source": "Newsmax",
-  "url": "https://www.yahoo.com/news/politics/articles/texas-senate-race-tops-2026-182545675.html",
-  "tag": "Senate",
-  "headline": "Texas Senate is the costliest race of the midterms",
-  "summary": "Citing AdImpact, Newsmax reported the Texas Senate race has drawn about $500 million in ads and reservations, the most of any 2026 contest. AdImpact moved Ohio and Maine's Senate races to toss-up and projects California's governor race at a record $351 million."
  }
 ]
