@@ -562,6 +562,17 @@ html.en-pop-open { overflow:hidden; }
 @keyframes en-pop-bg { from { opacity:0 } }
 @keyframes en-pop-up { from { transform: translateY(40px) scale(.96); opacity:0 } }
 
+/* Condensed scoreboard (until Election Day): Senate and House side by side, one projection line each */
+.en-score.compact { display:grid; grid-template-columns: 1fr 1fr; gap: var(--cds-gap-sm); min-height: 0; }
+.en-score.compact .sb-row { padding: .6rem .65rem .55rem; gap:.3rem; }
+.en-score.compact .sb-h b { font-size: 1.1rem; }
+.en-score.compact .sb-h span { font-size: .7rem; }
+.en-score.compact .sb-nums { gap:.4rem; }
+.en-score.compact .sb-nums .n { font-size: 1.7rem; min-width: 0; }
+.en-score.compact .sb-bar { height: 10px; }
+.en-score.compact .sb-sub { font-size: .74rem; }
+.en-score.compact .sb-sub > span:not(.proj), .en-score.compact .sb-sub .dot, .en-score.compact .sb-note { display:none; }
+.en-score.compact .sb-note { display:none; }
 /* Bigger, centered, flashier headings */
 .en-hero { text-align:center; padding: calc(var(--cds-pad-lg) * 1.5) var(--cds-pad-lg) calc(var(--cds-pad-lg) * 1.3); background:
   radial-gradient(70% 55% at 50% 0%, rgba(251,191,36,.18) 0%, transparent 70%), radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; }
@@ -1871,6 +1882,8 @@ dash.calc('senate_base', {
     const box = $('#en-score-top'), ov = okRows('overview'), sen = okRows('senate'), hs = okRows('house');
     if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
+    // Until Election Day the scoreboard is a condensed two-up strip; from then on it is the full live scoreboard
+    box.classList.toggle('compact', (window.__simNow ? window.__simNow() : Date.now()) < Date.UTC(2026, 10, 3, 5));
     const disp = (k) => (ov.find(o => o.key === k) || {}).display;
     const S = senateCounts(), Hc = houseCounts();
     const sD = S.d, sR = S.r, sFromR = S.fromR, sFromD = S.fromD, sCalled = S.called;
@@ -1884,7 +1897,7 @@ dash.calc('senate_base', {
       seg('d', dN - fD); seg('g', fD); seg('o', other); seg('g', fR); seg('r', rN - fR);
       bar.append(el('em', '')); 
       nums.append(el('span', 'n d', String(dN)), bar, el('span', 'n r', String(rN))); r.append(nums);
-      const sb = el('div', 'sb-sub'); subBits.filter(Boolean).forEach((t, k) => { if (k) { const dt = el('span', 'dot', '·'); dt.setAttribute('aria-hidden', 'true'); sb.append(dt); } sb.append(el('span', '', t)); }); r.append(sb);
+      const sb = el('div', 'sb-sub'); subBits.filter(Boolean).forEach((t, k) => { if (k) { const dt = el('span', 'dot', '·'); dt.setAttribute('aria-hidden', 'true'); sb.append(dt); } sb.append(el('span', /point to/.test(t) ? 'proj' : '', t)); }); r.append(sb);
       box.append(r);
     };
     const pr = okRows('senate_projection'), pv = (k) => pr ? Number((pr.find(x => x.metric === k) || {}).value) : NaN;

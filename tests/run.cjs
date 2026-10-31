@@ -281,6 +281,15 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const dup = DATA('polls').map((p) => p.race + p.date + p.pollster); ok(dup.length === new Set(dup).size, 'duplicate polls');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('scoreboard is condensed until Election Day, full from then on', async () => {
+    const a = await open('', { time: '2026-11-01T15:00:00Z' }); await a.page.waitForTimeout(500);
+    const c = await a.page.evaluate(() => { const b = document.getElementById('en-score-top'); const rows = [...b.querySelectorAll('.sb-row')]; return { compact: b.classList.contains('compact'), n: rows.length, x: rows.map((r) => Math.round(r.getBoundingClientRect().left)), vis: [...b.querySelectorAll('.sb-sub span:not(.dot)')].filter((e) => e.offsetParent).map((e) => e.textContent) }; });
+    ok(c.compact && c.n === 2 && c.x[0] !== c.x[1], 'condensed: ' + JSON.stringify(c));
+    ok(c.vis.length === 2 && c.vis.every((t) => /point to/.test(t)), 'condensed strip shows only the projection line: ' + c.vis);
+    await a.close();
+    const b = await open('', { time: '2026-11-03T20:00:00Z' }); await b.page.waitForTimeout(500);
+    ok(await b.page.evaluate(() => !document.getElementById('en-score-top').classList.contains('compact')), 'full scoreboard on Election Day'); await b.close();
+  });
   await test('race cards pop out from the map; header is centered', async () => {
     const a = await open('#senate');
     const q = (js) => a.page.evaluate(js);
