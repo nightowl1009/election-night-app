@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793470564"></script>
-<link rel="stylesheet" href="pool.css?v=1793470564" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793470564"></noscript>
+<script src="dash-lite.js?v=1793472828"></script>
+<link rel="stylesheet" href="pool.css?v=1793472828" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793472828"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -1357,26 +1357,28 @@ dash.calc('senate_projection', {
 });
 dash.calc('house_projection', {
   inputs: ['house', 'overview', 'results'],
-  title: 'House: Cook ratings + toss-ups',
-  description: 'Starts from the seats Cook rates as favoring each party; each tracked toss-up then goes to its called winner, otherwise to the side Kalshi favors (a seat with no Kalshi price stays with the party holding it).',
+  title: 'House: Solid/Likely as rated + every tracked seat',
+  description: 'Starts from the seats Cook rates Solid or Likely for each party, then places every tracked toss-up and lean seat: a called race goes to its winner; an uncalled toss-up to the side Kalshi favors (no Kalshi price: the party holding it); an uncalled lean seat to its rating.',
   fn: (house, overview, results) => {
     const ov = (k) => Number((overview.find(o => o.key === k) || {}).value) || 0;
     const res = new Map(results.map(x => [x.race, x]));
-    let tD = 0, tR = 0, called = 0;
-    house.filter(r => /toss/i.test(r.rating)).forEach(r => {
-      const c = res.get('HOU-' + r.id);
+    let leanD = 0, leanR = 0, tD = 0, tR = 0, called = 0;
+    house.forEach(r => {
+      const c = res.get('HOU-' + r.id), toss = /toss/i.test(r.rating);
       let side;
       if (c && c.winner_party) { called++; side = c.winner_party === 'R' ? 'R' : 'D'; }
-      else if (r.kalshi_d != null && Number(r.kalshi_d) !== 50) side = Number(r.kalshi_d) > 50 ? 'D' : 'R';
-      else side = r.held === 'R' ? 'R' : 'D';
-      if (side === 'D') tD++; else tR++;
+      else if (toss) side = (r.kalshi_d != null && Number(r.kalshi_d) !== 50) ? (Number(r.kalshi_d) > 50 ? 'D' : 'R') : (r.held === 'R' ? 'R' : 'D');
+      else side = /D/.test(r.rating) ? 'D' : 'R';
+      if (toss) { if (side === 'D') tD++; else tR++; } else if (side === 'D') leanD++; else leanR++;
     });
     return [
       { metric: 'toss_to_d', value: tD },
       { metric: 'toss_to_r', value: tR },
-      { metric: 'toss_called', value: called },
-      { metric: 'proj_d', value: ov('house_d_fav') + tD },
-      { metric: 'proj_r', value: ov('house_r_fav') + tR }
+      { metric: 'called', value: called },
+      { metric: 'base_d', value: ov('house_d_safe') + leanD },
+      { metric: 'base_r', value: ov('house_r_safe') + leanR },
+      { metric: 'proj_d', value: ov('house_d_safe') + leanD + tD },
+      { metric: 'proj_r', value: ov('house_r_safe') + leanR + tR }
     ];
   }
 });
@@ -2247,16 +2249,17 @@ dash.calc('senate_base', {
     const all = hr.map(hSeat);
     const hD = all.filter(s => s.side === 'D'), hR = all.filter(s => s.side === 'R');
     const untracked = Math.max(0, tN - all.length);
-    const pD = hp ? Number((hp.find(x => x.metric === 'proj_d') || {}).value) : dN + hD.length;
-    const pR = hp ? Number((hp.find(x => x.metric === 'proj_r') || {}).value) : rN + hR.length;
+    const pv = (k, d) => hp ? Number((hp.find(x => x.metric === k) || {}).value) : d;
+    const bD = pv('base_d', dN), bR = pv('base_r', rN);
+    const pD = bD + hD.length, pR = bR + hR.length;
     const hSeats = [
-      ...d3.range(dN).map(() => ({ cls: 'en-seat d' })),
+      ...d3.range(bD).map(() => ({ cls: 'en-seat d' })),
       ...hD, ...d3.range(untracked).map(() => ({ cls: 'en-seat toss', tip: ['Toss-up', 'One of Cook\'s toss-ups not tracked on this page'] })), ...hR,
-      ...d3.range(rN).map(() => ({ cls: 'en-seat' }))
+      ...d3.range(bR).map(() => ({ cls: 'en-seat' }))
     ];
     if (lbl) lbl.textContent = 'Cook ratings + the ' + all.length + ' toss-ups (outlined) going to the Kalshi favorite';
     drawChamber(box, {
-      total: dN + tN + rN, rows: 10, r0: 0.45, majority: 218, firstDraw, small: true,
+      total: pD + pR + untracked, rows: 10, r0: 0.45, majority: 218, firstDraw, small: true,
       seat: (i) => hSeats[i],
       left: { n: pD, src: 'house_projection', field: 'value', where: 'metric=proj_d' },
       right: { n: pR, src: 'house_projection', field: 'value', where: 'metric=proj_r' },
@@ -3212,13 +3215,13 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793470564"></script>
-<script src="pool.js?v=1793470564"></script>
-<script src="sim.js?v=1793470564"></script>
-<script src="push.js?v=1793470564"></script>
-<script src="ads.js?v=1793470564"></script>
-<script src="welcome.js?v=1793470564"></script>
-<script src="party.js?v=1793470564"></script>
-<script src="trivia.js?v=1793470564"></script>
+<script src="pool-config.js?v=1793472828"></script>
+<script src="pool.js?v=1793472828"></script>
+<script src="sim.js?v=1793472828"></script>
+<script src="push.js?v=1793472828"></script>
+<script src="ads.js?v=1793472828"></script>
+<script src="welcome.js?v=1793472828"></script>
+<script src="party.js?v=1793472828"></script>
+<script src="trivia.js?v=1793472828"></script>
 </body>
 </html>

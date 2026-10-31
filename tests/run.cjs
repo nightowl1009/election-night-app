@@ -291,6 +291,24 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const hero = await a.page.textContent('#en-score-top'); ok(hero.includes('point to ' + want[0] + '–' + want[1]), 'hero line: ' + hero.slice(0, 300));
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('House projection: a called lean seat or toss-up moves the projected total', async () => {
+    const hs = DATA('house'), ov = Object.fromEntries(DATA('overview').map((o) => [o.key, Number(o.value)]));
+    const leanD = hs.find((r) => r.rating === 'Lean D'), toss = hs.find((r) => /toss/i.test(r.rating) && Number(r.kalshi_d) > 50);
+    const a = await open('#house', { results: (rows) => {
+      const set = (id, party, name) => { const x = rows.find((q) => q.race === 'HOU-' + id); x.winner = name; x.winner_party = party; x.status = 'Called'; };
+      set(leanD.id, 'R', 'Test R'); set(toss.id, 'R', 'Test R2');
+    } });
+    await a.page.evaluate(() => document.querySelector('#house .en-chmode [data-m="polls"]').click()); await a.page.waitForTimeout(600);
+    const tu = hs.filter((r) => /toss/i.test(r.rating));
+    const side = (r) => r.id === toss.id ? 'R' : (r.kalshi_d != null && Number(r.kalshi_d) !== 50 ? (Number(r.kalshi_d) > 50 ? 'D' : 'R') : (r.held === 'R' ? 'R' : 'D'));
+    const tD = tu.filter((r) => side(r) === 'D').length;
+    const lD = hs.filter((r) => r.rating === 'Lean D' && r.id !== leanD.id).length, lR = hs.filter((r) => r.rating === 'Lean R').length + 1;
+    const want = [ov.house_d_safe + lD + tD, ov.house_r_safe + lR + (tu.length - tD)];
+    const got = await a.page.evaluate(() => [...document.querySelectorAll('#en-house .en-ch-num')].map((t) => Number(t.textContent)).filter((x) => !isNaN(x)));
+    ok(got[0] === want[0] && got[1] === want[1], 'projected ' + got + ' want ' + want);
+    ok(got[0] + got[1] === 435, 'total ' + (got[0] + got[1]));
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('Election Trivia: plays, scores, streaks, remembers best, Daily 5 is the same for everyone', async () => {
     const a = await open('#trivia');
     const bank = await a.page.evaluate(() => window.enTrivia.bank.map((q) => ({ q: q.q, a: q.a })));
