@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793308877"></script>
-<link rel="stylesheet" href="pool.css?v=1793308877" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793308877"></noscript>
+<script src="dash-lite.js?v=1793470564"></script>
+<link rel="stylesheet" href="pool.css?v=1793470564" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793470564"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -391,6 +391,7 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 .en-seat { fill: var(--en-red); }
 .en-seat.d { fill: var(--en-blue); }
 .en-seat.flip, .en-seat.toss { fill: var(--en-gold); }
+.en-seat.tu { stroke: var(--en-gold); stroke-width: 1.6; }
 .en-seat.i { fill: var(--en-purple); } .en-seat.v { fill: rgba(255,255,255,.28); }
 .en-chmode { display:inline-flex; gap:2px; padding:3px; border-radius:999px; background: rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.16); margin: 0 0 var(--cds-gap-sm); }
 .en-chmode button { appearance:none; border:0; background:transparent; color: rgba(255,255,255,.7); font: inherit; font-size: var(--cds-font-size-caption); font-weight:600; padding:.35rem .85rem; border-radius:999px; cursor:pointer; }
@@ -1005,7 +1006,7 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
       <div class="en-kicker" id="en-kicker"><span class="en-dot"></span><span id="en-mode">2026 Midterms · Pre-election polls</span></div>
       <h1 class="en-h1"><span>Election Night 2026</span></h1>
       <div class="en-count" id="en-count" data-source="pollclose"></div>
-      <div class="en-score dash-skeleton" id="en-score-top" data-source="overview senate house results senate_projection"></div>
+      <div class="en-score dash-skeleton" id="en-score-top" data-source="overview senate house results senate_projection house_projection"></div>
       <details class="en-more" id="en-more"><summary>All the odds and numbers</summary><div class="en-tiles dash-skeleton" id="en-tiles" data-source="overview"></div></details>
     </div>
   </section>
@@ -1074,7 +1075,7 @@ html[data-theme="dark"]:not([data-theme="light"]) .en { --ink-d:#93c5fd; --ink-r
         <div class="en-chamber" id="house-chamber">
             <h3>House</h3>
             <div class="en-strip-h"><span id="en-house-label">By Cook rating · gold = toss-up · tap a gold seat</span><span>218 for control</span></div>
-            <div class="en-strip dash-skeleton" id="en-house" data-source="overview house results"></div>
+            <div class="en-strip dash-skeleton" id="en-house" data-source="overview house house_projection house_seats results"></div>
           </div>
       </div>
       <div class="en-sec-h">
@@ -1352,6 +1353,45 @@ dash.calc('senate_projection', {
       { metric: 'proj_other', value: now('senate_d_now') + fromR - fromD },
       { metric: 'proj_r', value: now('senate_r_now') - fromR + fromD }
     ];
+  }
+});
+dash.calc('house_projection', {
+  inputs: ['house', 'overview', 'results'],
+  title: 'House: Cook ratings + toss-ups',
+  description: 'Starts from the seats Cook rates as favoring each party; each tracked toss-up then goes to its called winner, otherwise to the side Kalshi favors (a seat with no Kalshi price stays with the party holding it).',
+  fn: (house, overview, results) => {
+    const ov = (k) => Number((overview.find(o => o.key === k) || {}).value) || 0;
+    const res = new Map(results.map(x => [x.race, x]));
+    let tD = 0, tR = 0, called = 0;
+    house.filter(r => /toss/i.test(r.rating)).forEach(r => {
+      const c = res.get('HOU-' + r.id);
+      let side;
+      if (c && c.winner_party) { called++; side = c.winner_party === 'R' ? 'R' : 'D'; }
+      else if (r.kalshi_d != null && Number(r.kalshi_d) !== 50) side = Number(r.kalshi_d) > 50 ? 'D' : 'R';
+      else side = r.held === 'R' ? 'R' : 'D';
+      if (side === 'D') tD++; else tR++;
+    });
+    return [
+      { metric: 'toss_to_d', value: tD },
+      { metric: 'toss_to_r', value: tR },
+      { metric: 'toss_called', value: called },
+      { metric: 'proj_d', value: ov('house_d_fav') + tD },
+      { metric: 'proj_r', value: ov('house_r_fav') + tR }
+    ];
+  }
+});
+dash.calc('house_seats', {
+  inputs: ['house', 'results'],
+  title: 'House toss-up seats, projected',
+  description: 'Which side each tracked toss-up lands on: the called winner if called, otherwise the side Kalshi favors (a seat with no Kalshi price stays with the party holding it).',
+  fn: (house, results) => {
+    const res = new Map(results.map(x => [x.race, x]));
+    return house.filter(r => /toss/i.test(r.rating)).map(r => {
+      const c = res.get('HOU-' + r.id), called = !!(c && c.winner_party);
+      const k = r.kalshi_d != null ? Number(r.kalshi_d) : NaN;
+      const side = called ? (c.winner_party === 'R' ? 'R' : 'D') : (!isNaN(k) && k !== 50 ? (k > 50 ? 'D' : 'R') : (r.held === 'R' ? 'R' : 'D'));
+      return { id: r.id, held: r.held, side, flip: side !== r.held, called };
+    });
   }
 });
 dash.calc('senate_seats', {
@@ -2039,6 +2079,7 @@ dash.calc('senate_base', {
       box.append(r);
     };
     const pr = okRows('senate_projection'), pv = (k) => pr ? Number((pr.find(x => x.metric === k) || {}).value) : NaN;
+    const hpr = okRows('house_projection'), hv = (k) => hpr ? Number((hpr.find(x => x.metric === k) || {}).value) : NaN;
     const ks = disp('kalshi_senate'), kh = disp('kalshi_house');
     row('Senate', 'senate', sD, sR, sFromR, sFromD, 100 - sD - sR, 100, 51, [
       sCalled ? sCalled + ' of ' + sen.length + ' called' : (disp('dems_need') ? 'Dems need ' + disp('dems_need') : ''),
@@ -2046,6 +2087,7 @@ dash.calc('senate_base', {
       ks ? 'Dem odds ' + ks : '']);
     if (h.D + h.R) row('House', 'house', h.D, h.R, h.fD, h.fR, h.I + h.V, h.D + h.R + h.I + h.V, 218, [
       h.called ? h.called + ' battlegrounds called' : (disp('cook_house_tossups') ? disp('cook_house_tossups') + ' Cook toss-ups' : ''),
+      !isNaN(hv('proj_d')) && hv('proj_d') + hv('proj_r') ? 'Ratings + odds point to ' + hv('proj_d') + '–' + hv('proj_r') : '',
       kh ? 'Dem odds ' + kh : '']);
     const note = el('div', 'sb-note', 'Blue = Dem + Ind · Red = GOP · Gold = changed party · Odds from Kalshi'); box.append(note);
   }
@@ -2192,23 +2234,35 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
     // The toss-ups this page tracks take gold seats (Dem-held left of untracked ones, GOP-held right), with a tooltip each
+    // Each tracked toss-up goes to its called winner, else the side Kalshi favors, and counts in the projected total.
+    // Tracked toss-ups keep a gold outline so they still stand out; any Cook toss-up not tracked here stays gold.
     const hr = (okRows('house') || []).filter(r => /toss/i.test(r.rating));
-    const hSeat = (r) => ({ cls: 'en-seat toss', tip: [r.id + ' · Toss-up · ' + (/^(Open|Vacant)/.test(r.incumbent) ? r.incumbent : 'held by ' + r.incumbent), r.cand_d + ' (D) vs ' + r.cand_r + ' (R)' + (r.kalshi_d != null ? ' · Kalshi ' + (Number(r.kalshi_d) >= 50 ? 'D ' + r.kalshi_d : 'R ' + (100 - Number(r.kalshi_d))) + '%' : '')] });
-    const hD = hr.filter(r => r.held === 'D').map(hSeat), hR = hr.filter(r => r.held === 'R').map(hSeat);
-    const untracked = Math.max(0, tN - hD.length - hR.length);
+    const hp = okRows('house_projection'), hs2 = okRows('house_seats');
+    const sideOf = new Map((hs2 || []).map(s => [s.id, s]));
+    const hSeat = (r) => {
+      const s = sideOf.get(r.id) || { side: r.held === 'R' ? 'R' : 'D', called: false };
+      const k = r.kalshi_d != null ? Number(r.kalshi_d) : null;
+      return { side: s.side, cls: 'en-seat' + (s.side === 'D' ? ' d' : '') + ' tu', tip: [r.id + ' · Toss-up · ' + (/^(Open|Vacant)/.test(r.incumbent) ? r.incumbent : 'held by ' + r.incumbent), r.cand_d + ' (D) vs ' + r.cand_r + ' (R)' + (s.called ? ' · Called: ' + s.side : (k != null ? ' · Kalshi ' + (k >= 50 ? 'D ' + k : 'R ' + (100 - k)) + '% → ' + s.side : ''))] };
+    };
+    const all = hr.map(hSeat);
+    const hD = all.filter(s => s.side === 'D'), hR = all.filter(s => s.side === 'R');
+    const untracked = Math.max(0, tN - all.length);
+    const pD = hp ? Number((hp.find(x => x.metric === 'proj_d') || {}).value) : dN + hD.length;
+    const pR = hp ? Number((hp.find(x => x.metric === 'proj_r') || {}).value) : rN + hR.length;
     const hSeats = [
       ...d3.range(dN).map(() => ({ cls: 'en-seat d' })),
       ...hD, ...d3.range(untracked).map(() => ({ cls: 'en-seat toss', tip: ['Toss-up', 'One of Cook\'s toss-ups not tracked on this page'] })), ...hR,
       ...d3.range(rN).map(() => ({ cls: 'en-seat' }))
     ];
+    if (lbl) lbl.textContent = 'Cook ratings + the ' + all.length + ' toss-ups (outlined) going to the Kalshi favorite';
     drawChamber(box, {
       total: dN + tN + rN, rows: 10, r0: 0.45, majority: 218, firstDraw, small: true,
       seat: (i) => hSeats[i],
-      left: { n: dN, src: 'overview', field: 'value', where: 'key=house_d_fav' },
-      right: { n: rN, src: 'overview', field: 'value', where: 'key=house_r_fav' },
-      label: tN + ' toss-ups decide it',
-      legend: [['var(--en-blue)', 'Favors Dem'], ['var(--en-gold)', 'Toss-up'], ['var(--en-red)', 'Favors GOP']],
-      aria: `House chamber by Cook rating: ${dN} favor Democrats, ${tN} toss-ups, ${rN} favor Republicans`
+      left: { n: pD, src: 'house_projection', field: 'value', where: 'metric=proj_d' },
+      right: { n: pR, src: 'house_projection', field: 'value', where: 'metric=proj_r' },
+      label: (pD >= 218 ? 'Democrats projected to win the House' : pR >= 218 ? 'GOP projected to hold the House' : 'No majority projected') + ' · toss-ups: ' + hD.length + ' D, ' + hR.length + ' R',
+      legend: [['var(--en-blue)', 'Dem'], ['var(--en-gold)', 'Toss-up (outlined)'], ['var(--en-red)', 'GOP']],
+      aria: `House chamber projected: ${pD} Democrats, ${pR} Republicans; Cook rates ${dN} as favoring Democrats and ${rN} Republicans, and the ${all.length} toss-ups go ${hD.length} to Democrats and ${hR.length} to Republicans`
     });
   }
 
@@ -3158,13 +3212,13 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793308877"></script>
-<script src="pool.js?v=1793308877"></script>
-<script src="sim.js?v=1793308877"></script>
-<script src="push.js?v=1793308877"></script>
-<script src="ads.js?v=1793308877"></script>
-<script src="welcome.js?v=1793308877"></script>
-<script src="party.js?v=1793308877"></script>
-<script src="trivia.js?v=1793308877"></script>
+<script src="pool-config.js?v=1793470564"></script>
+<script src="pool.js?v=1793470564"></script>
+<script src="sim.js?v=1793470564"></script>
+<script src="push.js?v=1793470564"></script>
+<script src="ads.js?v=1793470564"></script>
+<script src="welcome.js?v=1793470564"></script>
+<script src="party.js?v=1793470564"></script>
+<script src="trivia.js?v=1793470564"></script>
 </body>
 </html>

@@ -275,6 +275,22 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const dup = DATA('polls').map((p) => p.race + p.date + p.pollster); ok(dup.length === new Set(dup).size, 'duplicate polls');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('House projection: the toss-ups are counted in the projected total', async () => {
+    const a = await open('#house');
+    await a.page.click('#house .en-chmode [data-m="polls"]'); await a.page.waitForTimeout(600);
+    const ov = Object.fromEntries(DATA('overview').map((o) => [o.key, Number(o.value)]));
+    const tu = DATA('house').filter((r) => /toss/i.test(r.rating));
+    const toD = tu.filter((r) => r.kalshi_d != null ? Number(r.kalshi_d) > 50 : r.held !== 'R').length;
+    const want = [ov.house_d_fav + toD, ov.house_r_fav + (tu.length - toD)];
+    const got = await a.page.evaluate(() => [...document.querySelectorAll('#en-house .en-ch-num')].map((t) => Number(t.textContent)).filter((x) => !isNaN(x)));
+    ok(got[0] === want[0] && got[1] === want[1], 'projected ' + got + ' want ' + want);
+    ok(got[0] + got[1] === 435, 'projected seats should total 435, got ' + (got[0] + got[1]));
+    const n = await a.page.evaluate(() => document.querySelectorAll('#en-house .en-seat.tu').length);
+    ok(n === tu.length, 'outlined toss-up seats ' + n + ' vs ' + tu.length);
+    const lbl = await a.page.textContent('#en-house-label'); ok(/toss-ups/.test(lbl) && /Kalshi/.test(lbl), 'label ' + lbl);
+    const hero = await a.page.textContent('#en-score-top'); ok(hero.includes('point to ' + want[0] + '–' + want[1]), 'hero line: ' + hero.slice(0, 300));
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('Election Trivia: plays, scores, streaks, remembers best, Daily 5 is the same for everyone', async () => {
     const a = await open('#trivia');
     const bank = await a.page.evaluate(() => window.enTrivia.bank.map((q) => ({ q: q.q, a: q.a })));
