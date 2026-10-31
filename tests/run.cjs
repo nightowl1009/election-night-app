@@ -92,6 +92,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(await on('#hou-map') === all && await dots() === allDots, 'All should restore the map');
     await a.page.click('.en-tab[data-tab="senate"]'); await a.page.waitForTimeout(250);
     const sen = DATA('senate'), ratings = [...new Set(sen.map((r) => r.rating))];
+    await a.page.click('[data-listall="senate"]'); await a.page.waitForTimeout(250); // cards stay hidden until a state is tapped, unless the list is switched on
     ok(await a.page.evaluate(() => document.querySelectorAll('#sen-chips .en-chip').length) === ratings.length + 1, 'senate chips should match the ratings in the data');
     for (const f of ratings) {
       await a.page.click('#sen-chips .en-chip[data-f="' + f + '"]'); await a.page.waitForTimeout(150);
@@ -104,6 +105,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await a.page.click('#sen-map .en-mapmode button:first-child'); await a.page.waitForTimeout(150);
     ok(await on('#sen-map') === sen.length, 'senate map mode toggle');
     await a.page.click('.en-tab[data-tab="governors"]'); await a.page.waitForTimeout(250);
+    await a.page.click('[data-listall="governor"]'); await a.page.waitForTimeout(250);
     await a.page.click('#gov-chips .en-chip[data-f="Toss-up"]'); await a.page.waitForTimeout(150);
     const gt = DATA('governor').filter((r) => r.rating === 'Toss-up').length;
     ok(await on('#gov-map') === gt && await a.page.evaluate(() => document.querySelectorAll('#gov-grid .en-race').length) === gt, 'governor toss-up filter');
@@ -140,7 +142,9 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
   });
   await test('starring a race shows the watchlist; empty watchlist stays hidden', async () => {
     const a = await open(''); ok(await a.page.evaluate(() => document.getElementById('watchlist').hidden), 'empty watchlist visible');
-    await a.page.locator('#senate .en-star').first().scrollIntoViewIfNeeded(); await a.page.locator('#senate .en-star').first().click(); await a.page.waitForTimeout(400);
+    ok(await a.page.evaluate(() => document.querySelectorAll('#sen-grid .en-race').length) === 0, 'cards should stay hidden until a state is tapped');
+    await a.page.evaluate(() => window.enOpenRace('senate', 'OH')); await a.page.waitForTimeout(300);
+    await a.page.locator('#sen-grid .en-star').first().click(); await a.page.waitForTimeout(400);
     ok(!(await a.page.evaluate(() => document.getElementById('watchlist').hidden)), 'watchlist did not appear'); await a.close();
   });
   await test('Money tab renders every section with sources', async () => {
@@ -162,6 +166,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
   const callJS = (race, party, winner) => `{ const x = rows.find((y) => y.race === '${race}'); Object.assign(x, { status: 'Called', winner: '${winner}', winner_party: '${party}', d_pct: 51, r_pct: 47, reporting: 95, called_at: new Date().toISOString() }); }`;
   await test('a starred race getting called fills the screen; a chamber clinch gets its own moment', async () => {
     const a = await open('#senate');
+    await a.page.evaluate(() => window.enOpenRace('senate', 'OH')); await a.page.waitForTimeout(300);
     await a.page.locator('#sen-grid [data-card="SEN-OH"] .en-star').click(); await a.page.waitForTimeout(300);
     await inject(a.page, callJS('SEN-OH', 'D', 'Sherrod Brown')); await a.page.waitForTimeout(500);
     const t = await a.page.evaluate(() => { const b = document.querySelector('.cb-back'); return b ? b.textContent : ''; });
@@ -266,6 +271,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const a = await open('#senate', { polls: (rows) => rows.push({ pid: 'SEN-NC-999', race: 'SEN-NC', pollster: 'Test Poll Co', date: '2026-10-28', d: 40, r: 50, margin: -10 }) });
     const r = await a.page.evaluate(() => { const s = dash.data('senate').data.find((x) => x.id === 'NC'); return [s.pollster, s.poll_d, s.poll_r, s.poll_dates, !!s.poll_auto]; });
     ok(JSON.stringify(r) === JSON.stringify(['Test Poll Co', 40, 50, 'Oct 28', true]), 'senate row ' + r);
+    await a.page.evaluate(() => window.enOpenRace('senate', 'NC')); await a.page.waitForTimeout(300);
     const card = await a.page.evaluate(() => { const c = document.querySelector('[data-card="SEN-NC"] .en-latest'); return c ? c.textContent : ''; });
     ok(/Test Poll Co/.test(card) && /Oct 28/.test(card), 'card latest poll: ' + card);
     // an older row poll from the same end date stays; the date parser reads ranges and month-only text
@@ -273,6 +279,33 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const names = new Set(DATA('polls').map((p) => p.pollster.toLowerCase()));
     ok(!['emerson', 'ppp', 'rasmussen', 'quantus', 'trafalgar', 'suffolk', 'pete polls', 'ny times/siena'].some((n) => names.has(n)), 'old pollster names still in polls.json');
     const dup = DATA('polls').map((p) => p.race + p.date + p.pollster); ok(dup.length === new Set(dup).size, 'duplicate polls');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('race cards pop out from the map; header is centered', async () => {
+    const a = await open('#senate');
+    const q = (js) => a.page.evaluate(js);
+    ok(await q(() => document.querySelectorAll('#sen-grid .en-race').length) === 0 && await q(() => document.querySelector('#sen-grid').closest('.en-pop').hidden), 'no cards until a state is tapped');
+    await a.page.locator('#sen-map path.st.on[data-st="MI"]').dispatchEvent('click'); await a.page.waitForTimeout(400);
+    ok(await q(() => [...document.querySelectorAll('#sen-grid .en-race')].map((c) => c.dataset.card).join()) === 'SEN-MI', 'tapping Michigan should open only its card');
+    ok(await q(() => document.querySelector('#sen-grid').closest('.en-pop').querySelector('.en-pop-h b').textContent) === 'Michigan Senate', 'pop-out title');
+    ok(await q(() => document.documentElement.classList.contains('en-pop-open')), 'page should not scroll behind the pop-out');
+    await a.page.keyboard.press('Escape'); await a.page.waitForTimeout(250);
+    ok(await q(() => document.querySelectorAll('#sen-grid .en-race').length) === 0 && !(await q(() => document.documentElement.classList.contains('en-pop-open'))), 'Escape closes it');
+    await a.page.evaluate(() => window.enOpenRace('senate', 'NC')); await a.page.waitForTimeout(250);
+    await a.page.locator('#sen-grid').evaluate((g) => g.closest('.en-pop').click()); await a.page.waitForTimeout(250);
+    ok(await q(() => document.querySelectorAll('#sen-grid .en-race').length) === 0, 'tapping outside closes it');
+    await a.page.click('[data-listall="senate"]'); await a.page.waitForTimeout(250);
+    ok(await q(() => document.querySelectorAll('#sen-grid .en-race').length) === DATA('senate').length, 'the list button shows every race');
+    // House: a state with several seats shows all of them
+    await a.page.click('.en-tab[data-tab="house"]'); await a.page.waitForTimeout(300);
+    const mi = DATA('house').filter((r) => r.id.startsWith('MI-')).length;
+    await a.page.evaluate(() => window.enOpenRace('house', 'MI')); await a.page.waitForTimeout(300);
+    ok(await q(() => document.querySelectorAll('#house-grid .en-race').length) === mi, 'Michigan seats in the pop-out');
+    await a.page.keyboard.press('Escape'); await a.page.waitForTimeout(250);
+    ok(await q(() => document.querySelectorAll('#house-grid .en-race').length) === 0, 'house cards hidden again');
+    // header: title is centered on the page
+    const h = await q(() => { const r = document.querySelector('.en-h1').getBoundingClientRect(); return [Math.round(r.left + r.width / 2), Math.round(document.documentElement.clientWidth / 2), document.querySelector('.en-h1').textContent]; });
+    ok(Math.abs(h[0] - h[1]) <= 3 && h[2] === 'Election Night 2026', 'title not centered: ' + h);
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
   await test('House projection: the toss-ups are counted in the projected total', async () => {
@@ -382,7 +415,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const tb = await a.page.evaluate(() => getComputedStyle(document.querySelector('.en-tabs')).touchAction); ok(/pan-x/.test(tb), 'tab bar must pan sideways: ' + tb);
     // a sideways swipe on the tab bar scrolls it
     await a.page.waitForTimeout(1200); // splash gone
-    const box = await a.page.locator('.en-tabs').boundingBox(); const cdp = await a.ctx.newCDPSession(a.page);
+    await a.page.locator('.en-tabs').scrollIntoViewIfNeeded(); const box = await a.page.locator('.en-tabs').boundingBox(); const cdp = await a.ctx.newCDPSession(a.page);
     const y = Math.round(box.y + box.height / 2); let x = Math.round(box.x + box.width * 0.85);
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
     for (let i = 0; i < 12; i++) { x -= 20; await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x, y }] }); await a.page.waitForTimeout(16); }
