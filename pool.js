@@ -1322,7 +1322,7 @@
   const celebSide = (p) => p === 'R' || p === 'N' ? 'r' : p === 'I' ? 'i' : p === 'D' || p === 'Y' ? 'd' : 'g';
   function bigMoments(fresh, list, w, sim) {
     const tvOn = window.enTvIsOpen && window.enTvIsOpen();
-    if (tvOn) tvAnnounce(fresh).catch(e => console.error(e));
+    if (tvOn) { if (fresh.length) tvAnnounce(fresh).catch(e => console.error(e)); }
     else if (window.enCelebrate) {
       const starred = new Set(window.enStarred ? window.enStarred() : []);
       const doc = sim ? (prac && prac.members[0].doc) : { picks: myPicks, lock: myLock };
@@ -1447,14 +1447,18 @@
 
   // ---------- Live "race called" pop-ups while the app is open ----------
   let liveSeen = null, liveSim = false;
+  const annOK = (key) => !window.__simOn || GAME.includes(key);
+  window.enAnn = annOK;
   function liveCalls() {
     const res = rows('results'); if (!res.length) return;
     const sim = !!window.__simOn;
     const calledNow = res.filter(x => x.winner_party);
     if (liveSeen === null || sim !== liveSim) { liveSeen = new Set(calledNow.map(x => x.race)); liveSim = sim; clinched = clinchFlags(); return; } // baseline: nothing pops on first load
-    const fresh = calledNow.filter(x => !liveSeen.has(x.race)).sort((a, b) => String(a.called_at).localeCompare(String(b.called_at)));
-    if (!fresh.length) return;
-    fresh.forEach(x => liveSeen.add(x.race));
+    const all = calledNow.filter(x => !liveSeen.has(x.race)).sort((a, b) => String(a.called_at).localeCompare(String(b.called_at)));
+    if (!all.length) return;
+    all.forEach(x => liveSeen.add(x.race));
+    const fresh = all.filter(x => annOK(x.race));   // practice run: only the toss-up races are announced
+    if (!fresh.length) { if (sim) bigMoments([], races(), winners(), sim); return; }
     if (!sim) { // you saw these live, so the "since you last looked" card skips them
       let seen = []; try { seen = JSON.parse(store.get('en-seen-calls') || '[]') || []; } catch (e) {}
       store.set('en-seen-calls', JSON.stringify(Array.from(new Set(seen.concat(fresh.map(x => x.race))))));

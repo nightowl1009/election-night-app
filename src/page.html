@@ -2219,7 +2219,7 @@ dash.calc('senate_base', {
   function renderBreaking() {
     const wrap = $('#en-break'), track = $('#en-break-track'), rows = okRows('results');
     track.replaceChildren();
-    const called = (rows || []).filter(r => r.winner).sort((a, b) => String(b.called_at).localeCompare(String(a.called_at))).slice(0, 6);
+    const called = (rows || []).filter(r => r.winner && (!window.enAnn || window.enAnn(r.race))).sort((a, b) => String(b.called_at).localeCompare(String(a.called_at))).slice(0, 6);
     const anyLive = (rows || []).some(r => Number(r.reporting) > 0 || r.winner);
     $('#en-mode').textContent = anyLive ? 'LIVE · Results coming in' : '2026 Midterms · Pre-election polls';
     $('#en-kicker').classList.toggle('live', anyLive);

@@ -53,6 +53,20 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
   const call = (race, party, winner) => (rows) => { const x = rows.find((y) => y.race === race); Object.assign(x, { status: 'Called', winner, winner_party: party, d_pct: 51, r_pct: 47, reporting: 95, called_at: '2026-11-04T01:30:00Z' }); };
 
   console.log('App');
+  await test('practice run: every race finishes, and only toss-up races are announced', async () => {
+    const a = await open('', { time: '2026-10-30T12:00:00Z' });
+    await a.page.evaluate(() => { window.__ann = []; new MutationObserver((ms) => ms.forEach((m) => m.addedNodes.forEach((n) => { if (n.classList && n.classList.contains('pl-pop') && !n.classList.contains('more')) window.__ann.push(n.querySelector('b').textContent); }))).observe(document.body, { childList: true, subtree: true }); window.enSim.start(); });
+    for (let i = 0; i < 80; i++) await a.page.clock.runFor(2500);
+    const r = await a.page.evaluate(() => ({ rows: window.dash.data('results').data.map((x) => ({ race: x.race, w: x.winner })), ann: window.__ann, done: window.__simDone, bar: document.querySelector('.sim-t').textContent }));
+    ok(r.done, 'simulation did not reach the end');
+    const open_ = r.rows.filter((x) => !x.w).map((x) => x.race);
+    ok(!open_.length, 'races never called: ' + open_.join(', '));
+    ok(r.ann.length > 0, 'no race-called pop-ups at all');
+    const toss = DATA('results').map((x) => x.race), GAMEKEYS = await a.page.evaluate(() => window.enAnn ? ['SEN-OH', 'MO-AUD', 'MO-03'].map((k) => window.enAnn(k)) : null);
+    ok(GAMEKEYS && GAMEKEYS[0] === true && GAMEKEYS[1] === false && GAMEKEYS[2] === false, 'announce filter should allow toss-ups only: ' + JSON.stringify(GAMEKEYS));
+    ok(!r.ann.some((t) => /Missouri|Auditor|Cooper|Proposition|Amendment/i.test(t)), 'a non-toss-up race was announced: ' + r.ann.join(' | '));
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('every tab opens with no script errors (light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {
       const a = await open('', { scheme });

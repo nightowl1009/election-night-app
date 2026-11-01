@@ -47,9 +47,9 @@
       const absM = Math.abs(margin);
       return {
         race: x.race, close, d, r, margin,
-        tau: rnd(70, 140) * 60000,                         // how fast the count comes in
+        tau: Math.min(rnd(70, 140) * 60000, (END - close) / 3.5), // how fast the count comes in (late-closing states speed up so every race finishes before the end)
         early: rnd(-6, 6),                                 // early-count lean that fades as votes are counted
-        callAt: absM >= 12 ? 0 : absM >= 6 ? rnd(20, 45) : absM >= 3 ? rnd(55, 80) : absM >= 1.2 ? rnd(85, 95) : 101,
+        callAt: absM >= 12 ? 0 : absM >= 6 ? rnd(20, 45) : absM >= 3 ? rnd(55, 80) : rnd(85, 95),
         win: retain ? (margin > 0 ? ['Retained', 'Y'] : ['Not retained', 'N'])
           : measure ? (margin > 0 ? ['Passes', 'Y'] : ['Fails', 'N'])
           : x.race === 'MO-AUD' ? (margin > 0 ? ['Quentin Wilson', 'D'] : ['Scott Fitzpatrick', 'R'])
@@ -64,7 +64,7 @@
       const rep = Math.min(99, 100 * (1 - Math.exp(-(now - p.close) / p.tau)));
       const lean = p.early * (1 - rep / 100);
       const d = Math.round((p.d + lean / 2) * 10) / 10, r = Math.round((p.r - lean / 2) * 10) / 10;
-      const called = rep >= p.callAt;
+      const called = rep >= p.callAt || now >= END;   // every race is called by the end of the night
       if (called && !p.calledAt) p.calledAt = new Date(now).toISOString();
       return { race: p.race, status: called ? 'Called' : 'Counting', winner: called ? p.win[0] : '', winner_party: called ? p.win[1] : '',
         d_pct: rep > 0.5 ? d : null, r_pct: rep > 0.5 ? r : null, reporting: Math.round(rep), called_at: called ? p.calledAt : '' };
