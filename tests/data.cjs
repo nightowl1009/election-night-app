@@ -5,7 +5,7 @@ const D = path.resolve(__dirname, '..', 'data');
 let fails = 0, warns = 0;
 const bad = (m) => { fails++; console.log('  ✗ ' + m); }, warn = (m) => { warns++; console.log('  ! ' + m); };
 const load = (f) => { try { return JSON.parse(fs.readFileSync(path.join(D, f + '.json'), 'utf8')); } catch (e) { bad(f + '.json does not parse: ' + e.message); return null; } };
-const need = { senate: ['id', 'state', 'held', 'cand_d', 'cand_r'], governor: ['id', 'state', 'held'], house: ['id', 'held', 'rating'], results: ['race', 'status', 'winner', 'winner_party'], pollclose: ['order', 'close_utc'], news: ['nid', 'date', 'source', 'url', 'tag', 'headline', 'summary'], overview: ['key', 'value'], local: ['lid', 'title'], changes: ['cid', 'date', 'text'], spending: ['id', 'kind', 'label', 'source', 'url'], ads: ['id', 'party', 'sponsor', 'title'] };
+const need = { senate: ['id', 'state', 'held', 'cand_d', 'cand_r'], governor: ['id', 'state', 'held'], house: ['id', 'held', 'rating'], results: ['race', 'status', 'winner', 'winner_party'], pollclose: ['order', 'close_utc'], news: ['nid', 'date', 'source', 'url', 'tag', 'headline', 'summary'], overview: ['key', 'value'], local: ['lid', 'title'], changes: ['cid', 'date', 'text'], spending: ['id', 'kind', 'label', 'source', 'url'], ads: ['id', 'party', 'sponsor', 'title'], economy: ['id', 'label', 'value', 'source', 'url'] };
 fs.readdirSync(D).filter((f) => f.endsWith('.json')).forEach((f) => load(f.replace(/\.json$/, '')));
 Object.entries(need).forEach(([f, cols]) => {
   const rows = load(f); if (!rows) return;

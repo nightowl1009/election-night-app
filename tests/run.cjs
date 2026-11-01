@@ -67,6 +67,18 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(!r.ann.some((t) => /Missouri|Auditor|Cooper|Proposition|Amendment/i.test(t)), 'a non-toss-up race was announced: ' + r.ann.join(' | '));
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('economy tab: cards match the data, payment math, debt counter, no sideways scroll', async () => {
+    const a = await open('#economy');
+    await a.page.click('.en-tab[data-tab="economy"]'); await a.page.waitForTimeout(400);
+    const r = await a.page.evaluate(() => ({ cards: document.querySelectorAll('#econ-root .ec-card').length, nums: [...document.querySelectorAll('#econ-root .ec-num')].map((e) => e.textContent), debt: document.getElementById('ec-debt').textContent, w: document.documentElement.scrollWidth, src: [...document.querySelectorAll('#econ-root .ec-src a')].every((x) => /^https:/.test(x.href)) }));
+    const E = DATA('economy');
+    ok(r.cards === E.length + 1, 'one card per row plus the payment card: ' + r.cards);
+    ok(r.debt.replace(/\D/g, '') >= String(Math.round(E[0].exact)).replace(/\D/g, '') && /^\$40,/.test(r.debt), 'debt counter should start from the Treasury reading: ' + r.debt);
+    const home = E.find((x) => x.id === 'home'), mt = E.find((x) => x.id === 'mortgage'), L = home.value * 0.8, i = mt.value / 1200, pay = Math.round(L * i / (1 - Math.pow(1 + i, -360)));
+    ok(r.nums.some((t) => t === '$' + pay.toLocaleString('en-US') + '/mo'), 'monthly payment on the median home should be $' + pay + ': ' + r.nums.join(' | '));
+    ok(r.w <= 391, 'economy tab scrolls sideways'); ok(r.src, 'every source link should be https');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('every tab opens with no script errors (light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {
       const a = await open('', { scheme });
@@ -129,7 +141,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
   await test('live data: reads the newest version, skips repeats, falls back when the server is down', async () => {
-    const files = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'earlyvote', 'local', 'changes', 'spending', 'meta'];
+    const files = ['senate', 'governor', 'house', 'overview', 'pollclose', 'polls', 'results', 'missouri', 'missouri_polls', 'news', 'house_lean', 'mood', 'approval_polls', 'issues', 'demos', 'issue_trust', 'earlyvote', 'local', 'changes', 'spending', 'economy', 'meta'];
     let sha = 'a'.repeat(40), bundles = 0;
     const live = (r) => { const u = new URL(r.request().url()); const s = u.searchParams.get('sha'); if (!s) return r.fulfill({ json: { sha } }); bundles++;
       const data = {}; files.forEach((f) => { data[f] = DATA(f); }); if (s.startsWith('b')) call('SEN-NC', 'D', 'Test')(data.results);
