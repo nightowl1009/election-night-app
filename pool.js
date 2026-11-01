@@ -1488,7 +1488,7 @@
       stack.prepend(t);
       setTimeout(() => drop(t), sim ? 4500 : 9000);
     });
-    if (extra > 0) { const t = el('div', 'pl-pop more'); t.append(el('b', '', '+ ' + extra + ' more race' + (extra > 1 ? 's' : '') + ' called'), el('small', '', 'See the Election night tab')); t.addEventListener('click', () => drop(t)); stack.append(t); setTimeout(() => drop(t), 9000); }
+    if (extra > 0) { const t = el('div', 'pl-pop more'); t.append(el('b', '', '+ ' + extra + ' more race' + (extra > 1 ? 's' : '') + ' called'), el('small', '', 'See the Election Night tab')); t.addEventListener('click', () => drop(t)); stack.append(t); setTimeout(() => drop(t), 9000); }
     while (stack.children.length > (sim ? 2 : 4)) stack.lastElementChild.remove();
     try { if (!sim && navigator.vibrate) navigator.vibrate(30); } catch (e) {}
     if (sim) pracAlerts(fresh, list, w);
@@ -1532,7 +1532,7 @@
     h.append(ok); b.append(h);
     const ul = el('ul', '');
     fresh.slice(0, 6).forEach(x => { const li = el('li', partyCls(x.winner_party)); li.textContent = callText(x); ul.append(li); });
-    if (fresh.length > 6) ul.append(el('li', 'more', '+ ' + (fresh.length - 6) + ' more — see the Election night tab'));
+    if (fresh.length > 6) ul.append(el('li', 'more', '+ ' + (fresh.length - 6) + ' more — see the Election Night tab'));
     b.append(ul);
     document.body.append(b);
   }

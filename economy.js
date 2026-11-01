@@ -11,17 +11,19 @@
   const money = (n, dp) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 });
   const FMT = {
     debt: (v) => '$' + v.toFixed(2) + ' trillion', unemployment: (v) => v.toFixed(1) + '%', inflation: (v) => v.toFixed(1) + '%',
-    mortgage: (v) => v.toFixed(2) + '%', gas: (v) => '$' + v.toFixed(2), home: (v) => money(Math.round(v)), fed: (v) => v.toFixed(2) + '%'
+    mortgage: (v) => v.toFixed(2) + '%', gas: (v) => '$' + v.toFixed(2), home: (v) => money(Math.round(v)), wages: (v) => '$' + v.toFixed(2), fed: (v) => v.toFixed(2) + '%'
   };
   const payment = (price, rate) => { const L = price * 0.8, r = rate / 1200, n = 360; return L * r / (1 - Math.pow(1 + r, -n)); };   // 20% down, 30-year fixed, principal + interest only
-  const ACCENT = { debt: '#f87171', unemployment: '#38bdf8', inflation: '#fb923c', mortgage: '#a78bfa', gas: '#fbbf24', home: '#34d399', fed: '#f472b6', pay: '#22d3ee' };
-  const ICON = { debt: '🏛️', unemployment: '👷', inflation: '🛒', mortgage: '🏠', gas: '⛽', home: '🔑', fed: '🏦', pay: '💳' };
+  const ACCENT = { debt: '#f87171', unemployment: '#38bdf8', inflation: '#fb923c', mortgage: '#a78bfa', gas: '#fbbf24', home: '#34d399', fed: '#f472b6', pay: '#22d3ee', wages: '#4ade80' };
+  const ICON = { debt: '🏛️', unemployment: '👷', inflation: '🛒', mortgage: '🏠', gas: '⛽', home: '🔑', fed: '🏦', pay: '💳', wages: '💵' };
 
   const CSS = `
 .ec-wrap { display:grid; gap:14px; }
 .ec-hero { position:relative; overflow:hidden; border-radius:20px; padding:20px 16px; color:#fff; text-align:center; background: radial-gradient(90% 70% at 10% 0%, rgba(239,68,68,.45), transparent 60%), radial-gradient(90% 70% at 100% 10%, rgba(56,189,248,.35), transparent 60%), linear-gradient(160deg,#0b1020,#111a33); box-shadow:0 16px 48px rgba(10,14,40,.4), inset 0 0 0 1px rgba(255,255,255,.08); }
 .ec-hero .k { font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; color:#fbbf24; font-weight:700; }
-.ec-hero .big { font-family: var(--font-anthropic-serif, Georgia, serif); font-size: clamp(1.7rem, 8.4vw, 2.9rem); line-height:1.1; margin:.35rem 0 .15rem; font-variant-numeric: tabular-nums; text-shadow:0 4px 28px rgba(248,113,113,.55); word-break:break-all; }
+.ec-hero .big { font-family: var(--font-anthropic-serif, Georgia, serif); font-size: min(2.5rem, 7.7vw); line-height:1.1; margin:.35rem 0 .15rem; white-space:nowrap; text-shadow:0 4px 28px rgba(248,113,113,.55); }
+.ec-ch { display:inline-block; width:.55em; text-align:center; }
+.ec-ch.p { width:.27em; }
 .ec-hero .sub { font-size:.82rem; color:rgba(255,255,255,.78); }
 .ec-hero .rate { display:inline-block; margin-top:.55rem; padding:.3rem .7rem; border-radius:999px; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); font-size:.8rem; font-weight:600; }
 .ec-hero::after { content:''; position:absolute; inset:-40%; background:conic-gradient(from 0deg, transparent, rgba(251,191,36,.12), transparent 30%, rgba(96,165,250,.14), transparent 60%); animation: ec-spin 18s linear infinite; pointer-events:none; }
@@ -75,6 +77,7 @@
     const d = r.value - r.prior, flat = Math.abs(d) < 1e-9, c = h('span', 'ec-chip ' + (flat ? 'flat' : d > 0 ? 'up' : 'dn'));
     let t;
     if (r.id === 'debt') t = '$' + Math.abs(d).toFixed(2) + ' trillion';
+    else if (r.id === 'wages') t = '$' + Math.abs(d).toFixed(2) + ' (' + (Math.abs(d) / r.prior * 100).toFixed(1) + '%)';
     else if (r.id === 'home') t = money(Math.abs(d)) + ' (' + (Math.abs(d) / r.prior * 100).toFixed(1) + '%)';
     else if (r.id === 'gas') t = '$' + Math.abs(d).toFixed(2) + ' (' + (Math.abs(d) / r.prior * 100).toFixed(0) + '%)';
     else t = Math.abs(d).toFixed(2).replace(/0$/, '') + ' pts';
@@ -132,7 +135,13 @@
       hero.append(h('div', 'rate', 'Growing about ' + money(Math.round(perSec)) + ' every second at the past year’s pace'));
       hero.append(h('div', 'sub', 'The live counter is an estimate: last year’s pace carried forward from the last official reading.'));
       wrap.append(hero);
-      const tick = () => { if (big.closest('[hidden]')) return; big.textContent = money(Math.round(d.exact + perSec * Math.max(0, (Date.now() - base) / 1000))); };
+      const cells = [];
+      const tick = () => {
+        if (big.closest('[hidden]')) return;
+        const txt = money(Math.round(d.exact + perSec * Math.max(0, (Date.now() - base) / 1000)));
+        if (cells.length !== txt.length) { big.replaceChildren(); cells.length = 0; [...txt].forEach(ch => { const c = h('span', 'ec-ch' + (/\d/.test(ch) ? '' : ' p')); big.append(c); cells.push(c); }); }
+        [...txt].forEach((ch, i) => { if (cells[i].textContent !== ch) cells[i].textContent = ch; });
+      };
       tick(); clearInterval(tmr); tmr = setInterval(tick, calm() ? 5000 : 100);
     }
     const grid = h('div', 'ec-grid'); wrap.append(grid);
@@ -142,6 +151,7 @@
     if (by.debt) add(by.debt, '', (g, c) => { g.append(bars([['A year ago', by.debt.prior, '$' + by.debt.prior.toFixed(2) + 'T'], ['Now', by.debt.value, '$' + by.debt.value.toFixed(2) + 'T', 1]], '', by.debt.value)); note(c, by.debt.extra); });
     if (by.unemployment) add(by.unemployment, '', (g, c) => { g.append(dots(by.unemployment.value)); note(c, 'About ' + Math.round(by.unemployment.value) + ' of every 100 people in the labor force are looking for work. ' + by.unemployment.extra + '.'); });
     if (by.inflation) add(by.inflation, '', (g, c) => { const v = by.inflation.value; g.append(bars([['Basket a year ago', 100, '$100.00'], ['Same basket now', 100 + v * 6, '$' + (100 + v).toFixed(2), 1]], '', 100 + v * 6)); note(c, 'Cost of living: what cost $100 a year ago costs about $' + (100 + v).toFixed(2) + ' now. ' + by.inflation.extra + '.'); });
+    if (by.wages) add(by.wages, '', (g, c) => { const w = by.wages, pr = by.inflation ? by.inflation.value : 3.7; g.append(bars([['Pay growth', w.growth, '+' + w.growth.toFixed(1) + '%'], ['Price growth', pr, '+' + pr.toFixed(1) + '%', 1]], '', Math.max(w.growth, pr))); note(c, w.extra + '.'); });
     if (by.gas) add(by.gas, '', (g, c) => { g.append(spark(by.gas.series, by.gas.prior, 2.8, 4.7, (v) => '$' + v.toFixed(2))); note(c, 'A 15-gallon fill-up: ' + money(by.gas.value * 15, 2) + ' now vs ' + money(by.gas.prior * 15, 2) + ' a year ago. ' + by.gas.extra + '.'); });
     if (by.mortgage) add(by.mortgage, '', (g, c) => { g.append(spark(by.mortgage.series, by.mortgage.prior, 5.9, 7.6, (v) => v.toFixed(2) + '%')); note(c, by.mortgage.extra + '.'); });
     if (by.home) add(by.home, '', (g, c) => { g.append(bars([[by.home.prior_label, by.home.prior, money(by.home.prior)], ['Now', by.home.value, money(by.home.value), 1]], '', by.home.value)); note(c, by.home.extra + '.'); });

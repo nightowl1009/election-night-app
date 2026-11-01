@@ -210,7 +210,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const t = await a.page.evaluate(() => { const b = document.getElementById('en-closed'); return b ? b.textContent : ''; });
     ok(/Polls just closed/.test(t) && /Georgia/.test(t), 'banner: ' + t);
     await a.page.click('#en-closed .go'); await a.page.waitForTimeout(300);
-    ok((await tabs(a.page)).sel === 'night', 'What to watch should open Election night');
+    ok((await tabs(a.page)).sel === 'night', 'What to watch should open Election Night');
     await a.page.reload(); await a.page.clock.runFor(10000);
     ok(!(await a.page.evaluate(() => !!document.getElementById('en-closed'))), 'banner came back after reload'); await a.close();
   });
