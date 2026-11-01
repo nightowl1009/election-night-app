@@ -573,6 +573,33 @@ html.en-pop-open { overflow:hidden; }
 .en-score.compact .sb-sub { font-size: .74rem; }
 .en-score.compact .sb-sub > span:not(.proj), .en-score.compact .sb-sub .dot, .en-score.compact .sb-note { display:none; }
 .en-score.compact .sb-note { display:none; }
+/* Nicer race cards: rating-colored badge, a soft wash toward whoever leads, the leader's number front and center */
+.en-race { border-radius: 18px; padding: 1.05rem 1.1rem 1rem 1.25rem; gap: .7rem; box-shadow: 0 1px 2px rgba(15,23,42,.05), 0 8px 22px rgba(15,23,42,.05); }
+.en-race::before { width: 5px; }
+.en-race[data-lead="d"] { background: linear-gradient(180deg, rgba(59,130,246,.09), transparent 46%), var(--color-panel); }
+.en-race[data-lead="r"] { background: linear-gradient(180deg, rgba(239,68,68,.09), transparent 46%), var(--color-panel); }
+.en-race[data-lead="i"] { background: linear-gradient(180deg, rgba(168,85,247,.09), transparent 46%), var(--color-panel); }
+.en-race[data-lead="t"] { background: linear-gradient(180deg, rgba(251,191,36,.12), transparent 46%), var(--color-panel); }
+.en-race:hover { box-shadow: 0 2px 4px rgba(15,23,42,.06), 0 14px 32px rgba(15,23,42,.12); }
+.en-st { min-width: 2.7rem; padding: .5rem .55rem; border-radius: 11px; font-size: .82rem; font-weight: 800; letter-spacing:.05em; box-shadow: 0 2px 6px rgba(15,23,42,.22), inset 0 1px 0 rgba(255,255,255,.22); }
+.en-race[data-rating="toss"] .en-st { background: linear-gradient(145deg, #fcd34d, #d97706); color: #2a1a00; }
+.en-race[data-rating="dem"] .en-st { background: linear-gradient(145deg, #3b82f6, #1d4ed8); color: #fff; }
+.en-race[data-rating="rep"] .en-st { background: linear-gradient(145deg, #ef4444, #b91c1c); color: #fff; }
+.en-race-t h3 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 1.2rem; line-height: 1.15; }
+.en-cands { align-items: flex-end; padding-top: .15rem; }
+.en-c .n { font-size: .8rem; letter-spacing: .01em; }
+.en-c .p { font-size: 2.15rem; letter-spacing: -.01em; }
+.en-race:is([data-lead="d"], [data-lead="r"], [data-lead="i"]) .en-c:not(.lead) .p { opacity: .8; font-size: 1.8rem; }
+.en-c.lead .n { color: var(--color-fg); font-weight: 600; }
+.en-c.lead .p { text-shadow: 0 0 22px currentColor; }
+.en-bar { height: 13px; box-shadow: inset 0 1px 3px rgba(15,23,42,.22); }
+.en-bar::after { width: 3px; top: -3px; bottom: -3px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(15,23,42,.18); }
+.en-race[data-lead="d"] .en-lead { color: var(--ink-d); background: rgba(59,130,246,.12); border-color: rgba(59,130,246,.4); }
+.en-race[data-lead="r"] .en-lead { color: var(--ink-r); background: rgba(239,68,68,.11); border-color: rgba(239,68,68,.4); }
+.en-race[data-lead="i"] .en-lead { color: var(--ink-i); background: rgba(168,85,247,.12); border-color: rgba(168,85,247,.4); }
+.en-lead { font-size: .88rem; padding: .18rem .6rem; border-radius: 8px; }
+.en-more-btn { border-radius: 999px; }
+.en-pill { font-size: .78rem; letter-spacing: .01em; }
 /* Bigger, centered, flashier headings */
 .en-hero { text-align:center; padding: calc(var(--cds-pad-lg) * 1.5) var(--cds-pad-lg) calc(var(--cds-pad-lg) * 1.3); background:
   radial-gradient(70% 55% at 50% 0%, rgba(251,191,36,.18) 0%, transparent 70%), radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; }
@@ -1294,6 +1321,13 @@ dash.calc('senate_base', {
     return b;
   }
 
+  // Marks a card with who leads and its rating, so the styling can color the card, the leader's number and the lead chip
+  function paintLead(a, r, fD, fR, L, R, pc) {
+    a.dataset.rating = pillCls(r.rating);
+    const d = Number(r[fD]), rr = Number(r[fR]); if (r[fD] == null || r[fR] == null || isNaN(d) || isNaN(rr)) return;
+    if (d === rr) { a.dataset.lead = 't'; return; }
+    a.dataset.lead = d > rr ? pc : 'r'; (d > rr ? L : R).classList.add('lead');
+  }
   function raceCard(r, ds, mds, leads, i, sparks) {
     const key = PFX[ds] + r.id;
     const a = el('article', 'en-race'); a.dataset.held = r.held; a.dataset.card = key;
@@ -1315,7 +1349,7 @@ dash.calc('senate_base', {
     const lp = el('span', 'p'); lp.append(mk('span', '', ds, fD, 'id', r.id, fmt(r[fD])), document.createTextNode('%')); L.append(ln, lp);
     const R = el('div', 'en-c right r'); const rn = el('span', 'n'); rn.append(mk('span', '', ds, 'cand_r', 'id', r.id, r.cand_r), document.createTextNode(' (R)'));
     const rp = el('span', 'p'); rp.append(mk('span', '', ds, fR, 'id', r.id, fmt(r[fR])), document.createTextNode('%')); R.append(rn, rp);
-    c.append(L, R); a.append(c);
+    c.append(L, R); a.append(c); paintLead(a, r, fD, fR, L, R, pc);
     const bar = el('div', 'en-bar'); const bd = el('i', pc); const br = el('i', 'r'); bar.append(bd, br); a.append(bar);
     const tot = Number(r[fD]) + Number(r[fR]);
     const wd = (Number(r[fD]) / tot * 100) + '%', wr = (Number(r[fR]) / tot * 100) + '%';
@@ -1388,7 +1422,7 @@ dash.calc('senate_base', {
       const lp = el('span', 'p'); lp.append(mk('span', '', 'house', fD, 'id', r.id, fmt(r[fD])), document.createTextNode('%')); L.append(lp);
       const rp = el('span', 'p'); rp.append(mk('span', '', 'house', fR, 'id', r.id, fmt(r[fR])), document.createTextNode('%')); R.append(rp);
     }
-    c.append(L, R); a.append(c);
+    c.append(L, R); a.append(c); if (hasAvg || hasPoll) paintLead(a, r, fD, fR, L, R, pc); else a.dataset.rating = pillCls(r.rating);
     if (hasAvg || hasPoll) {
       const bar = el('div', 'en-bar'); const bd = el('i', pc); const br = el('i', 'r'); bar.append(bd, br); a.append(bar);
       const tot = Number(r[fD]) + Number(r[fR]);
