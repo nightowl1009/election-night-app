@@ -96,6 +96,20 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await swipe('.en-hero', 140); ok(await sel() === order[0], 'swiping right on the first tab should do nothing');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('each tab plays its own entrance animation, and leaves nothing behind', async () => {
+    const a = await open('');
+    const order = (await tabs(a.page)).order, ids = order.filter((x) => x !== 'economy'), seen = {};
+    await a.page.evaluate(() => document.querySelector('.en-tab[data-tab="news"]').click()); await a.page.waitForTimeout(2500);   // leave the opening tab so it can be re-entered
+    for (const id of ids) {
+      await a.page.evaluate((i) => document.querySelector('.en-tab[data-tab="' + i + '"]').click(), id); await a.page.waitForTimeout(120);
+      seen[id] = await a.page.evaluate(() => document.getAnimations().filter((x) => x.playState === 'running' && x.effect && x.effect.target && x.effect.target.closest && x.effect.target.closest('.en-panel')).length);
+    }
+    const none = Object.keys(seen).filter((k) => !seen[k] && k !== 'night' && k !== 'trivia');
+    ok(!none.length, 'no entrance animation on: ' + none.join(', ') + ' ' + JSON.stringify(seen));
+    await a.page.waitForTimeout(2500);
+    ok(await a.page.evaluate(() => document.getAnimations().filter((x) => x.effect && x.effect.target && x.effect.target.closest && x.effect.target.closest('.en-panel') && x.playState === 'running' && x.effect.getTiming().iterations !== Infinity).length) === 0, 'animations should finish');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('every tab opens with no script errors (light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {
       const a = await open('', { scheme });
