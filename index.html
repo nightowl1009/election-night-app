@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793509852"></script>
-<link rel="stylesheet" href="pool.css?v=1793509852" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793509852"></noscript>
+<script src="dash-lite.js?v=1793513550"></script>
+<link rel="stylesheet" href="pool.css?v=1793513550" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793513550"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -3365,25 +3365,33 @@ dash.calc('senate_base', {
   const bar = document.getElementById('app-install'), go = document.getElementById('app-install-go'), msg = document.getElementById('app-install-msg');
   const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
   let dismissed = false; try { dismissed = localStorage.getItem('en-install-x') === '1'; } catch (e) {}
-  if (standalone || dismissed) return;
+  if (standalone) return;
   let deferred = null;
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; bar.hidden = false; });
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const iosMsg = 'Install: tap Share, then “Add to Home Screen”';
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferred = e; if (!dismissed) bar.hidden = false; });
   go.addEventListener('click', async () => { if (!deferred) return; deferred.prompt(); await deferred.userChoice; deferred = null; bar.hidden = true; });
+  const host = document.getElementById('app-updated');
+  if (host) {   // always-available link, even after the banner was dismissed
+    const l = document.createElement('button'); l.type = 'button'; l.className = 'sim-go'; l.id = 'inst-go';
+    l.innerHTML = '📲 Install the app<small>' + (ios ? 'On iPhone: tap the Share button, then “Add to Home Screen”' : 'Adds Election Night to your home screen or desktop') + '</small>';
+    l.addEventListener('click', () => { if (deferred) { go.click(); return; } msg.textContent = ios ? iosMsg : 'Use your browser menu → Install app / Add to Home Screen'; go.hidden = true; bar.hidden = false; });
+    host.after(l);
+  }
   document.getElementById('app-install-x').addEventListener('click', () => { bar.hidden = true; try { localStorage.setItem('en-install-x', '1'); } catch (e) {} });
-  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (ios) { msg.textContent = 'Install: tap Share, then “Add to Home Screen”'; go.hidden = true; bar.hidden = false; }
+  if (ios && !dismissed) { msg.textContent = iosMsg; go.hidden = true; bar.hidden = false; }
 })();
 </script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793509852"></script>
-<script src="pool.js?v=1793509852"></script>
-<script src="sim.js?v=1793509852"></script>
-<script src="push.js?v=1793509852"></script>
-<script src="ads.js?v=1793509852"></script>
-<script src="welcome.js?v=1793509852"></script>
-<script src="party.js?v=1793509852"></script>
-<script src="trivia.js?v=1793509852"></script>
+<script src="pool-config.js?v=1793513550"></script>
+<script src="pool.js?v=1793513550"></script>
+<script src="sim.js?v=1793513550"></script>
+<script src="push.js?v=1793513550"></script>
+<script src="ads.js?v=1793513550"></script>
+<script src="welcome.js?v=1793513550"></script>
+<script src="party.js?v=1793513550"></script>
+<script src="trivia.js?v=1793513550"></script>
 </body>
 </html>
