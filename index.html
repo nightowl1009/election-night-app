@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793513550"></script>
-<link rel="stylesheet" href="pool.css?v=1793513550" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793513550"></noscript>
+<script src="dash-lite.js?v=1793516497"></script>
+<link rel="stylesheet" href="pool.css?v=1793516497" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793516497"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -804,10 +804,13 @@ html[data-theme="dark"] .en-ev-row .nm .tag { color:#fbbf24; }html[data-theme="d
 html.en-pop-open { overflow:hidden; }
 @media (prefers-reduced-motion: no-preference) {
   .en-pop:not(.inline) { animation: en-pop-bg .18s ease-out; }
-  .en-pop:not(.inline) .en-pop-sheet { animation: en-pop-up .3s cubic-bezier(.2,1.15,.3,1); }
+  .en-pop:not(.inline) .en-pop-sheet { animation: en-pop-up .32s cubic-bezier(.22,1,.36,1); }
+  .en-pop.out { animation: en-pop-bg .2s ease-in reverse forwards; }
+  .en-pop.out .en-pop-sheet { animation: en-pop-dn .2s ease-in forwards; }
 }
 @keyframes en-pop-bg { from { opacity:0 } }
-@keyframes en-pop-up { from { transform: translateY(40px) scale(.96); opacity:0 } }
+@keyframes en-pop-up { from { transform: translateY(100%) } }
+@keyframes en-pop-dn { to { transform: translateY(100%) } }
 
 /* Condensed scoreboard (until Election Day): Senate and House side by side, one projection line each */
 .en-score.compact { display:grid; grid-template-columns: 1fr 1fr; gap: var(--cds-gap-sm); min-height: 0; }
@@ -1801,7 +1804,11 @@ dash.calc('senate_base', {
     if (ds === 'house') { renderHouseMap(); renderHouse(); return; }
     const u = RACE_UI[ds]; renderMap(u.map, ds); renderRaces(u.grid, ds, u.mds, raceFilter[ds] === 'all' ? null : (r) => r.rating === raceFilter[ds]);
   }
-  function closePop(ds) { if (ds === 'house') houseState = ''; else picked[ds] = ''; drawRaceUI(ds); }
+  function closePop(ds) {
+    const go = () => { if (ds === 'house') houseState = ''; else picked[ds] = ''; drawRaceUI(ds); }, p = document.querySelector('.en-pop[data-ds="' + ds + '"]');
+    if (!p || p.hidden || p.classList.contains('out') || matchMedia('(prefers-reduced-motion: reduce)').matches) return go();
+    p.classList.add('out'); setTimeout(() => { p.classList.remove('out'); go(); }, 200);
+  }
   window.enOpenRace = (ds, st) => { listAll[ds] = false; if (ds === 'house') houseState = st; else picked[ds] = st; drawRaceUI(ds); };
   document.addEventListener('click', (ev) => {
     const lb = ev.target.closest('[data-listall]');
@@ -3385,13 +3392,13 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793513550"></script>
-<script src="pool.js?v=1793513550"></script>
-<script src="sim.js?v=1793513550"></script>
-<script src="push.js?v=1793513550"></script>
-<script src="ads.js?v=1793513550"></script>
-<script src="welcome.js?v=1793513550"></script>
-<script src="party.js?v=1793513550"></script>
-<script src="trivia.js?v=1793513550"></script>
+<script src="pool-config.js?v=1793516497"></script>
+<script src="pool.js?v=1793516497"></script>
+<script src="sim.js?v=1793516497"></script>
+<script src="push.js?v=1793516497"></script>
+<script src="ads.js?v=1793516497"></script>
+<script src="welcome.js?v=1793516497"></script>
+<script src="party.js?v=1793516497"></script>
+<script src="trivia.js?v=1793516497"></script>
 </body>
 </html>
