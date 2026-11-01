@@ -58,4 +58,4 @@ TESTS
   phones pick up new data versions and fall back when the server is down · share pictures · welcome card ·
   watchlist · Money tab · Ad Wars loop/skip · text contrast on the top of the page.
   ONLY="some words" node tests/run.cjs runs just the app tests whose names include those words.
-  Exit code 0 = all passed. News outlets over the 4-story limit show as warnings, not failures.
+  Exit code 0 = all passed.

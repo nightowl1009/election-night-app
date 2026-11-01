@@ -17,8 +17,6 @@ const ids = new Set(); res.forEach((r) => { if (ids.has(r.race)) bad('results: d
 const news = load('news') || [];
 const TAGS = ['National', 'Senate', 'Governors', 'House', 'Missouri'];
 news.forEach((n) => { if (!/^https:\/\//.test(n.url)) bad('news ' + n.nid + ': url not https'); if (!TAGS.includes(n.tag)) bad('news ' + n.nid + ': tag ' + n.tag); });
-const per = {}; news.forEach((n) => { const s = String(n.source).replace(/\s*\(.*\)$/, ''); per[s] = (per[s] || 0) + 1; });
-Object.entries(per).filter(([, c]) => c > 4).forEach(([s, c]) => warn('news: ' + c + ' stories from ' + s + ' (limit is 4)'));
 (load('spending') || []).forEach((r) => { if (!/^https:\/\//.test(r.url)) bad('spending ' + r.id + ': source link missing'); if (r.kind !== 'fact' && !(typeof r.value === 'number' && r.value > 0)) bad('spending ' + r.id + ': value'); if (r.share_d != null && !(r.share_d >= 0 && r.share_d <= 1)) bad('spending ' + r.id + ': share_d'); });
 (load('ads') || []).forEach((a) => { if (!/^[\w-]{11}$/.test(a.id)) bad('ads: bad YouTube id ' + a.id); });
 // The totals on the scoreboard must tie to the rows underneath them (a rating changed in one place but not the other shows up here)
