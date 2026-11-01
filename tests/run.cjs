@@ -281,6 +281,28 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     const dup = DATA('polls').map((p) => p.race + p.date + p.pollster); ok(dup.length === new Set(dup).size, 'duplicate polls');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('election night starts the scoreboard at Solid + Likely seats only; calls move seats; Not-shown lines add up', async () => {
+    const ov = Object.fromEntries(DATA('overview').map((o) => [o.key, Number(o.value)])), sen = DATA('senate'), hs = DATA('house');
+    const a = await open('', { time: '2026-11-03T23:30:00Z' }); await a.page.waitForTimeout(600);
+    const read = () => a.page.evaluate(() => [...document.querySelectorAll('#en-score-top .sb-row')].map((r) => ({ d: Number(r.querySelector('.n.d').textContent), r: Number(r.querySelector('.n.r').textContent), sub: r.querySelector('.sb-sub').textContent })));
+    let d0 = ov.senate_d_now - sen.filter((r) => r.held === 'D').length, r0 = ov.senate_r_now - sen.filter((r) => r.held === 'R').length, pend = 0;
+    sen.forEach((r) => { if (/^(Likely|Solid) D/.test(r.rating)) d0++; else if (/^(Likely|Solid) R/.test(r.rating)) r0++; else pend++; });
+    const x = await read();
+    ok(x.length === 2 && x[0].d === d0 && x[0].r === r0 && x[0].d + x[0].r + pend === 100, 'senate start ' + JSON.stringify(x[0]) + ' want ' + d0 + '–' + r0 + ' open ' + pend);
+    ok(x[1].d === ov.house_d_safe && x[1].r === ov.house_r_safe && x[1].d + x[1].r + hs.length === 435, 'house start ' + JSON.stringify(x[1]));
+    ok(/Solid \+ Likely seats only/.test(x[0].sub) && new RegExp(pend + ' still open').test(x[0].sub), 'sub line: ' + x[0].sub);
+    await inject(a.page, callJS('SEN-OH', 'D', 'Sherrod Brown') + callJS('HOU-MI-04', 'R', 'Bill Huizenga')); await a.page.waitForTimeout(500);
+    const y = await read();
+    ok(y[0].d === d0 + 1 && y[0].r === r0 && /1 called/.test(y[0].sub) && y[1].r === ov.house_r_safe + 1 && y[1].d === ov.house_d_safe, 'after calls ' + JSON.stringify(y));
+    // the lines under the chips
+    await a.page.click('.en-tab[data-tab="house"]'); await a.page.waitForTimeout(300);
+    const h = await a.page.textContent('#hou-solid'); ok(h.includes(String(ov.house_d_safe)) && h.includes(String(ov.house_r_safe)), 'house line: ' + h);
+    await a.page.click('.en-tab[data-tab="senate"]'); await a.page.waitForTimeout(300);
+    const sl = await a.page.textContent('#sen-solid'); ok(sl.includes(String(ov.senate_d_now - sen.filter((r) => r.held === 'D').length)) && sl.includes(String(ov.senate_r_now - sen.filter((r) => r.held === 'R').length)), 'senate line: ' + sl);
+    await a.page.click('.en-tab[data-tab="governors"]'); await a.page.waitForTimeout(300);
+    ok(/the other \d+ governor races/.test(await a.page.textContent('#gov-solid')), 'governor line');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('scoreboard is condensed until Election Day, full from then on', async () => {
     const a = await open('', { time: '2026-11-01T15:00:00Z' }); await a.page.waitForTimeout(500);
     const c = await a.page.evaluate(() => { const b = document.getElementById('en-score-top'); const rows = [...b.querySelectorAll('.sb-row')]; return { compact: b.classList.contains('compact'), n: rows.length, x: rows.map((r) => Math.round(r.getBoundingClientRect().left)), vis: [...b.querySelectorAll('.sb-sub span:not(.dot)')].filter((e) => e.offsetParent).map((e) => e.textContent) }; });

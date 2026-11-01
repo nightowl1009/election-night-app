@@ -600,6 +600,9 @@ html.en-pop-open { overflow:hidden; }
 .en-lead { font-size: .88rem; padding: .18rem .6rem; border-radius: 8px; }
 .en-more-btn { border-radius: 999px; }
 .en-pill { font-size: .78rem; letter-spacing: .01em; }
+.en-solid { text-align:center; margin: -.35rem auto var(--cds-gap-md); max-width: 44rem; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.en-solid[hidden] { display:none; }
+.en-solid b { color: var(--color-fg); } .en-solid b.d { color: var(--ink-d); } .en-solid b.r { color: var(--ink-r); }
 /* Bigger, centered, flashier headings */
 .en-hero { text-align:center; padding: calc(var(--cds-pad-lg) * 1.5) var(--cds-pad-lg) calc(var(--cds-pad-lg) * 1.3); background:
   radial-gradient(70% 55% at 50% 0%, rgba(251,191,36,.18) 0%, transparent 70%), radial-gradient(120% 140% at 0% 0%, #1e3a8a 0%, transparent 55%), radial-gradient(120% 140% at 100% 0%, #7f1d1d 0%, transparent 55%), #0b1020; }
@@ -868,6 +871,7 @@ html.en-pop-open { overflow:hidden; }
         <div><h2>Senate battlegrounds</h2><p>Ratings: Cook Political Report · Big numbers = RealClearPolling average, latest poll underneath · Bar centre = 50/50 · Left stripe = party holding the seat · Dot chart = every poll found since late July</p></div>
         <div class="en-chips" id="sen-chips" role="group" aria-label="Filter by rating"></div>
       </div>
+      <p class="en-solid" id="sen-solid"></p>
  <div class="en-map dash-skeleton" id="sen-map" data-source="usmap senate results"></div>
       <div class="en-listbar"><button type="button" class="en-listall" data-listall="senate" aria-pressed="false"></button></div>
       <div class="en-pop" data-ds="senate" hidden><div class="en-pop-sheet" role="dialog" aria-modal="true" aria-label="Race details"><div class="en-pop-h"><b></b><button type="button" class="en-pop-x" aria-label="Close">✕</button></div>
@@ -876,6 +880,7 @@ html.en-pop-open { overflow:hidden; }
 
     <section id="governors" class="en-panel" hidden>
       <div class="en-sec-h"><div><h2>Governor races to watch</h2><p>36 governorships are up · RealClearPolling average, latest poll underneath · Ratings come from Cook, Decision Desk HQ or RealClearPolling — each race names its source</p></div><div class="en-chips" id="gov-chips" role="group" aria-label="Filter by rating"></div></div>
+      <p class="en-solid" id="gov-solid"></p>
  <div class="en-map dash-skeleton" id="gov-map" data-source="usmap governor results"></div>
       <div class="en-listbar"><button type="button" class="en-listall" data-listall="governor" aria-pressed="false"></button></div>
       <div class="en-pop" data-ds="governor" hidden><div class="en-pop-sheet" role="dialog" aria-modal="true" aria-label="Race details"><div class="en-pop-h"><b></b><button type="button" class="en-pop-x" aria-label="Close">✕</button></div>
@@ -903,6 +908,7 @@ html.en-pop-open { overflow:hidden; }
           <button class="en-chip" data-f="Lean R" aria-pressed="false">Lean R <span id="hc-lr"></span></button>
         </div>
       </div>
+      <p class="en-solid" id="hou-solid"></p>
       <div class="en-map dash-skeleton" id="hou-map" data-source="usmap house results"></div>
       <div class="en-hsel" id="hou-sel" hidden></div>
       <div class="en-listbar"><button type="button" class="en-listall" data-listall="house" aria-pressed="false"></button></div>
@@ -1917,7 +1923,9 @@ dash.calc('senate_base', {
     if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     // Until Election Day the scoreboard is a condensed two-up strip; from then on it is the full live scoreboard
-    box.classList.toggle('compact', (window.__simNow ? window.__simNow() : Date.now()) < Date.UTC(2026, 10, 3, 5));
+    const nowT = window.__simNow ? window.__simNow() : Date.now();
+    box.classList.toggle('compact', nowT < Date.UTC(2026, 10, 3, 5));
+    const night = nowT >= Date.UTC(2026, 10, 3, 23); // first polls close, 5 PM CT
     const disp = (k) => (ov.find(o => o.key === k) || {}).display;
     const S = senateCounts(), Hc = houseCounts();
     const sD = S.d, sR = S.r, sFromR = S.fromR, sFromD = S.fromD, sCalled = S.called;
@@ -1934,6 +1942,17 @@ dash.calc('senate_base', {
       const sb = el('div', 'sb-sub'); subBits.filter(Boolean).forEach((t, k) => { if (k) { const dt = el('span', 'dot', '·'); dt.setAttribute('aria-hidden', 'true'); sb.append(dt); } sb.append(el('span', /point to/.test(t) ? 'proj' : '', t)); }); r.append(sb);
       box.append(r);
     };
+    if (night) {
+      // Election night starts from the Solid and Likely seats only; each battleground race lands on a side as it is called
+      const B = baselineBoard();
+      if (B) {
+        const sub = (x) => [x.called ? x.called + ' called' : 'Solid + Likely seats only', x.open ? x.open + ' still open' : 'every battleground called'];
+        row('Senate', 'senate', B.s.d, B.s.r, 0, 0, B.s.open, 100, 51, sub(B.s));
+        row('House', 'house', B.h.d, B.h.r, 0, 0, B.h.open, 435, 218, sub(B.h));
+        box.append(el('div', 'sb-note', 'Blue = Dem + Ind · Red = GOP · Gray = still open · Solid and Likely seats counted from the start'));
+        return;
+      }
+    }
     const pr = okRows('senate_projection'), pv = (k) => pr ? Number((pr.find(x => x.metric === k) || {}).value) : NaN;
     const hpr = okRows('house_projection'), hv = (k) => hpr ? Number((hpr.find(x => x.metric === k) || {}).value) : NaN;
     const ks = disp('kalshi_senate'), kh = disp('kalshi_house');
@@ -1946,6 +1965,31 @@ dash.calc('senate_base', {
       !isNaN(hv('proj_d')) && hv('proj_d') + hv('proj_r') ? 'Ratings + odds point to ' + hv('proj_d') + '–' + hv('proj_r') : '',
       kh ? 'Dem odds ' + kh : '']);
     const note = el('div', 'sb-note', 'Blue = Dem + Ind · Red = GOP · Gold = changed party · Odds from Kalshi'); box.append(note);
+  }
+
+  // Election-night starting point: seats not in play plus every Solid/Likely race on its rated side; called races move to their winner
+  function baselineBoard() {
+    const ov = okRows('overview'), sen = okRows('senate'), hs = okRows('house'); if (!ov || !sen || !hs) return null;
+    const val = (k) => Number((ov.find(o => o.key === k) || {}).value) || 0;
+    const sideOf = (r, c) => c && c.winner_party ? (c.winner_party === 'R' ? 'R' : 'D') : /^(Likely|Solid) /.test(r.rating) ? (/D$/.test(r.rating) ? 'D' : 'R') : '';
+    const s = { d: val('senate_d_now'), r: val('senate_r_now'), open: 0, called: 0 }, h = { d: val('house_d_safe'), r: val('house_r_safe'), open: 0, called: 0 };
+    sen.forEach(r => { if (r.held === 'R') s.r--; else s.d--; });
+    const place = (t, r, key) => { const c = ctx.res.get(key), sd = sideOf(r, c); if (c && c.winner_party) t.called++; if (sd === 'D') t.d++; else if (sd === 'R') t.r++; else t.open++; };
+    sen.forEach(r => place(s, r, 'SEN-' + r.id)); hs.forEach(r => place(h, r, 'HOU-' + r.id));
+    return { s, h };
+  }
+  // The line under each chamber's filter chips: the seats this page doesn't list, and how they are counted
+  function renderSolidNotes() {
+    const ov = okRows('overview'), val = (k) => ov ? Number((ov.find(o => o.key === k) || {}).value) : NaN;
+    const put = (id, nodes) => { const e = $(id); if (!e) return; e.replaceChildren(...nodes); e.hidden = !nodes.length; };
+    const b = (c, t) => el('b', c, String(t)), tx = (t) => document.createTextNode(t);
+    const hd = val('house_d_safe'), hr = val('house_r_safe');
+    put('#hou-solid', ov && hd >= 0 && hr >= 0 ? [tx('Not shown: '), b('d', hd), tx(' Solid/Likely D · '), b('r', hr), tx(' Solid/Likely R seats, assumed to go as Cook rates them.')] : []);
+    const sen = okRows('senate'), gov = okRows('governor');
+    if (ov && sen) { let d = val('senate_d_now'), r = val('senate_r_now'); sen.forEach(x => { if (x.held === 'R') r--; else d--; });
+      put('#sen-solid', [tx('Not shown: '), b('d', d), tx(' Dem/Ind and '), b('r', r), tx(' GOP seats that aren’t up this year or aren’t competitive, assumed to stay with their party.')]); }
+    else put('#sen-solid', []);
+    put('#gov-solid', gov ? [tx('Not shown: the other '), b('', Math.max(0, 36 - gov.length)), tx(' governor races, assumed to go as rated.')] : []);
   }
 
   function renderTiles() {
@@ -3014,7 +3058,7 @@ dash.calc('senate_base', {
   let changesOpen = false;
   function redraw() {
     buildCtx();
-    renderBreaking(); renderScoreTop(); renderTiles(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
+    renderBreaking(); renderScoreTop(); renderTiles(); renderSolidNotes(); renderStrip(); renderHouseChamber(); renderNewsStrip(); renderWatch();
     renderTimes(); renderRundown(); tick(); renderScorecard(); renderChanges(); renderRecap();
     if (!$('#senate').hidden) { renderChips('#sen-chips', 'senate'); renderMap('#sen-map', 'senate'); }
     if (!$('#governors').hidden) { renderChips('#gov-chips', 'governor'); renderMap('#gov-map', 'governor'); }
