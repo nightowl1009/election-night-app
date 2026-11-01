@@ -311,6 +311,11 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await a.close();
     const b = await open('', { time: '2026-11-03T20:00:00Z' }); await b.page.waitForTimeout(500);
     ok(await b.page.evaluate(() => !document.getElementById('en-score-top').classList.contains('compact')), 'full scoreboard on Election Day'); await b.close();
+    // the switch happens at midnight Central on Election Day
+    const pre = await open('', { time: '2026-11-03T05:30:00Z' }); await pre.page.waitForTimeout(500);
+    ok(await pre.page.evaluate(() => document.getElementById('en-score-top').classList.contains('compact')), 'still condensed at 11:30 PM CT on Nov 2'); await pre.close();
+    const post = await open('', { time: '2026-11-03T06:30:00Z' }); await post.page.waitForTimeout(500);
+    ok(await post.page.evaluate(() => /Solid \+ Likely seats only/.test(document.getElementById('en-score-top').textContent)), 'Solid + Likely start at 12:30 AM CT on Nov 3'); await post.close();
   });
   await test('race cards pop out from the map; header is centered', async () => {
     const a = await open('#senate');

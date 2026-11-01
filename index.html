@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793507022"></script>
-<link rel="stylesheet" href="pool.css?v=1793507022" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793507022"></noscript>
+<script src="dash-lite.js?v=1793507742"></script>
+<link rel="stylesheet" href="pool.css?v=1793507742" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793507742"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -2225,8 +2225,8 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     // Until Election Day the scoreboard is a condensed two-up strip; from then on it is the full live scoreboard
     const nowT = window.__simNow ? window.__simNow() : Date.now();
-    box.classList.toggle('compact', nowT < Date.UTC(2026, 10, 3, 5));
-    const night = nowT >= Date.UTC(2026, 10, 3, 23); // first polls close, 5 PM CT
+    const night = nowT >= Date.UTC(2026, 10, 3, 6); // midnight CT at the start of Election Day
+    box.classList.toggle('compact', !night);
     const disp = (k) => (ov.find(o => o.key === k) || {}).display;
     const S = senateCounts(), Hc = houseCounts();
     const sD = S.d, sR = S.r, sFromR = S.fromR, sFromD = S.fromD, sCalled = S.called;
@@ -3414,13 +3414,13 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793507022"></script>
-<script src="pool.js?v=1793507022"></script>
-<script src="sim.js?v=1793507022"></script>
-<script src="push.js?v=1793507022"></script>
-<script src="ads.js?v=1793507022"></script>
-<script src="welcome.js?v=1793507022"></script>
-<script src="party.js?v=1793507022"></script>
-<script src="trivia.js?v=1793507022"></script>
+<script src="pool-config.js?v=1793507742"></script>
+<script src="pool.js?v=1793507742"></script>
+<script src="sim.js?v=1793507742"></script>
+<script src="push.js?v=1793507742"></script>
+<script src="ads.js?v=1793507742"></script>
+<script src="welcome.js?v=1793507742"></script>
+<script src="party.js?v=1793507742"></script>
+<script src="trivia.js?v=1793507742"></script>
 </body>
 </html>

@@ -1924,8 +1924,8 @@ dash.calc('senate_base', {
     box.classList.remove('dash-skeleton'); box.replaceChildren();
     // Until Election Day the scoreboard is a condensed two-up strip; from then on it is the full live scoreboard
     const nowT = window.__simNow ? window.__simNow() : Date.now();
-    box.classList.toggle('compact', nowT < Date.UTC(2026, 10, 3, 5));
-    const night = nowT >= Date.UTC(2026, 10, 3, 23); // first polls close, 5 PM CT
+    const night = nowT >= Date.UTC(2026, 10, 3, 6); // midnight CT at the start of Election Day
+    box.classList.toggle('compact', !night);
     const disp = (k) => (ov.find(o => o.key === k) || {}).display;
     const S = senateCounts(), Hc = houseCounts();
     const sD = S.d, sR = S.r, sFromR = S.fromR, sFromD = S.fromD, sCalled = S.called;
