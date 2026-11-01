@@ -79,6 +79,23 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(r.w <= 391, 'economy tab scrolls sideways'); ok(r.src, 'every source link should be https');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('swipe left/right changes tabs, and stays out of sideways scrollers, edges and the ends', async () => {
+    const a = await open('', { touch: true });
+    const swipe = (sel, dx, dy = 0, x0 = 195) => a.page.evaluate(([s, dx, dy, x0]) => { const el = typeof s === 'string' ? document.querySelector(s) : document.body; const mk = (x, y) => new Touch({ identifier: 1, target: el, clientX: x, clientY: y }); const y0 = 400;
+      el.dispatchEvent(new TouchEvent('touchstart', { bubbles: true, touches: [mk(x0, y0)], changedTouches: [mk(x0, y0)] }));
+      el.dispatchEvent(new TouchEvent('touchend', { bubbles: true, touches: [], changedTouches: [mk(x0 + dx, y0 + dy)] })); }, [sel, dx, dy, x0]);
+    const sel = async () => { await a.page.waitForTimeout(350); return (await tabs(a.page)).sel; };
+    const start = await sel(); const order = (await tabs(a.page)).order, i0 = order.indexOf(start);
+    await swipe('.en-hero', -140); ok(await sel() === order[i0 + 1], 'swipe left should go to the next tab');
+    await swipe('.en-hero', 140); ok(await sel() === start, 'swipe right should come back');
+    await swipe('.en-hero', -140, 120); ok(await sel() === start, 'a diagonal swipe should not change tabs');
+    await swipe('.en-hero', -140, 0, 8); ok(await sel() === start, 'a swipe from the screen edge should not change tabs');
+    await a.page.evaluate(() => { const d = document.createElement('div'); d.id = 'sw-test'; d.style.cssText = 'overflow-x:auto;width:200px'; d.innerHTML = '<div style="width:900px;height:20px">wide</div>'; document.querySelector('.en-panel:not([hidden])').prepend(d); });
+    await swipe('#sw-test div', -140); ok(await sel() === start, 'a swipe on a sideways scroller should not change tabs');
+    await a.page.click('.en-tab[data-tab="' + order[0] + '"]'); await a.page.waitForTimeout(250);
+    await swipe('.en-hero', 140); ok(await sel() === order[0], 'swiping right on the first tab should do nothing');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
   await test('every tab opens with no script errors (light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {
       const a = await open('', { scheme });
