@@ -215,17 +215,31 @@
   // ---------- buttons on the tabs ----------
   let count = 0;
   async function refreshCounts() { const n = (await listAll()).length; count = n; document.querySelectorAll('.sn-saved b').forEach((b) => { b.textContent = n ? ' (' + n + ')' : ''; }); }
+  const BLURB = {
+    economy: 'Freeze today\'s debt, jobs, prices, pay and mortgage numbers into one picture you can text to a friend, or keep to look back on later and see what changed.',
+    mood: 'Lock in where the country stands right now: presidential and congressional approval, which way people say things are headed, and the generic ballot. Save it, then compare after the votes are counted.',
+    voting: 'Capture the early-vote total, the mail vs in-person split and the biggest states as of this moment. Early numbers move every day, so a snapshot shows what the race looked like then.'
+  };
   function addBars() {
     Object.keys(KINDS).forEach((kind) => {
-      const p = document.getElementById(KINDS[kind].tab); if (!p || p.querySelector('.sn-bar')) return;
-      const bar = h('div', 'sn-bar'); bar.dataset.noswipe = '';
-      bar.append(btn('sn-go', '📸 Snapshot', () => snap(kind)));
-      const sv = btn('sn-saved', '🗂️ Saved', gallery); sv.append(h('b', '', count ? ' (' + count + ')' : '')); bar.append(sv);
-      p.insertBefore(bar, p.firstChild);
+      const p = document.getElementById(KINDS[kind].tab); if (!p) return;
+      let bar = p.querySelector('.sn-bar');
+      if (!bar) {
+        bar = h('div', 'sn-bar'); bar.dataset.noswipe = '';
+        bar.append(h('div', 'sn-hd', '📸 Take a snapshot'), h('p', 'sn-blurb', BLURB[kind] + ' Pictures are saved on this device only, and nothing is posted anywhere until you share it.'));
+        const row = h('div', 'sn-btns');
+        row.append(btn('sn-go', '📸 Take snapshot', () => snap(kind)));
+        const sv = btn('sn-saved', '🗂️ Saved snapshots', gallery); sv.append(h('b', '', count ? ' (' + count + ')' : '')); row.append(sv);
+        bar.append(row);
+      }
+      if (p.lastElementChild !== bar) p.append(bar);
     });
   }
   const CSS = `
-.sn-bar { display:flex; gap:8px; justify-content:flex-end; align-items:center; margin:0 0 10px; flex-wrap:wrap; }
+.sn-bar { margin:22px 0 8px; padding:16px; border-radius:18px; border:1px solid rgba(120,120,140,.3); background:var(--cds-surface-2, rgba(120,120,140,.12)); }
+.sn-hd { font-weight:800; font-size:1rem; margin-bottom:4px; }
+.sn-blurb { margin:0 0 12px; font-size:.88rem; line-height:1.45; opacity:.85; }
+.sn-btns { display:flex; gap:8px; flex-wrap:wrap; }
 .sn-go, .sn-saved, .sn-b { font:inherit; cursor:pointer; border-radius:999px; border:1px solid rgba(255,255,255,.2); }
 .sn-go { padding:.5rem 1rem; font-weight:700; font-size:.88rem; color:#1a1300; background:linear-gradient(135deg,#fde68a,#fbbf24 55%,#f59e0b); box-shadow:0 6px 18px rgba(245,158,11,.38), inset 0 1px 0 rgba(255,255,255,.55); border:none; transition: transform .15s; }
 .sn-go:active { transform: scale(.95); }
