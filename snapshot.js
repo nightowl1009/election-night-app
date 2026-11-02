@@ -66,18 +66,18 @@
   function econSpecs(rows) {
     const by = {}; rows.forEach((r) => { by[r.id] = r; }); const t = [];
     const pts = (r) => { const d = r.value - r.prior; return { d, txt: arrow(d) + ' ' + Math.abs(d).toFixed(1) + ' pts vs ' + r.prior_label }; };
-    if (by.unemployment) { const r = by.unemployment, p = pts(r); t.push({ ic: '👷', label: 'Unemployment', val: r.value.toFixed(1) + '%', chip: p.txt, col: tone(p.d), ac: '#38bdf8', asof: r.asof }); }
-    if (by.inflation) { const r = by.inflation, p = pts(r); t.push({ ic: '🛒', label: 'Inflation (12 mo)', val: r.value.toFixed(1) + '%', chip: p.txt, col: tone(p.d), ac: '#fb923c', asof: r.asof }); }
-    if (by.wages) { const r = by.wages, rl = r.real; t.push({ ic: '💵', label: 'Avg hourly pay', val: '$' + r.value.toFixed(2), chip: rl < 0 ? 'Buys ' + Math.abs(rl).toFixed(1) + '% less than last year' : 'Buys ' + rl.toFixed(1) + '% more than last year', col: rl < 0 ? UP : DN, ac: '#4ade80', asof: r.asof }); }
-    if (by.mortgage) { const r = by.mortgage, p = pts(r); t.push({ ic: '🏠', label: '30-yr mortgage', val: r.value.toFixed(2) + '%', chip: p.txt, col: tone(p.d), ac: '#a78bfa', asof: r.asof }); }
-    if (by.gas) { const r = by.gas, d = r.value - r.prior; t.push({ ic: '⛽', label: 'Gas (regular)', val: '$' + r.value.toFixed(2), chip: arrow(d) + ' $' + Math.abs(d).toFixed(2) + ' vs ' + r.prior_label, col: tone(d), ac: '#fbbf24', asof: r.asof }); }
-    if (by.home) { const r = by.home, d = (r.value / r.prior - 1) * 100; t.push({ ic: '🔑', label: 'Median home price', val: '$' + nf(r.value), chip: arrow(d) + ' ' + Math.abs(d).toFixed(1) + '% vs ' + r.prior_label, col: tone(d), ac: '#34d399', asof: r.asof }); }
-    if (by.fed) { const r = by.fed; t.push({ ic: '🏦', label: 'Fed rate target', val: (r.low != null ? r.low.toFixed(2) + '–' : '') + r.value.toFixed(2) + '%', chip: r.value === r.prior ? '■ Unchanged vs ' + r.prior_label : arrow(r.value - r.prior) + ' ' + Math.abs(r.value - r.prior).toFixed(2) + ' pts vs ' + r.prior_label, col: tone(r.value - r.prior), ac: '#f472b6', asof: r.asof }); }
-    if (by.home && by.mortgage) { const a = pay(by.home.value, by.mortgage.value), b = pay(by.home.prior, by.mortgage.prior), d = a - b; t.push({ ic: '💳', label: 'Monthly home payment', val: '$' + nf(a) + '/mo', chip: arrow(d) + ' $' + nf(Math.abs(d)) + ' a month vs last year', col: tone(d), ac: '#22d3ee', asof: 'our math: 20% down, 30-yr fixed' }); }
+    if (by.unemployment) { const r = by.unemployment, p = pts(r); t.push({ ic: '👷', label: 'Unemployment', val: r.value.toFixed(1) + '%', chip: p.txt, col: tone(p.d), ac: '#38bdf8', asof: r.asof, more: r.extra }); }
+    if (by.inflation) { const r = by.inflation, p = pts(r); t.push({ ic: '🛒', label: 'Inflation (12 mo)', val: r.value.toFixed(1) + '%', chip: p.txt, col: tone(p.d), ac: '#fb923c', asof: r.asof, more: r.extra }); }
+    if (by.wages) { const r = by.wages, rl = r.real; t.push({ ic: '💵', label: 'Avg hourly pay', val: '$' + r.value.toFixed(2), chip: rl < 0 ? 'Buys ' + Math.abs(rl).toFixed(1) + '% less than last year' : 'Buys ' + rl.toFixed(1) + '% more than last year', col: rl < 0 ? UP : DN, ac: '#4ade80', asof: r.asof, more: r.extra }); }
+    if (by.mortgage) { const r = by.mortgage, p = pts(r); t.push({ ic: '🏠', label: '30-yr mortgage', val: r.value.toFixed(2) + '%', chip: p.txt, col: tone(p.d), ac: '#a78bfa', asof: r.asof, more: r.extra }); }
+    if (by.gas) { const r = by.gas, d = r.value - r.prior; t.push({ ic: '⛽', label: 'Gas (regular)', val: '$' + r.value.toFixed(2), chip: arrow(d) + ' $' + Math.abs(d).toFixed(2) + ' vs ' + r.prior_label, col: tone(d), ac: '#fbbf24', asof: r.asof, more: r.extra }); }
+    if (by.home) { const r = by.home, d = (r.value / r.prior - 1) * 100; t.push({ ic: '🔑', label: 'Median home price', val: '$' + nf(r.value), chip: arrow(d) + ' ' + Math.abs(d).toFixed(1) + '% vs ' + r.prior_label, col: tone(d), ac: '#34d399', asof: r.asof, more: r.extra }); }
+    if (by.fed) { const r = by.fed; t.push({ ic: '🏦', label: 'Fed rate target', val: (r.low != null ? r.low.toFixed(2) + '–' : '') + r.value.toFixed(2) + '%', chip: r.value === r.prior ? '■ Unchanged vs ' + r.prior_label : arrow(r.value - r.prior) + ' ' + Math.abs(r.value - r.prior).toFixed(2) + ' pts vs ' + r.prior_label, col: tone(r.value - r.prior), ac: '#f472b6', asof: r.asof, more: r.extra }); }
+    if (by.home && by.mortgage) { const a = pay(by.home.value, by.mortgage.value), b = pay(by.home.prior, by.mortgage.prior), d = a - b; t.push({ ic: '💳', label: 'Monthly home payment', val: '$' + nf(a) + '/mo', chip: arrow(d) + ' $' + nf(Math.abs(d)) + ' a month vs last year', col: tone(d), ac: '#22d3ee', asof: 'our math: 20% down, 30-yr fixed', more: 'On the median home: principal and interest only. Taxes and insurance are extra.' }); }
     return { by, tiles: t };
   }
   function drawEcon(rows, now) {
-    const { by, tiles } = econSpecs(rows), nr = Math.ceil(tiles.length / 2), heroH = by.debt ? 360 : 0, H = 300 + (heroH ? heroH + 24 : 0) + nr * 294 + 190;
+    const { by, tiles } = econSpecs(rows), nr = Math.ceil(tiles.length / 2), heroH = by.debt ? (by.debt.extra ? 430 : 360) : 0, TH = 400, H = 300 + (heroH ? heroH + 24 : 0) + nr * (TH + 24) + 190;
     const f = frame('economy', H, ['#ef4444', '#38bdf8'], now), x = f.x; let y = f.y;
     if (by.debt) {
       const r = by.debt, d = r.value - r.prior; rr(x, PAD, y, W - PAD * 2, heroH, 34); x.save(); x.clip();
@@ -86,16 +86,19 @@
       x.fillStyle = '#fbbf24'; x.font = F(26, '700'); if ('letterSpacing' in x) x.letterSpacing = '4px'; x.fillText('🏛️  NATIONAL DEBT', PAD + 40, y + 70); if ('letterSpacing' in x) x.letterSpacing = '0px';
       x.fillStyle = '#fff'; fit(x, '$' + r.value.toFixed(2) + ' trillion', 150, '', true, W - PAD * 2 - 80); x.shadowColor = '#f87171'; x.shadowBlur = 40; x.fillText('$' + r.value.toFixed(2) + ' trillion', PAD + 40, y + 205); x.shadowBlur = 0;
       chip(x, PAD + 40, y + 236, arrow(d) + ' $' + Math.abs(d).toFixed(2) + 'T vs ' + r.prior_label, tone(d), W - PAD * 2 - 80);
-      x.fillStyle = 'rgba(255,255,255,.7)'; x.font = F(22); x.fillText('As of ' + r.asof, PAD + 40, y + 326); y += heroH + 24;
+      x.fillStyle = 'rgba(255,255,255,.7)'; x.font = F(22); x.fillText('As of ' + r.asof, PAD + 40, y + 326);
+      if (r.extra) { x.fillStyle = 'rgba(255,255,255,.85)'; x.font = F(24); wrap(x, r.extra, W - PAD * 2 - 80).slice(0, 2).forEach((l, k) => x.fillText(l, PAD + 40, y + 368 + k * 32)); }
+      y += heroH + 24;
     }
     tiles.forEach((t, i) => {
-      const col = i % 2, X = PAD + col * (484 + 0), tw = 484 - 12 + (col ? 12 : 0), TX = col ? W - PAD - 478 : PAD, Y = y + Math.floor(i / 2) * 294, tw2 = 478;
-      rr(x, TX, Y, tw2, 270, 28); x.save(); x.clip(); x.fillStyle = '#0d1226'; x.fillRect(TX, Y, tw2, 270); glow(x, TX, Y, 380, t.ac, .38); x.restore();
-      rr(x, TX, Y, tw2, 270, 28); x.strokeStyle = 'rgba(255,255,255,.12)'; x.lineWidth = 2; x.stroke();
+      const col = i % 2, X = PAD + col * (484 + 0), tw = 484 - 12 + (col ? 12 : 0), TX = col ? W - PAD - 478 : PAD, Y = y + Math.floor(i / 2) * (TH + 24), tw2 = 478;
+      rr(x, TX, Y, tw2, TH, 28); x.save(); x.clip(); x.fillStyle = '#0d1226'; x.fillRect(TX, Y, tw2, TH); glow(x, TX, Y, 380, t.ac, .38); x.restore();
+      rr(x, TX, Y, tw2, TH, 28); x.strokeStyle = 'rgba(255,255,255,.12)'; x.lineWidth = 2; x.stroke();
       x.fillStyle = 'rgba(255,255,255,.85)'; const ls = fit(x, t.ic + '  ' + t.label.toUpperCase(), 24, '700', false, tw2 - 56); x.fillText(t.ic + '  ' + t.label.toUpperCase(), TX + 28, Y + 52);
       x.fillStyle = '#fff'; fit(x, t.val, 86, '', true, tw2 - 56); x.shadowColor = t.ac + 'cc'; x.shadowBlur = 28; x.fillText(t.val, TX + 28, Y + 148); x.shadowBlur = 0;
       chip(x, TX + 28, Y + 172, t.chip, t.col, tw2 - 56);
-      x.fillStyle = 'rgba(255,255,255,.55)'; fit(x, t.asof, 20, '', false, tw2 - 56); x.fillText(t.asof, TX + 28, Y + 250);
+      if (t.more) { x.fillStyle = 'rgba(255,255,255,.82)'; x.font = F(22); wrap(x, t.more, tw2 - 56).slice(0, 4).forEach((l, k) => x.fillText(l, TX + 28, Y + 252 + k * 29)); }
+      x.fillStyle = 'rgba(255,255,255,.55)'; fit(x, t.asof, 20, '', false, tw2 - 56); x.fillText(t.asof, TX + 28, Y + TH - 22);
     });
     footer(x, H, shortSrc(rows), now); return f.c;
   }
@@ -106,7 +109,7 @@
     direction: { ac: ['#38bdf8', '#fb923c'], icon: '🧭' }, generic: { ac: ['#3b82f6', '#ef4444'], icon: '🗳️' }
   };
   function drawMood(rows, now) {
-    const list = rows.filter((r) => r.a != null && r.b != null), RH = 262, H = 300 + list.length * RH + 190;
+    const list = rows.filter((r) => r.a != null && r.b != null), RH = 296, iss = (data('issues') || []).slice().sort((p, q) => p.rank - q.rank).slice(0, 5), IH = iss.length ? 100 + iss.length * 74 : 0, H = 300 + list.length * RH + IH + 190;
     const f = frame('mood', H, ['#3b82f6', '#ef4444'], now), x = f.x; let y = f.y;
     list.forEach((r, i) => {
       const m = MOOD[r.key] || { ac: ['#38bdf8', '#fb923c'], icon: '📊' }, Y = y + i * RH, bw = W - PAD * 2;
@@ -123,8 +126,14 @@
       x.font = F(24, '600'); x.fillStyle = 'rgba(255,255,255,.9)'; x.fillText(r.a_label, BX, BY + BH + 38); x.textAlign = 'right'; x.fillText(r.b_label, BX + BW, BY + BH + 38); x.textAlign = 'left';
       const net = r.a - r.b; const lead = Math.abs(net) < .05 ? 'Even' : (net > 0 ? r.a_label : r.b_label) + ' +' + Math.abs(net).toFixed(1);
       x.fillStyle = '#fbbf24'; x.font = F(24, '700'); x.textAlign = 'center'; x.fillText(lead, BX + BW / 2, BY + BH + 38); x.textAlign = 'left';
-      x.fillStyle = 'rgba(255,255,255,.55)'; fit(x, (r.source || '') + ' · ' + (r.dates || ''), 20, '', false, bw - 64); x.fillText((r.source || '') + ' · ' + (r.dates || ''), BX, BY + BH + 72);
+      x.fillStyle = 'rgba(255,255,255,.62)'; fit(x, (r.source || '') + ' · ' + (r.dates || ''), 20, '', false, bw - 64); x.fillText((r.source || '') + ' · ' + (r.dates || ''), BX, BY + BH + 72);
+      if (r.note) { x.fillStyle = 'rgba(255,255,255,.82)'; fit(x, r.note, 22, '', false, bw - 64); x.fillText(r.note, BX, BY + BH + 104); }
     });
+    if (iss.length) {
+      let Y = y + list.length * RH + 6; x.fillStyle = '#fff'; x.font = F(40, '', true); x.fillText('What voters care about most', PAD, Y + 44);
+      x.fillStyle = 'rgba(255,255,255,.6)'; x.font = F(21); x.fillText('Share saying it is very or extremely important to their vote', PAD, Y + 76); Y += 100;
+      iss.forEach((q, k) => { const yy = Y + k * 74, BX = PAD + 330, BW = W - PAD - BX - 90; x.fillStyle = '#fff'; fit(x, q.issue, 28, '700', false, 310); x.fillText(q.issue, PAD, yy + 40); rr(x, BX, yy + 10, BW, 40, 12); x.fillStyle = 'rgba(255,255,255,.1)'; x.fill(); x.save(); rr(x, BX, yy + 10, BW, 40, 12); x.clip(); const gg = x.createLinearGradient(BX, 0, BX + BW, 0); gg.addColorStop(0, '#38bdf8'); gg.addColorStop(1, '#a78bfa'); x.fillStyle = gg; x.fillRect(BX, yy + 10, BW * q.all / 100, 40); x.fillStyle = 'rgba(255,255,255,.18)'; x.fillRect(BX, yy + 10, BW, 20); x.restore(); x.fillStyle = '#fff'; x.font = F(30, '700', true); x.textAlign = 'right'; x.fillText(q.all + '%', W - PAD, yy + 42); x.textAlign = 'left'; });
+    }
     footer(x, H, 'RealClearPolling averages, Quinnipiac and other national polls, as listed on each bar. Polls are snapshots with margins of error.', now); return f.c;
   }
 
@@ -132,7 +141,9 @@
   const MAIL = '#a78bfa', INP = '#2dd4bf';
   function drawVote(rows, now) {
     const us = rows.find((r) => r.st === 'US'), states = rows.filter((r) => r.st !== 'US').sort((a, b) => b.total - a.total).slice(0, 10), max = states.length ? states[0].total : 1, RH = 98;
-    const H = 300 + (us ? 470 : 0) + (states.length ? 90 + states.length * RH : 0) + 190;
+    const hasMail = (r) => r.mail != null && r.inperson != null, nStates = rows.filter((r) => r.st !== 'US').length, top = states.reduce((a, r) => a + r.total, 0), shareTop = us && us.total ? Math.round(top / us.total * 100) : null;
+    const ed = new Date(2026, 10, 3), dd = Math.round((new Date(ed.getFullYear(), ed.getMonth(), ed.getDate()) - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 864e5), dl = dd > 1 ? dd + ' days' : dd === 1 ? 'Tomorrow' : dd === 0 ? 'Today' : 'Done';
+    const H = 300 + (us ? 470 + 150 : 0) + (states.length ? 90 + states.length * RH : 0) + 190;
     const f = frame('voting', H, ['#a78bfa', '#2dd4bf'], now), x = f.x; let y = f.y;
     if (us) {
       const bw = W - PAD * 2; rr(x, PAD, y, bw, 440, 34); x.save(); x.clip(); x.fillStyle = '#0d1226'; x.fillRect(PAD, y, bw, 440); glow(x, PAD + 100, y, 560, MAIL, .36); glow(x, W - PAD, y + 440, 560, INP, .3); x.restore();
@@ -140,20 +151,25 @@
       x.fillStyle = '#fbbf24'; x.font = F(26, '700'); if ('letterSpacing' in x) x.letterSpacing = '4px'; x.fillText('BALLOTS CAST NATIONWIDE', PAD + 40, y + 70); if ('letterSpacing' in x) x.letterSpacing = '0px';
       const big = nf(us.total); x.fillStyle = '#fff'; fit(x, big, 160, '', true, bw - 80); x.shadowColor = '#c4b5fd'; x.shadowBlur = 40; x.fillText(big, PAD + 40, y + 205); x.shadowBlur = 0;
       x.fillStyle = 'rgba(255,255,255,.75)'; x.font = F(26); x.fillText('Early and mail voting · as of ' + us.as_of, PAD + 40, y + 252);
-      const mp = us.mail / us.total, BX = PAD + 40, BW = bw - 80, BY = y + 292;
+      const um = hasMail(us), mp = um ? us.mail / us.total : 0, BX = PAD + 40, BW = bw - 80, BY = y + 292;
+      if (um) {
       x.save(); rr(x, BX, BY, BW, 56, 18); x.clip(); x.fillStyle = MAIL; x.fillRect(BX, BY, BW * mp, 56); x.fillStyle = INP; x.fillRect(BX + BW * mp, BY, BW * (1 - mp), 56); x.fillStyle = 'rgba(255,255,255,.16)'; x.fillRect(BX, BY, BW, 28); x.restore();
       x.fillStyle = '#fff'; x.font = F(26, '700'); x.fillText(Math.round(mp * 100) + '% by mail', BX + 18, BY + 38); x.textAlign = 'right'; x.fillText(Math.round((1 - mp) * 100) + '% in person', BX + BW - 18, BY + 38); x.textAlign = 'left';
       x.fillStyle = 'rgba(255,255,255,.8)'; x.font = F(24); x.fillText(nf(us.mail) + ' mail', BX, BY + 92); x.textAlign = 'right'; x.fillText(nf(us.inperson) + ' in person', BX + BW, BY + 92); x.textAlign = 'left';
+      }
       y += 470;
+      const st = [[String(nStates), 'states reporting'], [shareTop != null ? shareTop + '%' : '—', 'of ballots are in the top 10'], [dl, 'until Election Day (Tue, Nov 3)']], cw = (W - PAD * 2 - 32) / 3;
+      st.forEach((c, k) => { const X = PAD + k * (cw + 16); rr(x, X, y, cw, 126, 22); x.fillStyle = 'rgba(255,255,255,.07)'; x.fill(); x.strokeStyle = 'rgba(255,255,255,.12)'; x.lineWidth = 2; x.stroke(); x.fillStyle = '#fff'; fit(x, c[0], 48, '', true, cw - 30); x.fillText(c[0], X + 20, y + 58); x.fillStyle = 'rgba(255,255,255,.72)'; fit(x, c[1], 20, '', false, cw - 36); x.fillText(c[1], X + 20, y + 96); });
+      y += 150;
     }
     if (states.length) {
-      x.fillStyle = '#fff'; x.font = F(40, '', true); x.fillText('Top states so far', PAD, y + 44);
-      x.font = F(22, '600'); x.fillStyle = MAIL; x.fillRect(W - PAD - 300, y + 24, 18, 18); x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText('Mail', W - PAD - 274, y + 42); x.fillStyle = INP; x.fillRect(W - PAD - 190, y + 24, 18, 18); x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText('In person', W - PAD - 164, y + 42);
+      x.fillStyle = '#fff'; x.font = F(40, '', true); x.fillText('Top states so far', PAD, y + 44); if (!states.some(hasMail)) { x.fillStyle = 'rgba(255,255,255,.6)'; x.font = F(21); x.fillText('Ballots cast so far, by state', PAD, y + 76); }
+      x.font = F(22, '600'); if (states.some(hasMail)) { x.fillStyle = MAIL; x.fillRect(W - PAD - 300, y + 24, 18, 18); x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText('Mail', W - PAD - 274, y + 42); x.fillStyle = INP; x.fillRect(W - PAD - 190, y + 24, 18, 18); x.fillStyle = 'rgba(255,255,255,.8)'; x.fillText('In person', W - PAD - 164, y + 42); }
       y += 90;
       states.forEach((s, i) => {
-        const Y = y + i * RH, LX = PAD, BX = PAD + 250, BWm = W - PAD - BX - 150, bwid = Math.max(6, BWm * s.total / max), mw = bwid * (s.mail / s.total);
-        x.fillStyle = '#fff'; fit(x, s.state, 30, '700', false, 230); x.fillText(s.state, LX, Y + 50);
-        x.save(); rr(x, BX, Y + 14, bwid, 54, 14); x.clip(); x.fillStyle = MAIL; x.fillRect(BX, Y + 14, mw, 54); x.fillStyle = INP; x.fillRect(BX + mw, Y + 14, bwid - mw, 54); x.fillStyle = 'rgba(255,255,255,.16)'; x.fillRect(BX, Y + 14, bwid, 27); x.restore();
+        const Y = y + i * RH, LX = PAD, BX = PAD + 250, BWm = W - PAD - BX - 150, bwid = Math.max(6, BWm * s.total / max), sm = hasMail(s), mw = sm ? bwid * (s.mail / s.total) : bwid;
+        x.fillStyle = '#fff'; fit(x, s.state, 30, '700', false, 230); x.fillText(s.state, LX, sm ? Y + 40 : Y + 50); if (sm) { x.fillStyle = 'rgba(255,255,255,.6)'; x.font = F(20); x.fillText(Math.round(s.mail / s.total * 100) + '% mail', LX, Y + 66); }
+        x.save(); rr(x, BX, Y + 14, bwid, 54, 14); x.clip(); x.fillStyle = sm ? MAIL : '#818cf8'; x.fillRect(BX, Y + 14, mw, 54); if (sm) { x.fillStyle = INP; x.fillRect(BX + mw, Y + 14, bwid - mw, 54); } x.fillStyle = 'rgba(255,255,255,.16)'; x.fillRect(BX, Y + 14, bwid, 27); x.restore();
         x.fillStyle = '#fff'; x.font = F(32, '700', true); x.textAlign = 'right'; x.fillText(s.total >= 1e6 ? (s.total / 1e6).toFixed(2) + 'M' : Math.round(s.total / 1e3) + 'K', W - PAD, Y + 52); x.textAlign = 'left';
       });
     }
