@@ -619,6 +619,24 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     }
   });
 
+  await test('snapshots: buttons on 3 tabs; picture renders, saves, lists, deletes', async () => {
+    const a = await open('#economy');
+    const pres = await a.page.evaluate(() => ({ snap: !!window.enSnap, bars: document.querySelectorAll('.sn-bar').length, go: [...document.querySelectorAll('.sn-go')].map((e) => e.closest('section') && e.closest('section').id) })); ok(pres.go.length === 3, 'buttons present ' + JSON.stringify(pres));
+    for (const k of ['economy', 'mood', 'voting']) {
+      const r = await a.page.evaluate(async (k) => { const rec = await window.enSnap.render(k); return rec && { w: rec.w, h: rec.h, size: rec.blob.size }; }, k);
+      ok(r && r.w === 1080 && r.h > 900 && r.size > 20000, k + ' card ' + JSON.stringify(r));
+    }
+    await a.page.evaluate(() => document.querySelector('#economy .sn-go').click());
+    await a.page.waitForSelector('.sn-sheet .sn-img', { timeout: 8000 });
+    await a.page.click('.sn-b:has-text("Save to history")'); await a.page.waitForTimeout(300);
+    await a.page.click('.sn-x'); await a.page.waitForTimeout(250);
+    await a.page.evaluate(() => document.querySelector('#economy .sn-saved').click());
+    await a.page.waitForSelector('.sn-th', { timeout: 5000 });
+    ok(await a.page.locator('.sn-th').count() === 1, 'one saved');
+    await a.page.click('.sn-th'); await a.page.click('.sn-b.warn'); await a.page.waitForSelector('.sn-empty', { timeout: 5000 });
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+
   await browser.close(); server.close();
   const failed = results.filter((r) => !r[0]);
   console.log('\n' + (results.length - failed.length) + ' passed, ' + failed.length + ' failed');
