@@ -1,12 +1,57 @@
 [
  {
-  "nid": "n95",
-  "date": "2026-10-31",
+  "nid": "n107",
+  "date": "2026-11-02",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/2026-elections-monday-november-2/",
+  "tag": "House",
+  "headline": "CBS tracker projects Democrats at 229 House seats",
+  "summary": "CBS's Oct. 25 Battleground Tracker puts Democrats at 229 seats, within a range of 215 to 237, across 47 battleground districts. Republicans hold 218 seats now."
+ },
+ {
+  "nid": "n106",
+  "date": "2026-11-02",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/2026-elections-monday-november-2/",
+  "tag": "Senate",
+  "headline": "Trump ends campaign swing in Kansas for Marshall",
+  "summary": "At what he called his 30th and final rally, Trump backed Sen. Roger Marshall against Democrat Adam Hamilton in Salina on Sunday. He had earlier rallied in Dubuque, Iowa."
+ },
+ {
+  "nid": "n105",
+  "date": "2026-11-02",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/2026-elections-monday-november-2/",
+  "tag": "Senate",
+  "headline": "Judge tosses DOJ suit aimed at Alaska Senate certification",
+  "summary": "Judge Sharon Gleason dismissed the Justice Department's suit seeking to block certification of Alaska's Senate result unless Sen. Dan Sullivan wins, ruling DOJ lacked standing. DOJ has filed a notice of appeal."
+ },
+ {
+  "nid": "n104",
+  "date": "2026-11-02",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/2026-elections-monday-november-2/",
+  "tag": "Senate",
+  "headline": "Stevens endorses Rogers over fellow Democrat El-Sayed",
+  "summary": "Rep. Haley Stevens, who lost Michigan's Democratic Senate primary, endorsed Republican Mike Rogers on Sunday. Schumer and Pelosi sharply criticized her, while El-Sayed's campaign says it raised over $1.2 million afterward."
+ },
+ {
+  "nid": "n108",
+  "date": "2026-11-01",
   "source": "Al Jazeera",
-  "url": "https://www.aljazeera.com/news/2026/10/31/us-midterms-3-days-to-go-what-latest-polls-say-as-early-voting-surges",
+  "url": "https://www.aljazeera.com/news/2026/11/1/more-than-50-million-votes-cast-in-us-midterm-elections-what-does-it-mean",
   "tag": "National",
-  "headline": "Early vote tops 43 million as Democrats lead generic polls",
-  "summary": "An AP analysis cited by Al Jazeera finds over 43 million ballots cast early, about 10 million more than at this point in 2022. RealClearPolling's national average has Democrats ahead by about 8 points."
+  "headline": "Early vote passes 53 million, far above 2022",
+  "summary": "A University of Florida analysis counts about 53 million early ballots, versus roughly 46 million in all of 2022's early voting. More than 11 million were cast by registered Democrats and about 8 million by Republicans, though early turnout does not show candidate choice."
+ },
+ {
+  "nid": "n109",
+  "date": "2026-10-31",
+  "source": "Texas Tribune",
+  "url": "https://www.texastribune.org/2026/10/31/texas-early-voting-turnout-rate-election-2026/",
+  "tag": "National",
+  "headline": "Texas early vote tops 7.7 million, a midterm record",
+  "summary": "Preliminary data show over 7.7 million Texans voted early, about 40.5% of registered voters and above the 2018 record. A Rice University analyst said turnout is high but will not reach presidential levels."
  },
  {
   "nid": "n101",
@@ -16,6 +61,42 @@
   "tag": "National",
   "headline": "Ohio early vote tops 2022 record as candidates fan out",
   "summary": "By Saturday morning about 1.49 million Ohioans had voted early, passing the 2022 midterm total, according to AP figures cited by Fox. Trump held tele-rallies Saturday and planned in-person events in Iowa and Kansas on Sunday."
+ },
+ {
+  "nid": "n95",
+  "date": "2026-10-31",
+  "source": "Al Jazeera",
+  "url": "https://www.aljazeera.com/news/2026/10/31/us-midterms-3-days-to-go-what-latest-polls-say-as-early-voting-surges",
+  "tag": "National",
+  "headline": "Early vote tops 43 million as Democrats lead generic polls",
+  "summary": "An AP analysis cited by Al Jazeera finds over 43 million ballots cast early, about 10 million more than at this point in 2022. RealClearPolling's national average has Democrats ahead by about 8 points."
+ },
+ {
+  "nid": "n112",
+  "date": "2026-10-30",
+  "source": "Texas Public Radio",
+  "url": "https://www.tpr.org/government-politics/2026-10-30/ken-paxtons-planned-alamo-campaign-stop-raises-questions-about-political-activity-at-historic-site",
+  "tag": "Senate",
+  "headline": "Paxton drops planned Alamo stop that rules would bar",
+  "summary": "Paxton canceled a Nov. 2 bus-tour finale at the Alamo, where political events are not permitted on the grounds. He also canceled stops in Texarkana, El Paso and Tyler, and has not explained the Alamo change."
+ },
+ {
+  "nid": "n111",
+  "date": "2026-10-30",
+  "source": "Newsweek",
+  "url": "https://www.newsweek.com/talarico-says-paxton-canceling-rallies-no-one-coming-what-photos-show-12640006",
+  "tag": "Senate",
+  "headline": "Talarico says Paxton is canceling rallies; camp cites logistics",
+  "summary": "Democrat James Talarico claimed Ken Paxton is canceling events because few attend, while Paxton's team blamed scheduling for postponing an El Paso rally. Five of six recent polls show Talarico narrowly ahead and Fox has it tied at 49."
+ },
+ {
+  "nid": "n110",
+  "date": "2026-10-30",
+  "source": "Newsweek",
+  "url": "https://www.newsweek.com/forecast-shifts-14-races-towards-democrats-in-final-days-before-midterms-12640820",
+  "tag": "National",
+  "headline": "Cook moves 14 more races toward Democrats",
+  "summary": "Cook Political Report shifted two Senate (Florida, Nebraska) and 12 House races, after four governor shifts a day earlier. Cook projects Democrats netting 2 to 6 Senate seats and flipping 12 to 25 House seats."
  },
  {
   "nid": "n97",
@@ -34,6 +115,24 @@
   "tag": "National",
   "headline": "Appeals court refuses to set aside 20,000 California ballots",
   "summary": "The 9th Circuit ruled 2-1 against a Justice Department request that California set aside ballots tied to about 20,000 people it says may be noncitizens. The panel agreed there is no feasible way to identify those ballots without risking harm to the whole system."
+ },
+ {
+  "nid": "n114",
+  "date": "2026-10-29",
+  "source": "FOX 11",
+  "url": "https://fox11online.com/news/nation-world/michigan-democrat-on-fiance-voting-for-republican-mike-rogers-were-a-household-divided-senate-nominee-abdul-el-sayed-jewish-ted-cruz-elissa-slotkin-rrt",
+  "tag": "Senate",
+  "headline": "Stevens' fiance to vote Rogers over El-Sayed remarks",
+  "summary": "Rep. Haley Stevens said her fiance and her former campaign chair plan to vote for Republican Mike Rogers, citing El-Sayed's rhetoric. Stevens told CNN she still wants El-Sayed to win."
+ },
+ {
+  "nid": "n113",
+  "date": "2026-10-29",
+  "source": "KCUR",
+  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-29/missouri-election-results-court-proposition-a-congressional-map-questions",
+  "tag": "Missouri",
+  "headline": "Missouri will use 2022 map; court fights possible after vote",
+  "summary": "Missouri's general election will use the 2022 congressional map, while voters decide Proposition A on the newer map. Some Republican candidates argue primary voters were disenfranchised, and a close race could bring new lawsuits."
  },
  {
   "nid": "n82",
@@ -61,6 +160,15 @@
   "tag": "Senate",
   "headline": "Fox Power Rankings: South Carolina to toss-up, Ohio leans D",
   "summary": "Fox News moved South Carolina's Senate race to toss-up and shifted the Ohio Senate and governor races to Lean Democrat. It also moved 19 House races toward Democrats and projects them winning at least 223 seats, with Senate control still unresolved."
+ },
+ {
+  "nid": "n102",
+  "date": "2026-10-28",
+  "source": "KSHB 41",
+  "url": "https://www.kshb.com/news/local-news/missouri/jackson-county/jackson-county-early-voting-draws-steady-crowds-as-missouri-amendments-redistricting-fuel-turnout",
+  "tag": "Missouri",
+  "headline": "Jackson County early voters turn out for amendments and Prop A",
+  "summary": "Steady lines formed at a Lee's Summit early-voting site as Missouri's statewide questions drive turnout. They include the amendment to repeal the 2024 abortion-rights vote and Proposition A on mid-decade redistricting."
  },
  {
   "nid": "n98",
@@ -198,13 +306,22 @@
   "summary": "A New York Times report, based partly on interviews with a fired former campaign manager and texts, said Mary Peltola's campaign appeared to help recruit the namesake candidate on Alaska's Senate ballot; Peltola's campaign and the DSCC deny involvement. Trump called for Peltola to be prosecuted, while legal experts said the report is unlikely to affect the DOJ certification lawsuit."
  },
  {
-  "nid": "n102",
-  "date": "2026-10-28",
-  "source": "KSHB 41",
-  "url": "https://www.kshb.com/news/local-news/missouri/jackson-county/jackson-county-early-voting-draws-steady-crowds-as-missouri-amendments-redistricting-fuel-turnout",
-  "tag": "Missouri",
-  "headline": "Jackson County early voters turn out for amendments and Prop A",
-  "summary": "Steady lines formed at a Lee's Summit early-voting site as Missouri's statewide questions drive turnout. They include the amendment to repeal the 2024 abortion-rights vote and Proposition A on mid-decade redistricting."
+  "nid": "n115",
+  "date": "2026-10-27",
+  "source": "TIME",
+  "url": "https://time.com/article/2026/10/27/midterm-elections-early-voting-data-democrats-republicans-hispanic-voters/",
+  "tag": "National",
+  "headline": "Early vote leans Democratic; Hispanic turnout ahead of 2022",
+  "summary": "Registered Democrats cast about 45% of early ballots in party-registration states versus 31% for Republicans. Experts expect Republicans to gain on Election Day, and Hispanic early voting is outpacing 2022."
+ },
+ {
+  "nid": "n103",
+  "date": "2026-10-27",
+  "source": "Alaska Public Media",
+  "url": "https://alaskapublic.org/news/politics/elections/2026-10-27/state-of-alaska-says-doj-lawsuit-over-senate-race-has-no-legal-basis",
+  "tag": "Senate",
+  "headline": "Alaska asks judge to toss DOJ suit that could delay Senate certification",
+  "summary": "The state's Department of Law says the Justice Department suit has no legal basis because the ballot clearly distinguishes Sen. Dan Sullivan from challenger Daniel J. Sullivan Jr. The suit could delay certification if Sullivan narrowly loses."
  },
  {
   "nid": "n93",
@@ -340,15 +457,6 @@
   "tag": "National",
   "headline": "Final PBS/NPR/Marist poll: Democrats lead generic ballot by 8",
   "summary": "The last PBS News/NPR/Marist poll before Election Day (Oct. 19–20) found likely voters favoring Democrats for Congress 52% to 44%, slightly narrower than last month among registered voters. Trump's approval stood at 40% among likely voters, and those who have already voted favored Democrats 68% to 31%."
- },
- {
-  "nid": "n103",
-  "date": "2026-10-27",
-  "source": "Alaska Public Media",
-  "url": "https://alaskapublic.org/news/politics/elections/2026-10-27/state-of-alaska-says-doj-lawsuit-over-senate-race-has-no-legal-basis",
-  "tag": "Senate",
-  "headline": "Alaska asks judge to toss DOJ suit that could delay Senate certification",
-  "summary": "The state's Department of Law says the Justice Department suit has no legal basis because the ballot clearly distinguishes Sen. Dan Sullivan from challenger Daniel J. Sullivan Jr. The suit could delay certification if Sullivan narrowly loses."
  },
  {
   "nid": "n100",
