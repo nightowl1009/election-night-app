@@ -13,8 +13,12 @@
   const KINDS = {
     economy: { tab: 'economy', name: 'Economy', icon: '💵', file: 'economy' },
     mood: { tab: 'mood', name: 'National Mood', icon: '🌡️', file: 'national-mood' },
-    voting: { tab: 'voting', name: 'Early Vote', icon: '🗳️', file: 'early-vote' }
+    voting: { tab: 'voting', name: 'Early Vote', icon: '🗳️', file: 'early-vote' },
+    board: { tab: 'night', name: 'Scoreboard', icon: '🏛️', file: 'scoreboard', btn: '🏛️ Scoreboard' },
+    watch: { tab: 'night', name: 'Watch Guide', icon: '🕒', file: 'watch-guide', btn: '🕒 Watch guide' },
+    recap: { tab: 'night', name: 'Call Log', icon: '📜', file: 'call-log', btn: '📜 Call log' }
   };
+  const TABS = { economy: ['economy'], mood: ['mood'], voting: ['voting'], night: ['board', 'watch', 'recap'] };
 
   // ---------- storage: IndexedDB with an in-memory fallback ----------
   let mem = [], dbp = null, persisted = true;
@@ -29,6 +33,7 @@
   // ---------- canvas helpers ----------
   const rr = (x, X, Y, w, hh, r) => { r = Math.min(r, w / 2, hh / 2); x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + hh, r); x.arcTo(X + w, Y + hh, X, Y + hh, r); x.arcTo(X, Y + hh, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); };
   const fit = (x, txt, px, wt, serif, max) => { let s = px; x.font = F(s, wt, serif); while (s > 12 && x.measureText(txt).width > max) { s -= 2; x.font = F(s, wt, serif); } return s; };
+  const clip = (a, n) => a.length > n ? a.slice(0, n).map((l, i) => i === n - 1 ? l.replace(/[ ,;:.\-–—(]+$/, '') + '…' : l) : a;
   const wrap = (x, t, max) => { const out = []; let ln = ''; String(t).split(' ').forEach((w) => { const tr = ln ? ln + ' ' + w : w; if (x.measureText(tr).width > max && ln) { out.push(ln); ln = w; } else ln = tr; }); if (ln) out.push(ln); return out; };
   const glow = (x, cx, cy, r, col, a) => { const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, col + Math.round(a * 255).toString(16).padStart(2, '0')); g.addColorStop(1, col + '00'); x.fillStyle = g; x.fillRect(0, 0, x.canvas.width, x.canvas.height); };
   const stamp = (d) => d.toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' }).replace(',', ',');
@@ -176,14 +181,83 @@
     footer(x, H, 'On Point Politics tracker, compiled by civicAPI from state and county election offices (counts as of ' + (us ? us.as_of : 'the date shown') + ').', now); return f.c;
   }
 
+
+  // ---------- Election night: scoreboard, watch guide, call log ----------
+  const SIDE = { d: '#3b82f6', r: '#ef4444', i: '#a855f7', g: '#fbbf24', o: 'rgba(255,255,255,.4)', y: '#14b8a6', n: '#94a3b8' };
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+  function readBoard() {
+    return $$('#en-score-top .sb-row').map((b) => {
+      const q = (k) => b.querySelector(k), tx = (k) => (q(k) ? q(k).textContent.trim() : '');
+      return { name: tx('.sb-h b'), ctl: tx('.sb-h span').replace('›', '').trim(), d: tx('.n.d'), r: tx('.n.r'), segs: $$('#en-score-top .sb-row').length ? Array.from(b.querySelectorAll('.sb-bar i')).map((i) => ({ c: i.className, w: parseFloat(i.style.width) || 0 })) : [], sub: Array.from(b.querySelectorAll('.sb-sub > span:not(.dot)')).map((e) => e.textContent.trim()) };
+    });
+  }
+  const readCalls = () => $$('#en-recap-list .en-rc').map((r) => ({ t: (r.querySelector('time') || {}).textContent || '', c: (r.querySelector('i') || {}).className || '', mile: r.classList.contains('mile'), txt: (r.querySelector('span') || {}).textContent || '' }));
+  const calledN = () => { const r = data('results'); return r ? r.filter((x) => x.winner_party).length : 0; };
+  let why = '';
+  function drawBoard(now) {
+    const rows = readBoard(); if (!rows.length) { why = 'The scoreboard is still loading.'; return null; }
+    const calls = readCalls().slice(0, 6), CH = 440, H = 300 + rows.length * (CH + 24) + (calls.length ? 120 + calls.length * 76 : 0) + 190;
+    const f = frame('board', H, ['#3b82f6', '#ef4444'], now), x = f.x; let y = f.y;
+    rows.forEach((r) => {
+      rr(x, PAD, y, W - PAD * 2, CH, 34); x.save(); x.clip(); x.fillStyle = '#0d1226'; x.fillRect(PAD, y, W - PAD * 2, CH); glow(x, PAD + 80, y + 40, 520, '#3b82f6', .34); glow(x, W - PAD, y + CH, 520, '#ef4444', .3); x.restore();
+      rr(x, PAD, y, W - PAD * 2, CH, 34); x.strokeStyle = 'rgba(255,255,255,.14)'; x.lineWidth = 2; x.stroke();
+      x.fillStyle = '#fff'; x.font = F(56, '', true); x.fillText(r.name, PAD + 40, y + 78); x.fillStyle = '#fbbf24'; x.font = F(24, '700'); x.textAlign = 'right'; x.fillText(r.ctl.toUpperCase(), W - PAD - 40, y + 76); x.textAlign = 'left';
+      x.font = F(150, '', true); x.fillStyle = '#93c5fd'; x.shadowColor = '#3b82f6'; x.shadowBlur = 40; x.fillText(r.d, PAD + 40, y + 235); x.fillStyle = '#fca5a5'; x.shadowColor = '#ef4444'; x.textAlign = 'right'; x.fillText(r.r, W - PAD - 40, y + 235); x.textAlign = 'left'; x.shadowBlur = 0;
+      x.fillStyle = 'rgba(255,255,255,.7)'; x.font = F(22, '700'); x.fillText(r.name === 'Senate' ? 'DEMOCRATS + IND.' : 'DEMOCRATS', PAD + 40, y + 276); x.textAlign = 'right'; x.fillText('REPUBLICANS', W - PAD - 40, y + 276); x.textAlign = 'left';
+      const BX = PAD + 40, BW = W - PAD * 2 - 80, BY = y + 300; x.save(); rr(x, BX, BY, BW, 34, 17); x.clip(); x.fillStyle = 'rgba(255,255,255,.12)'; x.fillRect(BX, BY, BW, 34);
+      let cx = BX; r.segs.forEach((g) => { const k = (g.c || '').trim()[0] === 'g' ? 'g' : (g.c || 'o').trim(); const w = BW * g.w / 100; x.fillStyle = SIDE[k] || SIDE.o; x.fillRect(cx, BY, w, 34); cx += w; }); x.fillStyle = 'rgba(255,255,255,.18)'; x.fillRect(BX, BY, BW, 17); x.restore();
+      x.fillStyle = '#fff'; x.fillRect(BX + BW / 2 - 2, BY - 6, 4, 46);
+      x.fillStyle = 'rgba(255,255,255,.9)'; x.font = F(26, '600'); wrap(x, r.sub.join('  ·  '), BW).slice(0, 3).forEach((l, k) => x.fillText(l, BX, BY + 80 + k * 34));
+      y += CH + 24;
+    });
+    if (calls.length) {
+      x.fillStyle = '#fff'; x.font = F(40, '', true); x.fillText('Latest calls  ·  ' + calledN() + ' races called', PAD, y + 44); y += 90;
+      calls.forEach((c, k) => { const Y = y + k * 76; x.fillStyle = SIDE[(c.c || '').trim()] || SIDE.n; x.beginPath(); x.arc(PAD + 12, Y + 30, 11, 0, 6.3); x.fill(); x.fillStyle = 'rgba(255,255,255,.6)'; x.font = F(22); x.fillText(c.t, PAD + 40, Y + 22); x.fillStyle = '#fff'; fit(x, c.txt, 28, '600', false, W - PAD * 2 - 40); x.fillText(c.txt, PAD + 40, Y + 54); });
+    }
+    footer(x, H, 'the Election Night app’s seat counts and results feed. Calls are projections from AP or major networks; before calls, projections use polling averages, ratings and Kalshi odds.', now); return f.c;
+  }
+  function drawWatch(now) {
+    const rows = data('pollclose'); if (!rows || !rows.length) { why = 'The poll-closing times are still loading.'; return null; }
+    const m = document.createElement('canvas').getContext('2d'), nextI = rows.findIndex((r) => Date.parse(r.close_utc) > now.getTime());
+    const lay = rows.map((r) => { m.font = F(28, '700'); const st = clip(wrap(m, r.states, W - PAD * 2 - 330), 3); m.font = F(24, '700'); const wt = r.watch ? wrap(m, 'Watch: ' + r.watch, W - PAD * 2 - 330).slice(0, 2) : []; m.font = F(21); const gd = r.guide ? clip(wrap(m, r.guide, W - PAD * 2 - 330), 4) : []; return { r, st, wt, gd, h: 40 + st.length * 36 + wt.length * 32 + gd.length * 28 + 24 }; });
+    const H = 300 + lay.reduce((a, l) => a + l.h + 18, 0) + 190, f = frame('watch', H, ['#fbbf24', '#3b82f6'], now), x = f.x; let y = f.y;
+    lay.forEach((l, i) => {
+      const next = i === nextI, past = nextI === -1 || i < nextI;
+      rr(x, PAD, y, W - PAD * 2, l.h, 26); x.save(); x.clip(); x.fillStyle = '#0d1226'; x.fillRect(PAD, y, W - PAD * 2, l.h); if (next) glow(x, PAD, y, 600, '#fbbf24', .3); x.restore();
+      rr(x, PAD, y, W - PAD * 2, l.h, 26); x.strokeStyle = next ? '#fbbf24' : 'rgba(255,255,255,.12)'; x.lineWidth = next ? 4 : 2; x.stroke();
+      x.globalAlpha = past ? .55 : 1; x.fillStyle = '#fff'; x.font = F(50, '', true); x.fillText(l.r.close_ct.replace(':00 ', ' '), PAD + 28, y + 70); x.fillStyle = 'rgba(255,255,255,.7)'; x.font = F(22, '600'); x.fillText('CT  ·  ' + l.r.close_et.replace(':00 ', ' ') + ' ET', PAD + 28, y + 104);
+      if (next) { x.fillStyle = '#fbbf24'; x.font = F(20, '800'); x.fillText('UP NEXT', PAD + 28, y + 140); }
+      let ty = y + 46, TX = PAD + 300; x.fillStyle = '#fff'; x.font = F(28, '700'); l.st.forEach((t) => { x.fillText(t, TX, ty); ty += 36; });
+      x.fillStyle = '#fbbf24'; x.font = F(24, '700'); l.wt.forEach((t) => { x.fillText(t, TX, ty); ty += 32; });
+      x.fillStyle = 'rgba(255,255,255,.72)'; x.font = F(21); l.gd.forEach((t) => { x.fillText(t, TX, ty); ty += 28; });
+      x.globalAlpha = 1; y += l.h + 18;
+    });
+    footer(x, H, 'the app’s poll-closing guide: typical closing time for most of each state (some close in two waves). Central time, with Eastern alongside. Election Day is Tuesday, Nov 3, 2026.', now); return f.c;
+  }
+  function drawRecap(now) {
+    const calls = readCalls().slice(0, 14); if (!calls.length) { why = 'No races are called yet. The call log fills in on election night (first polls close at 5 PM Central).'; return null; }
+    const board = readBoard(), m = document.createElement('canvas').getContext('2d');
+    const lay = calls.map((c) => { m.font = F(28, c.mile ? '800' : '600'); return { c, ln: wrap(m, c.txt, W - PAD * 2 - 230).slice(0, 2) }; });
+    const head = board.length ? 130 : 0, H = 300 + head + lay.reduce((a, l) => a + 50 + l.ln.length * 36, 0) + 190, f = frame('recap', H, ['#a855f7', '#fbbf24'], now), x = f.x; let y = f.y;
+    if (board.length) { x.fillStyle = '#fff'; x.font = F(40, '', true); x.fillText(board.map((r) => r.name + ' ' + r.d + '–' + r.r).join('   ·   '), PAD, y + 50); x.fillStyle = 'rgba(255,255,255,.65)'; x.font = F(24); x.fillText(calledN() + ' races called so far · newest first', PAD, y + 92); y += head; }
+    lay.forEach((l) => { const hh = 38 + l.ln.length * 36; rr(x, PAD, y, W - PAD * 2, hh, 20); x.fillStyle = l.c.mile ? 'rgba(251,191,36,.16)' : 'rgba(255,255,255,.06)'; x.fill(); x.strokeStyle = l.c.mile ? '#fbbf24' : 'rgba(255,255,255,.1)'; x.lineWidth = 2; x.stroke();
+      x.fillStyle = 'rgba(255,255,255,.7)'; x.font = F(22, '600'); x.fillText(l.c.t, PAD + 24, y + 44); x.fillStyle = l.c.mile ? '#fbbf24' : (SIDE[(l.c.c || '').trim()] || SIDE.n); x.beginPath(); x.arc(PAD + 168, y + 36, 11, 0, 6.3); x.fill();
+      x.fillStyle = '#fff'; x.font = F(28, l.c.mile ? '800' : '600'); l.ln.forEach((t, k) => x.fillText(t, PAD + 200, y + 44 + k * 36)); y += hh + 12; });
+    footer(x, H, 'the Election Night app’s results feed, in the order calls came in. Gold rows mark a chamber clinch on the app’s own count. Calls are projections from AP or major networks.', now); return f.c;
+  }
+
   // ---------- make, preview, share, history ----------
   const toBlob = (c) => new Promise((res) => c.toBlob(res, 'image/png'));
   function toast(t) { const s = h('div', 'sn-toast', t); document.body.append(s); setTimeout(() => s.remove(), 2400); }
   async function render(kind) {
-    const now = new Date(); let cv;
+    const now = new Date(); let cv; why = '';
     if (kind === 'economy') { const r = data('economy'); if (!r || !r.length) return null; cv = drawEcon(r, now); }
     else if (kind === 'mood') { const r = data('mood'); if (!r || !r.length) return null; cv = drawMood(r, now); }
+    else if (kind === 'board') cv = drawBoard(now);
+    else if (kind === 'watch') cv = drawWatch(now);
+    else if (kind === 'recap') cv = drawRecap(now);
     else { const r = data('earlyvote'); if (!r || !r.length) return null; cv = drawVote(r, now); }
+    if (!cv) return null;
     const blob = await toBlob(cv); return blob && { id: kind + '-' + now.getTime(), kind, at: now.getTime(), w: cv.width, h: cv.height, blob };
   }
   const label = (rec) => KINDS[rec.kind].name + ' · ' + new Date(rec.at).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
@@ -224,7 +298,7 @@
   const busy = {};
   async function snap(kind) {
     if (busy[kind]) return; busy[kind] = 1;
-    try { const rec = await render(kind); if (!rec) { toast('Still loading the numbers — try again in a moment.'); return; } flash(); viewer(rec, false); }
+    try { const rec = await render(kind); if (!rec) { toast(why || 'Still loading the numbers — try again in a moment.'); return; } flash(); viewer(rec, false); }
     catch (e) { toast('Could not make the picture.'); } finally { busy[kind] = 0; }
   }
 
@@ -234,17 +308,18 @@
   const BLURB = {
     economy: 'Freeze today\'s debt, jobs, prices, pay and mortgage numbers into one picture you can text to a friend, or keep to look back on later and see what changed.',
     mood: 'Lock in where the country stands right now: presidential and congressional approval, which way people say things are headed, and the generic ballot. Save it, then compare after the votes are counted.',
-    voting: 'Capture the early-vote total, the mail vs in-person split and the biggest states as of this moment. Early numbers move every day, so a snapshot shows what the race looked like then.'
+    voting: 'Capture the early-vote total, the mail vs in-person split and the biggest states as of this moment. Early numbers move every day, so a snapshot shows what the race looked like then.',
+    night: 'Make a picture of the Senate and House scoreboard, a viewing guide with every poll-closing time and what to watch, or the call-by-call log of the night so far. Take one every hour and you will have the whole night saved.'
   };
   function addBars() {
-    Object.keys(KINDS).forEach((kind) => {
-      const p = document.getElementById(KINDS[kind].tab); if (!p) return;
+    Object.keys(TABS).forEach((tab) => {
+      const p = document.getElementById(tab); if (!p) return;
       let bar = p.querySelector('.sn-bar');
       if (!bar) {
         bar = h('div', 'sn-bar'); bar.dataset.noswipe = '';
-        bar.append(h('div', 'sn-hd', '📸 Take a snapshot'), h('p', 'sn-blurb', BLURB[kind] + ' Pictures are saved on this device only, and nothing is posted anywhere until you share it.'));
+        bar.append(h('div', 'sn-hd', '📸 Take a snapshot'), h('p', 'sn-blurb', BLURB[tab] + ' Pictures are saved on this device only, and nothing is posted anywhere until you share it.'));
         const row = h('div', 'sn-btns');
-        row.append(btn('sn-go', '📸 Take snapshot', () => snap(kind)));
+        TABS[tab].forEach((k) => row.append(btn('sn-go', TABS[tab].length > 1 ? KINDS[k].btn : '📸 Take snapshot', () => snap(k))));
         const sv = btn('sn-saved', '🗂️ Saved snapshots', gallery); sv.append(h('b', '', count ? ' (' + count + ')' : '')); row.append(sv);
         bar.append(row);
       }

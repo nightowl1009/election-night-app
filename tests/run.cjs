@@ -621,7 +621,7 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
 
   await test('snapshots: buttons on 3 tabs; picture renders, saves, lists, deletes', async () => {
     const a = await open('#economy');
-    const pres = await a.page.evaluate(() => ({ snap: !!window.enSnap, bars: document.querySelectorAll('.sn-bar').length, go: [...document.querySelectorAll('.sn-go')].map((e) => e.closest('section') && e.closest('section').id) })); ok(pres.go.length === 3, 'buttons present ' + JSON.stringify(pres));
+    const pres = await a.page.evaluate(() => ({ snap: !!window.enSnap, bars: document.querySelectorAll('.sn-bar').length, go: [...document.querySelectorAll('.sn-go')].map((e) => e.closest('section') && e.closest('section').id) })); ok(['economy', 'mood', 'voting', 'night'].every((id) => pres.go.includes(id)), 'buttons present ' + JSON.stringify(pres));
     for (const k of ['economy', 'mood', 'voting']) {
       const r = await a.page.evaluate(async (k) => { const rec = await window.enSnap.render(k); return rec && { w: rec.w, h: rec.h, size: rec.blob.size }; }, k);
       ok(r && r.w === 1080 && r.h > 900 && r.size > 20000, k + ' card ' + JSON.stringify(r));
@@ -634,6 +634,35 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     await a.page.waitForSelector('.sn-th', { timeout: 5000 });
     ok(await a.page.locator('.sn-th').count() === 1, 'one saved');
     await a.page.click('.sn-th'); await a.page.click('.sn-b.warn'); await a.page.waitForSelector('.sn-empty', { timeout: 5000 });
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+
+  await test('night snapshots: scoreboard, watch guide, call log (and a friendly note when nothing is called)', async () => {
+    const a = await open('#night');
+    ok(await a.page.evaluate(() => document.querySelectorAll('#night .sn-bar .sn-go').length) === 3, 'three night buttons');
+    for (const k of ['board', 'watch']) {
+      const r = await a.page.evaluate(async (k) => { const rec = await window.enSnap.render(k); return rec && { w: rec.w, h: rec.h, size: rec.blob.size }; }, k);
+      ok(r && r.w === 1080 && r.h > 900 && r.size > 20000, k + ' ' + JSON.stringify(r));
+    }
+    ok(await a.page.evaluate(async () => (await window.enSnap.render('recap')) === null), 'call log empty before any call');
+    await a.page.evaluate(() => { const l = document.getElementById('en-recap-list'); l.innerHTML = '<div class="en-rc"><time>7:05 PM CT</time><i class="r"></i><span><span>✓ KY-06: Republican wins</span></span></div>'; });
+    ok(await a.page.evaluate(async () => !!(await window.enSnap.render('recap'))), 'call log renders with a call');
+    await a.page.evaluate(() => document.querySelector('#night .sn-go').click());
+    await a.page.waitForSelector('.sn-sheet .sn-img', { timeout: 8000 });
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+  });
+  await test('health panel: opens with 5 taps, lists checks, flags a dead feed, copies a report', async () => {
+    const a = await open('');
+    ok(!(await a.page.$('.hc-ov')), 'closed by default');
+    for (let i = 0; i < 4; i++) await a.page.evaluate(() => document.getElementById('app-updated').click());
+    ok(!(await a.page.$('.hc-ov')), 'not after 4 taps');
+    await a.page.evaluate(() => document.getElementById('app-updated').click());
+    await a.page.waitForSelector('.hc-r', { timeout: 15000 });
+    const txt = await a.page.evaluate(() => document.querySelector('.hc-sh').innerText);
+    ok(/Data bundle/.test(txt) && /Live data feed/.test(txt) && /Betting odds/.test(txt) && /Alerts server/.test(txt) && /Offline copy/.test(txt) && /Phone storage/.test(txt), 'all checks listed');
+    ok(/Not reachable/.test(txt), 'dead live feed is flagged (test server returns 503)');
+    ok(/problem/.test(await a.page.evaluate(() => document.querySelector('.hc-sum').textContent)), 'summary shows problem');
+    await a.page.click('.hc-x'); ok(!(await a.page.$('.hc-ov')), 'closes');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
 
