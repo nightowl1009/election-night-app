@@ -765,6 +765,7 @@
     x.font = '500 40px system-ui, sans-serif'; x.fillStyle = 'rgba(255,255,255,.8)'; y += 20;
     if (x0.d_pct != null && x0.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x0.winner))) { x.fillText((indRace(x0.race) ? 'Ind ' : 'Dem ') + fmtPct(x0.d_pct) + '  ·  GOP ' + fmtPct(x0.r_pct), 80, y); y += 60; }
     else if (x0.d_pct != null && x0.r_pct != null) { x.fillText('Yes ' + fmtPct(x0.d_pct) + '  ·  No ' + fmtPct(x0.r_pct), 80, y); y += 60; }
+    if (voteLine(x0)) { x.font = '500 34px system-ui, sans-serif'; x.fillText(voteLine(x0), 80, y); y += 56; x.font = '500 40px system-ui, sans-serif'; }
     if (x0.reporting != null) { x.fillText((x0.reporting || 0) + '% of the vote counted', 80, y); y += 60; }
     if (won) { x.fillStyle = '#4ade80'; x.font = '800 48px system-ui, sans-serif'; x.fillText('✓ I called it' + (myLock === race ? ' — lock of the night ★' : ''), 80, y + 50); }
     x.fillStyle = 'rgba(255,255,255,.5)'; x.font = '500 28px system-ui, sans-serif'; x.fillText('election-night.netlify.app', 80, H - 70);
@@ -1374,6 +1375,7 @@
     const d = el('div', 'tv-call ' + partyCls(x.winner_party));
     d.append(el('p', 'k', 'Race called'), el('h2', '', callText(x)));
     if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) d.append(el('p', 'm', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
+    const tvl = voteLine(x); if (tvl) d.append(el('p', 'm', tvl));
     if (r && tvBoard && (tvBoard.lk || tvBoard.practice)) {
       const got = [], missed = [];
       tvBoard.out.forEach(o => { const p = o.p && o.p.picks && o.p.picks[x.race]; if (!p) return; const nm = (isMe(o) ? 'You' : o.m.name || 'Player') + (o.p.lock === x.race ? ' ★' : ''); (p === side ? got : missed).push(nm); });
@@ -1476,6 +1478,7 @@
         t.append(el('small', ok ? 'ok' : 'no', ok ? '✓ You got it · +' + v + (myLock === r.key ? ' (lock ★)' : '') : '✗ You picked ' + (mine === 'd' ? r.a : r.b)));
       }
       if (x.d_pct != null && x.r_pct != null && !/^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner))) t.append(el('small', '', (indRace(x.race) ? 'Ind ' : 'Dem ') + fmtPct(x.d_pct) + ' · GOP ' + fmtPct(x.r_pct) + ' · ' + (x.reporting || 0) + '% in'));
+      const vl = voteLine(x); if (vl) t.append(el('small', '', vl));
       const gb = sim ? tvBoard : grpOut; if (r && gb && gb.out && (gb.lk || gb.practice)) { const sp = splitOf(gb.out.filter(o => o.p), r), side = w[x.race]; const got = side === 'd' ? sp.d.length : sp.r.length, n = sp.d.length + sp.r.length; if (n > 1) t.append(el('small', '', 'Your group: ' + got + ' of ' + n + ' called it')); }
       const sh = el('button', 'pl-popshare', 'Share'); sh.type = 'button'; sh.addEventListener('click', (e) => { e.stopPropagation(); shareCall(x.race); drop(t); }); t.append(sh);
       const rg = !sim && me && profile && profile.agreed && (profile.groups || []).length ? ((profile.groups.includes(activeGroup) ? activeGroup : profile.groups[0])) : '';
@@ -1513,6 +1516,13 @@
     }
   }
   const indRace = (key) => { const id = key.replace(/^(SEN|GOV|HOU)-/, ''), src = key.startsWith('SEN-') ? 'senate' : key.startsWith('GOV-') ? 'governor' : key.startsWith('HOU-') ? 'house' : null; const r = src && rows(src).find(z => z.id === id); return !!(r && r.party_d === 'I'); };
+  // raw vote counts (when the results rows carry them): "Dem 1,234,567 · GOP 1,198,000 votes"
+  const nf = (v) => Math.round(Number(v)).toLocaleString('en-US');
+  function voteLine(x) {
+    if (x.d_votes == null || x.r_votes == null) return '';
+    const m = /^(Passes|Fails|Retained|Not retained)$/.test(String(x.winner));
+    return (m ? 'Yes ' : indRace(x.race) ? 'Ind ' : 'Dem ') + nf(x.d_votes) + ' · ' + (m ? 'No ' : 'GOP ') + nf(x.r_votes) + ' votes';
+  }
   const fmtPct = (v) => { const n = Number(v); return (Number.isInteger(n) ? n : n.toFixed(1)) + '%'; };
   function drop(t) { if (!t.isConnected || t.classList.contains('out')) return; t.classList.add('out'); setTimeout(() => t.remove(), 350); }
 

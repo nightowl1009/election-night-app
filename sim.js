@@ -16,6 +16,21 @@
   const gauss = () => { let u = 0, v = 0; while (!u) u = Math.random(); while (!v) v = Math.random(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
   const etClock = (ms) => new Date(ms).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit' });
 
+  // 2022 benchmark for how many votes a race draws: rounded statewide 2022 turnout (top race on the ballot, in votes),
+  // split evenly across the state's districts for House seats. These are rounded estimates for the made-up night,
+  // not official tallies. Midterm turnout this year is simulated as 2022's, give or take.
+  const T22 = { OH: 4140000, FL: 7760000, NC: 3770000, TX: 8090000, CA: 10930000, IA: 1210000, KY: 1480000, MI: 4460000, MT: 500000, NY: 5440000, PA: 5360000, VA: 3000000,
+    NM: 690000, WA: 3050000, AZ: 2560000, CO: 2450000, NJ: 2700000, WI: 2650000, AL: 1410000, ME: 675000, AK: 267000, MN: 2500000, NV: 980000, SC: 1600000, MO: 2000000,
+    KS: 1010000, NE: 800000, NH: 620000, GA: 3960000 };
+  const DISTRICTS = { OH: 15, FL: 28, NC: 14, TX: 38, CA: 52, IA: 4, KY: 6, MI: 13, MT: 2, NY: 26, PA: 17, VA: 11, NM: 3, WA: 10, AZ: 9, CO: 8, NJ: 12, WI: 8, AL: 7, ME: 2, AK: 1, MN: 8, NV: 4, SC: 7 };
+  const benchTotal = (race) => {
+    let m;
+    if ((m = /^(?:SEN|GOV)-([A-Z]{2})$/.exec(race))) return T22[m[1]] || 2000000;
+    if ((m = /^HOU-([A-Z]{2})-/.exec(race)) || (m = /^HOU-(AK)-AL$/.exec(race))) return Math.round((T22[m[1]] || 2000000) / (DISTRICTS[m[1]] || 8));
+    if (race === 'MO-03') return Math.round(T22.MO / 8);
+    if (/^MO-H/.test(race)) return Math.round(T22.MO / 163);
+    return T22.MO;     // Missouri statewide measures, auditor and judge retentions
+  };
   // Build a made-up outcome for every race the app tracks, loosely anchored on today's polls/odds
   function buildPlan() {
     const closeOf = new Map();
@@ -46,7 +61,7 @@
       const close = closeOf.get(x.race) || Date.UTC(2026, 10, 4, 1, 0, 0);
       const absM = Math.abs(margin);
       return {
-        race: x.race, close, d, r, margin,
+        race: x.race, close, d, r, margin, total: Math.round(benchTotal(x.race) * rnd(0.92, 1.08)),
         tau: Math.min(rnd(70, 140) * 60000, (END - close) / 3.5), // how fast the count comes in (late-closing states speed up so every race finishes before the end)
         early: rnd(-6, 6),                                 // early-count lean that fades as votes are counted
         callAt: absM >= 12 ? 0 : absM >= 6 ? rnd(20, 45) : absM >= 3 ? rnd(55, 80) : rnd(85, 95),
@@ -66,8 +81,10 @@
       const d = Math.round((p.d + lean / 2) * 10) / 10, r = Math.round((p.r - lean / 2) * 10) / 10;
       const called = rep >= p.callAt || now >= END;   // every race is called by the end of the night
       if (called && !p.calledAt) p.calledAt = new Date(now).toISOString();
+      const seen = Math.round(p.total * rep / 100), show = rep > 0.5;
       return { race: p.race, status: called ? 'Called' : 'Counting', winner: called ? p.win[0] : '', winner_party: called ? p.win[1] : '',
-        d_pct: rep > 0.5 ? d : null, r_pct: rep > 0.5 ? r : null, reporting: Math.round(rep), called_at: called ? p.calledAt : '' };
+        d_pct: show ? d : null, r_pct: show ? r : null, d_votes: show ? Math.round(seen * d / 100) : null, r_votes: show ? Math.round(seen * r / 100) : null, total_votes: show ? seen : null,
+        reporting: Math.round(rep), called_at: called ? p.calledAt : '' };
     });
   }
 

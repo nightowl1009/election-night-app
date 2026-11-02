@@ -110,6 +110,23 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(await a.page.evaluate(() => document.getAnimations().filter((x) => x.effect && x.effect.target && x.effect.target.closest && x.effect.target.closest('.en-panel') && x.playState === 'running' && x.effect.getTiming().iterations !== Infinity).length) === 0, 'animations should finish');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
+  await test('vote counts show beside the percentages, and the practice run fills them', async () => {
+    const a = await open('');
+    await a.page.evaluate(() => { const rows = JSON.parse(JSON.stringify(window.dash.data('results').data)); const x = rows.find((y) => y.race === 'SEN-NC'); Object.assign(x, { status: 'Counting', d_pct: 47.3, r_pct: 50.5, reporting: 80, d_votes: 1784049, r_votes: 1905599, total_votes: 3770000 }); window.dash.simSet('results', rows); window.enOpenRace('senate', 'NC'); });
+    await a.page.waitForTimeout(600);
+    const t = await a.page.evaluate(() => document.querySelector('#senate .en-pop:not([hidden]) .en-res') ? document.querySelector('#senate .en-pop:not([hidden]) .en-res').textContent : document.querySelector('#sen-grid').textContent);
+    ok(/1,784,049 votes/.test(t) && /1,905,599 votes/.test(t) && /3,770,000 counted/.test(t), 'race card should show vote counts: ' + t.replace(/\s+/g, ' ').slice(0, 200));
+    await a.page.evaluate(() => { window.dash.simClear(); }); await a.page.waitForTimeout(500);
+    const gone = await a.page.evaluate(() => document.querySelectorAll('#senate .en-vc').length); ok(gone === 0, 'counts should disappear when the row has none');
+    ok(!a.errors.length, a.errors.join(' | ')); await a.close();
+    const b = await open('', { time: '2026-10-30T12:00:00Z' });
+    await b.page.evaluate(() => window.enSim.start()); for (let i = 0; i < 40; i++) await b.page.clock.runFor(2500);
+    const r = await b.page.evaluate(() => window.dash.data('results').data.filter((x) => x.reporting > 50 && /^(SEN|GOV|HOU)-/.test(x.race)).map((x) => [x.d_votes, x.r_votes, x.total_votes, x.d_pct, x.r_pct]));
+    ok(r.length > 5 && r.every(([d, rr, tot]) => d > 0 && rr > 0 && tot >= d + rr - 2), 'practice rows should carry vote counts that add up');
+    const big = await b.page.evaluate(() => { const g = window.dash.data('results').data.find((x) => x.race === 'GOV-FL'); return g && g.reporting > 20 ? g.total_votes / (g.reporting / 100) : null; });
+    ok(big > 6800000 && big < 8700000, 'Florida governor projected total should be near 2022 turnout (7.8M): ' + big);
+    ok(!b.errors.length, b.errors.join(' | ')); await b.close();
+  });
   await test('every tab opens with no script errors (light and dark)', async () => {
     for (const scheme of ['light', 'dark']) {
       const a = await open('', { scheme });
