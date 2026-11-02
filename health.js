@@ -70,6 +70,8 @@
 .hc-r b{display:block;font-size:.9rem}.hc-r span{display:block;font-size:.82rem;line-height:1.4;color:rgba(255,255,255,.72)}
 .hc-err{margin:10px 0 0;padding:.6rem .7rem;border-radius:12px;background:rgba(248,113,113,.1);font:12px/1.45 ui-monospace,Menlo,monospace;color:#fecaca;white-space:pre-wrap;word-break:break-word}
 .hc-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.hc-b{padding:.65rem .5rem;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer}.hc-b.gold{background:linear-gradient(135deg,#fde68a,#fbbf24 55%,#f59e0b);color:#1a1300;border:none}.hc-b:disabled{opacity:.6}
+.hc-open{display:block;margin:0 auto 1rem;padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(120,120,140,.4);background:transparent;color:inherit;font:inherit;font-size:.82rem;cursor:pointer;opacity:.85}
+#app-updated{padding:.6rem 0;min-height:2.2rem;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
 .hc-foot{margin-top:10px;font-size:.72rem;color:rgba(255,255,255,.5);text-align:center}`;
 
   let layer = null, running = false, lastOut = [];
@@ -84,7 +86,7 @@
     out.forEach((r) => { const d = h('div', 'hc-r'); const t = h('div'); t.append(h('b', '', r.label), h('span', '', r.detail)); d.append(h('i', r.st), t); body.append(d); });
     if (errs.length) body.append(h('div', 'hc-err', errs.join('\n')));
   }
-  function open() {
+  let open = function () {
     close(); const ov = h('div', 'hc-ov'); ov.dataset.noswipe = ''; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Health check');
     const sh = h('div', 'hc-sh'), top = h('div', 'hc-top'); top.append(h('b', '', '🩺 Health check')); const x = h('button', 'hc-x', '✕'); x.setAttribute('aria-label', 'Close'); x.onclick = close; top.append(x);
     const body = h('div', 'hc-body'), row2 = h('div', 'hc-row');
@@ -97,16 +99,25 @@
     );
     sh.append(top, body, row2, h('div', 'hc-foot', 'Only you see this. It reads from this app\'s own host and sends nothing to anyone else.'));
     ov.append(sh); ov.addEventListener('click', (e) => { if (e.target === ov) close(); }); document.body.append(ov); layer = ov; document.documentElement.classList.add('sn-open'); draw(sh);
-  }
+  };
 
   function boot() {
     const st = h('style'); st.id = 'hc-css'; st.textContent = CSS; document.head.append(st);
     // 5 quick taps on the "Data updated" line (taps within 3 seconds of each other)
     let taps = 0, last = 0;
-    document.addEventListener('click', (e) => { const t = e.target && e.target.closest && e.target.closest('#app-updated'); if (!t) return; const n = Date.now(); taps = n - last < 3000 ? taps + 1 : 1; last = n; if (taps >= 5) { taps = 0; open(); } });
+    document.addEventListener('click', (e) => { const t = e.target && e.target.closest && e.target.closest('#app-updated'); if (!t || (e.target.closest('button, a'))) return; const n = Date.now(); taps = n - last < 3000 ? taps + 1 : 1; last = n; if (taps >= 5) { taps = 0; open(); } });
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
-    window.enHealth = { open, run: runChecks, close };
-    if (/[?&]health\b/.test(location.search)) setTimeout(open, 1500);
+    // Once the panel has been opened on a phone, a small "🩺 Health check" button stays at the bottom of the page on that phone only.
+    const KEY = 'en-owner', owner = () => { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } };
+    const mark = () => { try { localStorage.setItem(KEY, '1'); } catch (e) { /* ignore */ } showBtn(); };
+    function showBtn() {
+      if (!owner() || document.getElementById('hc-open')) return; const host = document.getElementById('app-updated'); if (!host) return;
+      const b = h('button', 'hc-open', '🩺 Health check'); b.id = 'hc-open'; b.type = 'button'; b.onclick = open; host.parentNode.insertBefore(b, host.nextSibling);
+    }
+    const open0 = open; open = function () { mark(); open0(); };
+    window.enHealth = { open: () => open(), run: runChecks, close };
+    showBtn(); setTimeout(showBtn, 2000);
+    if (/[?&]health\b/.test(location.search)) setTimeout(() => open(), 1500);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

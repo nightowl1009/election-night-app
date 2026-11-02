@@ -663,6 +663,8 @@ const DATA = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f + '.jso
     ok(/Not reachable/.test(txt), 'dead live feed is flagged (test server returns 503)');
     ok(/problem/.test(await a.page.evaluate(() => document.querySelector('.hc-sum').textContent)), 'summary shows problem');
     await a.page.click('.hc-x'); ok(!(await a.page.$('.hc-ov')), 'closes');
+    await a.page.waitForSelector('#hc-open', { timeout: 3000 }); ok(true, 'owner button appears after first open');
+    await a.page.click('#hc-open'); await a.page.waitForSelector('.hc-r', { timeout: 15000 }); await a.page.click('.hc-x');
     ok(!a.errors.length, a.errors.join(' | ')); await a.close();
   });
 
