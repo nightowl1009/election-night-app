@@ -1,5 +1,122 @@
 [
  {
+  "nid": "n139",
+  "date": "2026-11-03",
+  "source": "Missouri Independent",
+  "url": "https://www.yahoo.com/news/politics/articles/missouri-could-approach-turnout-record-115511518.html",
+  "tag": "Missouri",
+  "headline": "County clerks expect near-record Missouri turnout",
+  "summary": "Secretary of State Denny Hoskins projects about 55% turnout, or roughly 2.42 million ballots, just under the 2018 midterm record of 2,442,306. Clerks in Boone and Greene counties expect 57% to 59%, and St. Louis County logged 173,484 early ballots."
+ },
+ {
+  "nid": "n140",
+  "date": "2026-11-03",
+  "source": "Missouri Independent",
+  "url": "https://www.yahoo.com/news/politics/articles/missouri-could-approach-turnout-record-115511518.html",
+  "tag": "Missouri",
+  "headline": "$55 million poured into Missouri ballot measures",
+  "summary": "Spending on the three controversial statewide questions reached $55 million through Friday, with almost $17 million on broadcast ads. The state auditor race is the only statewide candidate contest, so the measures are driving interest."
+ },
+ {
+  "nid": "n141",
+  "date": "2026-11-03",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
+  "tag": "Missouri",
+  "headline": "Missouri ballot: four amendments, Prop A and Boone jail tax",
+  "summary": "Voters decide Amendments 3, 6, 7 and 8 and Proposition A, the Republican-friendly congressional map, plus Boone County's Proposition L jail sales tax. Polls are open 6 a.m. to 7 p.m. and a photo ID is required, with provisional ballots for those without one."
+ },
+ {
+  "nid": "n142",
+  "date": "2026-11-03",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
+  "tag": "Senate",
+  "headline": "Vance says Stevens endorsement will help Rogers in Michigan",
+  "summary": "Vice President JD Vance said Rep. Haley Stevens' endorsement of Republican Mike Rogers will help him. Stevens lost the Democratic primary to Abdul El-Sayed."
+ },
+ {
+  "nid": "n143",
+  "date": "2026-11-03",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
+  "tag": "Governors",
+  "headline": "Governors on the ballot: Florida and Ohio draw national eyes",
+  "summary": "In Florida, Trump-backed Byron Donalds faces former Republican congressman David Jolly, now a Democrat. In Ohio, Trump-backed Vivek Ramaswamy faces Democrat Amy Acton."
+ },
+ {
+  "nid": "n144",
+  "date": "2026-11-03",
+  "source": "ABC News",
+  "url": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085",
+  "tag": "National",
+  "headline": "Midterms on pace to be the most expensive on record",
+  "summary": "OpenSecrets projects about $12 billion in federal spending this cycle, and AdImpact calls it the costliest it has tracked. Wesleyan Media Project puts House, Senate and governor ad spending near $7.1 billion."
+ },
+ {
+  "nid": "n145",
+  "date": "2026-11-03",
+  "source": "ABC News",
+  "url": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085",
+  "tag": "Senate",
+  "headline": "Hinson pledges to accept Iowa result, says she will win",
+  "summary": "Republican Rep. Ashley Hinson said Trump's Dubuque visit helped her portray Democrat Josh Turek as too liberal for Iowa. She said she is confident of victory and will accept the outcome."
+ },
+ {
+  "nid": "n146",
+  "date": "2026-11-03",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "Senate",
+  "headline": "Senate stands 53-47 with 11 races deciding control",
+  "summary": "CBS counts eight Republican-held seats in play, including Alaska, Iowa, Maine, North Carolina and Texas, and three Democratic-held ones in Georgia, Michigan and New Hampshire. In Maine, Sen. Susan Collins faces Democrat Troy Jackson."
+ },
+ {
+  "nid": "n147",
+  "date": "2026-11-03",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "House",
+  "headline": "CBS picks 47 battleground districts to decide the House",
+  "summary": "Republicans hold a razor-thin majority, and CBS's Battleground Tracker projects Democrats winning 229 seats. The 47 competitive districts are expected to settle control."
+ },
+ {
+  "nid": "n148",
+  "date": "2026-11-03",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "Governors",
+  "headline": "Texas Democrats court Hispanic voters; Abbott race may tighten",
+  "summary": "Democrats hope to win back Hispanic voters who moved toward Trump in 2024. Gov. Greg Abbott's reelection bid against Gina Hinojosa could also be competitive."
+ },
+ {
+  "nid": "n150",
+  "date": "2026-11-03",
+  "source": "The Irish Times",
+  "url": "https://www.irishtimes.com/world/us/2026/11/03/us-midterm-elections-voting-begins-with-trumps-republicans-behind-in-key-polls/",
+  "tag": "National",
+  "headline": "Reuters/Ipsos: 48% call their vote a vote against Trump",
+  "summary": "Cost of living was the top issue for 48% of registered voters, ahead of democratic norms at 26%. Another 25% said their vote was for Trump, and 55% said military action against Iran was not worth the cost."
+ },
+ {
+  "nid": "n151",
+  "date": "2026-11-03",
+  "source": "The Irish Times",
+  "url": "https://www.irishtimes.com/world/us/2026/11/03/us-midterm-elections-voting-begins-with-trumps-republicans-behind-in-key-polls/",
+  "tag": "National",
+  "headline": "Markets give Democrats 95% for House, 76% for Senate",
+  "summary": "Kalshi and Polymarket had about $1.48 billion wagered on the midterms. Aggregated Monday prices implied a 95% chance of a Democratic House and 76% for the Senate."
+ },
+ {
+  "nid": "n152",
+  "date": "2026-11-03",
+  "source": "The Irish Times",
+  "url": "https://www.irishtimes.com/world/us/2026/11/03/us-midterm-elections-voting-begins-with-trumps-republicans-behind-in-key-polls/",
+  "tag": "National",
+  "headline": "DOJ deploys 1,000 monitors; six more charged in California",
+  "summary": "The Justice Department is sending about 1,000 election monitors to all 50 states, which critics call federal overreach. It also charged six more people in California with alleged voter fraud."
+ },
+ {
   "nid": "n129",
   "date": "2026-11-03",
   "source": "ABC11 Raleigh-Durham",
@@ -7,6 +124,15 @@
   "tag": "Senate",
   "headline": "North Carolina early vote runs 35.6% above 2022",
   "summary": "North Carolina polls are open 6:30 a.m. to 7:30 p.m. Early in-person turnout was 35.6% higher than in 2022 while absentee ballots fell 35%, and registered Democrats led turnout, followed by unaffiliated voters and Republicans."
+ },
+ {
+  "nid": "n149",
+  "date": "2026-11-02",
+  "source": "Texas Tribune",
+  "url": "https://www.texastribune.org/2026/11/02/texas-paxton-talarico-senate-key-factors-2026-election-night/",
+  "tag": "Senate",
+  "headline": "Five things to watch in Paxton-Talarico Senate race",
+  "summary": "Polls show the race within the margin of error, with Libertarian Ted Brown at 1% to 3% and possibly keeping the winner under 50%. Key tests are Hispanic voters in South Texas, Tarrant, Collin and Denton counties, Harris County turnout and rural GOP margins."
  },
  {
   "nid": "n135",
@@ -412,131 +538,5 @@
   "tag": "Governors",
   "headline": "Murkowski endorses Democrat for Alaska governor",
   "summary": "Republican Sen. Lisa Murkowski endorsed Democrat Jonathan Kreiss-Tomkins in Alaska's race for governor."
- },
- {
-  "nid": "n85",
-  "date": "2026-10-28",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/2026-elections-midtems-house-senate-trump/",
-  "tag": "Senate",
-  "headline": "Pappas and Sununu clash in New Hampshire Senate debate",
-  "summary": "Democratic Rep. Chris Pappas and Republican John E. Sununu sparred over the Iran war, tariffs and Social Security. Sununu, who has Trump's endorsement, has distanced himself from some of Trump's policies."
- },
- {
-  "nid": "n84",
-  "date": "2026-10-28",
-  "source": "Marist Poll",
-  "url": "https://maristpoll.marist.edu/polls/the-midterm-elections-in-new-york-october-2026/",
-  "tag": "Governors",
-  "headline": "Marist: Hochul leads Blakeman by 11 in New York",
-  "summary": "Gov. Kathy Hochul leads Republican Bruce Blakeman 53%-42% among likely voters. Democrats lead the generic congressional ballot in New York 56%-42%."
- },
- {
-  "nid": "n83",
-  "date": "2026-10-28",
-  "source": "Suffolk University",
-  "url": "https://www.suffolk.edu/-/media/suffolk/documents/academics/research-at-suffolk/suprc/polls/other-states/2026/10_28_2026_ohio_press_release.pdf",
-  "tag": "Governors",
-  "headline": "Suffolk/USA Today poll: Acton and Brown lead narrowly in Ohio",
-  "summary": "Democrat Amy Acton leads Vivek Ramaswamy 48%-44% for governor, down from a 9-point lead in September. Sherrod Brown leads Sen. Jon Husted 47%-44% in the Senate race (500 likely voters, ±4.4 points)."
- },
- {
-  "nid": "n78",
-  "date": "2026-10-28",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/healthcare-provider-group-supports-amendment-3-despite-most-doctors-opposing-abortion-bans/article_d02917c7-430a-43ef-875f-82e794507327.html",
-  "tag": "Missouri",
-  "headline": "Clinicians group backs Amendment 3, but opponents count more signers",
-  "summary": "The Missouri Clinicians Coalition held a news conference with physicians supporting Amendment 3 and says 75 providers have signed its pledge. A Stop the Ban Missouri letter urging a no vote had about 470 health care provider signers."
- },
- {
-  "nid": "n75",
-  "date": "2026-10-28",
-  "source": "Philadelphia Inquirer",
-  "url": "https://www.inquirer.com/politics/nation/pennsylvania-swing-districts-midterms-final-push-20261028.html",
-  "tag": "House",
-  "headline": "Four GOP-held Pennsylvania House seats in play",
-  "summary": "Inquirer/NYT/Siena polling shows Democrats narrowly ahead of Rep. Brian Fitzpatrick in PA-1 and Rep. Rob Bresnahan in PA-8, and tied with Rep. Scott Perry in PA-10. Democrat Bob Brooks has led Rep. Ryan Mackenzie for months in PA-7, the state's second-costliest House race."
- },
- {
-  "nid": "n74",
-  "date": "2026-10-28",
-  "source": "Axios",
-  "url": "https://www.axios.com/2026/10/28/gop-poll-ramaswamy-ad-damage",
-  "tag": "Governors",
-  "headline": "GOP poll: Ramaswamy's ad about Acton's mother is backfiring",
-  "summary": "A private poll for a Republican group (800 likely Ohio voters, Oct. 23-26) found Democrat Amy Acton leading Vivek Ramaswamy 50%-42%, up from 2 points earlier in the month. Among voters aware of the $4 million ad featuring Acton's estranged mother, twice as many said it made them more likely to back Acton than less likely."
- },
- {
-  "nid": "n73",
-  "date": "2026-10-28",
-  "source": "CBS Detroit",
-  "url": "https://www.cbsnews.com/detroit/news/el-sayed-widens-lead-rogers-michigan-senate-poll/",
-  "tag": "Senate",
-  "headline": "El-Sayed's Michigan Senate lead grows to 7",
-  "summary": "A Mitchell Research poll of 636 likely voters (Oct. 26-27) found Democrat Abdul El-Sayed at 51% and Republican Mike Rogers at 44%, up from a 4-point lead on Oct. 1. El-Sayed led independents 52%-38%, and 28% of respondents said they had already voted or were voting absentee."
- },
- {
-  "nid": "n72",
-  "date": "2026-10-28",
-  "source": "Siena College Research Institute",
-  "url": "https://sri.siena.edu/2026/10/28/nytimes-siena-poll-of-likely-voters-florida-minnesota-and-south-carolina/",
-  "tag": "Senate",
-  "headline": "NYT/Siena: South Carolina Senate race tied at 48%",
-  "summary": "A New York Times/Siena poll of likely voters found Democrat Annie Andrews and Republican Sen. Graham tied at 48% in South Carolina. In Florida, Sen. Ashley Moody led Democrat Angie Nixon 50%-44%, and in Minnesota, Democrat Peggy Flanagan led Republican Michele Tafoya 54%-40%."
- },
- {
-  "nid": "n71",
-  "date": "2026-10-28",
-  "source": "NPR",
-  "url": "https://www.npr.org/2026/10/28/nx-s1-6021478/doj-california-ballots-denied",
-  "tag": "National",
-  "headline": "Judge rejects DOJ bid to set aside 20,000 California ballots",
-  "summary": "U.S. District Judge David Carter denied the Justice Department's emergency request to make California segregate about 20,000 mail ballots from voters the administration labeled likely noncitizens. Carter wrote that the federal government had never before tried on the eve of an election to force a state to abandon its own election procedures."
- },
- {
-  "nid": "n70",
-  "date": "2026-10-28",
-  "source": "AP",
-  "url": "https://www.pbs.org/newshour/politics/trump-calls-for-prosecution-of-alaska-senate-candidate-peltola-over-sullivan-name-controversy",
-  "tag": "Senate",
-  "headline": "Report ties Peltola campaign to second Dan Sullivan; Trump urges prosecution",
-  "summary": "A New York Times report, based partly on interviews with a fired former campaign manager and texts, said Mary Peltola's campaign appeared to help recruit the namesake candidate on Alaska's Senate ballot; Peltola's campaign and the DSCC deny involvement. Trump called for Peltola to be prosecuted, while legal experts said the report is unlikely to affect the DOJ certification lawsuit."
- },
- {
-  "nid": "n128",
-  "date": "2026-10-27",
-  "source": "WHRO",
-  "url": "https://www.whro.org/2026-10-27/early-voting-turnout-has-been-record-breaking-in-this-years-midterm-elections",
-  "tag": "National",
-  "headline": "Virginia early vote nearly double the last midterm's pace",
-  "summary": "Early votes cast in Virginia are close to twice the count at this point in 2022, according to Department of Elections data, and the state is breaking records. Experts say the numbers show enthusiasm, especially among Democrats, but do not predict results."
- },
- {
-  "nid": "n115",
-  "date": "2026-10-27",
-  "source": "TIME",
-  "url": "https://time.com/article/2026/10/27/midterm-elections-early-voting-data-democrats-republicans-hispanic-voters/",
-  "tag": "National",
-  "headline": "Early vote leans Democratic; Hispanic turnout ahead of 2022",
-  "summary": "Registered Democrats cast about 45% of early ballots in party-registration states versus 31% for Republicans. Experts expect Republicans to gain on Election Day, and Hispanic early voting is outpacing 2022."
- },
- {
-  "nid": "n103",
-  "date": "2026-10-27",
-  "source": "Alaska Public Media",
-  "url": "https://alaskapublic.org/news/politics/elections/2026-10-27/state-of-alaska-says-doj-lawsuit-over-senate-race-has-no-legal-basis",
-  "tag": "Senate",
-  "headline": "Alaska asks judge to toss DOJ suit that could delay Senate certification",
-  "summary": "The state's Department of Law says the Justice Department suit has no legal basis because the ballot clearly distinguishes Sen. Dan Sullivan from challenger Daniel J. Sullivan Jr. The suit could delay certification if Sullivan narrowly loses."
- },
- {
-  "nid": "n93",
-  "date": "2026-10-27",
-  "source": "KCUR",
-  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-27/missouri-election-amendment-proposition-guide-november-2026",
-  "tag": "Missouri",
-  "headline": "KCUR guide to Missouri's five statewide ballot questions",
-  "summary": "Missouri voters will decide Amendment 3 (repealing the 2024 abortion-rights amendment), Amendment 6 (initiative-petition protections), Amendment 7 (a state endowment fund), Amendment 8 (sheriff elections) and Proposition A on the 2025 congressional map. A yes on Prop A would keep the GOP-drawn map that reshapes Rep. Emanuel Cleaver's 5th District."
  }
 ]
