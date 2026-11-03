@@ -1,5 +1,113 @@
 [
  {
+  "nid": "n153",
+  "date": "2026-11-03",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "Senate",
+  "headline": "Two Dan Sullivans on Alaska's Senate ballot",
+  "summary": "Republican Sen. Dan Sullivan shares a name with a second ballot candidate, a teacher the Times reported was recruited by Democrat Mary Peltola's campaign; Peltola says she knew nothing of it. The race uses ranked-choice voting."
+ },
+ {
+  "nid": "n154",
+  "date": "2026-11-03",
+  "source": "PBS NewsHour",
+  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
+  "tag": "National",
+  "headline": "Flooding moves 21 Florida polling places",
+  "summary": "Rain and flooding forced 21 polling places in eight Florida counties to relocate, mostly along the Atlantic coast. Officials alerted voters by text, email and posted signs."
+ },
+ {
+  "nid": "n155",
+  "date": "2026-11-03",
+  "source": "PBS NewsHour",
+  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
+  "tag": "National",
+  "headline": "Westchester machines reject paper ballots; emergency bags used",
+  "summary": "Machines in Westchester County, N.Y., stopped accepting paper ballots, so voters used sealed emergency bags. The county says those ballots will be counted and the state attorney general's office is in contact."
+ },
+ {
+  "nid": "n156",
+  "date": "2026-11-03",
+  "source": "PBS NewsHour",
+  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
+  "tag": "National",
+  "headline": "Judge Chutkan bars DOJ from sending noncitizen voter lists",
+  "summary": "Judge Tanya Chutkan ruled the administration must stop sending election officials lists of alleged noncitizen voters, citing risk of confusion."
+ },
+ {
+  "nid": "n157",
+  "date": "2026-11-03",
+  "source": "PBS NewsHour",
+  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
+  "tag": "National",
+  "headline": "Judge rejects NAACP challenge to DOJ poll monitoring",
+  "summary": "A judge ruled against the NAACP's challenge to the Justice Department's monitoring program. The government says monitors will be in plainclothes, unarmed and without arrest powers."
+ },
+ {
+  "nid": "n158",
+  "date": "2026-11-03",
+  "source": "Spectrum News (AP)",
+  "url": "https://spectrumlocalnews.com/nys/binghamton/politics/2026/11/03/election-day-arrives-after-a-surge-in-early-voting",
+  "tag": "National",
+  "headline": "Flooding disrupts voting on Navajo Nation and across Southwest",
+  "summary": "Flooding affected polling access in Colorado, Arizona, Utah and New Mexico. The Navajo Nation changed several locations and San Juan County, Utah, allowed electronic voting."
+ },
+ {
+  "nid": "n159",
+  "date": "2026-11-03",
+  "source": "Spectrum News (AP)",
+  "url": "https://spectrumlocalnews.com/nys/binghamton/politics/2026/11/03/election-day-arrives-after-a-surge-in-early-voting",
+  "tag": "National",
+  "headline": "Trump's answer on accepting results: only if 'honest'",
+  "summary": "A week before Election Day, Trump gave a conditional answer on whether he would accept the results. Election law experts say the administration's court arguments in Alaska and California are unlikely to succeed."
+ },
+ {
+  "nid": "n160",
+  "date": "2026-11-03",
+  "source": "Michigan Secretary of State",
+  "url": "https://www.michigan.gov/sos/resources/news/2026/11/02/with-less-than-24-hours-before-polls-open-on-election-day-over",
+  "tag": "Senate",
+  "headline": "Michigan: 2.3 million ballots cast before polls open",
+  "summary": "About 2.3 million Michigan voters, 31.2% of those registered, had voted by Nov. 2. Polls run 7 a.m. to 8 p.m., and officials warn unofficial results may take time because mail ballots in cities like Detroit must be processed."
+ },
+ {
+  "nid": "n161",
+  "date": "2026-11-03",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
+  "tag": "National",
+  "headline": "Trump predicts GOP keeps both chambers as early vote tops 54 million",
+  "summary": "Trump said Republicans will hold the House and Senate, while AP counted over 54 million early votes, roughly nine million more than in 2022. RNC Chair Joe Gruters said GOP wins if its voters turn out."
+ },
+ {
+  "nid": "n162",
+  "date": "2026-11-03",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
+  "tag": "Senate",
+  "headline": "South Carolina: Darline Graham faces Annie Andrews",
+  "summary": "Sen. Darline Graham, who holds the seat after her brother Lindsey Graham's death, is the Trump-backed Republican against Democrat Annie Andrews."
+ },
+ {
+  "nid": "n164",
+  "date": "2026-11-03",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-2026-midterms-congress-results-live-updates/4175504/",
+  "tag": "House",
+  "headline": "House stands 219-214 as Democrats need a net three seats",
+  "summary": "Democrats are targeting seats in Florida, Texas and Iowa, and Hakeem Jeffries has outlined a 100-day agenda on cost of living and oversight."
+ },
+ {
+  "nid": "n165",
+  "date": "2026-11-03",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
+  "tag": "Missouri",
+  "headline": "Missouri voters decide Amendment 3 and Prop A map",
+  "summary": "Gov. Mike Kehoe made a final stop for Amendment 3, which would ban most abortions, while opponents call it an attack on voters' will. Proposition A would adopt a map likely to elect seven Republicans instead of six."
+ },
+ {
   "nid": "n139",
   "date": "2026-11-03",
   "source": "Missouri Independent",
@@ -124,6 +232,15 @@
   "tag": "Senate",
   "headline": "North Carolina early vote runs 35.6% above 2022",
   "summary": "North Carolina polls are open 6:30 a.m. to 7:30 p.m. Early in-person turnout was 35.6% higher than in 2022 while absentee ballots fell 35%, and registered Democrats led turnout, followed by unaffiliated voters and Republicans."
+ },
+ {
+  "nid": "n163",
+  "date": "2026-11-02",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/how-watch-critical-2026-midterm-election-races-tx-oh-mi-wi-ga-ia-nv-me-fl",
+  "tag": "Governors",
+  "headline": "Ohio: Ramaswamy pulled ad over Acton's mother before Election Day",
+  "summary": "Republican Vivek Ramaswamy's campaign withdrew an ad featuring Democrat Amy Acton's estranged mother after criticism from fellow Republicans, including Gov. Mike DeWine."
  },
  {
   "nid": "n149",
@@ -421,122 +538,5 @@
   "tag": "National",
   "headline": "Judge limits DOJ pressure on California election officials",
   "summary": "U.S. District Judge Trina Thompson ordered the administration to stop pressuring election officials over ballots it says belong to ineligible voters, in effect until Nov. 16. The order followed DOJ letters to 57 of California's 58 counties."
- },
- {
-  "nid": "n96",
-  "date": "2026-10-30",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/news/california-justice-department-ballots-appeals-court/",
-  "tag": "National",
-  "headline": "Appeals court refuses to set aside 20,000 California ballots",
-  "summary": "The 9th Circuit ruled 2-1 against a Justice Department request that California set aside ballots tied to about 20,000 people it says may be noncitizens. The panel agreed there is no feasible way to identify those ballots without risking harm to the whole system."
- },
- {
-  "nid": "n138",
-  "date": "2026-10-29",
-  "source": "FOX 26 Houston",
-  "url": "https://www.fox26houston.com/news/talarico-holds-slim-lead-over-paxton-new-poll-election-day-approaches",
-  "tag": "Senate",
-  "headline": "Texas Southern poll: Talarico 49%, Paxton 47%",
-  "summary": "A survey of 2,000 likely voters taken Oct. 21-25 by Texas Southern University found Democrat James Talarico narrowly ahead of Republican Ken Paxton, with a margin of error of 2.19 points. Talarico also had higher favorability, 48% to 42%."
- },
- {
-  "nid": "n114",
-  "date": "2026-10-29",
-  "source": "FOX 11",
-  "url": "https://fox11online.com/news/nation-world/michigan-democrat-on-fiance-voting-for-republican-mike-rogers-were-a-household-divided-senate-nominee-abdul-el-sayed-jewish-ted-cruz-elissa-slotkin-rrt",
-  "tag": "Senate",
-  "headline": "Stevens' fiance to vote Rogers over El-Sayed remarks",
-  "summary": "Rep. Haley Stevens said her fiance and her former campaign chair plan to vote for Republican Mike Rogers, citing El-Sayed's rhetoric. Stevens told CNN she still wants El-Sayed to win."
- },
- {
-  "nid": "n113",
-  "date": "2026-10-29",
-  "source": "KCUR",
-  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-29/missouri-election-results-court-proposition-a-congressional-map-questions",
-  "tag": "Missouri",
-  "headline": "Missouri will use 2022 map; court fights possible after vote",
-  "summary": "Missouri's general election will use the 2022 congressional map, while voters decide Proposition A on the newer map. Some Republican candidates argue primary voters were disenfranchised, and a close race could bring new lawsuits."
- },
- {
-  "nid": "n82",
-  "date": "2026-10-29",
-  "source": "AP",
-  "url": "https://www.news4jax.com/news/politics/2026/10/29/alaskas-governor-orders-a-probe-into-peltolas-senate-campaign-over-spoiler-candidate-controversy/",
-  "tag": "Senate",
-  "headline": "Alaska governor orders probe of Peltola campaign",
-  "summary": "Gov. Mike Dunleavy ordered an investigation into whether Mary Peltola's Senate campaign helped recruit a second candidate named Dan Sullivan. Peltola called the reporting a distraction from the issues in the race."
- },
- {
-  "nid": "n81",
-  "date": "2026-10-29",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/maine-kansas-senate-races-neck-and-neck-democrats-lead-texas-michigan-poll-shows",
-  "tag": "Senate",
-  "headline": "CNN polls: Democrats ahead in Texas and Michigan, close in Maine and Kansas",
-  "summary": "New CNN polls of likely voters show Talarico leading Paxton 49%-43% in Texas and El-Sayed ahead of Rogers 49%-42% in Michigan. Jackson leads Collins 49%-45% in Maine and Hamilton leads Marshall 49%-45% in Kansas, both within the margin of error."
- },
- {
-  "nid": "n80",
-  "date": "2026-10-29",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/fox-news-power-rankings-south-carolina-moves-toss-up",
-  "tag": "Senate",
-  "headline": "Fox Power Rankings: South Carolina to toss-up, Ohio leans D",
-  "summary": "Fox News moved South Carolina's Senate race to toss-up and shifted the Ohio Senate and governor races to Lean Democrat. It also moved 19 House races toward Democrats and projects them winning at least 223 seats, with Senate control still unresolved."
- },
- {
-  "nid": "n102",
-  "date": "2026-10-28",
-  "source": "KSHB 41",
-  "url": "https://www.kshb.com/news/local-news/missouri/jackson-county/jackson-county-early-voting-draws-steady-crowds-as-missouri-amendments-redistricting-fuel-turnout",
-  "tag": "Missouri",
-  "headline": "Jackson County early voters turn out for amendments and Prop A",
-  "summary": "Steady lines formed at a Lee's Summit early-voting site as Missouri's statewide questions drive turnout. They include the amendment to repeal the 2024 abortion-rights vote and Proposition A on mid-decade redistricting."
- },
- {
-  "nid": "n98",
-  "date": "2026-10-28",
-  "source": "Jefferson City News Tribune",
-  "url": "https://www.newstribune.com/news/2026/oct/28/missouri-congressional-map-fight-reaches-voters/",
-  "tag": "Missouri",
-  "headline": "Prop A map vote won't affect this year's House races",
-  "summary": "Missouri voters decide Proposition A on the 2025 Republican-drawn congressional map, which would apply starting in 2028; the 2022 map is used this year. The opposition campaign has reported $5.4 million in large contributions while the organized GOP effort has gone quiet."
- },
- {
-  "nid": "n94",
-  "date": "2026-10-28",
-  "source": "Washington Examiner",
-  "url": "https://www.washingtonexaminer.com/live-blog-posts/over-35-million-mail-in-early-votes-cast-before-midterm-elections/",
-  "tag": "National",
-  "headline": "Over 35 million early votes counted before Election Day",
-  "summary": "About 35.4 million ballots had been cast by roughly Oct. 28, including 16.8 million by mail and 18.5 million in person. Citing NBC News data, Democrats made up 47% of counted votes and Republicans 35%."
- },
- {
-  "nid": "n88",
-  "date": "2026-10-28",
-  "source": "KCUR",
-  "url": "https://www.kcur.org/politics-elections-and-government/2026-10-28/missouri-proposition-a-opposition-redistricting-map-election-2026",
-  "tag": "Missouri",
-  "headline": "No organized campaign backs Prop A map",
-  "summary": "Prop A opponents have reported $5.4 million in large contributions since mid-September, while the main pro-map group says there is no organized effort to pass it. A yes vote keeps the 2025 congressional map for 2028 and later."
- },
- {
-  "nid": "n87",
-  "date": "2026-10-28",
-  "source": "KRCG 13",
-  "url": "https://krcgtv.com/news/local/missouri-pastors-take-opposing-sides-in-fight-over-abortion-amendment",
-  "tag": "Missouri",
-  "headline": "Missouri clergy split over Amendment 3",
-  "summary": "The state's Catholic bishops and the Missouri Baptist Convention back Amendment 3, which would repeal the 2024 abortion-rights amendment. About 90 clergy members signed a letter opposing it."
- },
- {
-  "nid": "n86",
-  "date": "2026-10-28",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/2026-elections-midtems-house-senate-trump/",
-  "tag": "Governors",
-  "headline": "Murkowski endorses Democrat for Alaska governor",
-  "summary": "Republican Sen. Lisa Murkowski endorsed Democrat Jonathan Kreiss-Tomkins in Alaska's race for governor."
  }
 ]
