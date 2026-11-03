@@ -1,5 +1,95 @@
 [
  {
+  "nid": "n166",
+  "date": "2026-11-03",
+  "source": "21 Alive (AP)",
+  "url": "https://www.21alivenews.com/2026/11/03/election-day-arrives-after-surge-early-voting-with-observers-keeping-close-watch-polls/",
+  "tag": "National",
+  "headline": "Broward voting delayed 20 minutes by a faulty safety feature",
+  "summary": "A malfunction in Broward County's new voting system held up opening-morning voting about 20 minutes and some voters left without casting ballots. Officials called most Election Day problems minor and quickly fixed."
+ },
+ {
+  "nid": "n167",
+  "date": "2026-11-03",
+  "source": "KBIA",
+  "url": "https://www.kbia.org/kbia-news/2026-11-03/analysis-most-missouri-counties-below-10-early-turnout",
+  "tag": "Missouri",
+  "headline": "Most Missouri counties had under 10% early turnout",
+  "summary": "A KBIA survey of county election offices found fewer than 20 counties reached 10% early turnout. Early voters clustered in the St. Louis and Kansas City areas, with far less in rural counties."
+ },
+ {
+  "nid": "n168",
+  "date": "2026-11-03",
+  "source": "First Alert 4",
+  "url": "https://www.firstalert4.com/2026/11/03/early-voting-ends-st-louis-county-with-nearly-27-turnout/",
+  "tag": "Missouri",
+  "headline": "St. Louis County early voting hits nearly 27%",
+  "summary": "More than 173,000 St. Louis County voters cast early ballots, versus about 56,000 in the 2022 midterms. Election Director Eric Fey said the statewide amendments are the main turnout driver."
+ },
+ {
+  "nid": "n169",
+  "date": "2026-11-03",
+  "source": "WRAL",
+  "url": "https://www.wral.com/news/nccapitol/nc-voting-election-polls-races-ballot-north-carolina-midterm-updates-results-november-2026/",
+  "tag": "Senate",
+  "headline": "North Carolina voter guide: Cooper-Whatley and three amendments",
+  "summary": "North Carolina polls ran 6:30 a.m. to 7:30 p.m., with Roy Cooper favored over Michael Whatley for Senate. Voters also decide three constitutional amendments and a rematch in the 1st House District."
+ },
+ {
+  "nid": "n170",
+  "date": "2026-11-03",
+  "source": "The National",
+  "url": "https://www.thenationalnews.com/news/us/2026/11/03/us-midterm-elections-trump-iran/",
+  "tag": "National",
+  "headline": "Midterms open with high prices tied to the Iran war",
+  "summary": "Gas and food costs remain elevated amid the Iran conflict as voters treat the midterms as a referendum on Trump. The report also notes the Justice Department's Alaska suit and the push over California ballots."
+ },
+ {
+  "nid": "n171",
+  "date": "2026-11-03",
+  "source": "MultiState",
+  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
+  "tag": "National",
+  "headline": "State legislatures: which chambers could flip tonight",
+  "summary": "Democrats are targeting chambers including the Michigan and Minnesota houses and Wisconsin's legislature under new court-ordered maps. The analysis counts 28 Republican, 18 Democratic and 4 split chambers entering the night."
+ },
+ {
+  "nid": "n172",
+  "date": "2026-11-03",
+  "source": "MultiState",
+  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
+  "tag": "Governors",
+  "headline": "Governors: 11 of 36 races rated highly competitive",
+  "summary": "MultiState flags Ohio as a possible flip, Nevada as the most vulnerable incumbent, and a four-way ranked-choice race in Alaska. Texas is treated as a long shot for Democrats."
+ },
+ {
+  "nid": "n173",
+  "date": "2026-11-03",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/everything-know-house-senate-control-ballot-measures-2026-election-day-poll-closing",
+  "tag": "National",
+  "headline": "145 statewide ballot measures, from voter ID to abortion",
+  "summary": "Eleven states vote on voter ID or noncitizen-voting measures, and Missouri, Idaho, Virginia and Nevada have abortion questions. Maryland, Missouri and Colorado have redistricting measures, and Alaska weighs repealing ranked-choice voting."
+ },
+ {
+  "nid": "n174",
+  "date": "2026-11-03",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-2026-midterms-congress-results-live-updates/4175504/",
+  "tag": "National",
+  "headline": "Trump approval at 35% as Jeffries sets 100-day agenda",
+  "summary": "An AP-NORC poll has Trump at 35% approval and 25% on the economy, with about 7 in 10 saying the country is on the wrong track. Hakeem Jeffries has outlined a cost-of-living and oversight agenda if Democrats win the House."
+ },
+ {
+  "nid": "n175",
+  "date": "2026-11-03",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/battle-congress-just-beginning-heres-whats-stake-election-day",
+  "tag": "House",
+  "headline": "Kentucky's 6th District is the first House bellwether",
+  "summary": "The district, which Trump won by 15 points in 2024, closes early and is rated close. Fox's rankings put Democrats as high as 240 seats and Republicans as high as 212."
+ },
+ {
   "nid": "n153",
   "date": "2026-11-03",
   "source": "CBS News",
@@ -448,95 +538,5 @@
   "tag": "National",
   "headline": "Early vote passes 53 million, far above 2022",
   "summary": "A University of Florida analysis counts about 53 million early ballots, versus roughly 46 million in all of 2022's early voting. More than 11 million were cast by registered Democrats and about 8 million by Republicans, though early turnout does not show candidate choice."
- },
- {
-  "nid": "n127",
-  "date": "2026-10-31",
-  "source": "Latin Times",
-  "url": "https://www.latintimes.com/florida-election-day-2026-polling-hours-id-rules-600739",
-  "tag": "National",
-  "headline": "Florida Election Day: 7 a.m.–7 p.m., photo ID with signature",
-  "summary": "Voters must use their assigned precinct, and anyone in line at 7 p.m. can vote. Panhandle counties on Central Time close at 8 p.m. Eastern, and provisional ballots can be cured until 5 p.m. Nov. 5."
- },
- {
-  "nid": "n109",
-  "date": "2026-10-31",
-  "source": "Texas Tribune",
-  "url": "https://www.texastribune.org/2026/10/31/texas-early-voting-turnout-rate-election-2026/",
-  "tag": "National",
-  "headline": "Texas early vote tops 7.7 million, a midterm record",
-  "summary": "Preliminary data show over 7.7 million Texans voted early, about 40.5% of registered voters and above the 2018 record. A Rice University analyst said turnout is high but will not reach presidential levels."
- },
- {
-  "nid": "n101",
-  "date": "2026-10-31",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/3-days-to-go-candidates-fan-out-across-battlegrounds-as-midterms-hit-final-weekend-october-31",
-  "tag": "National",
-  "headline": "Ohio early vote tops 2022 record as candidates fan out",
-  "summary": "By Saturday morning about 1.49 million Ohioans had voted early, passing the 2022 midterm total, according to AP figures cited by Fox. Trump held tele-rallies Saturday and planned in-person events in Iowa and Kansas on Sunday."
- },
- {
-  "nid": "n95",
-  "date": "2026-10-31",
-  "source": "Al Jazeera",
-  "url": "https://www.aljazeera.com/news/2026/10/31/us-midterms-3-days-to-go-what-latest-polls-say-as-early-voting-surges",
-  "tag": "National",
-  "headline": "Early vote tops 43 million as Democrats lead generic polls",
-  "summary": "An AP analysis cited by Al Jazeera finds over 43 million ballots cast early, about 10 million more than at this point in 2022. RealClearPolling's national average has Democrats ahead by about 8 points."
- },
- {
-  "nid": "n137",
-  "date": "2026-10-30",
-  "source": "La Nación (AP)",
-  "url": "https://www.lanacion.com.ar/usa/ap-decision-notes-what-to-expect-in-arizona-on-election-day-nid30102026/",
-  "tag": "Governors",
-  "headline": "AP: what to expect in Arizona on Election Day",
-  "summary": "Gov. Katie Hobbs faces Trump-endorsed Rep. Andy Biggs, and open House seats in the 1st and 6th districts are in play. Polls close at 9 p.m. ET, no results come before 10 p.m. ET, and recounts are automatic at a margin of 0.5% or less."
- },
- {
-  "nid": "n136",
-  "date": "2026-10-30",
-  "source": "Atlanta News First",
-  "url": "https://www.atlantanewsfirst.com/2026/10/30/georgia-early-voting-ends-friday-after-record-turnout-star-studded-closing-push/",
-  "tag": "Senate",
-  "headline": "Georgia early voting ends with record midterm turnout",
-  "summary": "Nearly 2.3 million early votes were in by Oct. 29, topping the 2022 midterm record for early in-person voting. Trump, Vance, Obama and Harris all made closing appearances in the state."
- },
- {
-  "nid": "n112",
-  "date": "2026-10-30",
-  "source": "Texas Public Radio",
-  "url": "https://www.tpr.org/government-politics/2026-10-30/ken-paxtons-planned-alamo-campaign-stop-raises-questions-about-political-activity-at-historic-site",
-  "tag": "Senate",
-  "headline": "Paxton drops planned Alamo stop that rules would bar",
-  "summary": "Paxton canceled a Nov. 2 bus-tour finale at the Alamo, where political events are not permitted on the grounds. He also canceled stops in Texarkana, El Paso and Tyler, and has not explained the Alamo change."
- },
- {
-  "nid": "n111",
-  "date": "2026-10-30",
-  "source": "Newsweek",
-  "url": "https://www.newsweek.com/talarico-says-paxton-canceling-rallies-no-one-coming-what-photos-show-12640006",
-  "tag": "Senate",
-  "headline": "Talarico says Paxton is canceling rallies; camp cites logistics",
-  "summary": "Democrat James Talarico claimed Ken Paxton is canceling events because few attend, while Paxton's team blamed scheduling for postponing an El Paso rally. Five of six recent polls show Talarico narrowly ahead and Fox has it tied at 49."
- },
- {
-  "nid": "n110",
-  "date": "2026-10-30",
-  "source": "Newsweek",
-  "url": "https://www.newsweek.com/forecast-shifts-14-races-towards-democrats-in-final-days-before-midterms-12640820",
-  "tag": "National",
-  "headline": "Cook moves 14 more races toward Democrats",
-  "summary": "Cook Political Report shifted two Senate (Florida, Nebraska) and 12 House races, after four governor shifts a day earlier. Cook projects Democrats netting 2 to 6 Senate seats and flipping 12 to 25 House seats."
- },
- {
-  "nid": "n97",
-  "date": "2026-10-30",
-  "source": "MEAWW",
-  "url": "https://news.meaww.com/interfering-with-election-administration-judge-limits-doj-dhs-pressure-on-election-officials",
-  "tag": "National",
-  "headline": "Judge limits DOJ pressure on California election officials",
-  "summary": "U.S. District Judge Trina Thompson ordered the administration to stop pressuring election officials over ballots it says belong to ineligible voters, in effect until Nov. 16. The order followed DOJ letters to 57 of California's 58 counties."
  }
 ]
