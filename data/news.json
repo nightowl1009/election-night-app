@@ -1,5 +1,158 @@
 [
  {
+  "nid": "n188",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/dems-seize-senate-blue-tidal-wave-crashes-deep-trump-country-topples-gop-strongholds",
+  "tag": "Senate",
+  "headline": "Democrats take the Senate as GOP turns on its own",
+  "summary": "Democrats ended the Republicans' 53-seat majority, with Ossoff holding Georgia and Talarico beating Paxton in Texas. Republicans began blaming Trump and NRSC chair Tim Scott, and Schumer's leadership came into question."
+ },
+ {
+  "nid": "n189",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/media/conservatives-stunned-catastrophic-midterm-blue-tsunami-blame-trumps-iran-war-high-gas-prices",
+  "tag": "National",
+  "headline": "Conservative voices blame Iran war and gas prices for wipeout",
+  "summary": "Right-leaning commentators called the night catastrophic for Republicans and pointed to the Iran war, fuel costs and weak candidates. Trump said he would work with the new Congress while keeping his veto ready."
+ },
+ {
+  "nid": "n190",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/lawyer-up-democrats-republicans-waste-no-time-setting-social-media-ablaze-after-midterm-sweep",
+  "tag": "National",
+  "headline": "Massie and Greene say broken promises cost Republicans",
+  "summary": "Rep. Thomas Massie and former Rep. Marjorie Taylor Greene said Republicans paid for unkept promises on foreign conflicts and transparency. Commentator Matt Walsh called for new party leadership."
+ },
+ {
+  "nid": "n191",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/state-of-play-blue-wave-sweeps-democrats-into-power-key-races-still-hanging-balance",
+  "tag": "Senate",
+  "headline": "Mississippi and Alaska Senate races still undecided",
+  "summary": "Cindy Hyde-Smith and Scott Colom looked deadlocked in Mississippi, while Dan Sullivan held a slight edge over Mary Peltola in Alaska with votes still being counted. Democrats had already clinched the Senate majority."
+ },
+ {
+  "nid": "n192",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "Senate",
+  "headline": "Democrats flip seven GOP Senate seats",
+  "summary": "CBS projected Democratic control, with flips in Texas, Kansas, Ohio, Iowa, North Carolina, South Carolina and Maine. Democrats held Michigan, Georgia, Minnesota, New Hampshire and Virginia."
+ },
+ {
+  "nid": "n193",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "House",
+  "headline": "Pulido, Fitzpatrick loss and Iowa sweep headline House flips",
+  "summary": "Democrats won Texas's 15th, ousted Rep. Brian Fitzpatrick in Pennsylvania's 1st and took three of four Iowa seats. About 75 races were still undecided early Wednesday."
+ },
+ {
+  "nid": "n194",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "National",
+  "headline": "North Carolina extends voting at five precincts",
+  "summary": "The State Board of Elections added hours at precincts in Columbus, Hertford, Lenoir and Wilson counties after disruptions. Statewide results were delayed about 45 minutes."
+ },
+ {
+  "nid": "n195",
+  "date": "2026-11-04",
+  "source": "Al Jazeera",
+  "url": "https://www.aljazeera.com/news/2026/11/4/democrats-win-control-of-house-and-senate-key-us-midterms-takeaways",
+  "tag": "National",
+  "headline": "Democrats win both chambers; Trump loses Congress",
+  "summary": "Democrats had won 228 House seats and 54 Senate seats by the AP's count, flipping seats in Texas, South Carolina, Iowa, Michigan and Kansas. The article calls it the first time since 2006 that a Republican president lost both chambers."
+ },
+ {
+  "nid": "n196",
+  "date": "2026-11-04",
+  "source": "Al Jazeera",
+  "url": "https://www.aljazeera.com/news/2026/11/4/democrats-win-control-of-house-and-senate-key-us-midterms-takeaways",
+  "tag": "Governors",
+  "headline": "Democrats climb to 28 governorships",
+  "summary": "Democrats rose from 23 to 28 governors and Republicans fell from 27 to 20, with two races uncalled. Winners included Keisha Lance Bottoms in Georgia, Deb Haaland in New Mexico and Xavier Becerra in California."
+ },
+ {
+  "nid": "n197",
+  "date": "2026-11-04",
+  "source": "Newsweek",
+  "url": "https://www.newsweek.com/what-the-midterm-election-results-mean-for-the-future-of-democrats-12652831",
+  "tag": "National",
+  "headline": "GOP mid-decade redistricting push fell short",
+  "summary": "Republicans' effort to flip 15 seats through new maps came up short, and Democrats gained at least four seats through new maps in California and Utah. Latino voters swung sharply toward Democrats, according to NBC exit polling."
+ },
+ {
+  "nid": "n198",
+  "date": "2026-11-04",
+  "source": "Newsweek",
+  "url": "https://www.newsweek.com/what-the-midterm-election-results-mean-for-the-future-of-democrats-12652831",
+  "tag": "House",
+  "headline": "Jeffries outlines affordability agenda and oversight",
+  "summary": "Hakeem Jeffries, poised to become speaker, plans to restore ACA tax credits and reverse Medicaid cuts. Democrats also plan investigations of the administration, and he says impeachment is neither on nor off the table."
+ },
+ {
+  "nid": "n199",
+  "date": "2026-11-04",
+  "source": "ABC7 New York",
+  "url": "https://abc7ny.com/live-updates/election-day-2026-what-voters-need-know-ny-nj-ct/20008999/",
+  "tag": "House",
+  "headline": "Lawler concedes NY-17 to Cait Conley",
+  "summary": "Republican Rep. Mike Lawler conceded, flipping the Hudson Valley seat to Democrats. ABC News projects Democrats will control the House, with Jeffries in line to be the first Black speaker."
+ },
+ {
+  "nid": "n200",
+  "date": "2026-11-04",
+  "source": "ABC7 New York",
+  "url": "https://abc7ny.com/live-updates/election-day-2026-what-voters-need-know-ny-nj-ct/20008999/",
+  "tag": "Governors",
+  "headline": "Hochul and Lamont win; Booker holds NJ Senate seat",
+  "summary": "ABC News projected Kathy Hochul over Bruce Blakeman in New York and Ned Lamont to a third term in Connecticut. Cory Booker was also called as the winner in New Jersey."
+ },
+ {
+  "nid": "n201",
+  "date": "2026-11-04",
+  "source": "KCUR",
+  "url": "https://www.kcur.org/politics-elections-and-government/2026-11-03/missouri-proposition-a-election-results-redistricting",
+  "tag": "Missouri",
+  "headline": "Missouri voters reject congressional map 62% to 38%",
+  "summary": "The AP called Proposition A for the no side, so the 2025 map will not take effect in 2028. The map would have split Kansas City into three districts and targeted Rep. Emanuel Cleaver."
+ },
+ {
+  "nid": "n202",
+  "date": "2026-11-04",
+  "source": "St. Louis Public Radio",
+  "url": "https://www.stlpr.org/government-politics-issues/2026-11-03/missouri-voters-reject-proposition-a-congressional-redistricting-map",
+  "tag": "Missouri",
+  "headline": "Amendment 6 complicates any new Missouri redraw",
+  "summary": "Voters also approved Amendment 6, which bars lawmakers from passing laws that override referendum results. Some Republicans say a Missouri Supreme Court ruling lets them redraw again, but opponents could force another vote."
+ },
+ {
+  "nid": "n203",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
+  "tag": "Missouri",
+  "headline": "Jefferson City passes public safety sales tax",
+  "summary": "Voters approved the increase 8,020 to 6,382, raising the city rate from 7.85% to 8.1% on April 1, 2027. In Cole County, Republican Mike Bernskotter led Democrat Chuck Steck for presiding commissioner."
+ },
+ {
+  "nid": "n204",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
+  "tag": "Missouri",
+  "headline": "Stigall, Alford win mid-Missouri House seats; turnout tops 50% in Boone, Cole",
+  "summary": "Republicans Chris Stigall in the 6th District and Mark Alford in the 4th were elected. Boone County turnout passed 52% and Cole County reached 52.5% by Tuesday night."
+ },
+ {
   "nid": "n176",
   "date": "2026-11-03",
   "source": "Yahoo News",
@@ -385,158 +538,5 @@
   "tag": "House",
   "headline": "CBS picks 47 battleground districts to decide the House",
   "summary": "Republicans hold a razor-thin majority, and CBS's Battleground Tracker projects Democrats winning 229 seats. The 47 competitive districts are expected to settle control."
- },
- {
-  "nid": "n148",
-  "date": "2026-11-03",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "Governors",
-  "headline": "Texas Democrats court Hispanic voters; Abbott race may tighten",
-  "summary": "Democrats hope to win back Hispanic voters who moved toward Trump in 2024. Gov. Greg Abbott's reelection bid against Gina Hinojosa could also be competitive."
- },
- {
-  "nid": "n150",
-  "date": "2026-11-03",
-  "source": "The Irish Times",
-  "url": "https://www.irishtimes.com/world/us/2026/11/03/us-midterm-elections-voting-begins-with-trumps-republicans-behind-in-key-polls/",
-  "tag": "National",
-  "headline": "Reuters/Ipsos: 48% call their vote a vote against Trump",
-  "summary": "Cost of living was the top issue for 48% of registered voters, ahead of democratic norms at 26%. Another 25% said their vote was for Trump, and 55% said military action against Iran was not worth the cost."
- },
- {
-  "nid": "n151",
-  "date": "2026-11-03",
-  "source": "The Irish Times",
-  "url": "https://www.irishtimes.com/world/us/2026/11/03/us-midterm-elections-voting-begins-with-trumps-republicans-behind-in-key-polls/",
-  "tag": "National",
-  "headline": "Markets give Democrats 95% for House, 76% for Senate",
-  "summary": "Kalshi and Polymarket had about $1.48 billion wagered on the midterms. Aggregated Monday prices implied a 95% chance of a Democratic House and 76% for the Senate."
- },
- {
-  "nid": "n152",
-  "date": "2026-11-03",
-  "source": "The Irish Times",
-  "url": "https://www.irishtimes.com/world/us/2026/11/03/us-midterm-elections-voting-begins-with-trumps-republicans-behind-in-key-polls/",
-  "tag": "National",
-  "headline": "DOJ deploys 1,000 monitors; six more charged in California",
-  "summary": "The Justice Department is sending about 1,000 election monitors to all 50 states, which critics call federal overreach. It also charged six more people in California with alleged voter fraud."
- },
- {
-  "nid": "n129",
-  "date": "2026-11-03",
-  "source": "ABC11 Raleigh-Durham",
-  "url": "https://abc11.com/live-updates/nc-midterm-elections-2026-hot-us-senate-house-races-road-balance-power-runs-north-carolina/20009167/",
-  "tag": "Senate",
-  "headline": "North Carolina early vote runs 35.6% above 2022",
-  "summary": "North Carolina polls are open 6:30 a.m. to 7:30 p.m. Early in-person turnout was 35.6% higher than in 2022 while absentee ballots fell 35%, and registered Democrats led turnout, followed by unaffiliated voters and Republicans."
- },
- {
-  "nid": "n163",
-  "date": "2026-11-02",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/how-watch-critical-2026-midterm-election-races-tx-oh-mi-wi-ga-ia-nv-me-fl",
-  "tag": "Governors",
-  "headline": "Ohio: Ramaswamy pulled ad over Acton's mother before Election Day",
-  "summary": "Republican Vivek Ramaswamy's campaign withdrew an ad featuring Democrat Amy Acton's estranged mother after criticism from fellow Republicans, including Gov. Mike DeWine."
- },
- {
-  "nid": "n149",
-  "date": "2026-11-02",
-  "source": "Texas Tribune",
-  "url": "https://www.texastribune.org/2026/11/02/texas-paxton-talarico-senate-key-factors-2026-election-night/",
-  "tag": "Senate",
-  "headline": "Five things to watch in Paxton-Talarico Senate race",
-  "summary": "Polls show the race within the margin of error, with Libertarian Ted Brown at 1% to 3% and possibly keeping the winner under 50%. Key tests are Hispanic voters in South Texas, Tarrant, Collin and Denton counties, Harris County turnout and rural GOP margins."
- },
- {
-  "nid": "n135",
-  "date": "2026-11-02",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/2026-elections-monday-november-2/",
-  "tag": "Senate",
-  "headline": "Justice Department appeals dismissal of Alaska certification suit",
-  "summary": "After a federal judge in Alaska dismissed the administration's suit aimed at blocking Senate certification if Sen. Dan Sullivan loses, the Justice Department filed a notice of appeal. CBS also reports more than 54 million early votes cast nationally."
- },
- {
-  "nid": "n134",
-  "date": "2026-11-02",
-  "source": "MyNewsLA",
-  "url": "https://mynewsla.com/crime/2026/11/02/supreme-court-rejects-doj-request-to-separate-california-ballots-2/",
-  "tag": "National",
-  "headline": "Supreme Court refuses to make California set aside 20,000 ballots",
-  "summary": "The justices rejected the Justice Department's last-minute request to stop California from counting more than 20,000 mail ballots from suspected non-citizens. A lower-court hearing is set for Nov. 13 and certification is due Dec. 3."
- },
- {
-  "nid": "n133",
-  "date": "2026-11-02",
-  "source": "WJLA",
-  "url": "https://wjla.com/news/local/maryland-2026-election-guide-what-to-know-before-voting-on-nov-3",
-  "tag": "Governors",
-  "headline": "Maryland guide: Moore faces Cox as polls open 7 a.m.-8 p.m.",
-  "summary": "Gov. Wes Moore and Lt. Gov. Aruna Miller face Republicans Dan Cox and Rob Krop. All eight U.S. House seats and all 47 state Senate and 141 House of Delegates seats are also on the ballot, and same-day registration is available."
- },
- {
-  "nid": "n132",
-  "date": "2026-11-02",
-  "source": "KCTV5",
-  "url": "https://kctv5.com/2026/11/02/final-day-early-voting-monday-across-kansas-city-metro-locations-hours",
-  "tag": "Missouri",
-  "headline": "Final day of early voting across Kansas City metro",
-  "summary": "Missouri early voting sites in the Kansas City area closed at 5 p.m. Monday, and Kansas sites in Johnson and Wyandotte counties closed at noon. Anyone who missed the window must vote at an assigned precinct Tuesday, when Missouri polls close at 7 p.m."
- },
- {
-  "nid": "n131",
-  "date": "2026-11-02",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/november-2026-election-cooper-howard-county-voters-guide/article_f3e6df81-d659-49e0-8c3d-9e67fa4a9ad5.html",
-  "tag": "Missouri",
-  "headline": "What's on the Cooper and Howard County ballot",
-  "summary": "Voters in the area see the 3rd District race (Onder, Mann, Higgins), the 4th District race (Alford, Herrera, Holbrook), a state auditor contest, Missouri House seats 48 and 58, judicial retention votes, and Prop A plus Amendments 3, 6, 7 and 8."
- },
- {
-  "nid": "n130",
-  "date": "2026-11-02",
-  "source": "KY3",
-  "url": "https://www.ky3.com/2026/11/02/missouri-secretary-state-projects-55-voter-turnout-midterm-general-election/",
-  "tag": "Missouri",
-  "headline": "Missouri's secretary of state projects 55% turnout",
-  "summary": "Secretary of State Denny Hoskins expects about 55% of registered voters to cast ballots, up from roughly 48% in 2022, with Amendments 3, 6, 7 and 8 and Prop A expected to boost turnout. Polls are open 6 a.m. to 7 p.m., and a regular ballot requires an unexpired photo ID."
- },
- {
-  "nid": "n125",
-  "date": "2026-11-02",
-  "source": "Latin Times",
-  "url": "https://www.latintimes.com/iowa-senate-race-turek-hinson-election-day-600791",
-  "tag": "Senate",
-  "headline": "Iowa Senate finishes as a coin flip between Turek and Hinson",
-  "summary": "The final-week polling average is Josh Turek 46.0% to Ashley Hinson 45.6%, inside the margin of error. Trump campaigned for Hinson in Sioux City on Nov. 1, while Turek ended his statewide tour in his hometown of Council Bluffs."
- },
- {
-  "nid": "n124",
-  "date": "2026-11-02",
-  "source": "Washington Examiner",
-  "url": "https://www.washingtonexaminer.com/live-blog-posts/michigan-senate-race-draws-presidential-level-star-power-in-final-stretch/",
-  "tag": "Senate",
-  "headline": "Michigan Senate race gets presidential-level star power at the finish",
-  "summary": "Obama and Sanders campaigned for Abdul El-Sayed while Trump rallied for Mike Rogers, and the RealClearPolitics average has El-Sayed ahead by more than five points. The live blog also reports a Springsteen endorsement of El-Sayed and a $2.4 million fundraising day on Nov. 1."
- },
- {
-  "nid": "n123",
-  "date": "2026-11-02",
-  "source": "WBAY",
-  "url": "https://www.wbay.com/2026/11/02/wisconsin-governor-candidates-make-final-push-before-election-day/",
-  "tag": "Governors",
-  "headline": "Wisconsin governor candidates pack 11 events into the last day",
-  "summary": "Democrat David Crowley rallied in southeast Wisconsin with Kentucky Gov. Andy Beshear, while Republican Tom Tiffany campaigned with Sen. Ron Johnson and former Gov. Tommy Thompson over the weekend. Both say turnout will decide it; polls close at 8 p.m."
- },
- {
-  "nid": "n122",
-  "date": "2026-11-02",
-  "source": "KCUR",
-  "url": "https://www.kcur.org/politics-elections-and-government/2026-11-02/missouri-kansas-midterm-election-november-3-voter-guide",
-  "tag": "Governors",
-  "headline": "Kansas picks a successor to Gov. Laura Kelly",
-  "summary": "Republican Ty Masterson faces Democrat Cindy Holscher for governor, alongside the Marshall\u2013Hamilton Senate race. Kansas voters also decide a constitutional amendment on whether only U.S. citizens may vote."
  }
 ]
