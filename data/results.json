@@ -14,15 +14,15 @@
  },
  {
   "race": "SEN-OH",
-  "status": "Not yet reporting",
+  "status": "Counting",
   "winner": "",
   "winner_party": "",
-  "d_pct": null,
-  "r_pct": null,
-  "reporting": 0,
+  "d_pct": 61,
+  "r_pct": 35,
+  "reporting": 26,
   "called_at": "",
-  "d_votes": null,
-  "r_votes": null,
+  "d_votes": 770613,
+  "r_votes": 445847,
   "total_votes": null
  },
  {
