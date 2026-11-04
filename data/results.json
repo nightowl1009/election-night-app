@@ -1,13 +1,13 @@
 [
  {
   "race": "SEN-NC",
-  "status": "Not yet reporting",
-  "winner": "",
-  "winner_party": "",
+  "status": "Called",
+  "winner": "Roy Cooper",
+  "winner_party": "D",
   "d_pct": null,
   "r_pct": null,
   "reporting": 0,
-  "called_at": "",
+  "called_at": "2026-11-04T01:28:00Z",
   "d_votes": null,
   "r_votes": null,
   "total_votes": null
@@ -118,13 +118,13 @@
  },
  {
   "race": "SEN-NH",
-  "status": "Not yet reporting",
-  "winner": "",
-  "winner_party": "",
+  "status": "Called",
+  "winner": "Chris Pappas",
+  "winner_party": "D",
   "d_pct": null,
   "r_pct": null,
   "reporting": 0,
-  "called_at": "",
+  "called_at": "2026-11-04T01:18:00Z",
   "d_votes": null,
   "r_votes": null,
   "total_votes": null
