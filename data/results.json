@@ -521,16 +521,16 @@
  },
  {
   "race": "MO-AUD",
-  "status": "Not yet reporting",
+  "status": "Counting",
   "winner": "",
   "winner_party": "",
-  "d_pct": null,
-  "r_pct": null,
-  "reporting": 0,
+  "d_pct": 67.58,
+  "r_pct": 30.98,
+  "reporting": 0.1,
   "called_at": "",
-  "d_votes": null,
-  "r_votes": null,
-  "total_votes": null
+  "d_votes": 18666,
+  "r_votes": 8557,
+  "total_votes": 27619
  },
  {
   "race": "HOU-NC-01",
