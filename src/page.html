@@ -1907,7 +1907,10 @@ dash.calc('senate_base', {
       if (isCalled) { called++; if (r.held === 'R' && side === 'D') fromR++; if (r.held === 'D' && side === 'R') fromD++; }
       return { id: r.id, held: r.held, side, flip: side !== r.held, called: isCalled, r, c };
     });
-    return { d: now('senate_d_now') + fromR - fromD, r: now('senate_r_now') - fromR + fromD, fromR, fromD, called, total: sen.length, seats };
+    // seats outside the tracked list that have a results row (SC, MN, IL, MS): a called winner moves the seat
+    let uD = 0, uR = 0;
+    Object.keys(UNLISTED_SEN).forEach(st => { if (sen.some(r => r.id === st)) return; const c = ctx.res.get('SEN-' + st); if (!c || !c.winner_party) return; called++; const hold = UNLISTED_SEN[st][0], to = c.winner_party === 'R' ? 'R' : 'D'; if (hold === 'R' && to === 'D') uR++; if (hold === 'D' && to === 'R') uD++; });
+    return { d: now('senate_d_now') + fromR - fromD + uR - uD, r: now('senate_r_now') - fromR + fromD - uR + uD, fromR: fromR + uR, fromD: fromD + uD, called, total: sen.length, seats };
   }
   function houseCounts() {
     const ov = okRows('overview'), hs = okRows('house'); if (!ov || !hs) return null;
@@ -1955,7 +1958,13 @@ dash.calc('senate_base', {
       if (B) {
         const sub = (x) => [x.called ? x.called + ' called' : 'Solid + Likely seats only', x.open ? x.open + ' still open' : 'every battleground called'];
         row('Senate', 'senate', B.s.d, B.s.r, 0, 0, B.s.open, 100, 51, sub(B.s));
-        row('House', 'house', B.h.d, B.h.r, 0, 0, B.h.open, 435, 218, sub(B.h));
+        // Once the AP's nationwide tally is on file (overview rows ap_*), the House bar and a Governor bar use it, because the app only lists ~50 House battlegrounds
+        const ovn = (k) => { const o = ov.find(x => x.key === k); return o ? Number(o.value) : NaN; };
+        const apT = Date.parse((ov.find(x => x.key === 'ap_tally_at') || {}).value), apOn = apT && nowT >= apT && ovn('ap_house_d') >= 0;
+        const apLbl = apOn ? 'AP count, ' + new Intl.DateTimeFormat('en-US', { weekday: 'short', hour: 'numeric', timeZone: 'America/Chicago' }).format(new Date(apT)) + ' CT' : '';
+        if (apOn) row('House', 'house', ovn('ap_house_d'), ovn('ap_house_r'), 0, 0, ovn('ap_house_open'), 435, 218, [apLbl, ovn('ap_house_open') + ' still open', ovn('ap_house_d') >= 218 ? 'Majority clinched' : '']);
+        else row('House', 'house', B.h.d, B.h.r, 0, 0, B.h.open, 435, 218, sub(B.h));
+        if (apOn && ovn('ap_gov_d') >= 0) row('Governors', 'governors', ovn('ap_gov_d'), ovn('ap_gov_r'), 0, 0, ovn('ap_gov_open'), 50, 26, [apLbl, ovn('ap_gov_open') + ' still open', ovn('ap_gov_d') >= 26 ? 'Majority of governorships' : '']);
         box.append(el('div', 'sb-note', 'Blue = Dem + Ind · Red = GOP · Gray = still open · Solid and Likely seats counted from the start'));
         return;
       }
@@ -1983,6 +1992,9 @@ dash.calc('senate_base', {
     sen.forEach(r => { if (r.held === 'R') s.r--; else s.d--; });
     const place = (t, r, key) => { const c = ctx.res.get(key), sd = sideOf(r, c); if (c && c.winner_party) t.called++; if (sd === 'D') t.d++; else if (sd === 'R') t.r++; else t.open++; };
     sen.forEach(r => place(s, r, 'SEN-' + r.id)); hs.forEach(r => place(h, r, 'HOU-' + r.id));
+    // seats outside the tracked list: a called winner moves the seat; a counting race leaves it open; otherwise it stays with its holder
+    Object.keys(UNLISTED_SEN).forEach(st => { if (sen.some(r => r.id === st)) return; const c = ctx.res.get('SEN-' + st); if (!c) return; const hold = UNLISTED_SEN[st][0] === 'R' ? 'r' : 'd';
+      if (c.winner_party) { const to = c.winner_party === 'R' ? 'r' : 'd'; s.called++; if (to !== hold) { s[hold]--; s[to]++; } } else if (/count/i.test(c.status)) { s[hold]--; s.open++; } });
     return { s, h };
   }
   // The line under each chamber's filter chips: the seats this page doesn't list, and how they are counted
@@ -2780,9 +2792,11 @@ dash.calc('senate_base', {
 
 
   // ---------- shared: race names and chamber math ----------
+  // Senate seats outside the 11 tracked battlegrounds that still get a results row: [party holding it, state name]
+  const UNLISTED_SEN = { SC: ['R', 'South Carolina'], MS: ['R', 'Mississippi'], MN: ['D', 'Minnesota'], IL: ['D', 'Illinois'] };
   function raceLabel(key) {
     const id = key.replace(/^(SEN|GOV|HOU|MO)-/, '');
-    if (key.startsWith('SEN-')) { const r = (okRows('senate') || []).find(x => x.id === id); return (r ? r.state : id) + ' Senate'; }
+    if (key.startsWith('SEN-')) { const r = (okRows('senate') || []).find(x => x.id === id); return (r ? r.state : (UNLISTED_SEN[id] ? UNLISTED_SEN[id][1] : id)) + ' Senate'; }
     if (key.startsWith('GOV-')) { const r = (okRows('governor') || []).find(x => x.id === id); return (r ? r.state : id) + ' governor'; }
     if (key.startsWith('HOU-')) return id + ' (House)';
     const lt = localTitle(key); if (lt) return lt.replace(/\?$/, '');
@@ -2804,6 +2818,7 @@ dash.calc('senate_base', {
     const sen = okRows('senate') || [], hs = okRows('house') || [];
     let sD = val('senate_d_now'), sR = val('senate_r_now'), uD = 0, uR = 0;
     sen.forEach(r => { const c = calls.get('SEN-' + r.id); if (c) { const to = c.winner_party === 'R' ? 'R' : 'D'; if (to !== r.held) { if (to === 'D') { sD++; sR--; } else { sR++; sD--; } } } else if (r.held === 'R') uR++; else uD++; });
+    Object.keys(UNLISTED_SEN).forEach(st => { if (sen.some(r => r.id === st)) return; const c = calls.get('SEN-' + st); if (c && c.winner_party) { const hold = UNLISTED_SEN[st][0], to = c.winner_party === 'R' ? 'R' : 'D'; if (to !== hold) { if (to === 'D') { sD++; sR--; } else { sR++; sD--; } } } });
     let hD = val('house_d_now'), hR = val('house_r_now'), hD0 = 0, hR0 = 0;
     hs.forEach(r => { const vac = /^vacant/i.test(r.incumbent || ''), c = calls.get('HOU-' + r.id);
       if (c) { const to = c.winner_party === 'R' ? 'R' : 'D', from = vac ? 'V' : r.held; if (to !== from) { if (to === 'D') hD++; else hR++; if (from === 'D') hD--; else if (from === 'R') hR--; } }
