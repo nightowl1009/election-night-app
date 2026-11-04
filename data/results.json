@@ -105,13 +105,13 @@
  },
  {
   "race": "SEN-MI",
-  "status": "Counting",
-  "winner": "",
-  "winner_party": "",
+  "status": "Called",
+  "winner": "Abdul El-Sayed",
+  "winner_party": "D",
   "d_pct": 54,
   "r_pct": 44,
   "reporting": 19,
-  "called_at": "",
+  "called_at": "2026-11-04T08:00:00Z",
   "d_votes": null,
   "r_votes": null,
   "total_votes": null
@@ -521,16 +521,16 @@
  },
  {
   "race": "MO-AUD",
-  "status": "Counting",
-  "winner": "",
-  "winner_party": "",
-  "d_pct": 67.58,
-  "r_pct": 30.98,
+  "status": "Called",
+  "winner": "Scott Fitzpatrick",
+  "winner_party": "R",
+  "d_pct": 47,
+  "r_pct": 50,
   "reporting": 0.1,
-  "called_at": "",
-  "d_votes": 18666,
-  "r_votes": 8557,
-  "total_votes": 27619
+  "called_at": "2026-11-04T05:55:00Z",
+  "d_votes": null,
+  "r_votes": null,
+  "total_votes": null
  },
  {
   "race": "HOU-NC-01",
