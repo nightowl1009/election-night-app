@@ -1,5 +1,104 @@
 [
  {
+  "nid": "n205",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/senate-race-unresolved-in-alaska-as-candidates-expect-weekslong-process/",
+  "tag": "Senate",
+  "headline": "Alaska Senate race heads to weekslong ranked-choice count",
+  "summary": "With about three-quarters of the vote counted, Republican Sen. Dan Sullivan and Democrat Mary Peltola are in a toss-up. Alaska's ranked-choice tabulation comes 15 days after Election Day if no one tops 50% of first choices."
+ },
+ {
+  "nid": "n206",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "Senate",
+  "headline": "Troy Jackson defeats Susan Collins in Maine",
+  "summary": "Democrat Troy Jackson beat five-term Republican Sen. Susan Collins, ending her nearly 30-year Senate tenure. Democrats hold 54 Senate contests to Republicans' 44 after flipping seven GOP seats."
+ },
+ {
+  "nid": "n207",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "Senate",
+  "headline": "El-Sayed wins Michigan Senate seat despite Stevens defection",
+  "summary": "Democrat Abdul El-Sayed defeated Republican Mike Rogers, even after Rep. Haley Stevens withdrew her support and endorsed Rogers two days before the vote."
+ },
+ {
+  "nid": "n208",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "Governors",
+  "headline": "Byron Donalds wins Florida governor's race over David Jolly",
+  "summary": "Republican Byron Donalds won a tight governor's race against Democrat David Jolly. In Florida's Senate race, Sen. Ashley Moody led Angie Nixon 51% to 48%."
+ },
+ {
+  "nid": "n209",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "House",
+  "headline": "AP calls House for Democrats; Jeffries set to be first Black speaker",
+  "summary": "The AP called the House for Democrats early Wednesday. Hakeem Jeffries is poised to become the first Black House speaker when Congress convenes in January."
+ },
+ {
+  "nid": "n210",
+  "date": "2026-11-04",
+  "source": "HNGN",
+  "url": "https://www.hngn.com/articles/273699/20261104/mississippi-alaska-senate-races-remain-too-close-call.htm",
+  "tag": "Senate",
+  "headline": "Mississippi Senate race hinges on 43 votes, with no automatic recount",
+  "summary": "Democrat Scott Colom led Sen. Cindy Hyde-Smith by 43 votes in early results with the AP yet to call it. Mississippi has no automatic recount, absentee ballots can arrive until Nov. 10, and provisional ballots take up to five business days."
+ },
+ {
+  "nid": "n211",
+  "date": "2026-11-04",
+  "source": "HNGN",
+  "url": "https://www.hngn.com/articles/273699/20261104/mississippi-alaska-senate-races-remain-too-close-call.htm",
+  "tag": "Senate",
+  "headline": "Alaska ranked-choice tally set for Nov. 18, certification Nov. 25",
+  "summary": "Peltola led Sullivan 48.02% to 47.73% in first-choice votes, a 626-vote edge, with neither at a majority. The outstanding races will decide whether the Democratic majority ends up at 54, 55 or 56 seats."
+ },
+ {
+  "nid": "n212",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
+  "tag": "Missouri",
+  "headline": "Missouri voters reject Amendment 3 abortion restrictions",
+  "summary": "About 55.5% of Missouri voters cast ballots against Amendment 3, per the AP, leaving existing abortion protections in place."
+ },
+ {
+  "nid": "n213",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
+  "tag": "Missouri",
+  "headline": "Missouri approves Amendment 6 limiting repeal of citizen-passed laws",
+  "summary": "Under Amendment 6, lawmakers would need 80% approval in both chambers to repeal a voter-approved measure."
+ },
+ {
+  "nid": "n214",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
+  "tag": "Missouri",
+  "headline": "Missouri Amendment 7 fails while Amendment 8 narrowly passes",
+  "summary": "Unofficial results show the income-tax endowment fund measure, Amendment 7, got only 39% support. Amendment 8, on sheriff removal and terms, passed with just under 51%."
+ },
+ {
+  "nid": "n215",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
+  "tag": "House",
+  "headline": "Fred Wellman flips Missouri's 2nd District, beating Ann Wagner",
+  "summary": "Democrat Fred Wellman defeated Republican Rep. Ann Wagner 51.1% to 46.2%, a margin of nearly 5 points, flipping the St. Louis-area seat."
+ },
+ {
   "nid": "n188",
   "date": "2026-11-04",
   "source": "Fox News",
@@ -439,104 +538,5 @@
   "tag": "Senate",
   "headline": "South Carolina: Darline Graham faces Annie Andrews",
   "summary": "Sen. Darline Graham, who holds the seat after her brother Lindsey Graham's death, is the Trump-backed Republican against Democrat Annie Andrews."
- },
- {
-  "nid": "n164",
-  "date": "2026-11-03",
-  "source": "NBC4 Washington",
-  "url": "https://www.nbcwashington.com/elections/election-day-2026-midterms-congress-results-live-updates/4175504/",
-  "tag": "House",
-  "headline": "House stands 219-214 as Democrats need a net three seats",
-  "summary": "Democrats are targeting seats in Florida, Texas and Iowa, and Hakeem Jeffries has outlined a 100-day agenda on cost of living and oversight."
- },
- {
-  "nid": "n165",
-  "date": "2026-11-03",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
-  "tag": "Missouri",
-  "headline": "Missouri voters decide Amendment 3 and Prop A map",
-  "summary": "Gov. Mike Kehoe made a final stop for Amendment 3, which would ban most abortions, while opponents call it an attack on voters' will. Proposition A would adopt a map likely to elect seven Republicans instead of six."
- },
- {
-  "nid": "n139",
-  "date": "2026-11-03",
-  "source": "Missouri Independent",
-  "url": "https://www.yahoo.com/news/politics/articles/missouri-could-approach-turnout-record-115511518.html",
-  "tag": "Missouri",
-  "headline": "County clerks expect near-record Missouri turnout",
-  "summary": "Secretary of State Denny Hoskins projects about 55% turnout, or roughly 2.42 million ballots, just under the 2018 midterm record of 2,442,306. Clerks in Boone and Greene counties expect 57% to 59%, and St. Louis County logged 173,484 early ballots."
- },
- {
-  "nid": "n140",
-  "date": "2026-11-03",
-  "source": "Missouri Independent",
-  "url": "https://www.yahoo.com/news/politics/articles/missouri-could-approach-turnout-record-115511518.html",
-  "tag": "Missouri",
-  "headline": "$55 million poured into Missouri ballot measures",
-  "summary": "Spending on the three controversial statewide questions reached $55 million through Friday, with almost $17 million on broadcast ads. The state auditor race is the only statewide candidate contest, so the measures are driving interest."
- },
- {
-  "nid": "n141",
-  "date": "2026-11-03",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
-  "tag": "Missouri",
-  "headline": "Missouri ballot: four amendments, Prop A and Boone jail tax",
-  "summary": "Voters decide Amendments 3, 6, 7 and 8 and Proposition A, the Republican-friendly congressional map, plus Boone County's Proposition L jail sales tax. Polls are open 6 a.m. to 7 p.m. and a photo ID is required, with provisional ballots for those without one."
- },
- {
-  "nid": "n142",
-  "date": "2026-11-03",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
-  "tag": "Senate",
-  "headline": "Vance says Stevens endorsement will help Rogers in Michigan",
-  "summary": "Vice President JD Vance said Rep. Haley Stevens' endorsement of Republican Mike Rogers will help him. Stevens lost the Democratic primary to Abdul El-Sayed."
- },
- {
-  "nid": "n143",
-  "date": "2026-11-03",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
-  "tag": "Governors",
-  "headline": "Governors on the ballot: Florida and Ohio draw national eyes",
-  "summary": "In Florida, Trump-backed Byron Donalds faces former Republican congressman David Jolly, now a Democrat. In Ohio, Trump-backed Vivek Ramaswamy faces Democrat Amy Acton."
- },
- {
-  "nid": "n144",
-  "date": "2026-11-03",
-  "source": "ABC News",
-  "url": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085",
-  "tag": "National",
-  "headline": "Midterms on pace to be the most expensive on record",
-  "summary": "OpenSecrets projects about $12 billion in federal spending this cycle, and AdImpact calls it the costliest it has tracked. Wesleyan Media Project puts House, Senate and governor ad spending near $7.1 billion."
- },
- {
-  "nid": "n145",
-  "date": "2026-11-03",
-  "source": "ABC News",
-  "url": "https://abcnews.com/Politics/live-updates/midterm-elections-live-updates/?id=137782085",
-  "tag": "Senate",
-  "headline": "Hinson pledges to accept Iowa result, says she will win",
-  "summary": "Republican Rep. Ashley Hinson said Trump's Dubuque visit helped her portray Democrat Josh Turek as too liberal for Iowa. She said she is confident of victory and will accept the outcome."
- },
- {
-  "nid": "n146",
-  "date": "2026-11-03",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "Senate",
-  "headline": "Senate stands 53-47 with 11 races deciding control",
-  "summary": "CBS counts eight Republican-held seats in play, including Alaska, Iowa, Maine, North Carolina and Texas, and three Democratic-held ones in Georgia, Michigan and New Hampshire. In Maine, Sen. Susan Collins faces Democrat Troy Jackson."
- },
- {
-  "nid": "n147",
-  "date": "2026-11-03",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "House",
-  "headline": "CBS picks 47 battleground districts to decide the House",
-  "summary": "Republicans hold a razor-thin majority, and CBS's Battleground Tracker projects Democrats winning 229 seats. The 47 competitive districts are expected to settle control."
  }
 ]
