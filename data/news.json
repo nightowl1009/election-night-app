@@ -1,93 +1,93 @@
 [
  {
-  "nid": "n205",
+  "nid": "n225",
   "date": "2026-11-04",
   "source": "CBS News",
-  "url": "https://www.cbsnews.com/news/senate-race-unresolved-in-alaska-as-candidates-expect-weekslong-process/",
+  "url": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
+  "tag": "National",
+  "headline": "Trump makes first public appearance since GOP losses",
+  "summary": "CBS reports Trump spoke from the White House ballroom construction site after Republicans lost both chambers. Senate Whip John Barrasso said the GOP 'had a tough night.'"
+ },
+ {
+  "nid": "n224",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
   "tag": "Senate",
-  "headline": "Alaska Senate race heads to weekslong ranked-choice count",
-  "summary": "With about three-quarters of the vote counted, Republican Sen. Dan Sullivan and Democrat Mary Peltola are in a toss-up. Alaska's ranked-choice tabulation comes 15 days after Election Day if no one tops 50% of first choices."
+  "headline": "Collins and Graham concede as Democrats flip Maine and South Carolina",
+  "summary": "Troy Jackson beat Sen. Susan Collins in Maine and Annie Andrews won in South Carolina. Both Republicans conceded, with Darline Graham's speech referring to her late brother Lindsey."
  },
  {
-  "nid": "n206",
+  "nid": "n223",
   "date": "2026-11-04",
-  "source": "Forbes",
-  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
   "tag": "Senate",
-  "headline": "Troy Jackson defeats Susan Collins in Maine",
-  "summary": "Democrat Troy Jackson beat five-term Republican Sen. Susan Collins, ending her nearly 30-year Senate tenure. Democrats hold 54 Senate contests to Republicans' 44 after flipping seven GOP seats."
+  "headline": "Talarico beats Paxton in Texas as Musk's $150M-plus fell short",
+  "summary": "Paxton conceded to Democrat James Talarico, who said Texas 'is not for sale' in a nod to Elon Musk's spending for Paxton. Texas is one of the seats that gave Democrats Senate control."
  },
  {
-  "nid": "n207",
+  "nid": "n222",
   "date": "2026-11-04",
-  "source": "Forbes",
-  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
+  "tag": "National",
+  "headline": "Thune expected to keep GOP post as Johnson skips minority leader bid",
+  "summary": "Thune and Trump spoke after the losses, a source said, and Thune is expected to stay Senate Republican leader. Speaker Mike Johnson reportedly told staff he will not run for House minority leader."
+ },
+ {
+  "nid": "n221",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/senate-election-results-2026/",
   "tag": "Senate",
-  "headline": "El-Sayed wins Michigan Senate seat despite Stevens defection",
-  "summary": "Democrat Abdul El-Sayed defeated Republican Mike Rogers, even after Rep. Haley Stevens withdrew her support and endorsed Rogers two days before the vote."
+  "headline": "Schumer vows 'legislative razor wire' against Trump after Senate win",
+  "summary": "Schumer said Democrats will use investigations and court action whenever Trump defies the law or voters' will. He called the result a generational remake of the Senate map."
  },
  {
-  "nid": "n208",
+  "nid": "n220",
   "date": "2026-11-04",
-  "source": "Forbes",
-  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
-  "tag": "Governors",
-  "headline": "Byron Donalds wins Florida governor's race over David Jolly",
-  "summary": "Republican Byron Donalds won a tight governor's race against Democrat David Jolly. In Florida's Senate race, Sen. Ashley Moody led Angie Nixon 51% to 48%."
+  "source": "CP24 (AP)",
+  "url": "https://www.cp24.com/news/world/2026/11/04/which-us-senate-governors-races-are-still-uncalled-by-the-associated-press/",
+  "tag": "Senate",
+  "headline": "Peltola leads Sullivan by 626 votes in Alaska with 74% counted",
+  "summary": "Democrat Mary Peltola holds a narrow edge over Republican Sen. Dan Sullivan. If no one passes 50%, Alaska's ranked-choice tabulation decides the race."
  },
  {
-  "nid": "n209",
+  "nid": "n219",
   "date": "2026-11-04",
-  "source": "Forbes",
-  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "source": "CP24 (AP)",
+  "url": "https://www.cp24.com/news/world/2026/11/04/which-us-senate-governors-races-are-still-uncalled-by-the-associated-press/",
+  "tag": "Senate",
+  "headline": "Democrat Adam Hamilton wins Kansas Senate seat",
+  "summary": "The AP describes Hamilton as the first Democrat to win a Senate seat in Kansas in nearly a century. Democrats also flipped other seats Republicans won comfortably in 2024."
+ },
+ {
+  "nid": "n218",
+  "date": "2026-11-04",
+  "source": "CP24 (AP)",
+  "url": "https://www.cp24.com/news/world/2026/11/04/which-us-senate-governors-races-are-still-uncalled-by-the-associated-press/",
   "tag": "House",
-  "headline": "AP calls House for Democrats; Jeffries set to be first Black speaker",
-  "summary": "The AP called the House for Democrats early Wednesday. Hakeem Jeffries is poised to become the first Black House speaker when Congress convenes in January."
+  "headline": "AP: 68 House races with control at stake still uncalled",
+  "summary": "Democrats have won control of the House, but the AP says dozens of races remain uncalled. It declares winners only when no scenario lets the trailing candidate catch up."
  },
  {
-  "nid": "n210",
+  "nid": "n217",
   "date": "2026-11-04",
-  "source": "HNGN",
-  "url": "https://www.hngn.com/articles/273699/20261104/mississippi-alaska-senate-races-remain-too-close-call.htm",
-  "tag": "Senate",
-  "headline": "Mississippi Senate race hinges on 43 votes, with no automatic recount",
-  "summary": "Democrat Scott Colom led Sen. Cindy Hyde-Smith by 43 votes in early results with the AP yet to call it. Mississippi has no automatic recount, absentee ballots can arrive until Nov. 10, and provisional ballots take up to five business days."
+  "source": "CP24 (AP)",
+  "url": "https://www.cp24.com/news/world/2026/11/04/which-us-senate-governors-races-are-still-uncalled-by-the-associated-press/",
+  "tag": "Governors",
+  "headline": "Alaska governor: Kreiss-Tomkins at 49.2% with 74% counted",
+  "summary": "Democrat Jonathan Kreiss-Tomkins leads Republican Bernadette Wilson by about 20 points but sits just under the 50% needed to avoid a further round. The AP has not called the race."
  },
  {
-  "nid": "n211",
+  "nid": "n216",
   "date": "2026-11-04",
-  "source": "HNGN",
-  "url": "https://www.hngn.com/articles/273699/20261104/mississippi-alaska-senate-races-remain-too-close-call.htm",
-  "tag": "Senate",
-  "headline": "Alaska ranked-choice tally set for Nov. 18, certification Nov. 25",
-  "summary": "Peltola led Sullivan 48.02% to 47.73% in first-choice votes, a 626-vote edge, with neither at a majority. The outstanding races will decide whether the Democratic majority ends up at 54, 55 or 56 seats."
- },
- {
-  "nid": "n212",
-  "date": "2026-11-04",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
-  "tag": "Missouri",
-  "headline": "Missouri voters reject Amendment 3 abortion restrictions",
-  "summary": "About 55.5% of Missouri voters cast ballots against Amendment 3, per the AP, leaving existing abortion protections in place."
- },
- {
-  "nid": "n213",
-  "date": "2026-11-04",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
-  "tag": "Missouri",
-  "headline": "Missouri approves Amendment 6 limiting repeal of citizen-passed laws",
-  "summary": "Under Amendment 6, lawmakers would need 80% approval in both chambers to repeal a voter-approved measure."
- },
- {
-  "nid": "n214",
-  "date": "2026-11-04",
-  "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
-  "tag": "Missouri",
-  "headline": "Missouri Amendment 7 fails while Amendment 8 narrowly passes",
-  "summary": "Unofficial results show the income-tax endowment fund measure, Amendment 7, got only 39% support. Amendment 8, on sheriff removal and terms, passed with just under 51%."
+  "source": "CP24 (AP)",
+  "url": "https://www.cp24.com/news/world/2026/11/04/which-us-senate-governors-races-are-still-uncalled-by-the-associated-press/",
+  "tag": "Governors",
+  "headline": "Kansas governor race tight as Holscher leads by 5,557 votes",
+  "summary": "With about 98% counted, Democrat Cindy Holscher leads Republican Ty Masterson by less than a percentage point. The AP has not called the race; both candidates serve in the state Senate."
  },
  {
   "nid": "n215",
@@ -99,148 +99,94 @@
   "summary": "Democrat Fred Wellman defeated Republican Rep. Ann Wagner 51.1% to 46.2%, a margin of nearly 5 points, flipping the St. Louis-area seat."
  },
  {
-  "nid": "n188",
-  "date": "2026-11-04",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/dems-seize-senate-blue-tidal-wave-crashes-deep-trump-country-topples-gop-strongholds",
-  "tag": "Senate",
-  "headline": "Democrats take the Senate as GOP turns on its own",
-  "summary": "Democrats ended the Republicans' 53-seat majority, with Ossoff holding Georgia and Talarico beating Paxton in Texas. Republicans began blaming Trump and NRSC chair Tim Scott, and Schumer's leadership came into question."
- },
- {
-  "nid": "n189",
-  "date": "2026-11-04",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/media/conservatives-stunned-catastrophic-midterm-blue-tsunami-blame-trumps-iran-war-high-gas-prices",
-  "tag": "National",
-  "headline": "Conservative voices blame Iran war and gas prices for wipeout",
-  "summary": "Right-leaning commentators called the night catastrophic for Republicans and pointed to the Iran war, fuel costs and weak candidates. Trump said he would work with the new Congress while keeping his veto ready."
- },
- {
-  "nid": "n190",
-  "date": "2026-11-04",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/lawyer-up-democrats-republicans-waste-no-time-setting-social-media-ablaze-after-midterm-sweep",
-  "tag": "National",
-  "headline": "Massie and Greene say broken promises cost Republicans",
-  "summary": "Rep. Thomas Massie and former Rep. Marjorie Taylor Greene said Republicans paid for unkept promises on foreign conflicts and transparency. Commentator Matt Walsh called for new party leadership."
- },
- {
-  "nid": "n191",
-  "date": "2026-11-04",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/state-of-play-blue-wave-sweeps-democrats-into-power-key-races-still-hanging-balance",
-  "tag": "Senate",
-  "headline": "Mississippi and Alaska Senate races still undecided",
-  "summary": "Cindy Hyde-Smith and Scott Colom looked deadlocked in Mississippi, while Dan Sullivan held a slight edge over Mary Peltola in Alaska with votes still being counted. Democrats had already clinched the Senate majority."
- },
- {
-  "nid": "n192",
-  "date": "2026-11-04",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "Senate",
-  "headline": "Democrats flip seven GOP Senate seats",
-  "summary": "CBS projected Democratic control, with flips in Texas, Kansas, Ohio, Iowa, North Carolina, South Carolina and Maine. Democrats held Michigan, Georgia, Minnesota, New Hampshire and Virginia."
- },
- {
-  "nid": "n193",
-  "date": "2026-11-04",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "House",
-  "headline": "Pulido, Fitzpatrick loss and Iowa sweep headline House flips",
-  "summary": "Democrats won Texas's 15th, ousted Rep. Brian Fitzpatrick in Pennsylvania's 1st and took three of four Iowa seats. About 75 races were still undecided early Wednesday."
- },
- {
-  "nid": "n194",
-  "date": "2026-11-04",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "National",
-  "headline": "North Carolina extends voting at five precincts",
-  "summary": "The State Board of Elections added hours at precincts in Columbus, Hertford, Lenoir and Wilson counties after disruptions. Statewide results were delayed about 45 minutes."
- },
- {
-  "nid": "n195",
-  "date": "2026-11-04",
-  "source": "Al Jazeera",
-  "url": "https://www.aljazeera.com/news/2026/11/4/democrats-win-control-of-house-and-senate-key-us-midterms-takeaways",
-  "tag": "National",
-  "headline": "Democrats win both chambers; Trump loses Congress",
-  "summary": "Democrats had won 228 House seats and 54 Senate seats by the AP's count, flipping seats in Texas, South Carolina, Iowa, Michigan and Kansas. The article calls it the first time since 2006 that a Republican president lost both chambers."
- },
- {
-  "nid": "n196",
-  "date": "2026-11-04",
-  "source": "Al Jazeera",
-  "url": "https://www.aljazeera.com/news/2026/11/4/democrats-win-control-of-house-and-senate-key-us-midterms-takeaways",
-  "tag": "Governors",
-  "headline": "Democrats climb to 28 governorships",
-  "summary": "Democrats rose from 23 to 28 governors and Republicans fell from 27 to 20, with two races uncalled. Winners included Keisha Lance Bottoms in Georgia, Deb Haaland in New Mexico and Xavier Becerra in California."
- },
- {
-  "nid": "n197",
-  "date": "2026-11-04",
-  "source": "Newsweek",
-  "url": "https://www.newsweek.com/what-the-midterm-election-results-mean-for-the-future-of-democrats-12652831",
-  "tag": "National",
-  "headline": "GOP mid-decade redistricting push fell short",
-  "summary": "Republicans' effort to flip 15 seats through new maps came up short, and Democrats gained at least four seats through new maps in California and Utah. Latino voters swung sharply toward Democrats, according to NBC exit polling."
- },
- {
-  "nid": "n198",
-  "date": "2026-11-04",
-  "source": "Newsweek",
-  "url": "https://www.newsweek.com/what-the-midterm-election-results-mean-for-the-future-of-democrats-12652831",
-  "tag": "House",
-  "headline": "Jeffries outlines affordability agenda and oversight",
-  "summary": "Hakeem Jeffries, poised to become speaker, plans to restore ACA tax credits and reverse Medicaid cuts. Democrats also plan investigations of the administration, and he says impeachment is neither on nor off the table."
- },
- {
-  "nid": "n199",
-  "date": "2026-11-04",
-  "source": "ABC7 New York",
-  "url": "https://abc7ny.com/live-updates/election-day-2026-what-voters-need-know-ny-nj-ct/20008999/",
-  "tag": "House",
-  "headline": "Lawler concedes NY-17 to Cait Conley",
-  "summary": "Republican Rep. Mike Lawler conceded, flipping the Hudson Valley seat to Democrats. ABC News projects Democrats will control the House, with Jeffries in line to be the first Black speaker."
- },
- {
-  "nid": "n200",
-  "date": "2026-11-04",
-  "source": "ABC7 New York",
-  "url": "https://abc7ny.com/live-updates/election-day-2026-what-voters-need-know-ny-nj-ct/20008999/",
-  "tag": "Governors",
-  "headline": "Hochul and Lamont win; Booker holds NJ Senate seat",
-  "summary": "ABC News projected Kathy Hochul over Bruce Blakeman in New York and Ned Lamont to a third term in Connecticut. Cory Booker was also called as the winner in New Jersey."
- },
- {
-  "nid": "n201",
-  "date": "2026-11-04",
-  "source": "KCUR",
-  "url": "https://www.kcur.org/politics-elections-and-government/2026-11-03/missouri-proposition-a-election-results-redistricting",
-  "tag": "Missouri",
-  "headline": "Missouri voters reject congressional map 62% to 38%",
-  "summary": "The AP called Proposition A for the no side, so the 2025 map will not take effect in 2028. The map would have split Kansas City into three districts and targeted Rep. Emanuel Cleaver."
- },
- {
-  "nid": "n202",
-  "date": "2026-11-04",
-  "source": "St. Louis Public Radio",
-  "url": "https://www.stlpr.org/government-politics-issues/2026-11-03/missouri-voters-reject-proposition-a-congressional-redistricting-map",
-  "tag": "Missouri",
-  "headline": "Amendment 6 complicates any new Missouri redraw",
-  "summary": "Voters also approved Amendment 6, which bars lawmakers from passing laws that override referendum results. Some Republicans say a Missouri Supreme Court ruling lets them redraw again, but opponents could force another vote."
- },
- {
-  "nid": "n203",
+  "nid": "n214",
   "date": "2026-11-04",
   "source": "KOMU 8",
-  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
   "tag": "Missouri",
-  "headline": "Jefferson City passes public safety sales tax",
-  "summary": "Voters approved the increase 8,020 to 6,382, raising the city rate from 7.85% to 8.1% on April 1, 2027. In Cole County, Republican Mike Bernskotter led Democrat Chuck Steck for presiding commissioner."
+  "headline": "Missouri Amendment 7 fails while Amendment 8 narrowly passes",
+  "summary": "Unofficial results show the income-tax endowment fund measure, Amendment 7, got only 39% support. Amendment 8, on sheriff removal and terms, passed with just under 51%."
+ },
+ {
+  "nid": "n213",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
+  "tag": "Missouri",
+  "headline": "Missouri approves Amendment 6 limiting repeal of citizen-passed laws",
+  "summary": "Under Amendment 6, lawmakers would need 80% approval in both chambers to repeal a voter-approved measure."
+ },
+ {
+  "nid": "n212",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-2026-midterm-election-results-key-races-and-amendments/article_bfd35c26-3fac-4a11-8265-261b8410d127.html",
+  "tag": "Missouri",
+  "headline": "Missouri voters reject Amendment 3 abortion restrictions",
+  "summary": "About 55.5% of Missouri voters cast ballots against Amendment 3, per the AP, leaving existing abortion protections in place."
+ },
+ {
+  "nid": "n211",
+  "date": "2026-11-04",
+  "source": "HNGN",
+  "url": "https://www.hngn.com/articles/273699/20261104/mississippi-alaska-senate-races-remain-too-close-call.htm",
+  "tag": "Senate",
+  "headline": "Alaska ranked-choice tally set for Nov. 18, certification Nov. 25",
+  "summary": "Peltola led Sullivan 48.02% to 47.73% in first-choice votes, a 626-vote edge, with neither at a majority. The outstanding races will decide whether the Democratic majority ends up at 54, 55 or 56 seats."
+ },
+ {
+  "nid": "n210",
+  "date": "2026-11-04",
+  "source": "HNGN",
+  "url": "https://www.hngn.com/articles/273699/20261104/mississippi-alaska-senate-races-remain-too-close-call.htm",
+  "tag": "Senate",
+  "headline": "Mississippi Senate race hinges on 43 votes, with no automatic recount",
+  "summary": "Democrat Scott Colom led Sen. Cindy Hyde-Smith by 43 votes in early results with the AP yet to call it. Mississippi has no automatic recount, absentee ballots can arrive until Nov. 10, and provisional ballots take up to five business days."
+ },
+ {
+  "nid": "n209",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "House",
+  "headline": "AP calls House for Democrats; Jeffries set to be first Black speaker",
+  "summary": "The AP called the House for Democrats early Wednesday. Hakeem Jeffries is poised to become the first Black House speaker when Congress convenes in January."
+ },
+ {
+  "nid": "n208",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "Governors",
+  "headline": "Byron Donalds wins Florida governor's race over David Jolly",
+  "summary": "Republican Byron Donalds won a tight governor's race against Democrat David Jolly. In Florida's Senate race, Sen. Ashley Moody led Angie Nixon 51% to 48%."
+ },
+ {
+  "nid": "n207",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "Senate",
+  "headline": "El-Sayed wins Michigan Senate seat despite Stevens defection",
+  "summary": "Democrat Abdul El-Sayed defeated Republican Mike Rogers, even after Rep. Haley Stevens withdrew her support and endorsed Rogers two days before the vote."
+ },
+ {
+  "nid": "n206",
+  "date": "2026-11-04",
+  "source": "Forbes",
+  "url": "https://www.forbes.com/sites/saradorn/2026/11/04/midterm-election-results-live-updates-democrats-sweep-house-and-senate-some-races-still-too-close-to-call/",
+  "tag": "Senate",
+  "headline": "Troy Jackson defeats Susan Collins in Maine",
+  "summary": "Democrat Troy Jackson beat five-term Republican Sen. Susan Collins, ending her nearly 30-year Senate tenure. Democrats hold 54 Senate contests to Republicans' 44 after flipping seven GOP seats."
+ },
+ {
+  "nid": "n205",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/senate-race-unresolved-in-alaska-as-candidates-expect-weekslong-process/",
+  "tag": "Senate",
+  "headline": "Alaska Senate race heads to weekslong ranked-choice count",
+  "summary": "With about three-quarters of the vote counted, Republican Sen. Dan Sullivan and Democrat Mary Peltola are in a toss-up. Alaska's ranked-choice tabulation comes 15 days after Election Day if no one tops 50% of first choices."
  },
  {
   "nid": "n204",
@@ -252,103 +198,148 @@
   "summary": "Republicans Chris Stigall in the 6th District and Mark Alford in the 4th were elected. Boone County turnout passed 52% and Cole County reached 52.5% by Tuesday night."
  },
  {
-  "nid": "n176",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "House",
-  "headline": "Networks project Democrats will flip the House",
-  "summary": "MS NOW called the House for Democrats just before 10 p.m. ET, followed by CNN, NBC and CBS. The AP had not yet made a call when the report was written."
+  "nid": "n203",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-november-2026-election-live-updates/article_23b44924-23cc-44c6-9fa2-eb6c81c0747c.html",
+  "tag": "Missouri",
+  "headline": "Jefferson City passes public safety sales tax",
+  "summary": "Voters approved the increase 8,020 to 6,382, raising the city rate from 7.85% to 8.1% on April 1, 2027. In Cole County, Republican Mike Bernskotter led Democrat Chuck Steck for presiding commissioner."
  },
  {
-  "nid": "n177",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Senate",
-  "headline": "Cooper beats Whatley in North Carolina Senate race",
-  "summary": "Democrat Roy Cooper decisively defeated Republican Michael Whatley in North Carolina's Senate contest, per the report."
+  "nid": "n202",
+  "date": "2026-11-04",
+  "source": "St. Louis Public Radio",
+  "url": "https://www.stlpr.org/government-politics-issues/2026-11-03/missouri-voters-reject-proposition-a-congressional-redistricting-map",
+  "tag": "Missouri",
+  "headline": "Amendment 6 complicates any new Missouri redraw",
+  "summary": "Voters also approved Amendment 6, which bars lawmakers from passing laws that override referendum results. Some Republicans say a Missouri Supreme Court ruling lets them redraw again, but opponents could force another vote."
  },
  {
-  "nid": "n178",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Senate",
-  "headline": "Andrews projected to win South Carolina Senate seat",
-  "summary": "Democrat Annie Andrews was projected to beat Republican Sen. Darline Graham in South Carolina, a seat rated lean Republican before the vote."
+  "nid": "n201",
+  "date": "2026-11-04",
+  "source": "KCUR",
+  "url": "https://www.kcur.org/politics-elections-and-government/2026-11-03/missouri-proposition-a-election-results-redistricting",
+  "tag": "Missouri",
+  "headline": "Missouri voters reject congressional map 62% to 38%",
+  "summary": "The AP called Proposition A for the no side, so the 2025 map will not take effect in 2028. The map would have split Kansas City into three districts and targeted Rep. Emanuel Cleaver."
  },
  {
-  "nid": "n179",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
+  "nid": "n200",
+  "date": "2026-11-04",
+  "source": "ABC7 New York",
+  "url": "https://abc7ny.com/live-updates/election-day-2026-what-voters-need-know-ny-nj-ct/20008999/",
   "tag": "Governors",
-  "headline": "Keisha Lance Bottoms wins Georgia governor's race",
-  "summary": "Democrat Keisha Lance Bottoms won Georgia's governorship, becoming the first Black woman to serve as a U.S. governor."
+  "headline": "Hochul and Lamont win; Booker holds NJ Senate seat",
+  "summary": "ABC News projected Kathy Hochul over Bruce Blakeman in New York and Ned Lamont to a third term in Connecticut. Cory Booker was also called as the winner in New Jersey."
  },
  {
-  "nid": "n180",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Senate",
-  "headline": "Senate control still undecided; Democrats lead in TX, MI, ME",
-  "summary": "Control of the Senate was too close to call Tuesday evening, with Democrats ahead in Texas, Michigan and Maine. A 50-50 split would favor Republicans because of Vice President Vance's tie-breaking vote."
+  "nid": "n199",
+  "date": "2026-11-04",
+  "source": "ABC7 New York",
+  "url": "https://abc7ny.com/live-updates/election-day-2026-what-voters-need-know-ny-nj-ct/20008999/",
+  "tag": "House",
+  "headline": "Lawler concedes NY-17 to Cait Conley",
+  "summary": "Republican Rep. Mike Lawler conceded, flipping the Hudson Valley seat to Democrats. ABC News projects Democrats will control the House, with Jeffries in line to be the first Black speaker."
  },
  {
-  "nid": "n181",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
+  "nid": "n198",
+  "date": "2026-11-04",
+  "source": "Newsweek",
+  "url": "https://www.newsweek.com/what-the-midterm-election-results-mean-for-the-future-of-democrats-12652831",
+  "tag": "House",
+  "headline": "Jeffries outlines affordability agenda and oversight",
+  "summary": "Hakeem Jeffries, poised to become speaker, plans to restore ACA tax credits and reverse Medicaid cuts. Democrats also plan investigations of the administration, and he says impeachment is neither on nor off the table."
+ },
+ {
+  "nid": "n197",
+  "date": "2026-11-04",
+  "source": "Newsweek",
+  "url": "https://www.newsweek.com/what-the-midterm-election-results-mean-for-the-future-of-democrats-12652831",
   "tag": "National",
-  "headline": "Trump approval at 37% in NYT polling average",
-  "summary": "A New York Times average of polls put Trump's approval at 37% on Nov. 3, near its low of 36% two weeks earlier. Commentators tied the Democratic surge to prices and the Iran war."
+  "headline": "GOP mid-decade redistricting push fell short",
+  "summary": "Republicans' effort to flip 15 seats through new maps came up short, and Democrats gained at least four seats through new maps in California and Utah. Latino voters swung sharply toward Democrats, according to NBC exit polling."
  },
  {
-  "nid": "n182",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/breaking-decision-desk-hq-calls-022123276.html",
-  "tag": "House",
-  "headline": "Decision Desk HQ calls House for Democrats",
-  "summary": "Decision Desk HQ projected a Democratic House majority Tuesday night; Hakeem Jeffries is on track to become Speaker. Democrats needed a net gain of four seats."
+  "nid": "n196",
+  "date": "2026-11-04",
+  "source": "Al Jazeera",
+  "url": "https://www.aljazeera.com/news/2026/11/4/democrats-win-control-of-house-and-senate-key-us-midterms-takeaways",
+  "tag": "Governors",
+  "headline": "Democrats climb to 28 governorships",
+  "summary": "Democrats rose from 23 to 28 governors and Republicans fell from 27 to 20, with two races uncalled. Winners included Keisha Lance Bottoms in Georgia, Deb Haaland in New Mexico and Xavier Becerra in California."
  },
  {
-  "nid": "n183",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/breaking-decision-desk-hq-calls-022123276.html",
+  "nid": "n195",
+  "date": "2026-11-04",
+  "source": "Al Jazeera",
+  "url": "https://www.aljazeera.com/news/2026/11/4/democrats-win-control-of-house-and-senate-key-us-midterms-takeaways",
   "tag": "National",
-  "headline": "Trump says he would become 'Mr. Veto' if GOP loses a chamber",
-  "summary": "Trump told the New York Post that if Republicans lost a chamber he would act as a heavy vetoer. A Democratic House would also gain committee subpoena power."
+  "headline": "Democrats win both chambers; Trump loses Congress",
+  "summary": "Democrats had won 228 House seats and 54 Senate seats by the AP's count, flipping seats in Texas, South Carolina, Iowa, Michigan and Kansas. The article calls it the first time since 2006 that a Republican president lost both chambers."
  },
  {
-  "nid": "n184",
-  "date": "2026-11-03",
-  "source": "Clash Report",
-  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
+  "nid": "n194",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "National",
+  "headline": "North Carolina extends voting at five precincts",
+  "summary": "The State Board of Elections added hours at precincts in Columbus, Hertford, Lenoir and Wilson counties after disruptions. Statewide results were delayed about 45 minutes."
+ },
+ {
+  "nid": "n193",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
   "tag": "House",
-  "headline": "DDHQ House call came at 9:09 p.m. ET, with NC-11 and PA-8 flips",
-  "summary": "Decision Desk HQ projected Democratic gains in North Carolina's 11th and Pennsylvania's 8th districts, both Republican-held, before calling the chamber."
+  "headline": "Pulido, Fitzpatrick loss and Iowa sweep headline House flips",
+  "summary": "Democrats won Texas's 15th, ousted Rep. Brian Fitzpatrick in Pennsylvania's 1st and took three of four Iowa seats. About 75 races were still undecided early Wednesday."
  },
  {
-  "nid": "n185",
-  "date": "2026-11-03",
-  "source": "Clash Report",
-  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
+  "nid": "n192",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
   "tag": "Senate",
-  "headline": "Ossoff projected to win reelection in Georgia",
-  "summary": "Decision Desk HQ projected Democratic Sen. Jon Ossoff won reelection in Georgia, and that Democrats held their Virginia seat. Overall Senate control was still uncalled."
+  "headline": "Democrats flip seven GOP Senate seats",
+  "summary": "CBS projected Democratic control, with flips in Texas, Kansas, Ohio, Iowa, North Carolina, South Carolina and Maine. Democrats held Michigan, Georgia, Minnesota, New Hampshire and Virginia."
  },
  {
-  "nid": "n186",
-  "date": "2026-11-03",
-  "source": "Clash Report",
-  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
-  "tag": "House",
-  "headline": "Moskowitz holds Florida seat in redrawn Trump+9 district",
-  "summary": "Democrat Jared Moskowitz won reelection in a redrawn Florida district that Trump carried by 9 points, and Democrat Pia Dandiya was projected to win the 22nd District."
+  "nid": "n191",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/state-of-play-blue-wave-sweeps-democrats-into-power-key-races-still-hanging-balance",
+  "tag": "Senate",
+  "headline": "Mississippi and Alaska Senate races still undecided",
+  "summary": "Cindy Hyde-Smith and Scott Colom looked deadlocked in Mississippi, while Dan Sullivan held a slight edge over Mary Peltola in Alaska with votes still being counted. Democrats had already clinched the Senate majority."
+ },
+ {
+  "nid": "n190",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/lawyer-up-democrats-republicans-waste-no-time-setting-social-media-ablaze-after-midterm-sweep",
+  "tag": "National",
+  "headline": "Massie and Greene say broken promises cost Republicans",
+  "summary": "Rep. Thomas Massie and former Rep. Marjorie Taylor Greene said Republicans paid for unkept promises on foreign conflicts and transparency. Commentator Matt Walsh called for new party leadership."
+ },
+ {
+  "nid": "n189",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/media/conservatives-stunned-catastrophic-midterm-blue-tsunami-blame-trumps-iran-war-high-gas-prices",
+  "tag": "National",
+  "headline": "Conservative voices blame Iran war and gas prices for wipeout",
+  "summary": "Right-leaning commentators called the night catastrophic for Republicans and pointed to the Iran war, fuel costs and weak candidates. Trump said he would work with the new Congress while keeping his veto ready."
+ },
+ {
+  "nid": "n188",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/politics/dems-seize-senate-blue-tidal-wave-crashes-deep-trump-country-topples-gop-strongholds",
+  "tag": "Senate",
+  "headline": "Democrats take the Senate as GOP turns on its own",
+  "summary": "Democrats ended the Republicans' 53-seat majority, with Ossoff holding Georgia and Talarico beating Paxton in Texas. Republicans began blaming Trump and NRSC chair Tim Scott, and Schumer's leadership came into question."
  },
  {
   "nid": "n187",
@@ -360,85 +351,103 @@
   "summary": "With about 1% counted, 'no' led 71% to 29% on Proposition A, the vote on the Republican-drawn congressional map that splits Kansas City. The AP had not called it."
  },
  {
-  "nid": "n166",
+  "nid": "n186",
   "date": "2026-11-03",
-  "source": "21 Alive (AP)",
-  "url": "https://www.21alivenews.com/2026/11/03/election-day-arrives-after-surge-early-voting-with-observers-keeping-close-watch-polls/",
-  "tag": "National",
-  "headline": "Broward voting delayed 20 minutes by a faulty safety feature",
-  "summary": "A malfunction in Broward County's new voting system held up opening-morning voting about 20 minutes and some voters left without casting ballots. Officials called most Election Day problems minor and quickly fixed."
+  "source": "Clash Report",
+  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
+  "tag": "House",
+  "headline": "Moskowitz holds Florida seat in redrawn Trump+9 district",
+  "summary": "Democrat Jared Moskowitz won reelection in a redrawn Florida district that Trump carried by 9 points, and Democrat Pia Dandiya was projected to win the 22nd District."
  },
  {
-  "nid": "n167",
+  "nid": "n185",
   "date": "2026-11-03",
-  "source": "KBIA",
-  "url": "https://www.kbia.org/kbia-news/2026-11-03/analysis-most-missouri-counties-below-10-early-turnout",
-  "tag": "Missouri",
-  "headline": "Most Missouri counties had under 10% early turnout",
-  "summary": "A KBIA survey of county election offices found fewer than 20 counties reached 10% early turnout. Early voters clustered in the St. Louis and Kansas City areas, with far less in rural counties."
- },
- {
-  "nid": "n168",
-  "date": "2026-11-03",
-  "source": "First Alert 4",
-  "url": "https://www.firstalert4.com/2026/11/03/early-voting-ends-st-louis-county-with-nearly-27-turnout/",
-  "tag": "Missouri",
-  "headline": "St. Louis County early voting hits nearly 27%",
-  "summary": "More than 173,000 St. Louis County voters cast early ballots, versus about 56,000 in the 2022 midterms. Election Director Eric Fey said the statewide amendments are the main turnout driver."
- },
- {
-  "nid": "n169",
-  "date": "2026-11-03",
-  "source": "WRAL",
-  "url": "https://www.wral.com/news/nccapitol/nc-voting-election-polls-races-ballot-north-carolina-midterm-updates-results-november-2026/",
+  "source": "Clash Report",
+  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
   "tag": "Senate",
-  "headline": "North Carolina voter guide: Cooper-Whatley and three amendments",
-  "summary": "North Carolina polls ran 6:30 a.m. to 7:30 p.m., with Roy Cooper favored over Michael Whatley for Senate. Voters also decide three constitutional amendments and a rematch in the 1st House District."
+  "headline": "Ossoff projected to win reelection in Georgia",
+  "summary": "Decision Desk HQ projected Democratic Sen. Jon Ossoff won reelection in Georgia, and that Democrats held their Virginia seat. Overall Senate control was still uncalled."
  },
  {
-  "nid": "n170",
+  "nid": "n184",
   "date": "2026-11-03",
-  "source": "The National",
-  "url": "https://www.thenationalnews.com/news/us/2026/11/03/us-midterm-elections-trump-iran/",
+  "source": "Clash Report",
+  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
+  "tag": "House",
+  "headline": "DDHQ House call came at 9:09 p.m. ET, with NC-11 and PA-8 flips",
+  "summary": "Decision Desk HQ projected Democratic gains in North Carolina's 11th and Pennsylvania's 8th districts, both Republican-held, before calling the chamber."
+ },
+ {
+  "nid": "n183",
+  "date": "2026-11-03",
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/breaking-decision-desk-hq-calls-022123276.html",
   "tag": "National",
-  "headline": "Midterms open with high prices tied to the Iran war",
-  "summary": "Gas and food costs remain elevated amid the Iran conflict as voters treat the midterms as a referendum on Trump. The report also notes the Justice Department's Alaska suit and the push over California ballots."
+  "headline": "Trump says he would become 'Mr. Veto' if GOP loses a chamber",
+  "summary": "Trump told the New York Post that if Republicans lost a chamber he would act as a heavy vetoer. A Democratic House would also gain committee subpoena power."
  },
  {
-  "nid": "n171",
+  "nid": "n182",
   "date": "2026-11-03",
-  "source": "MultiState",
-  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/breaking-decision-desk-hq-calls-022123276.html",
+  "tag": "House",
+  "headline": "Decision Desk HQ calls House for Democrats",
+  "summary": "Decision Desk HQ projected a Democratic House majority Tuesday night; Hakeem Jeffries is on track to become Speaker. Democrats needed a net gain of four seats."
+ },
+ {
+  "nid": "n181",
+  "date": "2026-11-03",
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
   "tag": "National",
-  "headline": "State legislatures: which chambers could flip tonight",
-  "summary": "Democrats are targeting chambers including the Michigan and Minnesota houses and Wisconsin's legislature under new court-ordered maps. The analysis counts 28 Republican, 18 Democratic and 4 split chambers entering the night."
+  "headline": "Trump approval at 37% in NYT polling average",
+  "summary": "A New York Times average of polls put Trump's approval at 37% on Nov. 3, near its low of 36% two weeks earlier. Commentators tied the Democratic surge to prices and the Iran war."
  },
  {
-  "nid": "n172",
+  "nid": "n180",
   "date": "2026-11-03",
-  "source": "MultiState",
-  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
+  "tag": "Senate",
+  "headline": "Senate control still undecided; Democrats lead in TX, MI, ME",
+  "summary": "Control of the Senate was too close to call Tuesday evening, with Democrats ahead in Texas, Michigan and Maine. A 50-50 split would favor Republicans because of Vice President Vance's tie-breaking vote."
+ },
+ {
+  "nid": "n179",
+  "date": "2026-11-03",
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
   "tag": "Governors",
-  "headline": "Governors: 11 of 36 races rated highly competitive",
-  "summary": "MultiState flags Ohio as a possible flip, Nevada as the most vulnerable incumbent, and a four-way ranked-choice race in Alaska. Texas is treated as a long shot for Democrats."
+  "headline": "Keisha Lance Bottoms wins Georgia governor's race",
+  "summary": "Democrat Keisha Lance Bottoms won Georgia's governorship, becoming the first Black woman to serve as a U.S. governor."
  },
  {
-  "nid": "n173",
+  "nid": "n178",
   "date": "2026-11-03",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/everything-know-house-senate-control-ballot-measures-2026-election-day-poll-closing",
-  "tag": "National",
-  "headline": "145 statewide ballot measures, from voter ID to abortion",
-  "summary": "Eleven states vote on voter ID or noncitizen-voting measures, and Missouri, Idaho, Virginia and Nevada have abortion questions. Maryland, Missouri and Colorado have redistricting measures, and Alaska weighs repealing ranked-choice voting."
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
+  "tag": "Senate",
+  "headline": "Andrews projected to win South Carolina Senate seat",
+  "summary": "Democrat Annie Andrews was projected to beat Republican Sen. Darline Graham in South Carolina, a seat rated lean Republican before the vote."
  },
  {
-  "nid": "n174",
+  "nid": "n177",
   "date": "2026-11-03",
-  "source": "NBC4 Washington",
-  "url": "https://www.nbcwashington.com/elections/election-day-2026-midterms-congress-results-live-updates/4175504/",
-  "tag": "National",
-  "headline": "Trump approval at 35% as Jeffries sets 100-day agenda",
-  "summary": "An AP-NORC poll has Trump at 35% approval and 25% on the economy, with about 7 in 10 saying the country is on the wrong track. Hakeem Jeffries has outlined a cost-of-living and oversight agenda if Democrats win the House."
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
+  "tag": "Senate",
+  "headline": "Cooper beats Whatley in North Carolina Senate race",
+  "summary": "Democrat Roy Cooper decisively defeated Republican Michael Whatley in North Carolina's Senate contest, per the report."
+ },
+ {
+  "nid": "n176",
+  "date": "2026-11-03",
+  "source": "Yahoo News",
+  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
+  "tag": "House",
+  "headline": "Networks project Democrats will flip the House",
+  "summary": "MS NOW called the House for Democrats just before 10 p.m. ET, followed by CNN, NBC and CBS. The AP had not yet made a call when the report was written."
  },
  {
   "nid": "n175",
@@ -450,93 +459,84 @@
   "summary": "The district, which Trump won by 15 points in 2024, closes early and is rated close. Fox's rankings put Democrats as high as 240 seats and Republicans as high as 212."
  },
  {
-  "nid": "n153",
+  "nid": "n174",
   "date": "2026-11-03",
-  "source": "CBS News",
-  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
-  "tag": "Senate",
-  "headline": "Two Dan Sullivans on Alaska's Senate ballot",
-  "summary": "Republican Sen. Dan Sullivan shares a name with a second ballot candidate, a teacher the Times reported was recruited by Democrat Mary Peltola's campaign; Peltola says she knew nothing of it. The race uses ranked-choice voting."
- },
- {
-  "nid": "n154",
-  "date": "2026-11-03",
-  "source": "PBS NewsHour",
-  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-2026-midterms-congress-results-live-updates/4175504/",
   "tag": "National",
-  "headline": "Flooding moves 21 Florida polling places",
-  "summary": "Rain and flooding forced 21 polling places in eight Florida counties to relocate, mostly along the Atlantic coast. Officials alerted voters by text, email and posted signs."
+  "headline": "Trump approval at 35% as Jeffries sets 100-day agenda",
+  "summary": "An AP-NORC poll has Trump at 35% approval and 25% on the economy, with about 7 in 10 saying the country is on the wrong track. Hakeem Jeffries has outlined a cost-of-living and oversight agenda if Democrats win the House."
  },
  {
-  "nid": "n155",
-  "date": "2026-11-03",
-  "source": "PBS NewsHour",
-  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
-  "tag": "National",
-  "headline": "Westchester machines reject paper ballots; emergency bags used",
-  "summary": "Machines in Westchester County, N.Y., stopped accepting paper ballots, so voters used sealed emergency bags. The county says those ballots will be counted and the state attorney general's office is in contact."
- },
- {
-  "nid": "n156",
-  "date": "2026-11-03",
-  "source": "PBS NewsHour",
-  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
-  "tag": "National",
-  "headline": "Judge Chutkan bars DOJ from sending noncitizen voter lists",
-  "summary": "Judge Tanya Chutkan ruled the administration must stop sending election officials lists of alleged noncitizen voters, citing risk of confusion."
- },
- {
-  "nid": "n157",
-  "date": "2026-11-03",
-  "source": "PBS NewsHour",
-  "url": "https://www.pbs.org/newshour/politics/live-updates-midterm-voters-go-to-the-polls-on-election-day",
-  "tag": "National",
-  "headline": "Judge rejects NAACP challenge to DOJ poll monitoring",
-  "summary": "A judge ruled against the NAACP's challenge to the Justice Department's monitoring program. The government says monitors will be in plainclothes, unarmed and without arrest powers."
- },
- {
-  "nid": "n158",
-  "date": "2026-11-03",
-  "source": "Spectrum News (AP)",
-  "url": "https://spectrumlocalnews.com/nys/binghamton/politics/2026/11/03/election-day-arrives-after-a-surge-in-early-voting",
-  "tag": "National",
-  "headline": "Flooding disrupts voting on Navajo Nation and across Southwest",
-  "summary": "Flooding affected polling access in Colorado, Arizona, Utah and New Mexico. The Navajo Nation changed several locations and San Juan County, Utah, allowed electronic voting."
- },
- {
-  "nid": "n159",
-  "date": "2026-11-03",
-  "source": "Spectrum News (AP)",
-  "url": "https://spectrumlocalnews.com/nys/binghamton/politics/2026/11/03/election-day-arrives-after-a-surge-in-early-voting",
-  "tag": "National",
-  "headline": "Trump's answer on accepting results: only if 'honest'",
-  "summary": "A week before Election Day, Trump gave a conditional answer on whether he would accept the results. Election law experts say the administration's court arguments in Alaska and California are unlikely to succeed."
- },
- {
-  "nid": "n160",
-  "date": "2026-11-03",
-  "source": "Michigan Secretary of State",
-  "url": "https://www.michigan.gov/sos/resources/news/2026/11/02/with-less-than-24-hours-before-polls-open-on-election-day-over",
-  "tag": "Senate",
-  "headline": "Michigan: 2.3 million ballots cast before polls open",
-  "summary": "About 2.3 million Michigan voters, 31.2% of those registered, had voted by Nov. 2. Polls run 7 a.m. to 8 p.m., and officials warn unofficial results may take time because mail ballots in cities like Detroit must be processed."
- },
- {
-  "nid": "n161",
+  "nid": "n173",
   "date": "2026-11-03",
   "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
+  "url": "https://www.foxnews.com/politics/everything-know-house-senate-control-ballot-measures-2026-election-day-poll-closing",
   "tag": "National",
-  "headline": "Trump predicts GOP keeps both chambers as early vote tops 54 million",
-  "summary": "Trump said Republicans will hold the House and Senate, while AP counted over 54 million early votes, roughly nine million more than in 2022. RNC Chair Joe Gruters said GOP wins if its voters turn out."
+  "headline": "145 statewide ballot measures, from voter ID to abortion",
+  "summary": "Eleven states vote on voter ID or noncitizen-voting measures, and Missouri, Idaho, Virginia and Nevada have abortion questions. Maryland, Missouri and Colorado have redistricting measures, and Alaska weighs repealing ranked-choice voting."
  },
  {
-  "nid": "n162",
+  "nid": "n172",
   "date": "2026-11-03",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/live-news/2026-midterm-elections-news-analysis-races-11-3-2026",
+  "source": "MultiState",
+  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
+  "tag": "Governors",
+  "headline": "Governors: 11 of 36 races rated highly competitive",
+  "summary": "MultiState flags Ohio as a possible flip, Nevada as the most vulnerable incumbent, and a four-way ranked-choice race in Alaska. Texas is treated as a long shot for Democrats."
+ },
+ {
+  "nid": "n171",
+  "date": "2026-11-03",
+  "source": "MultiState",
+  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
+  "tag": "National",
+  "headline": "State legislatures: which chambers could flip tonight",
+  "summary": "Democrats are targeting chambers including the Michigan and Minnesota houses and Wisconsin's legislature under new court-ordered maps. The analysis counts 28 Republican, 18 Democratic and 4 split chambers entering the night."
+ },
+ {
+  "nid": "n170",
+  "date": "2026-11-03",
+  "source": "The National",
+  "url": "https://www.thenationalnews.com/news/us/2026/11/03/us-midterm-elections-trump-iran/",
+  "tag": "National",
+  "headline": "Midterms open with high prices tied to the Iran war",
+  "summary": "Gas and food costs remain elevated amid the Iran conflict as voters treat the midterms as a referendum on Trump. The report also notes the Justice Department's Alaska suit and the push over California ballots."
+ },
+ {
+  "nid": "n169",
+  "date": "2026-11-03",
+  "source": "WRAL",
+  "url": "https://www.wral.com/news/nccapitol/nc-voting-election-polls-races-ballot-north-carolina-midterm-updates-results-november-2026/",
   "tag": "Senate",
-  "headline": "South Carolina: Darline Graham faces Annie Andrews",
-  "summary": "Sen. Darline Graham, who holds the seat after her brother Lindsey Graham's death, is the Trump-backed Republican against Democrat Annie Andrews."
+  "headline": "North Carolina voter guide: Cooper-Whatley and three amendments",
+  "summary": "North Carolina polls ran 6:30 a.m. to 7:30 p.m., with Roy Cooper favored over Michael Whatley for Senate. Voters also decide three constitutional amendments and a rematch in the 1st House District."
+ },
+ {
+  "nid": "n168",
+  "date": "2026-11-03",
+  "source": "First Alert 4",
+  "url": "https://www.firstalert4.com/2026/11/03/early-voting-ends-st-louis-county-with-nearly-27-turnout/",
+  "tag": "Missouri",
+  "headline": "St. Louis County early voting hits nearly 27%",
+  "summary": "More than 173,000 St. Louis County voters cast early ballots, versus about 56,000 in the 2022 midterms. Election Director Eric Fey said the statewide amendments are the main turnout driver."
+ },
+ {
+  "nid": "n167",
+  "date": "2026-11-03",
+  "source": "KBIA",
+  "url": "https://www.kbia.org/kbia-news/2026-11-03/analysis-most-missouri-counties-below-10-early-turnout",
+  "tag": "Missouri",
+  "headline": "Most Missouri counties had under 10% early turnout",
+  "summary": "A KBIA survey of county election offices found fewer than 20 counties reached 10% early turnout. Early voters clustered in the St. Louis and Kansas City areas, with far less in rural counties."
+ },
+ {
+  "nid": "n166",
+  "date": "2026-11-03",
+  "source": "21 Alive (AP)",
+  "url": "https://www.21alivenews.com/2026/11/03/election-day-arrives-after-surge-early-voting-with-observers-keeping-close-watch-polls/",
+  "tag": "National",
+  "headline": "Broward voting delayed 20 minutes by a faulty safety feature",
+  "summary": "A malfunction in Broward County's new voting system held up opening-morning voting about 20 minutes and some voters left without casting ballots. Officials called most Election Day problems minor and quickly fixed."
  }
 ]
