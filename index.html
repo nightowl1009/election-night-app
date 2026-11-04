@@ -180,9 +180,9 @@ html.vs-on.vs-reveal #dash-root, html:not(.vs-on) #dash-root { opacity: 1; trans
 }
 </style>
 <script src="d3.min.js"></script>
-<script src="dash-lite.js?v=1793829212"></script>
-<link rel="stylesheet" href="pool.css?v=1793829212" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="pool.css?v=1793829212"></noscript>
+<script src="dash-lite.js?v=1793832293"></script>
+<link rel="stylesheet" href="pool.css?v=1793832293" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="pool.css?v=1793832293"></noscript>
 </head>
 <body>
 <div id="vote-splash" aria-hidden="true">
@@ -2180,7 +2180,10 @@ dash.calc('senate_base', {
     // seats outside the tracked list that have a results row (SC, MN, IL, MS): a called winner moves the seat
     let uD = 0, uR = 0;
     Object.keys(UNLISTED_SEN).forEach(st => { if (sen.some(r => r.id === st)) return; const c = ctx.res.get('SEN-' + st); if (!c || !c.winner_party) return; called++; const hold = UNLISTED_SEN[st][0], to = c.winner_party === 'R' ? 'R' : 'D'; if (hold === 'R' && to === 'D') uR++; if (hold === 'D' && to === 'R') uD++; });
-    return { d: now('senate_d_now') + fromR - fromD + uR - uD, r: now('senate_r_now') - fromR + fromD - uR + uD, fromR: fromR + uR, fromD: fromD + uD, called, total: sen.length, seats };
+    // races AP has not called yet but that are being counted (tracked or not): they stay with their holder in the totals, and are reported here so a decided chamber can show them as open
+    let openR = 0, openD = 0; const cnt = (c, held) => { if (c && !c.winner_party && /count/i.test(c.status)) { if (held === 'R') openR++; else openD++; } };
+    seats.forEach(x => cnt(x.c, x.held)); Object.keys(UNLISTED_SEN).forEach(st => { if (!sen.some(r => r.id === st)) cnt(ctx.res.get('SEN-' + st), UNLISTED_SEN[st][0]); });
+    return { openR, openD, calledTracked: seats.filter(x => x.called).length, d: now('senate_d_now') + fromR - fromD + uR - uD, r: now('senate_r_now') - fromR + fromD - uR + uD, fromR: fromR + uR, fromD: fromD + uD, called, total: sen.length, seats };
   }
   function houseCounts() {
     const ov = okRows('overview'), hs = okRows('house'); if (!ov || !hs) return null;
@@ -2361,13 +2364,16 @@ dash.calc('senate_base', {
     const box = $('#en-strip'), take = $('#en-take'), ov = okRows('overview'), sen = okRows('senate');
     if (!ov || !sen) return fail(box, dash.data(ov ? 'senate' : 'overview').status);
     box.classList.remove('dash-skeleton'); box.replaceChildren();
-    const S = senateCounts(), seats = S.seats, fromR = S.fromR, fromD = S.fromD, called = S.called, other = S.d, gopN = S.r;
+    const S = senateCounts(), seats = S.seats, fromR = S.fromR, fromD = S.fromD, called = S.called, other = S.d - 0, openN = S.openR + S.openD;
+    // once Democrats hold 51+ (control decided), seats still being counted are shown as open instead of staying with their old party
+    const decided = other - S.openD >= 51, gopN = decided ? S.r - S.openR : S.r;
     $('#en-strip-label').textContent = called ? 'Called races so far · gold = changed party · tap a state' : 'Today’s Senate · seats change only when a race is called · tap a state';
     const firstDraw = !box.dataset.drawn; box.dataset.drawn = '1';
     const ord = (a, b) => (b.called - a.called) || a.id.localeCompare(b.id);
     const dHold = seats.filter(s => s.side === 'D' && !s.flip).sort(ord), dFlip = seats.filter(s => s.side === 'D' && s.flip).sort(ord);
     const rFlip = seats.filter(s => s.side === 'R' && s.flip).sort(ord), rHold = seats.filter(s => s.side === 'R' && !s.flip).sort(ord);
-    const safeD = Math.max(0, other - dHold.length - dFlip.length), safeR = Math.max(0, gopN - rHold.length - rFlip.length);
+    const dShown = decided ? other - S.openD : other;
+    const safeD = Math.max(0, dShown - dHold.length - dFlip.length), safeR = Math.max(0, gopN - rHold.length - rFlip.length);
     const bgSeat = (s) => {
       const party = s.r.party_d || 'D', w = s.called ? s.c.winner + ' (' + (s.side === 'R' ? 'R' : party) + ')' : '';
       return { cls: 'en-seat' + (s.side === 'D' ? (party === 'I' && s.flip ? ' i' : ' d') : '') + (s.flip ? ' flip' : ''), label: s.id, src: 'senate', dark: s.flip,
@@ -2377,13 +2383,13 @@ dash.calc('senate_base', {
     while (seatList.length < 100) seatList.push({ cls: 'en-seat' });
     drawChamber(box, {
       total: 100, rows: 5, r0: 0.48, majority: 51, firstDraw, seat: (i) => seatList[i],
-      left: { n: other, src: 'overview', where: 'key=senate_d_now' }, right: { n: gopN, src: 'overview', where: 'key=senate_r_now' },
-      label: other >= 51 ? 'Democrats take control' : gopN >= 50 && called === sen.length ? 'GOP keeps control' : gopN >= 50 ? 'GOP holds control for now' : 'Too close to call',
+      left: { n: dShown, src: 'overview', where: 'key=senate_d_now' }, right: { n: gopN, src: 'overview', where: 'key=senate_r_now' },
+      label: dShown >= 51 ? 'Democrats take control' : gopN >= 50 && called === sen.length ? 'GOP keeps control' : gopN >= 50 ? 'GOP holds control for now' : 'Too close to call',
       legend: [['var(--en-blue)', 'Dem + Ind'], ['var(--en-gold)', 'Changed party'], ['var(--en-red)', 'GOP']],
-      aria: `Senate chamber: ${other} Democrats and independents, ${gopN} Republicans`
+      aria: `Senate chamber: ${dShown} Democrats and independents, ${gopN} Republicans${decided && openN ? ', ' + openN + ' still being counted' : ''}`
     });
     take.replaceChildren(document.createTextNode(called
-      ? called + ' of the ' + sen.length + ' battleground Senate races called so far: Democrats and independents have flipped ' + fromR + ' GOP seat' + (fromR === 1 ? '' : 's') + ' and Republicans ' + fromD + '. Seats not yet called stay with the party that holds them. Tap “Polling projection” to see where the polls point.'
+      ? S.calledTracked + ' of the ' + sen.length + ' battleground Senate races called so far' + (called > S.calledTracked ? ' (plus ' + (called - S.calledTracked) + ' more elsewhere)' : '') + ': Democrats and independents have flipped ' + fromR + ' GOP seat' + (fromR === 1 ? '' : 's') + ' and Republicans ' + fromD + '. ' + (decided && openN ? openN + ' seat' + (openN === 1 ? ' is' : 's are') + ' still being counted and not shown for either side.' : 'Seats not yet called stay with the party that holds them.') + ' Tap “Polling projection” to see where the polls point.'
       : 'This is the Senate as it stands going into election night. Seats change only as races are called. Tap “Polling projection” to see where the polls point.'));
   }
   // Seats tonight: today's House (all 435 are up), changing as tracked battleground races are called
@@ -3413,19 +3419,19 @@ dash.calc('senate_base', {
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
-<script src="pool-config.js?v=1793829212"></script>
-<script src="pool.js?v=1793829212"></script>
-<script src="sim.js?v=1793829212"></script>
-<script src="push.js?v=1793829212"></script>
-<script src="ads.js?v=1793829212"></script>
-<script src="welcome.js?v=1793829212"></script>
-<script src="party.js?v=1793829212"></script>
-<script src="trivia.js?v=1793829212"></script>
-<script src="economy.js?v=1793829212"></script>
-<script src="swipe.js?v=1793829212"></script>
-<script src="motion.js?v=1793829212"></script>
-<script src="votes.js?v=1793829212"></script>
-<script src="snapshot.js?v=1793829212"></script>
-<script src="health.js?v=1793829212"></script>
+<script src="pool-config.js?v=1793832293"></script>
+<script src="pool.js?v=1793832293"></script>
+<script src="sim.js?v=1793832293"></script>
+<script src="push.js?v=1793832293"></script>
+<script src="ads.js?v=1793832293"></script>
+<script src="welcome.js?v=1793832293"></script>
+<script src="party.js?v=1793832293"></script>
+<script src="trivia.js?v=1793832293"></script>
+<script src="economy.js?v=1793832293"></script>
+<script src="swipe.js?v=1793832293"></script>
+<script src="motion.js?v=1793832293"></script>
+<script src="votes.js?v=1793832293"></script>
+<script src="snapshot.js?v=1793832293"></script>
+<script src="health.js?v=1793832293"></script>
 </body>
 </html>
