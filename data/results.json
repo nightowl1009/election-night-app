@@ -157,15 +157,15 @@
  },
  {
   "race": "GOV-GA",
-  "status": "Not yet reporting",
+  "status": "Counting",
   "winner": "",
   "winner_party": "",
-  "d_pct": null,
-  "r_pct": null,
+  "d_pct": 67.95,
+  "r_pct": 32.05,
   "reporting": 0,
   "called_at": "",
-  "d_votes": null,
-  "r_votes": null,
+  "d_votes": 594271,
+  "r_votes": 280279,
   "total_votes": null
  },
  {
