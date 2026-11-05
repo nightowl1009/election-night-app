@@ -1,5 +1,95 @@
 [
  {
+  "nid": "n245",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/live-news/election-day-results-11-3-2026",
+  "tag": "House",
+  "headline": "House GOP whip Emmer concedes Republican losses",
+  "summary": "Majority Whip Tom Emmer acknowledged the party's losses, saying Republicans are down but not out, as Fox's Decision Desk called the House for Democrats."
+ },
+ {
+  "nid": "n244",
+  "date": "2026-11-04",
+  "source": "Fox News",
+  "url": "https://www.foxnews.com/live-news/election-day-results-11-3-2026",
+  "tag": "House",
+  "headline": "AP projects Democrat von Wilpert flips California's 48th District",
+  "summary": "The AP projects Marni von Wilpert will defeat Republican Jim Desmond for the open seat Darrell Issa is leaving, which Issa had won by more than 10 points in past cycles."
+ },
+ {
+  "nid": "n243",
+  "date": "2026-11-04",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-after-2026-midterms-congress-results-live-updates/4177248/",
+  "tag": "House",
+  "headline": "Jeffries formally launches Speaker bid as Schumer eyes leader post",
+  "summary": "Hakeem Jeffries launched his bid for House Speaker and no challenger has emerged. Chuck Schumer said he will seek re-election as majority leader, while Sen.-elect Abdul El-Sayed did not commit to backing him."
+ },
+ {
+  "nid": "n242",
+  "date": "2026-11-04",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-after-2026-midterms-congress-results-live-updates/4177248/",
+  "tag": "National",
+  "headline": "Judge blocks Medicaid work-rule 'medically frail' definition",
+  "summary": "A federal judge in Boston blocked CMS's definition of 'medically frail' in the Medicaid work-requirement rule, giving states six more months to implement a more lenient version."
+ },
+ {
+  "nid": "n241",
+  "date": "2026-11-04",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-after-2026-midterms-congress-results-live-updates/4177248/",
+  "tag": "House",
+  "headline": "NBC projects Democrats' biggest House majority in nearly two decades",
+  "summary": "Democrats flipped more than two dozen districts, some Trump carried by double digits in 2024. NBC said 42 House races were still undecided."
+ },
+ {
+  "nid": "n240",
+  "date": "2026-11-04",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-after-2026-midterms-congress-results-live-updates/4177248/",
+  "tag": "Senate",
+  "headline": "Democrats flip at least seven Senate seats; Alaska, Mississippi uncalled",
+  "summary": "Democrats flipped Senate seats in Kansas, Iowa, Texas, Ohio, Maine, North Carolina and South Carolina and held Georgia and Michigan. Alaska and Mississippi were still uncalled."
+ },
+ {
+  "nid": "n239",
+  "date": "2026-11-04",
+  "source": "NBC4 Washington",
+  "url": "https://www.nbcwashington.com/elections/election-day-after-2026-midterms-congress-results-live-updates/4177248/",
+  "tag": "Governors",
+  "headline": "Democrats flip governorships in Georgia, Ohio, Iowa, Texas and Nevada",
+  "summary": "NBC4 listed Keisha Lance Bottoms, Amy Acton, Rob Sand, Gina Hinojosa and Aaron Ford as winners of GOP-held governorships; Ford unseated Gov. Joe Lombardo in Nevada. A Kansas race was still too close to call."
+ },
+ {
+  "nid": "n238",
+  "date": "2026-11-04",
+  "source": "KRCG 13 (Missouri Independent)",
+  "url": "https://krcgtv.com/news/local/missouri-voters-reject-trump-backed-congressional-map-dealing-gop-redistricting-defeat",
+  "tag": "Missouri",
+  "headline": "Amendment 6 could limit another Missouri redraw attempt",
+  "summary": "Under Amendment 6, laws 'similar in effect' to a rejected referendum would need 80% of both chambers to return to voters, though the phrase is undefined. State Sen. Nick Schroer had earlier posted '8-0 2027,' signaling a push for all eight seats."
+ },
+ {
+  "nid": "n237",
+  "date": "2026-11-04",
+  "source": "KOMU 8",
+  "url": "https://www.komu.com/news/elections/missouri-voters-reject-gop-friendly-congressional-map-after-year-of-legal-battles/article_e0fa1849-b7fa-400c-a6fb-b1a7211fe663.html",
+  "tag": "Missouri",
+  "headline": "2022 Missouri map stays after petition drive's win",
+  "summary": "People Not Politicians gathered more than 305,000 signatures to force the vote on the 2025 map. With it rejected, the 2022 district lines remain, keeping Rep. Emanuel Cleaver's 5th District competitive for Democrats."
+ },
+ {
+  "nid": "n236",
+  "date": "2026-11-04",
+  "source": "St. Louis Public Radio",
+  "url": "https://www.stlpr.org/government-politics-issues/2026-11-03/missouri-voters-reject-proposition-a-congressional-redistricting-map",
+  "tag": "Missouri",
+  "headline": "Missouri Republicans lose seats in both legislative chambers",
+  "summary": "Republicans lost two Missouri Senate seats and 15 House seats, and Proposition A failed 62% to 38%. Republicans could try another redraw in 2027 or 2028, though the passage of Amendment 6 may complicate that."
+ },
+ {
   "nid": "n235",
   "date": "2026-11-04",
   "source": "CBS News",
@@ -448,95 +538,5 @@
   "tag": "House",
   "headline": "Moskowitz holds Florida seat in redrawn Trump+9 district",
   "summary": "Democrat Jared Moskowitz won reelection in a redrawn Florida district that Trump carried by 9 points, and Democrat Pia Dandiya was projected to win the 22nd District."
- },
- {
-  "nid": "n185",
-  "date": "2026-11-03",
-  "source": "Clash Report",
-  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
-  "tag": "Senate",
-  "headline": "Ossoff projected to win reelection in Georgia",
-  "summary": "Decision Desk HQ projected Democratic Sen. Jon Ossoff won reelection in Georgia, and that Democrats held their Virginia seat. Overall Senate control was still uncalled."
- },
- {
-  "nid": "n184",
-  "date": "2026-11-03",
-  "source": "Clash Report",
-  "url": "https://clashreport.com/world/articles/democrats-will-win-control-of-the-us-house-decision-desk-hq-projects-3874hgr6fyw",
-  "tag": "House",
-  "headline": "DDHQ House call came at 9:09 p.m. ET, with NC-11 and PA-8 flips",
-  "summary": "Decision Desk HQ projected Democratic gains in North Carolina's 11th and Pennsylvania's 8th districts, both Republican-held, before calling the chamber."
- },
- {
-  "nid": "n183",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/breaking-decision-desk-hq-calls-022123276.html",
-  "tag": "National",
-  "headline": "Trump says he would become 'Mr. Veto' if GOP loses a chamber",
-  "summary": "Trump told the New York Post that if Republicans lost a chamber he would act as a heavy vetoer. A Democratic House would also gain committee subpoena power."
- },
- {
-  "nid": "n182",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/breaking-decision-desk-hq-calls-022123276.html",
-  "tag": "House",
-  "headline": "Decision Desk HQ calls House for Democrats",
-  "summary": "Decision Desk HQ projected a Democratic House majority Tuesday night; Hakeem Jeffries is on track to become Speaker. Democrats needed a net gain of four seats."
- },
- {
-  "nid": "n181",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "National",
-  "headline": "Trump approval at 37% in NYT polling average",
-  "summary": "A New York Times average of polls put Trump's approval at 37% on Nov. 3, near its low of 36% two weeks earlier. Commentators tied the Democratic surge to prices and the Iran war."
- },
- {
-  "nid": "n180",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Senate",
-  "headline": "Senate control still undecided; Democrats lead in TX, MI, ME",
-  "summary": "Control of the Senate was too close to call Tuesday evening, with Democrats ahead in Texas, Michigan and Maine. A 50-50 split would favor Republicans because of Vice President Vance's tie-breaking vote."
- },
- {
-  "nid": "n179",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Governors",
-  "headline": "Keisha Lance Bottoms wins Georgia governor's race",
-  "summary": "Democrat Keisha Lance Bottoms won Georgia's governorship, becoming the first Black woman to serve as a U.S. governor."
- },
- {
-  "nid": "n178",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Senate",
-  "headline": "Andrews projected to win South Carolina Senate seat",
-  "summary": "Democrat Annie Andrews was projected to beat Republican Sen. Darline Graham in South Carolina, a seat rated lean Republican before the vote."
- },
- {
-  "nid": "n177",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "Senate",
-  "headline": "Cooper beats Whatley in North Carolina Senate race",
-  "summary": "Democrat Roy Cooper decisively defeated Republican Michael Whatley in North Carolina's Senate contest, per the report."
- },
- {
-  "nid": "n176",
-  "date": "2026-11-03",
-  "source": "Yahoo News",
-  "url": "https://www.yahoo.com/news/politics/articles/democrats-win-house-poised-senate-032322528.html",
-  "tag": "House",
-  "headline": "Networks project Democrats will flip the House",
-  "summary": "MS NOW called the House for Democrats just before 10 p.m. ET, followed by CNN, NBC and CBS. The AP had not yet made a call when the report was written."
  }
 ]
