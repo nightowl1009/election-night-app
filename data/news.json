@@ -1,5 +1,95 @@
 [
  {
+  "nid": "n235",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/",
+  "tag": "House",
+  "headline": "CBS estimates Democrats at 251-268 House seats",
+  "summary": "CBS's running tally has Democrats holding between 251 and 268 House seats, while projecting at least 54 Democratic Senate seats."
+ },
+ {
+  "nid": "n234",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/#post-update-9fbdfa8f",
+  "tag": "National",
+  "headline": "Trump says Reflecting Pool speech unrelated to midterms",
+  "summary": "Trump said his Reflecting Pool speech had nothing to do with the midterm results."
+ },
+ {
+  "nid": "n233",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/#post-update-68dfa76e",
+  "tag": "House",
+  "headline": "Trump stays out of House GOP leader race",
+  "summary": "Trump declined to endorse in the House Republican leadership contest, naming Jim Jordan and praising outgoing Speaker Mike Johnson."
+ },
+ {
+  "nid": "n232",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/#post-update-6a741e8d",
+  "tag": "National",
+  "headline": "Trump: 'If I was on the ballot, we would have won'",
+  "summary": "Trump argued Republicans would have won had he been on the ballot, in remarks the day after the midterms."
+ },
+ {
+  "nid": "n231",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/#post-update-4b7c59cc",
+  "tag": "National",
+  "headline": "Vance posts that the Iran war cost the GOP",
+  "summary": "Vice President JD Vance blamed the Iran war for the losses in an X post, and Trump said the post was good and that he doesn't know who will run in 2028."
+ },
+ {
+  "nid": "n230",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/#post-update-a6a07e97",
+  "tag": "National",
+  "headline": "Trump calls Iran-war blame 'largely true'",
+  "summary": "Asked about the GOP losses, Trump said it was largely true that the Iran war and the gas prices it drove up hurt Republicans."
+ },
+ {
+  "nid": "n229",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/trump-hegseth-midterm-election-losses/",
+  "tag": "National",
+  "headline": "Trump says he is not weighing Hegseth's replacement",
+  "summary": "Trump said he is not considering replacing Defense Secretary Pete Hegseth after the midterm losses."
+ },
+ {
+  "nid": "n228",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/live-updates/election-day-2026-midterms/#post-update-fa199328",
+  "tag": "House",
+  "headline": "Scalise to run for House minority leader",
+  "summary": "Majority Leader Steve Scalise told colleagues in a letter that he will seek the minority leader post after Republicans lost the chamber."
+ },
+ {
+  "nid": "n227",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/california-22nd-district-results-david-valadao-randy-villegas/",
+  "tag": "House",
+  "headline": "Valadao loses California seat to Villegas",
+  "summary": "CBS projects Democrat Randy Villegas defeated GOP Rep. David Valadao in CA-22. Valadao was among the House Republicans who voted to impeach Trump."
+ },
+ {
+  "nid": "n226",
+  "date": "2026-11-04",
+  "source": "CBS News",
+  "url": "https://www.cbsnews.com/news/michigan-7th-district-results-tom-barrett-william-lawrence/",
+  "tag": "House",
+  "headline": "Democrats flip three Michigan House seats",
+  "summary": "Democrats William Lawrence (MI-7), Sean McCann (MI-4) and Christina Hines (MI-10) won seats, defeating Republicans Tom Barrett, Bill Huizenga and Michael Bouchard; the MI-10 seat was held by GOP Rep. John James."
+ },
+ {
   "nid": "n225",
   "date": "2026-11-04",
   "source": "CBS News",
@@ -448,95 +538,5 @@
   "tag": "House",
   "headline": "Networks project Democrats will flip the House",
   "summary": "MS NOW called the House for Democrats just before 10 p.m. ET, followed by CNN, NBC and CBS. The AP had not yet made a call when the report was written."
- },
- {
-  "nid": "n175",
-  "date": "2026-11-03",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/battle-congress-just-beginning-heres-whats-stake-election-day",
-  "tag": "House",
-  "headline": "Kentucky's 6th District is the first House bellwether",
-  "summary": "The district, which Trump won by 15 points in 2024, closes early and is rated close. Fox's rankings put Democrats as high as 240 seats and Republicans as high as 212."
- },
- {
-  "nid": "n174",
-  "date": "2026-11-03",
-  "source": "NBC4 Washington",
-  "url": "https://www.nbcwashington.com/elections/election-day-2026-midterms-congress-results-live-updates/4175504/",
-  "tag": "National",
-  "headline": "Trump approval at 35% as Jeffries sets 100-day agenda",
-  "summary": "An AP-NORC poll has Trump at 35% approval and 25% on the economy, with about 7 in 10 saying the country is on the wrong track. Hakeem Jeffries has outlined a cost-of-living and oversight agenda if Democrats win the House."
- },
- {
-  "nid": "n173",
-  "date": "2026-11-03",
-  "source": "Fox News",
-  "url": "https://www.foxnews.com/politics/everything-know-house-senate-control-ballot-measures-2026-election-day-poll-closing",
-  "tag": "National",
-  "headline": "145 statewide ballot measures, from voter ID to abortion",
-  "summary": "Eleven states vote on voter ID or noncitizen-voting measures, and Missouri, Idaho, Virginia and Nevada have abortion questions. Maryland, Missouri and Colorado have redistricting measures, and Alaska weighs repealing ranked-choice voting."
- },
- {
-  "nid": "n172",
-  "date": "2026-11-03",
-  "source": "MultiState",
-  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
-  "tag": "Governors",
-  "headline": "Governors: 11 of 36 races rated highly competitive",
-  "summary": "MultiState flags Ohio as a possible flip, Nevada as the most vulnerable incumbent, and a four-way ranked-choice race in Alaska. Texas is treated as a long shot for Democrats."
- },
- {
-  "nid": "n171",
-  "date": "2026-11-03",
-  "source": "MultiState",
-  "url": "https://www.multistate.us/insider/2026/11/3/state-elections-to-watch-closely-tonight",
-  "tag": "National",
-  "headline": "State legislatures: which chambers could flip tonight",
-  "summary": "Democrats are targeting chambers including the Michigan and Minnesota houses and Wisconsin's legislature under new court-ordered maps. The analysis counts 28 Republican, 18 Democratic and 4 split chambers entering the night."
- },
- {
-  "nid": "n170",
-  "date": "2026-11-03",
-  "source": "The National",
-  "url": "https://www.thenationalnews.com/news/us/2026/11/03/us-midterm-elections-trump-iran/",
-  "tag": "National",
-  "headline": "Midterms open with high prices tied to the Iran war",
-  "summary": "Gas and food costs remain elevated amid the Iran conflict as voters treat the midterms as a referendum on Trump. The report also notes the Justice Department's Alaska suit and the push over California ballots."
- },
- {
-  "nid": "n169",
-  "date": "2026-11-03",
-  "source": "WRAL",
-  "url": "https://www.wral.com/news/nccapitol/nc-voting-election-polls-races-ballot-north-carolina-midterm-updates-results-november-2026/",
-  "tag": "Senate",
-  "headline": "North Carolina voter guide: Cooper-Whatley and three amendments",
-  "summary": "North Carolina polls ran 6:30 a.m. to 7:30 p.m., with Roy Cooper favored over Michael Whatley for Senate. Voters also decide three constitutional amendments and a rematch in the 1st House District."
- },
- {
-  "nid": "n168",
-  "date": "2026-11-03",
-  "source": "First Alert 4",
-  "url": "https://www.firstalert4.com/2026/11/03/early-voting-ends-st-louis-county-with-nearly-27-turnout/",
-  "tag": "Missouri",
-  "headline": "St. Louis County early voting hits nearly 27%",
-  "summary": "More than 173,000 St. Louis County voters cast early ballots, versus about 56,000 in the 2022 midterms. Election Director Eric Fey said the statewide amendments are the main turnout driver."
- },
- {
-  "nid": "n167",
-  "date": "2026-11-03",
-  "source": "KBIA",
-  "url": "https://www.kbia.org/kbia-news/2026-11-03/analysis-most-missouri-counties-below-10-early-turnout",
-  "tag": "Missouri",
-  "headline": "Most Missouri counties had under 10% early turnout",
-  "summary": "A KBIA survey of county election offices found fewer than 20 counties reached 10% early turnout. Early voters clustered in the St. Louis and Kansas City areas, with far less in rural counties."
- },
- {
-  "nid": "n166",
-  "date": "2026-11-03",
-  "source": "21 Alive (AP)",
-  "url": "https://www.21alivenews.com/2026/11/03/election-day-arrives-after-surge-early-voting-with-observers-keeping-close-watch-polls/",
-  "tag": "National",
-  "headline": "Broward voting delayed 20 minutes by a faulty safety feature",
-  "summary": "A malfunction in Broward County's new voting system held up opening-morning voting about 20 minutes and some voters left without casting ballots. Officials called most Election Day problems minor and quickly fixed."
  }
 ]
